@@ -1,7 +1,7 @@
 import React from "react";
 import Drawer from "../drawer";
 
-import style from "./overview.module.css";
+import style from "./overview.module.scss";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
