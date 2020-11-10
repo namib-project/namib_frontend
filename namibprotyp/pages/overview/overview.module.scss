@@ -2,3 +2,30 @@
   color: red;
   margin-top: 80px;
 }
+
+.logoutButton {
+  right: 20px;
+}
+
+.logoutLink {
+  position: absolute;
+  right: 10px;
+  top: 20%;
+  text-decoration: none;
+}
+
+.logoutContainer {
+  position: relative;
+}
+
+@media (max-width: 600px) {
+  .logoutLink{
+    top: 10%;
+  }
+}
+
+@media (max-width: 363px) {
+  .logoutLink{
+    top: 15%;
+  }
+}
