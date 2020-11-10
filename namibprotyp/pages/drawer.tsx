@@ -26,6 +26,7 @@ import {withRouter} from "react-router-dom";
 import Link from "next/link";
 import style from './overview/overview.module.scss'
 import {Button} from "@material-ui/core";
+import {Add} from "@material-ui/icons";
 
 const drawerWidth = 240;
 
@@ -114,8 +115,8 @@ export default function PersistentDrawerLeft(props) {
         },
         {
             text: "MUD Profil anlegen",
-            icon: <MailIcon/>,
-            path: "/networkbehaviour",
+            icon: <Add/>,
+            path: "/createMudProfile",
         },
         {
             text: "MUD Profil auswählen",
