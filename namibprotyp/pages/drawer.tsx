@@ -23,6 +23,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
 import { withRouter } from "react-router-dom";
+import Link from "next/link";
 
 const drawerWidth = 240;
 
@@ -99,6 +100,7 @@ export default function PersistentDrawerLeft(props) {
     {
       text: "BasisStuff",
       icon: <MailIcon />,
+      path: "/overview",
     },
   ];
 
@@ -111,10 +113,12 @@ export default function PersistentDrawerLeft(props) {
     {
       text: "MUD Profil anlegen",
       icon: <MailIcon />,
+      path: "/networkbehaviour",
     },
     {
       text: "MUD Profil auswählen",
       icon: <InboxIcon />,
+      path: "/networkbehaviour",
     },
   ];
 
@@ -171,24 +175,28 @@ export default function PersistentDrawerLeft(props) {
         <Divider />
         <List>
           {itemsListBasic.map((item, index) => {
-            const { text, icon } = item;
+            const { text, icon, path } = item;
             return (
-              <ListItem button key={text}>
-                {icon && <ListItemIcon>{icon}</ListItemIcon>}
-                <ListItemText primary={text} />
-              </ListItem>
+              <Link href={path}>
+                <ListItem button key={text}>
+                  {icon && <ListItemIcon>{icon}</ListItemIcon>}
+                  <ListItemText primary={text} />
+                </ListItem>
+              </Link>
             );
           })}
         </List>
         <Divider />
         <List>
           {itemsListAdvanced.map((item, index) => {
-            const { text, icon } = item;
+            const { text, icon, path } = item;
             return (
-              <ListItem button key={text}>
-                {icon && <ListItemIcon>{icon}</ListItemIcon>}
-                <ListItemText primary={text} />
-              </ListItem>
+              <Link href={path}>
+                <ListItem button key={text}>
+                  {icon && <ListItemIcon>{icon}</ListItemIcon>}
+                  <ListItemText primary={text} />
+                </ListItem>
+              </Link>
             );
           })}
         </List>
