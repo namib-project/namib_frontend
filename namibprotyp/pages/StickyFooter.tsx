@@ -9,7 +9,7 @@ function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary">
             {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
+            <Link color="inherit" href="https://www.uni-bremen.de/">
                 NAMIB
             </Link>{' '}
             {new Date().getFullYear()}
@@ -27,10 +27,11 @@ const useStyles = makeStyles((theme) => ({
     main: {
         marginTop: theme.spacing(8),
         marginBottom: theme.spacing(2),
+
     },
     footer: {
         padding: theme.spacing(3, 2),
-        marginTop: 'auto',
+        marginTop: theme.spacing(2),
         backgroundColor:
             theme.palette.type === 'light' ? theme.palette.grey[200] : theme.palette.grey[800],
     },
@@ -41,7 +42,6 @@ export default function StickyFooter() {
 
     return (
         <div className={classes.root}>
-            <CssBaseline />
             <footer className={classes.footer}>
                 <Container maxWidth="sm">
                     <Typography variant="body1">Bachelorprojekt NAMIB der Universität Bremen</Typography>
