@@ -9,6 +9,7 @@ import {FormControl, FormGroup} from "@material-ui/core";
 import FormLabel from '@material-ui/core/FormLabel';
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import StickyFooter from "../StickyFooter";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -115,6 +116,7 @@ export default function Test() {
                         </div>
                     </Typography>
                 </Container>
+                <StickyFooter/>
             </div>
         </div>
     )
