@@ -27,6 +27,7 @@ import Link from "next/link";
 import style from './overview/overview.module.scss'
 import {Button} from "@material-ui/core";
 import {Add} from "@material-ui/icons";
+import SettingsIcon from '@material-ui/icons/Settings';
 
 const drawerWidth = 240;
 
@@ -125,6 +126,17 @@ export default function PersistentDrawerLeft(props) {
         },
     ];
 
+    const ItemListSettingsButSeperated = [
+        {
+            text: "Settings",
+            icon: <SettingsIcon/>,
+            path: "/settings",
+        },
+    ];
+
+
+
+
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -210,6 +222,25 @@ export default function PersistentDrawerLeft(props) {
                         );
                     })}
                 </List>
+                <Divider/>
+                <List>
+                    {ItemListSettingsButSeperated.map((item, index) => {
+                        const {text, icon, path} = item;
+                        return (
+                            <Link href={path}>
+                                <ListItem button key={text}>
+                                    {icon && <ListItemIcon>{icon}</ListItemIcon>}
+                                    <ListItemText primary={text}/>
+                                </ListItem>
+                            </Link>
+                        );
+                    })}
+                </List>
+
+
+
+
+
             </Drawer>
             <main
                 className={clsx(classes.content, {
