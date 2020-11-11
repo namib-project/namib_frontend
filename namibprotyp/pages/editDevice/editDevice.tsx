@@ -4,9 +4,10 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import {makeStyles} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import {FormControl, FormGroup} from "@material-ui/core";
+import {Button, FormControl, FormGroup} from "@material-ui/core";
 import FormLabel from '@material-ui/core/FormLabel';
 import style from './editDevice.module.scss';
+import CustomDialog from './MUDDialog'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -35,16 +36,22 @@ export default function Test() {
                                 <div className={style.inputGroups}>
                                     <FormLabel>Gerät:</FormLabel>
                                     <FormGroup>
-                                        <TextField className={style.textInput} id="standard-basic" placeholder="Mobile"/>
+                                        <TextField className={style.textInput} id="standard-basic" placeholder="Lampe"/>
                                     </FormGroup>
                                 </div>
+                                <br/>
                                 <div className={style.inputGroups}>
                                     <FormLabel>Gerätename:</FormLabel>
                                     <FormGroup>
-                                        <TextField className={style.textInput} id="standard-basic" placeholder="Samsung Galaxy S20"/>
+                                        <TextField className={style.textInput} id="standard-basic" placeholder="CTED13-155"/>
                                     </FormGroup>
                                 </div>
                             </FormControl>
+                        </div>
+                        <div className={style.dialogContainer}>
+                            <br/>
+                            <p className={style.dialogLabel}>Aktuelles MUD - Profil</p>
+                            <CustomDialog />
                         </div>
                     </Typography>
                 </Container>
