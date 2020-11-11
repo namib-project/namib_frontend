@@ -99,7 +99,7 @@ export default function PersistentDrawerLeft(props) {
         {
             text: "Geräteübersicht",
             icon: <InboxIcon/>,
-            path: "/overview",
+            path: "/deviceOverview",
         },
         {
             text: "BasisStuff",
