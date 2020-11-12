@@ -27,60 +27,60 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function createData(name, active, mudProfile, carbs, protein) {
-    return { name, active, mudProfile, carbs, protein };
+    return {name, active, mudProfile, carbs, protein};
 }
 
 
 const rows = [
     createData('Fernseher', <IconButton aria-label="active">
-        <CheckIcon />
+        <CheckIcon/>
     </IconButton>, 3, <IconButton onClick={(e) => {
         e.preventDefault();
-        window.location.href='/editDevice';
+        window.location.href = '/editDevice';
     }} aria-label="settings">
-        <SettingsIcon />
+        <SettingsIcon/>
     </IconButton>, <IconButton aria-label="delete">
-        <DeleteIcon />
+        <DeleteIcon/>
     </IconButton>),
     createData('Deckenlampe', <IconButton aria-label="active">
-        <ClearIcon />
+        <ClearIcon/>
     </IconButton>, 2, <IconButton onClick={(e) => {
         e.preventDefault();
-        window.location.href='/editDevice';
+        window.location.href = '/editDevice';
     }} aria-label="settings">
-        <SettingsIcon />
+        <SettingsIcon/>
     </IconButton>, <IconButton aria-label="delete">
-        <DeleteIcon />
+        <DeleteIcon/>
     </IconButton>),
     createData('Toaster', <IconButton aria-label="active">
-        <CheckIcon />
+        <CheckIcon/>
     </IconButton>, 3, <IconButton onClick={(e) => {
         e.preventDefault();
-        window.location.href='/editDevice';
+        window.location.href = '/editDevice';
     }} aria-label="settings">
-        <SettingsIcon />
+        <SettingsIcon/>
     </IconButton>, <IconButton aria-label="delete">
-        <DeleteIcon />
+        <DeleteIcon/>
     </IconButton>),
     createData('Thermostat', <IconButton aria-label="active">
-        <CheckIcon />
+        <CheckIcon/>
     </IconButton>, 1, <IconButton onClick={(e) => {
         e.preventDefault();
-        window.location.href='/editDevice';
+        window.location.href = '/editDevice';
     }} aria-label="settings">
-        <SettingsIcon />
+        <SettingsIcon/>
     </IconButton>, <IconButton aria-label="delete">
-        <DeleteIcon />
+        <DeleteIcon/>
     </IconButton>),
     createData('WLAN Speaker', <IconButton aria-label="active">
-        <ClearIcon />
+        <ClearIcon/>
     </IconButton>, 1, <IconButton onClick={(e) => {
         e.preventDefault();
-        window.location.href='/editDevice';
+        window.location.href = '/editDevice';
     }} aria-label="settings">
-        <SettingsIcon />
+        <SettingsIcon/>
     </IconButton>, <IconButton aria-label="delete">
-        <DeleteIcon />
+        <DeleteIcon/>
     </IconButton>),
 ];
 
@@ -94,7 +94,7 @@ export default function Test() {
             </div>
             <div className={style.test}>
                 <Container maxWidth="lg">
-                    <Typography component="div" style={{backgroundColor: "white", height: '80vh'}}
+                    <Typography component="div" style={{height: '80vh'}}
                                 className={style.typographyStyle}>
                         <h2 className={style.heading}>Geräteübersicht</h2>
                         <div className={style.container}>
