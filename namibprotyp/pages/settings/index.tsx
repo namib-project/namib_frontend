@@ -125,7 +125,7 @@ export default function MultilineTextFields() {
                             select
                             label="MODE"
                             value={mode}
-                            onChange={j}
+                            onChange={handleChangeModes}
                             helperText="Please select your mode"
                             variant="outlined"
                         >
