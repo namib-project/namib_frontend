@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import {makeStyles} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import {FormControl, FormGroup, Table, TableBody, TableHead} from "@material-ui/core";
+import {Button, FormControl, FormGroup, Table, TableBody, TableHead} from "@material-ui/core";
 import FormLabel from '@material-ui/core/FormLabel';
 import style from './deviceOverview.module.scss';
 import TableCell from "@material-ui/core/TableCell";
@@ -124,6 +124,10 @@ export default function Test() {
                                     </TableBody>
                                 </Table>
                             </TableContainer>
+                            <Button onClick={(e) => {
+                                e.preventDefault();
+                                window.location.href = '/createDevice';
+                            }} className={style.buttons} color="primary" variant="contained">Neues Gerät hinzufügen</Button>
                         </div>
                     </Typography>
                 </Container>
