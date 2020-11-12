@@ -28,7 +28,7 @@ export default function Test() {
             </div>
             <div className={style.test}>
                 <Container maxWidth="lg">
-                    <Typography component="div" style={{backgroundColor: "white", height: '80vh'}}
+                    <Typography component="div" style={{backgroundColor: "white", height: '90vh'}}
                                 className={style.typographyStyle}>
                         <h2 className={style.heading}>Geräteeinstellungen bearbeiten</h2>
                         <div className={style.container}>
@@ -52,6 +52,18 @@ export default function Test() {
                             <br/>
                             <p className={style.dialogLabel}>Aktuelles MUD - Profil</p>
                             <CustomDialog />
+                        </div>
+                        <br/>
+                        <div style={{position: 'relative'}}>
+                            <form className={style.buttonGroup}>
+                                <FormGroup>
+                                    <Button className={style.buttons} variant="contained" color="primary">
+                                        Speichern
+                                    </Button>
+                                    <br/>
+                                    <Button className={style.buttons} variant="contained">Abbrechen</Button>
+                                </FormGroup>
+                            </form>
                         </div>
                     </Typography>
                 </Container>

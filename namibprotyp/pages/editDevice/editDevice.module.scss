@@ -27,6 +27,16 @@
   margin: 0;
 }
 
+.buttonGroup{
+  max-width: 40%;
+  padding-left: 35%;
+}
+
+.buttons{
+  float: left;
+  display: inline-block;
+}
+
 @media (max-width: 1500px) {
   .test{
     padding-top: 90px;
