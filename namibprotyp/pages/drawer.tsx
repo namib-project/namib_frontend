@@ -29,7 +29,7 @@ import { Button } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
 import SettingsIcon from "@material-ui/icons/Settings";
 import ShowChartIcon from "@material-ui/icons/ShowChart";
-import DevicesIcon from '@material-ui/icons/Devices';
+import DevicesIcon from "@material-ui/icons/Devices";
 
 const drawerWidth = 240;
 
@@ -115,11 +115,6 @@ export default function PersistentDrawerLeft(props) {
       text: "MUD Profil anlegen",
       icon: <Add />,
       path: "/createMudProfile",
-    },
-    {
-      text: "MUD Profil auswählen",
-      icon: <InboxIcon />,
-      path: "/networkbehaviour",
     },
   ];
 
