@@ -54,16 +54,16 @@ export default function Test() {
                             <CustomDialog />
                         </div>
                         <br/>
-                        <div style={{position: 'relative'}}>
-                            <form className={style.buttonGroup}>
-                                <FormGroup>
-                                    <Button className={style.buttons} variant="contained" color="primary">
-                                        Speichern
-                                    </Button>
-                                    <br/>
-                                    <Button className={style.buttons} variant="contained">Abbrechen</Button>
-                                </FormGroup>
-                            </form>
+                        <div className={style.buttonContainer}>
+                            <div className={style.buttons}>
+                                <Button variant="contained" color="primary">
+                                    Speichern
+                                </Button>
+                            </div>
+                            <div className={style.buttons}>
+                                <Button variant="contained">Abbrechen</Button>
+                            </div>
+
                         </div>
                     </Typography>
                 </Container>

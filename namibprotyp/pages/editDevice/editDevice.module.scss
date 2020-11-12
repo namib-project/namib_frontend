@@ -27,17 +27,16 @@
   margin: 0;
 }
 
-.buttonGroup{
+.buttons{
+  margin: 20px;
+}
+
+.buttonContainer{
+  display: flex;
+  margin: auto;
+  position: relative;
   max-width: 40%;
-  padding-left: 35%;
-}
-
-.buttonLeft{
-  float: left;
-}
-
-.buttonRight{
-  float: right;
+  padding-left: 4%;
 }
 
 @media (max-width: 1500px) {
@@ -71,9 +70,33 @@
   .dialogContainer{
      width: 50px;
   }
+  .textInput{
+    max-width: 95%;
+  }
+  .container {
+    padding-top: 5%;
+    margin-left: 5%;
+  }
+  .dialogContainer{
+    padding-left: 5%;
+  }
+  .dialogLabel{
+    width: 220px;
+  }
+
+  .buttons{
+    border: red;
+  }
+  .buttonContainer{
+    display: flex;
+    margin: auto;
+    position: relative;
+    max-width: 100%;
+    padding-left: 0;
+  }
 }
 
 .typographyStyle{
   position: relative;
-    background-color: rgba(0,0,0,0);
+  background-color: rgba(0,0,0,0);
 }
