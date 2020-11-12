@@ -1,6 +1,6 @@
 .container {
   padding-top: 1%;
-  margin-left: 35%;
+  margin-left: 25%;
 }
 
 .test{
@@ -15,7 +15,7 @@
 }
 
 .textInput{
-  max-width: 40%;
+  max-width: 70%;
 }
 
 .dialogContainer{
@@ -58,6 +58,16 @@
   .dialogContainer{
     width: 50px;
   }
+}
+.buttons{
+  border: red;
+}
+.buttonContainer{
+  display: flex;
+  margin: auto;
+  position: relative;
+  max-width: 100%;
+  padding-left: 0;
 }
 
 .typographyStyle{

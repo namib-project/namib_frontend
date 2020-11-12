@@ -111,6 +111,18 @@ export default function Test() {
                                         />
                                     </form>
                                 </div>
+                                <br/>
+                                <div className={style.buttonContainer}>
+                                    <div className={style.buttons}>
+                                        <Button variant="contained" color="primary">
+                                            Speichern
+                                        </Button>
+                                    </div>
+                                    <div className={style.buttons}>
+                                        <Button variant="contained">Abbrechen</Button>
+                                    </div>
+
+                                </div>
                             </FormControl>
                         </div>
                     </Typography>
