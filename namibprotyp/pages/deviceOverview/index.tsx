@@ -30,7 +30,6 @@ function createData(name, active, mudProfile, carbs, protein) {
     return { name, active, mudProfile, carbs, protein };
 }
 
-// "/editDevice"
 
 const rows = [
     createData('Fernseher', <IconButton aria-label="active">
