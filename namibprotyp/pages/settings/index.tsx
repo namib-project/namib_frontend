@@ -53,20 +53,21 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MultilineTextFields() {
     const classes = useStyles();
-    const [currency, setCurrency] = React.useState('EUR');
-
+    const [language, setLanguage] = React.useState('EUR');
+    const [theme, setTheme] = React.useState('EUR');
+    const [mode, setMode] = React.useState('EUR');
 
     const handleChangeLanguages = (event) => {
-        setCurrency(event.target.value);
+        setLanguage(event.target.value);
     };
 
     const handleChangeThemes = (event) => {
-        setCurrency(event.target.value);
+        setTheme(event.target.value);
     };
 
 
     const handleChangeModes = (event) => {
-        setCurrency(event.target.value);
+        setMode(event.target.value);
     };
 
 
@@ -87,7 +88,7 @@ export default function MultilineTextFields() {
                     id="outlined-select-currency"
                     select
                     label="LANGUAGE"
-                    value={currency}
+                    value={language}
                     onChange={handleChangeLanguages}
                     helperText="Please select your language"
                     variant="outlined"
@@ -105,12 +106,12 @@ export default function MultilineTextFields() {
                     id="outlined-select-currency"
                     select
                     label="THEME"
-                    value={currency}
+                    value={theme}
                     onChange={handleChangeThemes}
                     helperText="Please select your theme"
                     variant="outlined"
                 >
-                    {languages.map((option) => (
+                    {themes.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
                             {option.label}
                         </MenuItem>
@@ -122,8 +123,8 @@ export default function MultilineTextFields() {
                         <TextField
                             id="outlined-select-currency"
                             select
-                            label="THEME"
-                            value={themes}
+                            label="MODE"
+                            value={mode}
                             onChange={handleChangeModes}
                             helperText="Please select your mode"
                             variant="outlined"
