@@ -32,9 +32,12 @@
   padding-left: 35%;
 }
 
-.buttons{
+.buttonLeft{
   float: left;
-  display: inline-block;
+}
+
+.buttonRight{
+  float: right;
 }
 
 @media (max-width: 1500px) {
@@ -72,4 +75,5 @@
 
 .typographyStyle{
   position: relative;
+    background-color: rgba(0,0,0,0);
 }

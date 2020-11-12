@@ -28,7 +28,7 @@ export default function Test() {
             </div>
             <div className={style.test}>
                 <Container maxWidth="lg">
-                    <Typography component="div" style={{backgroundColor: "white", height: '90vh'}}
+                    <Typography component="div" style={{height: '90vh'}}
                                 className={style.typographyStyle}>
                         <h2 className={style.heading}>Geräteeinstellungen bearbeiten</h2>
                         <div className={style.container}>
