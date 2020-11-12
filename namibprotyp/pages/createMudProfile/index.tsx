@@ -115,7 +115,7 @@ export default function Test() {
                         </div>
                     </Typography>
                 </Container>
-                <StickyFooter/>
+                {/* <StickyFooter/>*/}
             </div>
         </div>
     )
