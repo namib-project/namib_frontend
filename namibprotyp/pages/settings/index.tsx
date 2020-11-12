@@ -5,7 +5,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Drawer from "../drawer";
 import style from "../networkbehaviour/networkbehaviour.module.css";
 
-const supportedLanguages = [
+const languages = [
     {
         value: 'DE',
         label: 'German',
@@ -14,7 +14,28 @@ const supportedLanguages = [
         value: 'EN',
         label: 'English',
     },
+];
 
+const themes = [
+    {
+        value: 'DT',
+        label: 'Light Theme',
+    },
+    {
+        value: 'EN',
+        label: 'Dark Theme',
+    },
+];
+
+const modes = [
+    {
+        value: 'basic',
+        label: 'Basic Mode',
+    },
+    {
+        value: 'expert',
+        label: 'Expert Mode',
+    },
 ];
 
 const useStyles = makeStyles((theme) => ({
@@ -35,9 +56,19 @@ export default function MultilineTextFields() {
     const [currency, setCurrency] = React.useState('EUR');
 
 
-    const handleChange = (event) => {
+    const handleChangeLanguages = (event) => {
         setCurrency(event.target.value);
     };
+
+    const handleChangeThemes = (event) => {
+        setCurrency(event.target.value);
+    };
+
+
+    const handleChangeModes = (event) => {
+        setCurrency(event.target.value);
+    };
+
 
     return (
 
@@ -46,32 +77,65 @@ export default function MultilineTextFields() {
                 <form noValidate autoComplete="off">
                     <div>
 
-                <h1 className={style.h1class}>Übersicht über Netzwerkverhalten</h1>
+                <h1 className={style.h1class}>Einstellungen</h1>
+
 
 
             </div>
             <div>
-
                 <TextField
-                    id="filled-select-supportedLanguages-native"
+                    id="outlined-select-currency"
                     select
-                    label="Language"
+                    label="LANGUAGE"
                     value={currency}
-                    onChange={handleChange}
-                    SelectProps={{
-                        native: true,
-                    }}
+                    onChange={handleChangeLanguages}
                     helperText="Please select your language"
-                    variant="filled"
+                    variant="outlined"
                 >
-                    {supportedLanguages.map((option) => (
-                        <option key={option.value} value={option.value}>
+                    {languages.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
                             {option.label}
-                        </option>
+                        </MenuItem>
                     ))}
                 </TextField>
-            </div>
 
+            </div>
+            <div>
+                <TextField
+                    id="outlined-select-currency"
+                    select
+                    label="THEME"
+                    value={currency}
+                    onChange={handleChangeThemes}
+                    helperText="Please select your theme"
+                    variant="outlined"
+                >
+                    {languages.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                        </MenuItem>
+                    ))}
+                </TextField>
+
+            </div>
+                    <div>
+                        <TextField
+                            id="outlined-select-currency"
+                            select
+                            label="THEME"
+                            value={themes}
+                            onChange={handleChangeModes}
+                            helperText="Please select your mode"
+                            variant="outlined"
+                        >
+                            {themes.map((option) => (
+                                <MenuItem key={option.value} value={option.value}>
+                                    {option.label}
+                                </MenuItem>
+                            ))}
+                        </TextField>
+
+                    </div>
             </form>
             </div>
 
