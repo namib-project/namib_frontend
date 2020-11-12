@@ -103,11 +103,6 @@ export default function PersistentDrawerLeft(props) {
       icon: <DevicesIcon />,
       path: "/deviceOverview",
     },
-    {
-      text: "BasisStuff",
-      icon: <MailIcon />,
-      path: "/overview",
-    },
   ];
 
   const itemsListAdvanced = [

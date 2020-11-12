@@ -51,7 +51,7 @@ export default function Test() {
             </div>
             <div className={style.test}>
                 <Container maxWidth="lg">
-                    <Typography component="div" style={{backgroundColor: "white", height: '80vh'}}
+                    <Typography component="div" style={{ height: '80vh'}}
                                 className={style.typographyStyle}>
                         <h2 className={style.heading}>MUD-Profil anlegen</h2>
                         <div className={style.container}>
