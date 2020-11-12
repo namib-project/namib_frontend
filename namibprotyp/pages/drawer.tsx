@@ -129,7 +129,7 @@ export default function PersistentDrawerLeft(props) {
 
   const ItemListSettingsButSeperated = [
     {
-      text: "Settings",
+      text: "Einstellungen",
       icon: <SettingsIcon />,
       path: "/settings",
     },

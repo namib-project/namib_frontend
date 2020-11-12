@@ -125,11 +125,11 @@ export default function MultilineTextFields() {
                             select
                             label="MODE"
                             value={mode}
-                            onChange={handleChangeModes}
+                            onChange={j}
                             helperText="Please select your mode"
                             variant="outlined"
                         >
-                            {themes.map((option) => (
+                            {modes.map((option) => (
                                 <MenuItem key={option.value} value={option.value}>
                                     {option.label}
                                 </MenuItem>
