@@ -6,20 +6,11 @@ import {Button, FormControl, FormGroup} from "@material-ui/core";
 import FormLabel from '@material-ui/core/FormLabel';
 import style from './editDevice.module.scss';
 import CustomDialog from './MUDDialog';
-import {makeStyles} from "@material-ui/styles";
 import Drawer from '../drawer';
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        '& > *': {
-            margin: theme.spacing(1),
-            width: '25ch',
-        },
-    },
-}));
+
 
 export default function Test() {
-    const classes = useStyles();
 
     return (
         <div>
