@@ -3,10 +3,6 @@
   margin-left: 35%;
 }
 
-.test{
-  padding-top: 90px;
-}
-
 .heading{
   text-align: center;
   font-size: 35px;
@@ -41,7 +37,7 @@
 
 @media (max-width: 1500px) {
   .test{
-    padding-top: 90px;
+    padding-top: 30px;
   }
   .heading{
     font-size: 30px;
@@ -51,7 +47,7 @@
 
 @media (max-width: 1000px) {
   .test{
-    padding-top: 85px;
+    padding-top: 30px;
   }
   .heading{
     font-size: 25px;
@@ -61,7 +57,7 @@
 
 @media (max-width: 700px) {
   .test{
-    padding-top: 80px;
+    padding-top: 30px;
   }
   .heading{
     font-size: 20px;

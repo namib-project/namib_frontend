@@ -1,13 +1,13 @@
-import Drawer from '../drawer';
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import {makeStyles} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import {Button, FormControl, FormGroup} from "@material-ui/core";
 import FormLabel from '@material-ui/core/FormLabel';
 import style from './editDevice.module.scss';
-import CustomDialog from './MUDDialog'
+import CustomDialog from './MUDDialog';
+import {makeStyles} from "@material-ui/styles";
+import Drawer from '../drawer';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -26,6 +26,7 @@ export default function Test() {
             <div>
                 <Drawer/>
             </div>
+
             <div className={style.test}>
                 <Container maxWidth="lg">
                     <Typography component="div" style={{height: '90vh'}}
@@ -63,7 +64,6 @@ export default function Test() {
                             <div className={style.buttons}>
                                 <Button variant="contained">Abbrechen</Button>
                             </div>
-
                         </div>
                     </Typography>
                 </Container>

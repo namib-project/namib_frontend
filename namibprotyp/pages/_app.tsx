@@ -1,11 +1,20 @@
 import "../styles/globals.css";
-import Drawer from "./drawer";
+import React from 'react';
+import {createMuiTheme, ThemeProvider} from "@material-ui/core/styles";
+
+const darkTheme = createMuiTheme({
+    palette: {
+        type: typeof window !== "undefined"
+            ? window.localStorage.getItem("darkMode") === "dark" ? 'dark' : "light"
+            : "light",
+    },
+})
 
 function MyApp({ Component, pageProps }) {
   return (
-    <>
-      <Component {...pageProps} />
-    </>
+    <ThemeProvider theme={darkTheme}>
+            <Component {...pageProps} />
+    </ThemeProvider>
   );
 }
 

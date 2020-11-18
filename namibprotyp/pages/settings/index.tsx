@@ -18,11 +18,11 @@ const languages = [
 
 const themes = [
     {
-        value: 'DT',
+        value: 'light',
         label: 'Light Theme',
     },
     {
-        value: 'EN',
+        value: 'dark',
         label: 'Dark Theme',
     },
 ];
@@ -54,7 +54,9 @@ const useStyles = makeStyles((theme) => ({
 export default function MultilineTextFields() {
     const classes = useStyles();
     const [language, setLanguage] = React.useState('EUR');
-    const [theme, setTheme] = React.useState('EUR');
+    const [theme, setTheme] = React.useState(typeof window !== "undefined"
+        ? window.localStorage.getItem("darkMode")
+        : "light");
     const [mode, setMode] = React.useState('EUR');
 
     const handleChangeLanguages = (event) => {
@@ -63,6 +65,8 @@ export default function MultilineTextFields() {
 
     const handleChangeThemes = (event) => {
         setTheme(event.target.value);
+        window.localStorage.setItem("darkMode", event.target.value);
+        location.reload();
     };
 
 
