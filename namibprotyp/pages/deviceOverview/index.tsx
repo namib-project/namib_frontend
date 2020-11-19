@@ -16,6 +16,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import SettingsIcon from '@material-ui/icons/Settings';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
+import Link from "next/link";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -34,52 +35,37 @@ function createData(name, active, mudProfile, carbs, protein) {
 const rows = [
     createData('Fernseher', <IconButton aria-label="active">
         <CheckIcon/>
-    </IconButton>, 3, <IconButton onClick={(e) => {
-        e.preventDefault();
-        window.location.href = '/editDevice';
-    }} aria-label="settings">
+    </IconButton>, 3, <Link href={"/editDevice"}><a><IconButton aria-label="settings">
         <SettingsIcon/>
-    </IconButton>, <IconButton aria-label="delete">
+    </IconButton></a></Link>, <IconButton aria-label="delete">
         <DeleteIcon/>
     </IconButton>),
     createData('Deckenlampe', <IconButton aria-label="active">
         <ClearIcon/>
-    </IconButton>, 2, <IconButton onClick={(e) => {
-        e.preventDefault();
-        window.location.href = '/editDevice';
-    }} aria-label="settings">
+    </IconButton>, 2, <Link href={"/editDevice"}><a><IconButton aria-label="settings">
         <SettingsIcon/>
-    </IconButton>, <IconButton aria-label="delete">
+    </IconButton></a></Link>, <IconButton aria-label="delete">
         <DeleteIcon/>
     </IconButton>),
     createData('Toaster', <IconButton aria-label="active">
         <CheckIcon/>
-    </IconButton>, 3, <IconButton onClick={(e) => {
-        e.preventDefault();
-        window.location.href = '/editDevice';
-    }} aria-label="settings">
+    </IconButton>, 3,<Link href={"/editDevice"}><a><IconButton aria-label="settings">
         <SettingsIcon/>
-    </IconButton>, <IconButton aria-label="delete">
+    </IconButton></a></Link>, <IconButton aria-label="delete">
         <DeleteIcon/>
     </IconButton>),
     createData('Thermostat', <IconButton aria-label="active">
         <CheckIcon/>
-    </IconButton>, 1, <IconButton onClick={(e) => {
-        e.preventDefault();
-        window.location.href = '/editDevice';
-    }} aria-label="settings">
+    </IconButton>, 1, <Link href={"/editDevice"}><a><IconButton  aria-label="settings">
         <SettingsIcon/>
-    </IconButton>, <IconButton aria-label="delete">
+    </IconButton></a></Link>, <IconButton aria-label="delete">
         <DeleteIcon/>
     </IconButton>),
     createData('WLAN Speaker', <IconButton aria-label="active">
         <ClearIcon/>
-    </IconButton>, 1, <IconButton onClick={(e) => {
-        e.preventDefault();
-        window.location.href = '/editDevice';
-    }} aria-label="settings">
+    </IconButton>, 1, <Link href={"/editDevice"}><a><IconButton aria-label="settings">
         <SettingsIcon/>
-    </IconButton>, <IconButton aria-label="delete">
+    </IconButton></a></Link>, <IconButton aria-label="delete">
         <DeleteIcon/>
     </IconButton>),
 ];
@@ -124,10 +110,9 @@ export default function Test() {
                                     </TableBody>
                                 </Table>
                             </TableContainer>
-                            <Button onClick={(e) => {
-                                e.preventDefault();
-                                window.location.href = '/createDevice';
-                            }} className={style.buttons} color="primary" variant="contained">Neues Gerät hinzufügen</Button>
+                            <Link href={"/createDevice"} >
+                                <a className={style.buttons}>
+                            <Button color="primary" variant="contained">Neues Gerät hinzufügen</Button></a></Link>
                         </div>
                     </Typography>
                 </Container>

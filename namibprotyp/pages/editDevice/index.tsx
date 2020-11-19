@@ -26,16 +26,16 @@ export default function Test() {
                         <div className={style.container}>
                             <FormControl style={{display: "block"}}>
                                 <div className={style.inputGroups}>
-                                    <FormLabel>Gerät:</FormLabel>
+                                    <FormLabel>Geräte-Typ:</FormLabel>
                                     <FormGroup>
-                                        <TextField className={style.textInput} id="standard-basic" placeholder="Lampe"/>
+                                        <TextField className={style.textInput} id="device-type" placeholder="Lampe"/>
                                     </FormGroup>
                                 </div>
                                 <br/>
                                 <div className={style.inputGroups}>
                                     <FormLabel>Gerätename:</FormLabel>
                                     <FormGroup>
-                                        <TextField className={style.textInput} id="standard-basic" placeholder="CTED13-155"/>
+                                        <TextField className={style.textInput} id="device-name" placeholder="CTED13-155"/>
                                     </FormGroup>
                                 </div>
                             </FormControl>
