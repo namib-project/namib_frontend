@@ -1,9 +1,11 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles, Theme} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import Drawer from "../drawer";
 import style from "../networkbehaviour/networkbehaviour.module.css";
+import {Button} from "@material-ui/core";
+import {createStyles} from "@material-ui/styles";
 
 const languages = [
     {
@@ -63,9 +65,15 @@ export default function MultilineTextFields() {
         setLanguage(event.target.value);
     };
 
-    const handleChangeThemes = (event) => {
-        setTheme(event.target.value);
-        window.localStorage.setItem("darkMode", event.target.value);
+    const handleChangeThemes = () => {
+        let themeColor = window.localStorage.getItem("darkMode");
+        if (themeColor === "dark"){
+            themeColor = "light"
+        } else {
+            themeColor = "dark"
+        }
+        setTheme(themeColor);
+        window.localStorage.setItem("darkMode", themeColor);
         location.reload();
     };
 
@@ -112,7 +120,7 @@ export default function MultilineTextFields() {
                     label="THEME"
                     value={theme}
                     onChange={handleChangeThemes}
-                    helperText="Please select your theme"
+                    helperText="Please select your preferred theme"
                     variant="outlined"
                 >
                     {themes.map((option) => (

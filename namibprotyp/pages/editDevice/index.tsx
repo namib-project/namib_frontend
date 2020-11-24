@@ -10,7 +10,7 @@ import Drawer from '../drawer';
 
 
 
-export default function Test() {
+export default function EditDevice() {
 
     return (
         <div>
