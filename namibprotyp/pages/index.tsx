@@ -61,7 +61,6 @@ export default function Home() {
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
-            variant="outlined"
             margin="normal"
             required
             fullWidth
@@ -72,7 +71,6 @@ export default function Home() {
             autoFocus
           />
           <TextField
-            variant="outlined"
             margin="normal"
             required
             fullWidth
