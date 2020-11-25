@@ -1,0 +1,17 @@
+{
+  "hello": "Hello",
+  "title": "Eng Title",
+  "menu": "Menu",
+  "deviceOverview": "Device Overview",
+  "newDevice": "New Device",
+  "networkBehaviour": "Network Behaviour",
+  "newMudProfile": "New MUD Profile",
+  "settings": "Settings",
+  "expertMode": "Expert mode",
+  "language": "Language",
+  "german": "German",
+  "english": "English",
+  "emailAddress": "E-mail address",
+  "password": "Password",
+  "forgotPassword": "Forgot Password"
+}
