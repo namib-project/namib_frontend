@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
+import 'package:flutter_protyp/widgets/constant.dart';
 import "package:flutter_protyp/widgets/drawer.dart";
 
 import 'package:provider/provider.dart';
@@ -50,14 +51,18 @@ class _SettingsState extends State<Settings> {
                         fontSize: 22,
                       ),
                     ),
-                    FlatButton(
-                        child: Text('Dark'),
-                        onPressed: () =>
-                            themeChanger.setTheme(ThemeData.dark())),
-                    FlatButton(
-                        child: Text('Light'),
-                        onPressed: () =>
-                            themeChanger.setTheme(ThemeData.light())),
+                    Switch(
+                      value: darkMode,
+                      activeColor: buttonColor,
+                      onChanged: (bool s) {
+                        setState(() {
+                          darkMode
+                              ? themeChanger.setTheme(ThemeData.light())
+                              : themeChanger.setTheme(ThemeData.dark());
+                          darkMode = !darkMode;
+                        });
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -73,9 +78,14 @@ class _SettingsState extends State<Settings> {
                         fontSize: 22,
                       ),
                     ),
-                    FlatButton(
-                      onPressed: () => {},
-                      child: Text("Button"),
+                    Switch(
+                      value: expertMode,
+                      activeColor: buttonColor,
+                      onChanged: (bool s) {
+                        setState(() {
+                          expertMode = s;
+                        });
+                      },
                     )
                   ],
                 ),

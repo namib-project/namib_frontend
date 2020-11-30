@@ -57,12 +57,16 @@ class _MainDrawerState extends State<MainDrawer> {
                 Navigator.pushReplacementNamed(context, "/networkbehaviour")
               },
             ),
-            CustomListTile(
-              icon: Icons.add_rounded,
-              text: 'newMudProfile'.tr().toString(),
-              onTap: () => {
-                Navigator.pushReplacementNamed(context, "/createMudProfile")
-              },
+            Visibility(
+              // just for testing
+              visible: expertMode,
+              child: CustomListTile(
+                icon: Icons.add_rounded,
+                text: 'newMudProfile'.tr().toString(),
+                onTap: () => {
+                  Navigator.pushReplacementNamed(context, "/createMudProfile")
+                },
+              ),
             ),
             CustomListTile(
               icon: Icons.settings,

@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_protyp/pages/themetest.dart';
 
 import "package:flutter_protyp/pages/languagetest.dart";
+import "package:flutter_protyp/pages/test.dart";
 
 void main() => runApp(EasyLocalization(
       child: MyApp(),
@@ -70,7 +71,9 @@ class MaterialAppWithTheme extends StatelessWidget {
           "/networkbehaviour": (context) => Networkbehaviour(),
           "/createMudProfile": (context) => CreateMudProfile(),
           "/settings": (context) => Settings(),
-          "/languagetest": (context) => LanguageTest(),
+          "/languagetest": (context) =>
+              LanguageTest(), // just for testing can be deleted
+          "/test": (context) => Test(), // just for testing can be deleted
         });
   }
 }

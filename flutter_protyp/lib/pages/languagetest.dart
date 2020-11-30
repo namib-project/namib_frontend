@@ -3,6 +3,8 @@ import 'package:flutter_protyp/widgets/appbar.dart';
 import "package:flutter_protyp/widgets/drawer.dart";
 import 'package:easy_localization/easy_localization.dart';
 
+// just for testing can be deleted
+
 class LanguageTest extends StatefulWidget {
   @override
   _LanguageTestState createState() => _LanguageTestState();

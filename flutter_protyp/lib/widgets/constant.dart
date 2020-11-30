@@ -8,3 +8,6 @@ Color buttonColor = Colors.orange[800]; // Color.fromRGBO(36, 134, 255, 1);
 
 Color loginColor1 = Colors.orange[200];
 Color loginColor2 = Colors.deepOrange;
+
+bool expertMode = true;
+bool darkMode = false;
