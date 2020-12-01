@@ -71,6 +71,7 @@ class MaterialAppWithTheme extends StatelessWidget {
           "/networkbehaviour": (context) => Networkbehaviour(),
           "/createMudProfile": (context) => CreateMudProfile(),
           "/settings": (context) => Settings(),
+          "/test": (context) => Test(),
           "/languagetest": (context) =>
               LanguageTest(), // just for testing can be deleted
           "/test": (context) => Test(), // just for testing can be deleted
