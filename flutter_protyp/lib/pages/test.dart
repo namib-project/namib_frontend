@@ -113,14 +113,14 @@ class _TestState extends State<Test> {
               ],
             ),
             TextField(
-              obscureText: true,
+              obscureText: false,
               decoration: InputDecoration(
                   border: OutlineInputBorder(), labelText: "Spezifikation"),
             ),
             Visibility(
                 visible: expertMode,
                 child: TextField(
-                  obscureText: true,
+                  obscureText: false,
                   decoration: InputDecoration(
                       border: OutlineInputBorder(), labelText: "Gerätename"),
                 )),
