@@ -120,11 +120,23 @@ class _CreateDeviceState extends State<CreateDevice> {
               },
               child: Icon(Icons.list),
             ),
+            ButtonBar(
+              alignment: MainAxisAlignment.center,
+              children: <Widget>[
+                FlatButton(
+                  child: Text('Speichern'),
+                  color: Colors.deepOrange,
+                  onPressed: () {},
+                ),
+                FlatButton(
+                  child: Text('Abbrechen'),
+                  color: Colors.deepOrange,
+                  onPressed: () {Navigator.pushReplacementNamed(context, "/deviceOverview");},
+                ),
+              ],
+            ),
             const SizedBox(height: 30),
-            RaisedButton(
-              onPressed: ( ) {Navigator.pushReplacementNamed(context, "/deviceOverview");},
-              child: const Text('Abbrechen', style: TextStyle(fontSize: 20)),
-            )
+
           ],
         ),
       )),
