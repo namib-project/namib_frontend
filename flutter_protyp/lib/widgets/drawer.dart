@@ -3,6 +3,9 @@ import "package:flutter_protyp/widgets/constant.dart";
 
 import 'package:easy_localization/easy_localization.dart';
 
+
+/// Gives a Drawer in which the different sites are linked
+/// Can be coloured with primaryColor and secondaryColor in constant.dart
 class MainDrawer extends StatefulWidget {
   @override
   _MainDrawerState createState() => _MainDrawerState();
@@ -87,6 +90,10 @@ class _MainDrawerState extends State<MainDrawer> {
   }
 }
 
+/// Gives a ListTile which is used in the drawer
+/// Needs an icon and a text which will be displayed
+/// and a function which will be executed on click
+/// /// Can be coloured with buttonColor and secondaryColor in constant.dart
 class CustomListTile extends StatefulWidget {
   final IconData icon;
   final String text;

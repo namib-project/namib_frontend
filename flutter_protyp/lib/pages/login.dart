@@ -3,6 +3,8 @@ import 'package:flutter_protyp/widgets/constant.dart';
 
 import 'package:easy_localization/easy_localization.dart';
 
+/// returns login site of application
+/// Can be coloured with loginColor1 and loginColor2 in constant.dart
 class Login extends StatefulWidget {
   @override
   _LoginState createState() => _LoginState();

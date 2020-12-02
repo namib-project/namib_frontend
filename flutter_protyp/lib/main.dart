@@ -13,6 +13,8 @@ import 'package:flutter_protyp/pages/themetest.dart';
 import "package:flutter_protyp/pages/languagetest.dart";
 import "package:flutter_protyp/pages/test.dart";
 
+/// Runs at start of application
+/// Runs MyApp which is wrapped by EasyLocalization for language support
 void main() => runApp(EasyLocalization(
       child: MyApp(),
       path: "resources/langs",
@@ -23,24 +25,9 @@ void main() => runApp(EasyLocalization(
       ],
     ));
 
-/**
 
-      MaterialApp(
-    initialRoute: "/login",
-    routes: {
-      //"/": (context) => Loading(),
-      "/login": (context) => Login(),
-      "/deviceOverview": (context) => DeviceOverview(),
-      "/createDevice": (context) => CreateDevice(),
-      "/networkbehaviour": (context) => Networkbehaviour(),
-      "/createMudProfile": (context) => CreateMudProfile(),
-      "/settings": (context) => Settings(),
-    },
-  )
-  );
-}
-*/
-
+/// returns MaterialAppWithTheme which is wrapped by ChangeNotifierProvider
+/// for dark light Theme support on every site
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -55,6 +42,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
+/// assigns every link a widget for different sites
+/// has [theme] for theme Support on every site
 class MaterialAppWithTheme extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -64,7 +53,6 @@ class MaterialAppWithTheme extends StatelessWidget {
         theme: theme.getTheme(),
         initialRoute: "/login",
         routes: {
-          //"/": (context) => Loading(),
           "/login": (context) => Login(),
           "/deviceOverview": (context) => DeviceOverview(),
           "/createDevice": (context) => CreateDevice(),

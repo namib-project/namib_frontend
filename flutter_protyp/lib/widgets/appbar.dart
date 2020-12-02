@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import "package:flutter_protyp/widgets/constant.dart";
 
+
+/// Gives an AppBar with logoutButton
+/// Can be coloured with primaryColor in constant.dart
 class MainAppbar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {

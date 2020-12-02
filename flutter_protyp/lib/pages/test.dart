@@ -8,7 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-// just for testing can be deleted
+/// just for testing can be deleted
 
 class Test extends StatefulWidget {
   @override

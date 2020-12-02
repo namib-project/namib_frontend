@@ -9,6 +9,8 @@ import 'package:flutter_protyp/widgets/theme.dart';
 
 import 'package:easy_localization/easy_localization.dart';
 
+/// returns setting site
+/// to change dark/light Theme, expertMode and language of the whole application
 class Settings extends StatefulWidget {
   @override
   _SettingsState createState() => _SettingsState();
@@ -159,11 +161,3 @@ class _SettingsState extends State<Settings> {
   }
 }
 
-/**
-    FlatButton(
-    child: Text('Dark Theme'),
-    onPressed: () => _themeChanger.setTheme(ThemeData.dark())),
-    FlatButton(
-    child: Text('Light Theme'),
-    onPressed: () => _themeChanger.setTheme(ThemeData.light())),
- */

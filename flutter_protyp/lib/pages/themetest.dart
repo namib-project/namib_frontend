@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_protyp/widgets/theme.dart';
 
-// just for testing can be deleted
+/// just for testing can be deleted
 
 class HomePage extends StatelessWidget {
   @override
