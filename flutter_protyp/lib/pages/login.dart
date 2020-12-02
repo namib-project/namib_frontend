@@ -8,6 +8,11 @@ class Login extends StatefulWidget {
   _LoginState createState() => _LoginState();
 }
 
+String inputEmail = "";
+String inputPassword = "";
+String jwttoken = "";
+
+
 class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
@@ -84,6 +89,7 @@ class _LoginState extends State<Login> {
                               ),
                               hintText: 'emailAddress'.tr().toString(),
                             ),
+                            onChanged: (value) => inputEmail = value,
                           ),
                         ),
                       ],
@@ -123,6 +129,7 @@ class _LoginState extends State<Login> {
                               ),
                               hintText: 'password'.tr().toString(),
                             ),
+                            onChanged: (value) => inputPassword = value,
                           ),
                         ),
                       ],
@@ -150,7 +157,9 @@ class _LoginState extends State<Login> {
                       width: double.infinity,
                       child: RaisedButton(
                         elevation: 5,
-                        onPressed: () => {
+                        onPressed:  () => {
+                          {print(inputEmail)},
+                          {print(inputPassword)},
                           Navigator.pushReplacementNamed(
                               context, "/deviceOverview")
                         },
