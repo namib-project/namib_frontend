@@ -15,3 +15,4 @@ Color loginColor2 = Colors.deepOrange;
 /// should only be changed in settings.dart
 bool expertMode = true;
 bool darkMode = false;
+bool mobileDevice = false;

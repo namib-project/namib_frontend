@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
+import 'package:universal_io/io.dart' as osDetect;
+import 'package:flutter_protyp/widgets/constant.dart';
 
 import 'package:easy_localization/easy_localization.dart';
 
@@ -16,6 +18,17 @@ String jwttoken = "";
 
 
 class _LoginState extends State<Login> {
+  void onlineOs() {
+    String android = "android";
+    String ios = "ios";
+    if (osDetect.Platform.operatingSystem == android ||
+        osDetect.Platform.operatingSystem == ios) {
+        mobileDevice = true;
+    } else {
+        mobileDevice = false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -159,7 +172,8 @@ class _LoginState extends State<Login> {
                       width: double.infinity,
                       child: RaisedButton(
                         elevation: 5,
-                        onPressed:  () => {
+                        onPressed: () => {
+                          {onlineOs()},
                           {print(inputEmail)},
                           {print(inputPassword)},
                           Navigator.pushReplacementNamed(

@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_protyp/pages/themetest.dart';
 
 import "package:flutter_protyp/pages/languagetest.dart";
-import "package:flutter_protyp/pages/test.dart";
+import "package:flutter_protyp/pages/editDevice.dart";
 
 /// Runs at start of application
 /// Runs MyApp which is wrapped by EasyLocalization for language support
