@@ -9,13 +9,25 @@ import 'package:flutter_protyp/widgets/theme.dart';
 
 import 'package:easy_localization/easy_localization.dart';
 
-/// returns setting site
-/// to change dark/light Theme, expertMode and language of the whole application
+/**
+ * /settings
+ * The site for the states/settings of the entire software, such as language and mode.
+ */
+
+
+/**
+ * Declaring the class as a StatefulWidget
+ * Reason: Because the settings need to read synchronously and might change during lifetime we need to have a StatefulWidget
+ */
+
 class Settings extends StatefulWidget {
   @override
   _SettingsState createState() => _SettingsState();
 }
 
+/**
+ * Widget for Theme
+ */
 class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
@@ -39,6 +51,10 @@ class _SettingsState extends State<Settings> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                /**
+                 * Description of the settings-site.
+                 * Note: This will be changed to a hovered explanation.
+                 */
                 ExpansionTile(
                   title: Text("Beschreibung",
                       style: TextStyle(
@@ -66,6 +82,9 @@ class _SettingsState extends State<Settings> {
                 SizedBox(
                   height: 10,
                 ),
+                /**
+                 *  Logic for the Dark / Lighttheme
+                 */
                 Container(
                   alignment: Alignment.centerLeft,
                   height: 60,
@@ -79,6 +98,9 @@ class _SettingsState extends State<Settings> {
                         ),
                       ),
                       Switch(
+                        /**
+                         * Change to !darkMode when changed and save to variable s.
+                         */
                         value: darkMode,
                         activeColor: buttonColor,
                         onChanged: (bool s) {
@@ -93,6 +115,9 @@ class _SettingsState extends State<Settings> {
                     ],
                   ),
                 ),
+                /**
+                 * Same as darkMode but for expertmode.
+                 */
                 Container(
                   alignment: Alignment.centerLeft,
                   height: 60,
@@ -117,6 +142,11 @@ class _SettingsState extends State<Settings> {
                     ],
                   ),
                 ),
+
+                /**
+                 * Saving the variable of the language and deciding whether the site is shown in German or English.
+                 * The entire translation is handled in flutter_prototyp/resources/langs/[de-DE.json / en-US.json]
+                 */
                 Container(
                   alignment: Alignment.centerLeft,
                   height: 60,
