@@ -19,9 +19,12 @@ class _TestState extends State<Test> {
   /// Variables just for testing has to be replaced with real data
   String mud = "MUD Profil";
   int number = 1;
-  bool inRegion = false;
   String test = "";
 
+  ///True if mouse is in the MouseRegion widget, else false
+  bool inRegion = false;
+
+  //Creating the overlay element
   OverlayEntry overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
             top: 340.0,
@@ -33,15 +36,18 @@ class _TestState extends State<Test> {
             ),
           ));
 
+  //Function that shows the overlay element
   showOverlay(BuildContext context) {
     OverlayState overlayState = Overlay.of(context);
     overlayState.insert(overlayEntry);
   }
 
+  //Function for closing the overlay element
+
   closeOverlay() {
     overlayEntry.remove();
   }
-
+  //Function called from MouseRegion widget below, opens the overlay on mouse enter
   void _enterInRegion(PointerEvent details) {
     setState(() {
       inRegion = true;
@@ -49,6 +55,7 @@ class _TestState extends State<Test> {
     showOverlay(context);
   }
 
+  //Function called from MouseRegion widget below, closes the overlay on mouse exit
   void _exitInRegion(PointerEvent details) {
     setState(() {
       inRegion = false;
@@ -77,7 +84,7 @@ class _TestState extends State<Test> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                mobileDevice
+                mobileDevice //if mobile device, then icon button with dialog, else icon with hover effect
                     ? IconButton(
                         icon: Icon(Icons.help_center),
                         iconSize: 30,
@@ -103,7 +110,7 @@ class _TestState extends State<Test> {
                               });
                         },
                       )
-                    : MouseRegion(
+                    : MouseRegion( //MouseRegion for the hover element
                         onEnter: _enterInRegion,
                         onExit: _exitInRegion,
                         child: Icon(Icons.help_center),
