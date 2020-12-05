@@ -83,6 +83,12 @@ class _MainDrawerState extends State<MainDrawer> {
               onTap: () =>
               {Navigator.pushReplacementNamed(context, "/test")},
             ),
+            CustomListTile(
+              icon: Icons.person_add,
+              text: "Registrieren",
+              onTap: () =>
+              {Navigator.pushReplacementNamed(context, "/registration")},
+            ),
           ],
         ),
       ),

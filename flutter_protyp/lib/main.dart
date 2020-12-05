@@ -5,6 +5,7 @@ import "package:flutter_protyp/pages/deviceOverview.dart";
 import "package:flutter_protyp/pages/createDevice.dart";
 import "package:flutter_protyp/pages/networkbehaviour.dart";
 import "package:flutter_protyp/pages/createMudProfile.dart";
+import 'package:flutter_protyp/pages/registration.dart';
 import "package:flutter_protyp/pages/settings.dart";
 import 'package:flutter_protyp/widgets/theme.dart';
 import 'package:provider/provider.dart';
@@ -59,10 +60,10 @@ class MaterialAppWithTheme extends StatelessWidget {
           "/networkbehaviour": (context) => Networkbehaviour(),
           "/createMudProfile": (context) => CreateMudProfile(),
           "/settings": (context) => Settings(),
-          "/test": (context) => Test(),
+          "/test": (context) => Editdevice(),
+          "/registration": (context) => Registration(),
           "/languagetest": (context) =>
               LanguageTest(), // just for testing can be deleted
-          "/test": (context) => Test(), // just for testing can be deleted
         });
   }
 }

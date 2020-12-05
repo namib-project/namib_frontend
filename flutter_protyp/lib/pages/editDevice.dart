@@ -10,12 +10,12 @@ import 'package:flutter/rendering.dart';
 
 // Class for editing devices for example change MUD-profile for this device
 
-class Test extends StatefulWidget {
+class Editdevice extends StatefulWidget {
   @override
-  _TestState createState() => _TestState();
+  _EditdeviceState createState() => _EditdeviceState();
 }
 
-class _TestState extends State<Test> {
+class _EditdeviceState extends State<Editdevice> {
   /// Variables just for testing has to be replaced with real data
   String mud = "MUD Profil";
   int number = 1;
