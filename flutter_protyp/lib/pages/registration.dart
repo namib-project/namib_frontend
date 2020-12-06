@@ -15,7 +15,8 @@ class Registration extends StatefulWidget {
 
 class _RegistrationState extends State<Registration> {
   String password = "";
-  bool errorMessage = false;
+  bool errorMessage1 = false;
+  bool errorMessage2 = false;
 
   void _handlePasswordInput() {}
 
@@ -25,12 +26,12 @@ class _RegistrationState extends State<Registration> {
         drawer: MainDrawer(),
         body: Center(
           child: Container(
-            width: 400,
+            width: mobileDevice ? 300 : 400,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  height: 60,
+                  height: 70,
                   child: Text(
                     "Registrieren",
                     style: TextStyle(
@@ -41,7 +42,7 @@ class _RegistrationState extends State<Registration> {
                   ),
                 ),
                 Container(
-                  height: 60,
+                  height: 70,
                   child: TextField(
                     obscureText: false,
                     decoration: InputDecoration(
@@ -50,7 +51,7 @@ class _RegistrationState extends State<Registration> {
                   ),
                 ),
                 Container(
-                  height: 60,
+                  height: 70,
                   child: TextField(
                     obscureText: true,
                     decoration: InputDecoration(
@@ -59,11 +60,32 @@ class _RegistrationState extends State<Registration> {
                       setState(() {
                         password = value;
                       });
+                      await Future.delayed(const Duration(seconds: 1), () {
+                        if (value.length < 8) {
+                          setState(() {
+                            errorMessage1 = true;
+                          });
+                        } else {
+                          setState(() {
+                            errorMessage1 = false;
+                          });
+                        }
+                      });
                     },
                   ),
                 ),
+                Visibility(
+                  visible: errorMessage1,
+                  child: Container(
+                    height: 70,
+                    child: Text(
+                      "Das Passwort muss mindestens 8 Zeichen haben",
+                      style: TextStyle(color: Colors.red[700], fontSize: 20),
+                    ),
+                  ),
+                ),
                 Container(
-                  height: 60,
+                  height: 70,
                   child: TextField(
                     obscureText: true,
                     decoration: InputDecoration(
@@ -73,11 +95,11 @@ class _RegistrationState extends State<Registration> {
                       await Future.delayed(const Duration(seconds: 1), () {
                         if (value != password) {
                           setState(() {
-                            errorMessage = true;
+                            errorMessage2 = true;
                           });
                         } else {
                           setState(() {
-                            errorMessage = false;
+                            errorMessage2 = false;
                           });
                         }
                       });
@@ -85,16 +107,16 @@ class _RegistrationState extends State<Registration> {
                   ),
                 ),
                 Visibility(
-                  visible: errorMessage,
+                  visible: errorMessage2,
                   child: Container(
-                      height: 60,
+                      height: 70,
                       child: Text(
                         "Die eingegebenen Passwörter stimmen nicht überein",
                         style: TextStyle(color: Colors.red[700], fontSize: 20),
                       )),
                 ),
                 Container(
-                  height: 60,
+                  height: 70,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
@@ -107,15 +129,6 @@ class _RegistrationState extends State<Registration> {
                         ),
                         padding: EdgeInsets.all(15),
                       ),
-                      RaisedButton(
-                        onPressed: () {},
-                        color: Colors.grey,
-                        child: Text(
-                          "Abbrechen",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        padding: EdgeInsets.all(15),
-                      )
                     ],
                   ),
                 )
