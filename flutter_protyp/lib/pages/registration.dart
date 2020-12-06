@@ -17,6 +17,7 @@ class _RegistrationState extends State<Registration> {
   String password = "";
   bool errorMessage1 = false;
   bool errorMessage2 = false;
+  bool passwordMessage = false;
 
   void _handlePasswordInput() {}
 
@@ -32,6 +33,7 @@ class _RegistrationState extends State<Registration> {
               children: <Widget>[
                 Container(
                   height: 70,
+                  alignment: Alignment.center,
                   child: Text(
                     "Registrieren",
                     style: TextStyle(
@@ -43,6 +45,7 @@ class _RegistrationState extends State<Registration> {
                 ),
                 Container(
                   height: 70,
+                  alignment: Alignment.center,
                   child: TextField(
                     obscureText: false,
                     decoration: InputDecoration(
@@ -52,6 +55,7 @@ class _RegistrationState extends State<Registration> {
                 ),
                 Container(
                   height: 70,
+                  alignment: Alignment.center,
                   child: TextField(
                     obscureText: true,
                     decoration: InputDecoration(
@@ -77,7 +81,8 @@ class _RegistrationState extends State<Registration> {
                 Visibility(
                   visible: errorMessage1,
                   child: Container(
-                    height: 70,
+                    alignment: Alignment.center,
+                    height: 60,
                     child: Text(
                       "Das Passwort muss mindestens 8 Zeichen haben",
                       style: TextStyle(color: Colors.red[700], fontSize: 20),
@@ -86,6 +91,7 @@ class _RegistrationState extends State<Registration> {
                 ),
                 Container(
                   height: 70,
+                  alignment: Alignment.center,
                   child: TextField(
                     obscureText: true,
                     decoration: InputDecoration(
@@ -96,10 +102,12 @@ class _RegistrationState extends State<Registration> {
                         if (value != password) {
                           setState(() {
                             errorMessage2 = true;
+                            passwordMessage = false;
                           });
                         } else {
                           setState(() {
                             errorMessage2 = false;
+                            passwordMessage = true;
                           });
                         }
                       });
@@ -109,14 +117,26 @@ class _RegistrationState extends State<Registration> {
                 Visibility(
                   visible: errorMessage2,
                   child: Container(
-                      height: 70,
+                      alignment: Alignment.center,
+                      height: 60,
                       child: Text(
                         "Die eingegebenen Passwörter stimmen nicht überein",
                         style: TextStyle(color: Colors.red[700], fontSize: 20),
                       )),
                 ),
+                Visibility(
+                  visible: passwordMessage,
+                  child: Container(
+                      alignment: Alignment.center,
+                      height: 60,
+                      child: Text(
+                        "Das Passwort ist lang genug und stimmt überein",
+                        style: TextStyle(color: Colors.green[700], fontSize: 20),
+                      )),
+                ),
                 Container(
                   height: 70,
+                  alignment: Alignment.center,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
