@@ -3,20 +3,6 @@ stages:
 
   
 
-android:debug:
-  image: cirrusci/flutter
-  stage: archive
-  before_script:
-    - cd \flutter_protyp
-    - flutter packages get
-    - flutter clean
-  script:
-    - flutter doctor --android-licenses
-    - flutter build apk --debug
-  artifacts:
-    paths:
-      - "**/**/**/**/**/**/*.apk"
-    expire_in: 7 days
 
 
 
