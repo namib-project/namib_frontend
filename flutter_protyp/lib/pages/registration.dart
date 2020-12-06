@@ -15,11 +15,12 @@ class Registration extends StatefulWidget {
 
 class _RegistrationState extends State<Registration> {
   String password = "";
+  String username = "";
+  String secPassword = "";
   bool errorMessage1 = false;
   bool errorMessage2 = false;
   bool passwordMessage = false;
-
-  void _handlePasswordInput() {}
+  bool regisButton = false;
 
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -51,6 +52,12 @@ class _RegistrationState extends State<Registration> {
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: "Benutzername"),
+                    onChanged: (String value) async {
+                      setState(() {
+                        username = value;
+                      });
+                      checkForRegistrationButton();
+                    },
                   ),
                 ),
                 Container(
@@ -74,6 +81,7 @@ class _RegistrationState extends State<Registration> {
                             errorMessage1 = false;
                           });
                         }
+                        checkForRegistrationButton();
                       });
                     },
                   ),
@@ -98,6 +106,9 @@ class _RegistrationState extends State<Registration> {
                         border: OutlineInputBorder(),
                         labelText: "Passwort wiederholen"),
                     onChanged: (String value) async {
+                      setState(() {
+                        secPassword = value;
+                      });
                       await Future.delayed(const Duration(seconds: 1), () {
                         if (value != password) {
                           setState(() {
@@ -110,6 +121,7 @@ class _RegistrationState extends State<Registration> {
                             passwordMessage = true;
                           });
                         }
+                        checkForRegistrationButton();
                       });
                     },
                   ),
@@ -131,7 +143,8 @@ class _RegistrationState extends State<Registration> {
                       height: 60,
                       child: Text(
                         "Das Passwort ist lang genug und stimmt überein",
-                        style: TextStyle(color: Colors.green[700], fontSize: 20),
+                        style:
+                            TextStyle(color: Colors.green[700], fontSize: 20),
                       )),
                 ),
                 Container(
@@ -141,7 +154,7 @@ class _RegistrationState extends State<Registration> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
                       RaisedButton(
-                        onPressed: () {},
+                        onPressed: regisButton ? () {} : null,
                         color: Colors.blue[600],
                         child: Text(
                           "Registrieren",
@@ -156,5 +169,21 @@ class _RegistrationState extends State<Registration> {
             ),
           ),
         ));
+  }
+
+  void checkForRegistrationButton() {
+    if (username.length > 1 &&
+        errorMessage1 == false &&
+        errorMessage2 == false &&
+        password.length > 7 &&
+        secPassword.length > 1) {
+      setState(() {
+        regisButton = true;
+      });
+    } else {
+      setState(() {
+        regisButton = false;
+      });
+    }
   }
 }
