@@ -13,10 +13,14 @@ class Registration extends StatefulWidget {
   _RegistrationState createState() => _RegistrationState();
 }
 
+//Class for user registration, will only be used at the first usage
 class _RegistrationState extends State<Registration> {
+  ///Variables for user inputs
   String password = "";
   String username = "";
   String secPassword = "";
+
+  ///Variables for visibility of error messages
   bool errorMessage1 = false;
   bool errorMessage2 = false;
   bool passwordMessage = false;
@@ -29,6 +33,7 @@ class _RegistrationState extends State<Registration> {
         body: Center(
           child: Container(
             width: mobileDevice ? 300 : 400,
+            //Context will appear smaller on mobile devices
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -54,9 +59,9 @@ class _RegistrationState extends State<Registration> {
                         labelText: "Benutzername"),
                     onChanged: (String value) async {
                       setState(() {
-                        username = value;
+                        username = value; //Username set to variable
                       });
-                      checkForRegistrationButton();
+                      checkForRegistrationButton(); //Check, if all conditions for enabling registration button are true
                     },
                   ),
                 ),
@@ -69,10 +74,12 @@ class _RegistrationState extends State<Registration> {
                         border: OutlineInputBorder(), labelText: "Passwort"),
                     onChanged: (String value) async {
                       setState(() {
-                        password = value;
+                        password = value; //Password set to variable
                       });
                       await Future.delayed(const Duration(seconds: 1), () {
+                        //Wait for 1 second
                         if (value.length < 8) {
+                          //Shows error message if password contains less then 8 characters
                           setState(() {
                             errorMessage1 = true;
                           });
@@ -81,12 +88,13 @@ class _RegistrationState extends State<Registration> {
                             errorMessage1 = false;
                           });
                         }
-                        checkForRegistrationButton();
+                        checkForRegistrationButton(); //Check, if all conditions for enabling registration button are true
                       });
                     },
                   ),
                 ),
                 Visibility(
+                  //The error message shows, if errorMessage1 is true
                   visible: errorMessage1,
                   child: Container(
                     alignment: Alignment.center,
@@ -110,7 +118,9 @@ class _RegistrationState extends State<Registration> {
                         secPassword = value;
                       });
                       await Future.delayed(const Duration(seconds: 1), () {
+                        //Wait for 1 second
                         if (value != password) {
+                          //Show error message, if the first password input is not equal to the second input
                           setState(() {
                             errorMessage2 = true;
                             passwordMessage = false;
@@ -121,12 +131,13 @@ class _RegistrationState extends State<Registration> {
                             passwordMessage = true;
                           });
                         }
-                        checkForRegistrationButton();
+                        checkForRegistrationButton(); //Check, if all conditions for enabling registration button are true
                       });
                     },
                   ),
                 ),
                 Visibility(
+                  //The error message shows, if errorMessage2 is true
                   visible: errorMessage2,
                   child: Container(
                       alignment: Alignment.center,
@@ -137,6 +148,7 @@ class _RegistrationState extends State<Registration> {
                       )),
                 ),
                 Visibility(
+                  //The error message shows, if passwordMessage is true
                   visible: passwordMessage,
                   child: Container(
                       alignment: Alignment.center,
@@ -154,8 +166,8 @@ class _RegistrationState extends State<Registration> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
                       RaisedButton(
+                        //Button is enabled if regisButton is true
                         onPressed: regisButton ? () {} : null,
-                        color: Colors.blue[600],
                         child: Text(
                           "Registrieren",
                           style: TextStyle(fontSize: 20),
@@ -171,6 +183,7 @@ class _RegistrationState extends State<Registration> {
         ));
   }
 
+  //Function checks all conditions for activating the registration button
   void checkForRegistrationButton() {
     if (username.length > 1 &&
         errorMessage1 == false &&

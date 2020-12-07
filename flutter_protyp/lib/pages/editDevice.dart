@@ -24,7 +24,7 @@ class _EditdeviceState extends State<Editdevice> {
   ///True if mouse is in the MouseRegion widget, else false
   bool inRegion = false;
 
-  //Creating the overlay element
+  //Creating the overlay element just an example for expert mode
   OverlayEntry overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
             top: 340.0,
@@ -47,6 +47,7 @@ class _EditdeviceState extends State<Editdevice> {
   closeOverlay() {
     overlayEntry.remove();
   }
+
   //Function called from MouseRegion widget below, opens the overlay on mouse enter
   void _enterInRegion(PointerEvent details) {
     setState(() {
@@ -69,109 +70,155 @@ class _EditdeviceState extends State<Editdevice> {
       drawer: MainDrawer(),
       body: Center(
           child: Container(
-        width: 400,
+        width: mobileDevice ? 300 : 400,
+        //Context will appear smaller on mobile devices
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  "Gerät bearbeiten",
-                  style: TextStyle(
-                    fontFamily: "OpenSans",
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
+            Container(
+              height: 70,
+              alignment: Alignment.center,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    "Gerät bearbeiten",
+                    style: TextStyle(
+                      fontFamily: "OpenSans",
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                mobileDevice //if mobile device, then icon button with dialog, else icon with hover effect
-                    ? IconButton(
-                        icon: Icon(Icons.help_center),
-                        iconSize: 30,
-                        onPressed: () {
-                          showDialog(
-                              context: context,
-                              barrierDismissible: true,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text("Erklärung"),
-                                  content:
-                                      Text("Hier könnte Ihre Werbung stehen"),
-                                  actions: [
-                                    FlatButton(
-                                      child: Text("Verstanden!"),
-                                      onPressed: () {
-                                        Navigator.of(context)
-                                            .pop(); // dismiss dialog
-                                      },
-                                    )
-                                  ],
-                                );
-                              });
-                        },
-                      )
-                    : MouseRegion( //MouseRegion for the hover element
-                        onEnter: _enterInRegion,
-                        onExit: _exitInRegion,
-                        child: Icon(Icons.help_center),
-                      ),
-              ],
-            ),
-            TextField(
-              obscureText: false,
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(), labelText: "Spezifikation"),
+                  mobileDevice //if mobile device, then icon button with dialog, else icon with hover effect
+                      ? IconButton(
+                          icon: Icon(Icons.help_center),
+                          iconSize: 30,
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                barrierDismissible: true,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text("Erklärung"),
+                                    content:
+                                        Text("Hier könnte Ihre Werbung stehen"),
+                                    actions: [
+                                      FlatButton(
+                                        child: Text("Verstanden!"),
+                                        onPressed: () {
+                                          Navigator.of(context)
+                                              .pop(); // dismiss dialog
+                                        },
+                                      )
+                                    ],
+                                  );
+                                });
+                          },
+                        )
+                      : MouseRegion(
+                          //MouseRegion for the hover element
+                          onEnter: _enterInRegion,
+                          onExit: _exitInRegion,
+                          child: Icon(Icons.help_center),
+                        ),
+                ],
+              ),
             ),
             Container(
+              height: 70,
+              alignment: Alignment.center,
+              child: TextField(
+                obscureText: false,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(), labelText: "Spezifikation"),
+              ),
+            ),
+            Container(
+                height: 70,
+                alignment: Alignment.center,
                 child: TextField(
-              obscureText: false,
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(), labelText: "Gerätename"),
-            )),
+                  obscureText: false,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(), labelText: "Gerätename"),
+                )),
             Container(
-              child: Text("$mud" + " " + "$number"),
+              height: 70,
+              alignment: Alignment.center,
+              child: Text(
+                "$mud" + " " + "$number",
+                style: TextStyle(fontSize: 20),
+              ),
             ),
-            FloatingActionButton(
-              heroTag: "mud-profile dialog",
-              onPressed: () {
-                showDialog(
-                    context: context,
-                    builder: (context) => SimpleDialog(
-                          title: Text("MUD Profile"),
-                          titleTextStyle:
-                              TextStyle(fontSize: 30, color: Colors.black),
-                          children: <Widget>[
-                            SimpleDialogOption(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                                setState(() {
-                                  number = 1;
-                                });
-                              },
-                              child: Text("MUD Profil 1"),
-                            ),
-                            SimpleDialogOption(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                                setState(() {
-                                  number = 2;
-                                });
-                              },
-                              child: Text("MUD Profil 2"),
-                            ),
-                            SimpleDialogOption(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                                setState(() {
-                                  number = 3;
-                                });
-                              },
-                              child: Text("MUD Profil 3"),
-                            ),
-                          ],
-                        ));
-              },
-              child: Icon(Icons.list),
+            Container(
+              height: 70,
+              alignment: Alignment.center,
+              child: FloatingActionButton(
+                heroTag: "mud-profile dialog",
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) => SimpleDialog(
+                            title: Text("MUD Profile"),
+                            titleTextStyle:
+                                TextStyle(fontSize: 30, color: Colors.black),
+                            children: <Widget>[
+                              SimpleDialogOption(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  setState(() {
+                                    number = 1;
+                                  });
+                                },
+                                child: Text("MUD Profil 1"),
+                              ),
+                              SimpleDialogOption(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  setState(() {
+                                    number = 2;
+                                  });
+                                },
+                                child: Text("MUD Profil 2"),
+                              ),
+                              SimpleDialogOption(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  setState(() {
+                                    number = 3;
+                                  });
+                                },
+                                child: Text("MUD Profil 3"),
+                              ),
+                            ],
+                          ));
+                },
+                child: Icon(Icons.list),
+              ),
+            ),
+            Container(
+              height: 70,
+              alignment: Alignment.center,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  RaisedButton(
+                    onPressed: () {},
+                    child: Text(
+                      "Speichern",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    padding: EdgeInsets.all(15),
+                  ),
+                  RaisedButton(
+                    onPressed: () {},
+                    child: Text(
+                      "Abbrechen",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    padding: EdgeInsets.all(15),
+                  )
+                ],
+              ),
             )
           ],
         ),
