@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_protyp/pages/registration.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:universal_io/io.dart' as osDetect;
 import 'package:flutter_protyp/widgets/constant.dart';
@@ -12,20 +13,24 @@ class Login extends StatefulWidget {
   _LoginState createState() => _LoginState();
 }
 
-String inputEmail = "";
-String inputPassword = "";
-String jwttoken = "";
+
 
 
 class _LoginState extends State<Login> {
+
+  String inputEmail = "";
+  String inputPassword = "";
+  String jwttoken = "";
+  bool errorMessage = false;
+
   void onlineOs() {
     String android = "android";
     String ios = "ios";
     if (osDetect.Platform.operatingSystem == android ||
         osDetect.Platform.operatingSystem == ios) {
-        mobileDevice = true;
+      mobileDevice = true;
     } else {
-        mobileDevice = false;
+      mobileDevice = false;
     }
   }
 
@@ -144,16 +149,32 @@ class _LoginState extends State<Login> {
                               ),
                               hintText: 'password'.tr().toString(),
                             ),
-                            onChanged: (value) => inputPassword = value,
+                            onChanged: (String value) async {
+                              setState(() {
+                                inputPassword = value;
+                              });
+                            }
                           ),
                         ),
                       ],
+                    ),
+                    Visibility(
+                      visible: errorMessage,
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 60,
+                        child: Text(
+                          "Die Login-Daten sind falsch!",
+                          style: TextStyle(color: Colors.red[700],
+                              fontSize: 20),
+                        ),
+                      ),
                     ),
                     Container(
                       alignment: Alignment.centerRight,
                       child: FlatButton(
                         onPressed: () =>
-                            {print("Forgot Password Button Pressed")},
+                        {print("Forgot Password Button Pressed")},
                         padding: EdgeInsets.only(right: 0),
                         child: Text(
                           'forgotPassword'.tr().toString(),
@@ -172,12 +193,14 @@ class _LoginState extends State<Login> {
                       width: double.infinity,
                       child: RaisedButton(
                         elevation: 5,
-                        onPressed: () => {
+                        onPressed: () =>
+                        {
                           {onlineOs()},
                           {print(inputEmail)},
                           {print(inputPassword)},
                           Navigator.pushReplacementNamed(
                               context, "/deviceOverview")
+
                         },
                         padding: EdgeInsets.all(15),
                         shape: RoundedRectangleBorder(
