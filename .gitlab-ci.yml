@@ -1,7 +1,18 @@
 stages:
+  - test
   - archive
 
   
+
+tests:
+  image: cirrusci/flutter
+  stage: test
+  before_script:
+    - ls
+    - cd \flutter_protyp
+  script:
+  - flutter test test/mainTest_test.dart
+
 
 
 
