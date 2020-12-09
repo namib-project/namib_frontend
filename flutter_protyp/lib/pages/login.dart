@@ -96,6 +96,7 @@ class _LoginState extends State<Login> {
                           height: 60,
                           child: TextField(
                             keyboardType: TextInputType.emailAddress,
+                            autofocus: true,
                             style: TextStyle(
                               color: Colors.white,
                               fontFamily: "OpenSans",
