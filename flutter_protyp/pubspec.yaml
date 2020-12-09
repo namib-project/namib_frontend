@@ -33,6 +33,7 @@ dependencies:
 
 dev_dependencies:
     universal_io: ^0.2.0
+    http: ^0.12.2
     flutter_test:
       sdk: flutter
 
