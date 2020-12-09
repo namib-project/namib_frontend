@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:flutter_protyp/widgets/drawer.dart';
@@ -25,6 +27,11 @@ class _RegistrationState extends State<Registration> {
   bool errorMessage2 = false;
   bool passwordMessage = false;
   bool regisButton = false;
+  bool retryMessage = false;
+
+  ///Test for http client
+  String url = "https://localhost:8080/signup";
+  var response;
 
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -159,6 +166,17 @@ class _RegistrationState extends State<Registration> {
                             TextStyle(color: Colors.green[700], fontSize: 20),
                       )),
                 ),
+                Visibility(
+                  visible: retryMessage,
+                  child: Container(
+                    height: 70,
+                    alignment: Alignment.center,
+                    child: Text(
+                      "Da hat etwas nicht geklappt probier es erneut",
+                      style: TextStyle(color: Colors.red[700], fontSize: 20),
+                    ),
+                  ),
+                ),
                 Container(
                   height: 70,
                   alignment: Alignment.center,
@@ -167,7 +185,20 @@ class _RegistrationState extends State<Registration> {
                     children: <Widget>[
                       RaisedButton(
                         //Button is enabled if regisButton is true
-                        onPressed: regisButton ? () {} : null,
+                        onPressed: regisButton
+                            ? () {
+                                response = http.post(url,
+                                    headers: {"Content-Type": "application/json"}, body: json.encode({
+                                  "username": username,
+                                  "password": password
+                                }));
+                                if (response.toString() != "200") {
+                                  retryMessage = true;
+                                } else {
+                                  retryMessage = false;
+                                }
+                              }
+                            : null,
                         child: Text(
                           "Registrieren",
                           style: TextStyle(fontSize: 20),
