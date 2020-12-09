@@ -23,7 +23,6 @@ class _UserManagementState extends State<UserManagement> {
   String newPassword = "";
   String confirmPassword = "";
   bool error1 = false;
-  bool error2 = false;
 
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -115,8 +114,10 @@ class _UserManagementState extends State<UserManagement> {
                                 ],
                               ));
                     },
-                    child: Text("Benutzername ändern",
-                    style: TextStyle(fontSize: 20),),
+                    child: Text(
+                      "Benutzername ändern",
+                      style: TextStyle(fontSize: 20),
+                    ),
                   ),
                 ),
                 Container(
@@ -127,67 +128,96 @@ class _UserManagementState extends State<UserManagement> {
                       showDialog(
                           context: context,
                           builder: (context) => SimpleDialog(
-                            contentPadding: EdgeInsets.all(20.0),
-                            children: <Widget>[
-                              Container(
-                                height: 70,
-                                alignment: Alignment.center,
-                                child: TextField(
-                                  obscureText: false,
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    labelText: "Neues Passwort",
-                                  ),
-                                  onChanged: (String value) async {
-                                    setState(() {
-                                      newPassword = value;
-                                    });
-                                  },
-                                ),
-                              ),
-                              Container(
-                                height: 70,
-                                alignment: Alignment.center,
-                                child: TextField(
-                                  obscureText: false,
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    labelText: "Bisheriges Passwort",
-                                  ),
-                                  onChanged: (String value) async {
-                                    setState(() {
-                                      confirmPassword = value;
-                                    });
-                                  },
-                                ),
-                              ),
-                              Container(
-                                height: 70,
-                                alignment: Alignment.center,
-                                child: Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceAround,
-                                  children: [
-                                    RaisedButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
+                                contentPadding: EdgeInsets.all(20.0),
+                                children: <Widget>[
+                                  Container(
+                                    height: 70,
+                                    alignment: Alignment.center,
+                                    child: TextField(
+                                      obscureText: false,
+                                      decoration: InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        labelText: "Neues Passwort",
+                                      ),
+                                      onChanged: (String value) async {
+                                        setState(() {
+                                          newPassword = value;
+                                        });
+                                        await Future.delayed(
+                                            const Duration(seconds: 1), () {
+                                          //Wait for 1 second
+                                          if (newPassword.length < 8) {
+                                            //Shows error message if password contains less then 8 characters
+                                            setState(() {
+                                              error1 = true;
+                                            });
+                                          } else {
+                                            setState(() {
+                                              error1 = false;
+                                            });
+                                          }
+                                        });
                                       },
-                                      child: Text("Ändern"),
                                     ),
-                                    RaisedButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
+                                  ),
+                                  Visibility(
+                                    visible: error1,
+                                    child: Container(
+                                      height: 70,
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        "Das Passwort muss mindestens 8 Zeichen haben",
+                                        style: TextStyle(
+                                            color: Colors.red[700],
+                                            fontSize: 20),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 70,
+                                    alignment: Alignment.center,
+                                    child: TextField(
+                                      obscureText: false,
+                                      decoration: InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        labelText: "Bisheriges Passwort",
+                                      ),
+                                      onChanged: (String value) async {
+                                        setState(() {
+                                          confirmPassword = value;
+                                        });
                                       },
-                                      child: Text("Abbrechen"),
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ));
+                                  ),
+                                  Container(
+                                    height: 70,
+                                    alignment: Alignment.center,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        RaisedButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text("Ändern"),
+                                        ),
+                                        RaisedButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text("Abbrechen"),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ));
                     },
-                    child: Text("Passwort ändern",
-                      style: TextStyle(fontSize: 20),),
+                    child: Text(
+                      "Passwort ändern",
+                      style: TextStyle(fontSize: 20),
+                    ),
                   ),
                 ),
               ],
