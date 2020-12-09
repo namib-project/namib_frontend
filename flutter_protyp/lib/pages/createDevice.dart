@@ -1,12 +1,9 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import "package:flutter_protyp/widgets/drawer.dart";
 import 'package:flutter_protyp/widgets/constant.dart';
 
 import 'package:easy_localization/easy_localization.dart';
-
 
 class CreateDevice extends StatefulWidget {
   @override
@@ -64,17 +61,15 @@ class _CreateDeviceState extends State<CreateDevice> {
               ],
             ),
             TextField(
+                  obscureText: false,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(), labelText: "Gerätename"),
+                ),
+            TextField(
               obscureText: false,
               decoration: InputDecoration(
                   border: OutlineInputBorder(), labelText: "Spezifikation"),
             ),
-            Visibility(
-                visible: expertMode,
-                child: TextField(
-                  obscureText: false,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(), labelText: "Gerätename"),
-                )),
             Container(
               child: Text("$mud" + " " + "$number"),
             ),
@@ -131,12 +126,13 @@ class _CreateDeviceState extends State<CreateDevice> {
                 FlatButton(
                   child: Text('Abbrechen'),
                   color: Colors.deepOrange,
-                  onPressed: () {Navigator.pushReplacementNamed(context, "/deviceOverview");},
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(context, "/deviceOverview");
+                  },
                 ),
               ],
             ),
             const SizedBox(height: 30),
-
           ],
         ),
       )),
