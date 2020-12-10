@@ -3,8 +3,9 @@ import 'package:flutter_protyp/pages/registration.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:universal_io/io.dart' as osDetect;
 import 'package:flutter_protyp/widgets/constant.dart';
-
+import 'package:http/http.dart' as http;
 import 'package:easy_localization/easy_localization.dart';
+import 'dart:convert';
 
 /// returns login site of application
 /// Can be coloured with loginColor1 and loginColor2 in constant.dart
@@ -16,12 +17,17 @@ class Login extends StatefulWidget {
 
 
 
+
 class _LoginState extends State<Login> {
 
   String inputEmail = "";
   String inputPassword = "";
   String jwttoken = "";
   bool errorMessage = false;
+
+  String url = 'http://localhost:8000/login';
+  var response;
+
 
   void onlineOs() {
     String android = "android";
@@ -32,6 +38,9 @@ class _LoginState extends State<Login> {
     } else {
       mobileDevice = false;
     }
+
+
+
   }
 
   @override
@@ -150,11 +159,7 @@ class _LoginState extends State<Login> {
                               ),
                               hintText: 'password'.tr().toString(),
                             ),
-                            onChanged: (String value) async {
-                              setState(() {
-                                inputPassword = value;
-                              });
-                            }
+                            onChanged: (value) => inputPassword = value,
                           ),
                         ),
                       ],
@@ -194,15 +199,27 @@ class _LoginState extends State<Login> {
                       width: double.infinity,
                       child: RaisedButton(
                         elevation: 5,
-                        onPressed: () =>
+                        onPressed: () async =>
                         {
                           {onlineOs()},
                           {print(inputEmail)},
                           {print(inputPassword)},
                           Navigator.pushReplacementNamed(
-                              context, "/deviceOverview")
+                              context, "/deviceOverview"),
 
-                        },
+                        response = await http.post(url, headers: {"Content-Type": "application/json"},
+                            body: json.encode({'username': inputEmail, 'password': inputPassword})),
+
+
+              //          for (var value in response.values) print(value)
+//
+              //          if (response.statusCode == 200) {
+              //            print(reponse.body);
+              //        } else {
+              //      print('A network error occurred');
+              //      }
+
+                      },
                         padding: EdgeInsets.all(15),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
