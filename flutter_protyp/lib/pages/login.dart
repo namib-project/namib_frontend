@@ -6,7 +6,6 @@ import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:easy_localization/easy_localization.dart';
 import 'dart:convert';
-
 /// returns login site of application
 /// Can be coloured with loginColor1 and loginColor2 in constant.dart
 class Login extends StatefulWidget {
@@ -38,9 +37,12 @@ class _LoginState extends State<Login> {
     } else {
       mobileDevice = false;
     }
+  }
 
-
-
+  @override
+  void initState() {
+    onlineOs();
+    return super.initState();
   }
 
   @override
@@ -201,7 +203,6 @@ class _LoginState extends State<Login> {
                         elevation: 5,
                         onPressed: () async =>
                         {
-                          {onlineOs()},
                           {print(inputEmail)},
                           {print(inputPassword)},
                           Navigator.pushReplacementNamed(

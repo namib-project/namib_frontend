@@ -39,7 +39,7 @@ class _RegistrationState extends State<Registration> {
         drawer: MainDrawer(),
         body: Center(
           child: Container(
-            width: mobileDevice ? 300 : 400,
+            width: 400,
             //Context will appear smaller on mobile devices
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -192,7 +192,7 @@ class _RegistrationState extends State<Registration> {
                                   "username": username,
                                   "password": password
                                 }));
-                                if (response.toString() != "200") {
+                                if (response.statusCode != "200") {
                                   retryMessage = true;
                                 } else {
                                   retryMessage = false;

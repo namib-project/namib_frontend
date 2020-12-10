@@ -30,7 +30,7 @@ class _UserManagementState extends State<UserManagement> {
         drawer: MainDrawer(),
         body: Center(
           child: Container(
-            width: mobileDevice ? 300 : 400,
+            width: 400,
             //Context will appear smaller on mobile devices
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
