@@ -6,6 +6,7 @@ import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:easy_localization/easy_localization.dart';
 import 'dart:convert';
+
 /// returns login site of application
 /// Can be coloured with loginColor1 and loginColor2 in constant.dart
 class Login extends StatefulWidget {
@@ -13,12 +14,7 @@ class Login extends StatefulWidget {
   _LoginState createState() => _LoginState();
 }
 
-
-
-
-
 class _LoginState extends State<Login> {
-
   String inputEmail = "";
   String inputPassword = "";
   String jwttoken = "";
@@ -26,7 +22,6 @@ class _LoginState extends State<Login> {
 
   String url = 'http://localhost:8000/login';
   var response;
-
 
   void onlineOs() {
     String android = "android";
@@ -66,178 +61,190 @@ class _LoginState extends State<Login> {
           ),
           Center(
             child: Container(
-              width: 400,
               height: double.infinity,
               child: SingleChildScrollView(
                 physics: AlwaysScrollableScrollPhysics(),
                 padding: EdgeInsets.symmetric(
-                  horizontal: 40,
+                  horizontal: 0,
                   vertical: 120,
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      "Sign In",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: "OpenSans",
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          "Email",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          height: 60,
-                          child: TextField(
-                            keyboardType: TextInputType.emailAddress,
-                            autofocus: !mobileDevice,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(),
+                    Container(
+                      width: 320,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            "Sign In",
                             style: TextStyle(
                               color: Colors.white,
                               fontFamily: "OpenSans",
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
                             ),
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              contentPadding: EdgeInsets.only(top: 14),
-                              prefixIcon: Icon(
-                                Icons.email,
-                                color: Colors.white,
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                "Email",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                ),
                               ),
-                              hintText: 'emailAddress'.tr().toString(),
-                            ),
-                            onChanged: (value) => inputEmail = value,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'password'.tr().toString(),
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          height: 60,
-                          child: TextField(
-                            obscureText: true,
-                            keyboardType: TextInputType.visiblePassword,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: "OpenSans",
-                            ),
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              contentPadding: EdgeInsets.only(top: 14),
-                              prefixIcon: Icon(
-                                Icons.lock,
-                                color: Colors.white,
+                              SizedBox(
+                                height: 10,
                               ),
-                              hintText: 'password'.tr().toString(),
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                height: 60,
+                                child: TextField(
+                                  keyboardType: TextInputType.emailAddress,
+                                  autofocus: !mobileDevice,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: "OpenSans",
+                                  ),
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    contentPadding: EdgeInsets.only(top: 14),
+                                    prefixIcon: Icon(
+                                      Icons.email,
+                                      color: Colors.white,
+                                    ),
+                                    hintText: 'emailAddress'.tr().toString(),
+                                  ),
+                                  onChanged: (value) => inputEmail = value,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                'password'.tr().toString(),
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                height: 60,
+                                child: TextField(
+                                  obscureText: true,
+                                  keyboardType: TextInputType.visiblePassword,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: "OpenSans",
+                                  ),
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    contentPadding: EdgeInsets.only(top: 14),
+                                    prefixIcon: Icon(
+                                      Icons.lock,
+                                      color: Colors.white,
+                                    ),
+                                    hintText: 'password'.tr().toString(),
+                                  ),
+                                  onChanged: (value) => inputPassword = value,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Visibility(
+                            visible: errorMessage,
+                            child: Container(
+                              alignment: Alignment.center,
+                              height: 60,
+                              child: Text(
+                                "Die Login-Daten sind falsch!",
+                                style: TextStyle(
+                                    color: Colors.red[700], fontSize: 20),
+                              ),
                             ),
-                            onChanged: (value) => inputPassword = value,
                           ),
-                        ),
-                      ],
-                    ),
-                    Visibility(
-                      visible: errorMessage,
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: 60,
-                        child: Text(
-                          "Die Login-Daten sind falsch!",
-                          style: TextStyle(color: Colors.red[700],
-                              fontSize: 20),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.centerRight,
-                      child: FlatButton(
-                        onPressed: () =>
-                        {print("Forgot Password Button Pressed")},
-                        padding: EdgeInsets.only(right: 0),
-                        child: Text(
-                          'forgotPassword'.tr().toString(),
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
+                          Container(
+                            alignment: Alignment.centerRight,
+                            child: FlatButton(
+                              onPressed: () =>
+                                  {print("Forgot Password Button Pressed")},
+                              padding: EdgeInsets.only(right: 0),
+                              child: Text(
+                                'forgotPassword'.tr().toString(),
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      padding: EdgeInsets.symmetric(vertical: 25),
-                      width: double.infinity,
-                      child: RaisedButton(
-                        elevation: 5,
-                        onPressed: () async =>
-                        {
-                          {print(inputEmail)},
-                          {print(inputPassword)},
-                          Navigator.pushReplacementNamed(
-                              context, "/deviceOverview"),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                            padding: EdgeInsets.symmetric(vertical: 25),
+                            width: double.infinity,
+                            child: RaisedButton(
+                              elevation: 5,
+                              onPressed: () async => {
+                                {print(inputEmail)},
+                                {print(inputPassword)},
+                                Navigator.pushReplacementNamed(
+                                    context, "/deviceOverview"),
 
-                        response = await http.post(url, headers: {"Content-Type": "application/json"},
-                            body: json.encode({'username': inputEmail, 'password': inputPassword})),
+                                response = await http.post(url,
+                                    headers: {
+                                      "Content-Type": "application/json"
+                                    },
+                                    body: json.encode({
+                                      'username': inputEmail,
+                                      'password': inputPassword
+                                    })),
 
-
-              //          for (var value in response.values) print(value)
+                                //          for (var value in response.values) print(value)
 //
-              //          if (response.statusCode == 200) {
-              //            print(reponse.body);
-              //        } else {
-              //      print('A network error occurred');
-              //      }
-
-                      },
-                        padding: EdgeInsets.all(15),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        color: Colors.white,
-                        child: Text(
-                          "LOGIN",
-                          style: TextStyle(
-                            color: loginColor2,
-                            letterSpacing: 1.5,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "OpenSans",
+                                //          if (response.statusCode == 200) {
+                                //            print(reponse.body);
+                                //        } else {
+                                //      print('A network error occurred');
+                                //      }
+                              },
+                              padding: EdgeInsets.all(15),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              color: Colors.white,
+                              child: Text(
+                                "LOGIN",
+                                style: TextStyle(
+                                  color: loginColor2,
+                                  letterSpacing: 1.5,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: "OpenSans",
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
                     ),
+                    Container(),
                   ],
                 ),
               ),

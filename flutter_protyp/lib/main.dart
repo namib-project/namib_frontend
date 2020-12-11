@@ -26,7 +26,6 @@ void main() => runApp(EasyLocalization(
       ],
     ));
 
-
 /// returns MaterialAppWithTheme which is wrapped by ChangeNotifierProvider
 /// for dark light Theme support on every site
 class MyApp extends StatelessWidget {
