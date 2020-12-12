@@ -22,7 +22,6 @@ class _UserManagementState extends State<UserManagement> {
   String newUsername = "";
   String newPassword = "";
   String confirmPassword = "";
-  bool error1 = false;
 
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -55,6 +54,7 @@ class _UserManagementState extends State<UserManagement> {
                       showDialog(
                           context: context,
                           builder: (context) => SimpleDialog(
+                            title: Text("Benutzernamen ändern"),
                                 contentPadding: EdgeInsets.all(20.0),
                                 children: <Widget>[
                                   Container(
@@ -100,13 +100,21 @@ class _UserManagementState extends State<UserManagement> {
                                           onPressed: () {
                                             Navigator.of(context).pop();
                                           },
-                                          child: Text("Ändern"),
+                                          child: Text(
+                                            "Ändern",
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                            ),
+                                          ),
                                         ),
                                         RaisedButton(
                                           onPressed: () {
                                             Navigator.of(context).pop();
                                           },
-                                          child: Text("Abbrechen"),
+                                          child: Text(
+                                            "Abbrechen",
+                                            style: TextStyle(fontSize: 20),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -115,7 +123,7 @@ class _UserManagementState extends State<UserManagement> {
                               ));
                     },
                     child: Text(
-                      "Benutzername ändern",
+                      "Benutzernamen ändern",
                       style: TextStyle(fontSize: 20),
                     ),
                   ),
@@ -128,13 +136,14 @@ class _UserManagementState extends State<UserManagement> {
                       showDialog(
                           context: context,
                           builder: (context) => SimpleDialog(
+                                title: Text("Passwort ändern"),
                                 contentPadding: EdgeInsets.all(20.0),
                                 children: <Widget>[
                                   Container(
                                     height: 70,
                                     alignment: Alignment.center,
                                     child: TextField(
-                                      obscureText: false,
+                                      obscureText: true,
                                       decoration: InputDecoration(
                                         border: OutlineInputBorder(),
                                         labelText: "Neues Passwort",
@@ -143,41 +152,24 @@ class _UserManagementState extends State<UserManagement> {
                                         setState(() {
                                           newPassword = value;
                                         });
-                                        await Future.delayed(
-                                            const Duration(seconds: 1), () {
-                                          //Wait for 1 second
-                                          if (newPassword.length < 8) {
-                                            //Shows error message if password contains less then 8 characters
-                                            setState(() {
-                                              error1 = true;
-                                            });
-                                          } else {
-                                            setState(() {
-                                              error1 = false;
-                                            });
-                                          }
-                                        });
                                       },
                                     ),
                                   ),
-                                  Visibility(
-                                    visible: error1,
-                                    child: Container(
-                                      height: 70,
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        "Das Passwort muss mindestens 8 Zeichen haben",
-                                        style: TextStyle(
-                                            color: Colors.red[700],
-                                            fontSize: 20),
-                                      ),
+                                  Container(
+                                    height: mobileDevice ? 45 : 60,
+                                    width: 100,
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      "Das Passwort muss mindestens 8 Zeichen haben",
+                                      style: TextStyle(
+                                          color: Colors.red[700], fontSize: 20),
                                     ),
                                   ),
                                   Container(
                                     height: 70,
                                     alignment: Alignment.center,
                                     child: TextField(
-                                      obscureText: false,
+                                      obscureText: true,
                                       decoration: InputDecoration(
                                         border: OutlineInputBorder(),
                                         labelText: "Bisheriges Passwort",
@@ -200,13 +192,19 @@ class _UserManagementState extends State<UserManagement> {
                                           onPressed: () {
                                             Navigator.of(context).pop();
                                           },
-                                          child: Text("Ändern"),
+                                          child: Text(
+                                            "Ändern",
+                                            style: TextStyle(fontSize: 20),
+                                          ),
                                         ),
                                         RaisedButton(
                                           onPressed: () {
                                             Navigator.of(context).pop();
                                           },
-                                          child: Text("Abbrechen"),
+                                          child: Text(
+                                            "Abbrechen",
+                                            style: TextStyle(fontSize: 20),
+                                          ),
                                         ),
                                       ],
                                     ),

@@ -10,12 +10,12 @@ import 'package:flutter/rendering.dart';
 
 // Class for editing devices for example change MUD-profile for this device
 
-class Editdevice extends StatefulWidget {
+class EditDevice extends StatefulWidget {
   @override
-  _EditdeviceState createState() => _EditdeviceState();
+  _EditDeviceState createState() => _EditDeviceState();
 }
 
-class _EditdeviceState extends State<Editdevice> {
+class _EditDeviceState extends State<EditDevice> {
   /// Variables just for testing has to be replaced with real data
   String mud = "MUD Profil";
   int number = 1;
@@ -70,7 +70,7 @@ class _EditdeviceState extends State<Editdevice> {
       drawer: MainDrawer(),
       body: Center(
           child: Container(
-        width: mobileDevice ? 300 : 400,
+        width: 400,
         //Context will appear smaller on mobile devices
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

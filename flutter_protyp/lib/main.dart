@@ -59,7 +59,7 @@ class MaterialAppWithTheme extends StatelessWidget {
           "/networkbehaviour": (context) => Networkbehaviour(),
           "/createMudProfile": (context) => CreateMudProfile(),
           "/settings": (context) => Settings(),
-          "/test": (context) => Editdevice(),
+          "/test": (context) => EditDevice(),
           "/registration": (context) => Registration(),
           "/userManagement": (context) => UserManagement(),
           "/languagetest": (context) =>
