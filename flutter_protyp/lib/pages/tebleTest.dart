@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -33,8 +34,18 @@ class _TableTestState extends State<TableTest> {
             scrollDirection: Axis.vertical,
             child: Container(
               child: DataTable(
+                onSelectAll: (b){},
+                  sortColumnIndex: 0,
+                  sortAscending: true,
                 columns: <DataColumn>[
-                  DataColumn(label: Text("Name")),
+                  DataColumn(
+                      label: Text("Name"),
+                  numeric: false,
+                  onSort: (i, b){
+                        setState(() {
+                          devicesList.sort((a,b) => a.name.compareTo(b.name));
+                        });
+                  }),
                   DataColumn(label: Text("MUD-Regeln")),
                   DataColumn(label: Text("Bearbeiten")),
                   DataColumn(label: Text("Löschen")),
@@ -101,15 +112,15 @@ class _TableTestState extends State<TableTest> {
    */
 
   var devicesList = <DeviceOverviewItem>[
-    DeviceOverviewItem("Gerät1", "MUD Profil 1"),
-    DeviceOverviewItem("Gerät2", "MUD Profil 2"),
     DeviceOverviewItem("Gerät3", "MUD Profil 3"),
     DeviceOverviewItem("Gerät4", "MUD Profil 4"),
     DeviceOverviewItem("Gerät5", "MUD Profil 5"),
     DeviceOverviewItem("Gerät6", "MUD Profil 6"),
     DeviceOverviewItem("Gerät7", "MUD Profil 7"),
+    DeviceOverviewItem("Gerät2", "MUD Profil 2"),
     DeviceOverviewItem("Gerät8", "MUD Profil 8"),
     DeviceOverviewItem("Gerät9", "MUD Profil 9"),
+    DeviceOverviewItem("Gerät1", "MUD Profil 1"),
   ];
 
   void deleteItem(String name, String mudLaws) {

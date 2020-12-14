@@ -30,7 +30,7 @@ class _RegistrationState extends State<Registration> {
   bool retryMessage = false;
 
   ///Test for http client
-  String url = "https://localhost:8080/signup";
+  String url = "http://172.28.176.1:8000/users/signup";
   var response;
 
   Widget build(BuildContext context) {
@@ -73,7 +73,8 @@ class _RegistrationState extends State<Registration> {
                       child: TextField(
                         obscureText: false,
                         decoration: InputDecoration(
-                            border: OutlineInputBorder(), labelText: "Benutzername"),
+                            border: OutlineInputBorder(),
+                            labelText: "Benutzername"),
                         onChanged: (String value) async {
                           setState(() {
                             username = value; //Username set to variable
@@ -88,7 +89,8 @@ class _RegistrationState extends State<Registration> {
                       child: TextField(
                         obscureText: true,
                         decoration: InputDecoration(
-                            border: OutlineInputBorder(), labelText: "Passwort"),
+                            border: OutlineInputBorder(),
+                            labelText: "Passwort"),
                         onChanged: (String value) async {
                           setState(() {
                             password = value; //Password set to variable
@@ -118,7 +120,8 @@ class _RegistrationState extends State<Registration> {
                         height: 60,
                         child: Text(
                           "Das Passwort muss mindestens 8 Zeichen haben",
-                          style: TextStyle(color: Colors.red[700], fontSize: 20),
+                          style:
+                              TextStyle(color: Colors.red[700], fontSize: 20),
                         ),
                       ),
                     ),
@@ -161,7 +164,8 @@ class _RegistrationState extends State<Registration> {
                           height: 50,
                           child: Text(
                             "Die eingegebenen Passwörter stimmen nicht überein",
-                            style: TextStyle(color: Colors.red[700], fontSize: 20),
+                            style:
+                                TextStyle(color: Colors.red[700], fontSize: 20),
                           )),
                     ),
                     Visibility(
@@ -172,7 +176,8 @@ class _RegistrationState extends State<Registration> {
                           height: 50,
                           child: Text(
                             "Das Passwort ist lang genug und stimmt überein",
-                            style: TextStyle(color: Colors.green[700], fontSize: 20),
+                            style: TextStyle(
+                                color: Colors.green[700], fontSize: 20),
                           )),
                     ),
                     Visibility(
@@ -182,7 +187,8 @@ class _RegistrationState extends State<Registration> {
                         alignment: Alignment.center,
                         child: Text(
                           "Da hat etwas nicht geklappt probier es erneut",
-                          style: TextStyle(color: Colors.red[700], fontSize: 20),
+                          style:
+                              TextStyle(color: Colors.red[700], fontSize: 20),
                         ),
                       ),
                     ),
@@ -195,19 +201,26 @@ class _RegistrationState extends State<Registration> {
                           RaisedButton(
                             //Button is enabled if regisButton is true
                             onPressed: regisButton
-                                ? () {
-                                    response = http.post(url,
-                                        headers: {"Content-Type": "application/json"},
-                                        body: json.encode({
-                                          "username": username,
-                                          "password": password
-                                        }));
-                                    if (response.statusCode != "200") {
-                                      retryMessage = false;
-                                    } else {
-                                      retryMessage = true;
+                                ? () async => {
+                                      response = await http.post(url,
+                                          headers: {
+                                            "Content-Type": "application/json"
+                                          },
+                                          body: json.encode({
+                                            "password": password,
+                                            "username": username
+                                          })),
+                                      print(response.statusCode),
+                                      retryMessage = false,
+                                      if (response.statusCode != "200")
+                                        {
+                                          passwordMessage = false,
+                                        }
+                                      else
+                                        {
+                                          passwordMessage = false,
+                                        }
                                     }
-                                  }
                                 : null,
                             child: Text(
                               "Registrieren",
