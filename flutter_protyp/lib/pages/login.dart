@@ -15,12 +15,12 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  String inputEmail = "";
-  String inputPassword = "";
+  String username = "";
+  String password = "";
   String jwttoken = "";
   bool errorMessage = false;
 
-  String url = 'http://localhost:8000/login';
+  String url = 'http://172.28.176.1:8000/users/login';
   var response;
 
   void onlineOs() {
@@ -121,7 +121,7 @@ class _LoginState extends State<Login> {
                                     ),
                                     hintText: 'emailAddress'.tr().toString(),
                                   ),
-                                  onChanged: (value) => inputEmail = value,
+                                  onChanged: (value) => username = value,
                                 ),
                               ),
                             ],
@@ -161,7 +161,7 @@ class _LoginState extends State<Login> {
                                     ),
                                     hintText: 'password'.tr().toString(),
                                   ),
-                                  onChanged: (value) => inputPassword = value,
+                                  onChanged: (value) => password = value,
                                 ),
                               ),
                             ],
@@ -202,8 +202,8 @@ class _LoginState extends State<Login> {
                             child: RaisedButton(
                               elevation: 5,
                               onPressed: () async => {
-                                {print(inputEmail)},
-                                {print(inputPassword)},
+                                {print(username)},
+                                {print(password)},
                                 Navigator.pushReplacementNamed(
                                     context, "/deviceOverview"),
 
@@ -212,11 +212,15 @@ class _LoginState extends State<Login> {
                                       "Content-Type": "application/json"
                                     },
                                     body: json.encode({
-                                      'username': inputEmail,
-                                      'password': inputPassword
+                                      'password': password,
+                                      'username': username
                                     })),
+                                //print(response.body),
+                                //print(response.statusCode),
+                                //print(json.decode(response.body.toString()))
 
-                                //          for (var value in response.values) print(value)
+
+                              //          for (var value in response.values) print(value)
 //
                                 //          if (response.statusCode == 200) {
                                 //            print(reponse.body);

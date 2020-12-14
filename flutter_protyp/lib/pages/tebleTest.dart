@@ -20,7 +20,7 @@ class _TableTestState extends State<TableTest> {
 
   @override
   void initState() {
-    _generateTableRows();
+    //_generateTableRows();
     super.initState();
   }
 
@@ -39,19 +39,37 @@ class _TableTestState extends State<TableTest> {
                   DataColumn(label: Text("Bearbeiten")),
                   DataColumn(label: Text("Löschen")),
                 ],
-                rows: list,
+                rows: devicesList
+                    .map((device) => DataRow(cells: [
+                          DataCell(Text(device.name)),
+                          DataCell(Text(device.mudLaws)),
+                          DataCell(IconButton(
+                            icon: Icon(Icons.settings),
+                            onPressed: () {},
+                          )),
+                          DataCell(IconButton(
+                            icon: Icon(Icons.delete_forever),
+                            onPressed: () {
+                              setState(() {
+                                deleteItem(device.name, device.mudLaws);
+                              });
+                            },
+                          )),
+                        ]))
+                    .toList(),
               ),
             ),
           ),
         ));
   }
 
-  void _generateTableRows() {
+  /*void _generateTableRows() {
     for (int i = 0; i < 100; ++i) {
-      list.add(DataRow(cells: <DataCell>[
+      int j = i;
+      list.add(DataRow(key: Key(i.toString()), cells: <DataCell>[
         DataCell(Text(i.toString())),
         DataCell(Container(
-            alignment: Alignment(0.0, 0.0), child: Text((i * i).toString()))),
+            alignment: Alignment(0.0, 0.0), child: Text((i*i).toString()))),
         DataCell(Container(
             alignment: Alignment(0.0, 0.0),
             child: IconButton(
@@ -63,15 +81,52 @@ class _TableTestState extends State<TableTest> {
             child: IconButton(
               icon: Icon(Icons.delete_forever),
               onPressed: () {
-                Text text = list.elementAt(i).cells.elementAt(0).child;
+                DataRow test = list.elementAt(i);
                 setState(() {
-                  String test = text.data;
-                  list.removeAt(int.parse(test));
+                  //String test = text.data;
+                  list.remove(test.key);
+                  for (int i = 0; i < list.length; i++){
+                    list
+                  }
                   print(test.toString());
                 });
               },
             ))),
       ]));
     }
+
+
   }
+
+   */
+
+  var devicesList = <DeviceOverviewItem>[
+    DeviceOverviewItem("Gerät1", "MUD Profil 1"),
+    DeviceOverviewItem("Gerät2", "MUD Profil 2"),
+    DeviceOverviewItem("Gerät3", "MUD Profil 3"),
+    DeviceOverviewItem("Gerät4", "MUD Profil 4"),
+    DeviceOverviewItem("Gerät5", "MUD Profil 5"),
+    DeviceOverviewItem("Gerät6", "MUD Profil 6"),
+    DeviceOverviewItem("Gerät7", "MUD Profil 7"),
+    DeviceOverviewItem("Gerät8", "MUD Profil 8"),
+    DeviceOverviewItem("Gerät9", "MUD Profil 9"),
+  ];
+
+  void deleteItem(String name, String mudLaws) {
+    DeviceOverviewItem item = DeviceOverviewItem(name, mudLaws);
+    for(int i = 0; i < devicesList.length; i++){
+      if(devicesList.elementAt(i).name == item.name && devicesList.elementAt(i).mudLaws == item.mudLaws){
+        setState(() {
+          devicesList.removeAt(i);
+        });
+      }
+    }
+  }
+}
+
+class DeviceOverviewItem {
+  String name;
+  String mudLaws;
+
+  DeviceOverviewItem(this.name, this.mudLaws);
 }
