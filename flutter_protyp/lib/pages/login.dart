@@ -17,10 +17,10 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   String username = "";
   String password = "";
-  String jwttoken = "";
-  bool errorMessage = false;
+  bool errorMessege400 = false;
+  bool errorMessege401 = false;
 
-  String url = 'http://172.28.176.1:8000/users/login';
+  String url = 'http://172.24.80.1:8000/users/login';
   var response;
 
   void onlineOs() {
@@ -167,12 +167,24 @@ class _LoginState extends State<Login> {
                             ],
                           ),
                           Visibility(
-                            visible: errorMessage,
+                            visible: errorMessege400,
                             child: Container(
                               alignment: Alignment.center,
-                              height: 60,
+                              height: 50,
                               child: Text(
                                 "Die Login-Daten sind falsch!",
+                                style: TextStyle(
+                                    color: Colors.red[700], fontSize: 20),
+                              ),
+                            ),
+                          ),
+                          Visibility(
+                            visible: errorMessege401,
+                            child: Container(
+                              alignment: Alignment.center,
+                              height: 50,
+                              child: Text(
+                                "Eines der beiden Felder ist leer",
                                 style: TextStyle(
                                     color: Colors.red[700], fontSize: 20),
                               ),
@@ -201,12 +213,11 @@ class _LoginState extends State<Login> {
                             width: double.infinity,
                             child: RaisedButton(
                               elevation: 5,
-                              onPressed: () async => {
+                              onPressed: () async =>
+                              {
                                 {print(username)},
                                 {print(password)},
-                                Navigator.pushReplacementNamed(
-                                    context, "/deviceOverview"),
-
+                                  //Sends Http Request
                                 response = await http.post(url,
                                     headers: {
                                       "Content-Type": "application/json"
@@ -215,18 +226,36 @@ class _LoginState extends State<Login> {
                                       'password': password,
                                       'username': username
                                     })),
-                                //print(response.body),
+                                print(response.body),
                                 print(response.statusCode),
-                                //print(json.decode(response.body.toString()))
-
-
-                              //          for (var value in response.values) print(value)
 //
-                                //          if (response.statusCode == 200) {
-                                //            print(reponse.body);
-                                //        } else {
-                                //      print('A network error occurred');
-                                //      }
+                                if (response.statusCode == 401)
+                                  {
+                                    setState(() {
+                                      errorMessege400 = true;
+                                      errorMessege401 = false;
+                                    })
+                                  }
+                                else
+                                  if (response.statusCode == 400)
+                                    {
+                                      setState(() {
+                                        errorMessege401 = true;
+                                        errorMessege400 = false;
+                                      })
+                                    } else
+                                    if (response.statusCode == 200)
+                                      {
+                                        Navigator.pushReplacementNamed(
+                                            context, "/deviceOverview"),
+                                        jwtToken = response.body,
+                                        jwtToken = jwtToken.substring(9, jwtToken.length),
+                                        print(jwtToken),
+                                        setState(() {
+                                          errorMessege401 = false;
+                                          errorMessege400 = false;
+                                        }
+                                        )}
                               },
                               padding: EdgeInsets.all(15),
                               shape: RoundedRectangleBorder(

@@ -16,3 +16,4 @@ Color loginColor2 = Colors.deepOrange;
 bool expertMode = true;
 bool darkMode = false;
 bool mobileDevice = false;
+String jwtToken = "";
