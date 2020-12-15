@@ -93,7 +93,7 @@ class _LoginState extends State<Login> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                "Email",
+                                "Username",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 20,
@@ -119,7 +119,7 @@ class _LoginState extends State<Login> {
                                       Icons.email,
                                       color: Colors.white,
                                     ),
-                                    hintText: 'emailAddress'.tr().toString(),
+                                    hintText: 'Username'.tr().toString(),
                                   ),
                                   onChanged: (value) => username = value,
                                 ),
@@ -184,7 +184,7 @@ class _LoginState extends State<Login> {
                               alignment: Alignment.center,
                               height: 50,
                               child: Text(
-                                "Eines der beiden Felder ist leer",
+                                "Eines der beiden Felder ist leer!",
                                 style: TextStyle(
                                     color: Colors.red[700], fontSize: 20),
                               ),
