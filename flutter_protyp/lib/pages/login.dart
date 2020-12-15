@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_protyp/pages/registration.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:universal_io/io.dart' as osDetect;
-import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:easy_localization/easy_localization.dart';
 import 'dart:convert';
@@ -78,7 +77,7 @@ class _LoginState extends State<Login> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            "Sign In",
+                            "LOGIN",
                             style: TextStyle(
                               color: Colors.white,
                               fontFamily: "OpenSans",
@@ -116,10 +115,10 @@ class _LoginState extends State<Login> {
                                     border: OutlineInputBorder(),
                                     contentPadding: EdgeInsets.only(top: 14),
                                     prefixIcon: Icon(
-                                      Icons.email,
+                                      Icons.person,
                                       color: Colors.white,
                                     ),
-                                    hintText: 'Username'.tr().toString(),
+                                    hintText: 'Benutzername'.tr().toString(),
                                   ),
                                   onChanged: (value) => username = value,
                                 ),
@@ -133,7 +132,7 @@ class _LoginState extends State<Login> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                'password'.tr().toString(),
+                                'Passwort'.tr().toString(),
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 20,
@@ -159,7 +158,7 @@ class _LoginState extends State<Login> {
                                       Icons.lock,
                                       color: Colors.white,
                                     ),
-                                    hintText: 'password'.tr().toString(),
+                                    hintText: 'Passwort'.tr().toString(),
                                   ),
                                   onChanged: (value) => password = value,
                                 ),
@@ -197,7 +196,25 @@ class _LoginState extends State<Login> {
                                   {print("Forgot Password Button Pressed")},
                               padding: EdgeInsets.only(right: 0),
                               child: Text(
-                                'forgotPassword'.tr().toString(),
+                                'Passwort vergessen?'.tr().toString(),
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.centerRight,
+                            child: FlatButton(
+                              onPressed: () =>
+
+                              {print("Register Button pressed"),
+                                Navigator.pushReplacementNamed(
+                                    context, "/registration")},
+                              padding: EdgeInsets.only(right: 0),
+                              child: Text(
+                                'Registrieren?'.tr().toString(),
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 15,
@@ -255,7 +272,10 @@ class _LoginState extends State<Login> {
                                           errorMessege401 = false;
                                           errorMessege400 = false;
                                         }
-                                        )}
+                                        )},
+
+                                    password = "",
+                                    username = ""
                               },
                               padding: EdgeInsets.all(15),
                               shape: RoundedRectangleBorder(
