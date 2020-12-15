@@ -207,11 +207,11 @@ class _LoginState extends State<Login> {
                           Container(
                             alignment: Alignment.centerRight,
                             child: FlatButton(
-                              onPressed: () =>
-
-                              {print("Register Button pressed"),
+                              onPressed: () => {
+                                print("Register Button pressed"),
                                 Navigator.pushReplacementNamed(
-                                    context, "/registration")},
+                                    context, "/registration")
+                              },
                               padding: EdgeInsets.only(right: 0),
                               child: Text(
                                 'Registrieren?'.tr().toString(),
@@ -230,11 +230,10 @@ class _LoginState extends State<Login> {
                             width: double.infinity,
                             child: RaisedButton(
                               elevation: 5,
-                              onPressed: () async =>
-                              {
+                              onPressed: () async => {
                                 {print(username)},
                                 {print(password)},
-                                  //Sends Http Request
+                                //Sends Http Request
                                 response = await http.post(url,
                                     headers: {
                                       "Content-Type": "application/json"
@@ -253,29 +252,29 @@ class _LoginState extends State<Login> {
                                       errorMessege401 = false;
                                     })
                                   }
-                                else
-                                  if (response.statusCode == 400)
-                                    {
-                                      setState(() {
-                                        errorMessege401 = true;
-                                        errorMessege400 = false;
-                                      })
-                                    } else
-                                    if (response.statusCode == 200)
-                                      {
-                                        Navigator.pushReplacementNamed(
-                                            context, "/deviceOverview"),
-                                        jwtToken = response.body,
-                                        jwtToken = jwtToken.substring(9, jwtToken.length),
-                                        print(jwtToken),
-                                        setState(() {
-                                          errorMessege401 = false;
-                                          errorMessege400 = false;
-                                        }
-                                        )},
+                                else if (response.statusCode == 400)
+                                  {
+                                    setState(() {
+                                      errorMessege401 = true;
+                                      errorMessege400 = false;
+                                    })
+                                  }
+                                else if (response.statusCode == 200)
+                                  {
+                                    Navigator.pushReplacementNamed(
+                                        context, "/deviceOverview"),
+                                    jwtToken = response.body,
+                                    jwtToken =
+                                        jwtToken.substring(9, jwtToken.length),
+                                    print(jwtToken),
+                                    setState(() {
+                                      errorMessege401 = false;
+                                      errorMessege400 = false;
+                                    })
+                                  },
 
-                                    password = "",
-                                    username = ""
+                                password = "",
+                                username = ""
                               },
                               padding: EdgeInsets.all(15),
                               shape: RoundedRectangleBorder(

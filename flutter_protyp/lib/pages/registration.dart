@@ -36,7 +36,6 @@ class _RegistrationState extends State<Registration> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: MainAppbar(),
-
       body: Center(
           child: Container(
         height: double.infinity,
@@ -112,7 +111,6 @@ class _RegistrationState extends State<Registration> {
                         },
                       ),
                     ),
-
                     Visibility(
                       //The error message shows, if errorMessage1 is true
                       visible: errorMessage1,
@@ -193,7 +191,6 @@ class _RegistrationState extends State<Registration> {
                         ),
                       ),
                     ),
-
                     Container(
                       height: 70,
                       alignment: Alignment.center,
@@ -237,8 +234,7 @@ class _RegistrationState extends State<Registration> {
                       alignment: Alignment.centerRight,
                       child: FlatButton(
                         onPressed: () =>
-                        {Navigator.pushReplacementNamed(
-                            context, "/login")},
+                            {Navigator.pushReplacementNamed(context, "/login")},
                         padding: EdgeInsets.only(right: 0),
                         child: Text(
                           'Zurück zum Login'.trim().toString(),
