@@ -30,7 +30,7 @@ class _RegistrationState extends State<Registration> {
   bool retryMessage = false;
 
   ///Test for http client
-  String url = "http://172.28.176.1:8000/users/signup";
+  String url = "http://172.31.112.1:8000/users/signup";
   var response;
 
   Widget build(BuildContext context) {
