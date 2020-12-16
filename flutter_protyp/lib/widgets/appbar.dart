@@ -185,6 +185,7 @@ class _MainAppbarState extends State<MainAppbar> {
                           splashColor: buttonColor,
                           onTap: () {
                             Navigator.pushReplacementNamed(context, "/login");
+                            jwtToken = "";
                           },
                           child: Container(
                             width: 300,
