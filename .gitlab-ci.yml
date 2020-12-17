@@ -1,6 +1,7 @@
 stages:
   - test
   - archive
+  - macOsTest
 
   
 
@@ -30,3 +31,9 @@ android:release:
     paths:
       - "**/**/**/**/**/**/*.apk"
     expire_in: 7 days
+
+mac:test: 
+  stage: macOsTest
+  image: catalina-xcode
+  script: 
+    - echo "Hello World from macOS!"
