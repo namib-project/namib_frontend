@@ -18,8 +18,9 @@ class _LoginState extends State<Login> {
   String password = "";
   bool errorMessege400 = false;
   bool errorMessege401 = false;
+  bool error = false;
 
-  String url = 'http://172.31.112.1:8000/users/login';
+  String url = 'http://172.24.80.1:8000/users/login';
   var response;
 
   void onlineOs() {
@@ -76,7 +77,7 @@ class _LoginState extends State<Login> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Text(
+                          SelectableText(
                             "LOGIN",
                             style: TextStyle(
                               color: Colors.white,
@@ -91,8 +92,8 @@ class _LoginState extends State<Login> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Text(
-                                "Username",
+                              SelectableText(
+                                'username'.tr().toString(),
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 20,
@@ -118,7 +119,7 @@ class _LoginState extends State<Login> {
                                       Icons.person,
                                       color: Colors.white,
                                     ),
-                                    hintText: 'Benutzername'.tr().toString(),
+                                    hintText: 'username'.tr().toString(),
                                   ),
                                   onChanged: (value) => username = value,
                                 ),
@@ -131,8 +132,8 @@ class _LoginState extends State<Login> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Text(
-                                'Passwort'.tr().toString(),
+                              SelectableText(
+                                'password'.tr().toString(),
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 20,
@@ -158,7 +159,7 @@ class _LoginState extends State<Login> {
                                       Icons.lock,
                                       color: Colors.white,
                                     ),
-                                    hintText: 'Passwort'.tr().toString(),
+                                    hintText: 'password'.tr().toString(),
                                   ),
                                   onChanged: (value) => password = value,
                                 ),
@@ -171,24 +172,36 @@ class _LoginState extends State<Login> {
                               alignment: Alignment.center,
                               height: 50,
                               child: Text(
-                                "Die Login-Daten sind falsch!",
+                                'error400'.tr().toString(),
                                 style: TextStyle(
                                     color: Colors.red[700], fontSize: 20),
                               ),
                             ),
                           ),
                           Visibility(
-                            visible: errorMessege401,
+                            visible: error,
                             child: Container(
                               alignment: Alignment.center,
                               height: 50,
                               child: Text(
-                                "Eines der beiden Felder ist leer!",
+                                'error'.tr().toString(),
                                 style: TextStyle(
                                     color: Colors.red[700], fontSize: 20),
                               ),
                             ),
                           ),
+                        //  Visibility(
+                        //    visible: errorMessege401,
+                        //    child: Container(
+                        //      alignment: Alignment.center,
+                        //      height: 50,
+                        //      child: Text(
+                        //        "Eines der beiden Felder ist leer!",
+                        //        style: TextStyle(
+                        //            color: Colors.red[700], fontSize: 20),
+                        //      ),
+                        //    ),
+                        //  ),
                           Container(
                             alignment: Alignment.centerRight,
                             child: FlatButton(
@@ -196,7 +209,7 @@ class _LoginState extends State<Login> {
                                   {print("Forgot Password Button Pressed")},
                               padding: EdgeInsets.only(right: 0),
                               child: Text(
-                                'Passwort vergessen?'.tr().toString(),
+                                'forgotPassword'.tr().toString(),
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 15,
@@ -207,14 +220,14 @@ class _LoginState extends State<Login> {
                           Container(
                             alignment: Alignment.centerRight,
                             child: FlatButton(
-                              onPressed: () => {
-                                print("Register Button pressed"),
+                              onPressed: () =>
+
+                              {print("Register Button pressed"),
                                 Navigator.pushReplacementNamed(
-                                    context, "/registration")
-                              },
+                                    context, "/registration")},
                               padding: EdgeInsets.only(right: 0),
                               child: Text(
-                                'Registrieren?'.tr().toString(),
+                                'signup'.tr().toString(),
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 15,
@@ -230,10 +243,11 @@ class _LoginState extends State<Login> {
                             width: double.infinity,
                             child: RaisedButton(
                               elevation: 5,
-                              onPressed: () async => {
+                              onPressed: () async =>
+                              {
                                 {print(username)},
                                 {print(password)},
-                                //Sends Http Request
+                                  //Sends Http Request
                                 response = await http.post(url,
                                     headers: {
                                       "Content-Type": "application/json"
@@ -245,36 +259,42 @@ class _LoginState extends State<Login> {
                                 print(response.body),
                                 print(response.statusCode),
 //
-                                if (response.statusCode == 401)
+                                if (response.statusCode == 400)
                                   {
                                     setState(() {
                                       errorMessege400 = true;
                                       errorMessege401 = false;
                                     })
                                   }
-                                else if (response.statusCode == 400)
-                                  {
-                                    setState(() {
-                                      errorMessege401 = true;
-                                      errorMessege400 = false;
-                                    })
-                                  }
-                                else if (response.statusCode == 200)
-                                  {
-                                    Navigator.pushReplacementNamed(
-                                        context, "/deviceOverview"),
-                                    jwtToken = response.body,
-                                    jwtToken =
-                                        jwtToken.substring(9, jwtToken.length),
-                                    print(jwtToken),
-                                    setState(() {
-                                      errorMessege401 = false;
-                                      errorMessege400 = false;
-                                    })
-                                  },
+                                else
+                                  if (response.statusCode == 401)
+                                    {
+                                      setState(() {
+                                        errorMessege401 = true;
+                                        errorMessege400 = false;
+                                      })
+                                    } else
+                                    if (response.statusCode == 200)
+                                      {
+                                        Navigator.pushReplacementNamed(
+                                            context, "/deviceOverview"),
+                                        jwtToken = response.body,
+                                        jwtToken = jwtToken.substring(9, jwtToken.length),
+                                        print(jwtToken),
+                                        setState(() {
+                                          errorMessege401 = false;
+                                          errorMessege400 = false;
+                                        }
+                                        )}else {
+                                      setState(() {
+                                        errorMessege401 = false;
+                                        errorMessege400 = false;
+                                      })
+                                    }
+                                    ,
 
-                                password = "",
-                                username = ""
+                                    password = "",
+                                    username = ""
                               },
                               padding: EdgeInsets.all(15),
                               shape: RoundedRectangleBorder(

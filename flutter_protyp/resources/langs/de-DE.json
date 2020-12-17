@@ -29,5 +29,8 @@
   "pswNotMatch": "Die eingegebenen Passwörter stimmen nicht überein",
   "positivPsw": "Das Passwort ist lang genug und stimmt überein",
   "tryAgain": "Da hat etwas nicht geklappt, probier es bitte erneut",
-  "backLogin": "Zurück zum Login"
+  "backLogin": "Zurück zum Login",
+  "error400": "Ihre Logindaten sind inkorrekt!",
+  "error": "Ein unbekannter Fehler ist aufgetreten!"
+
 }
