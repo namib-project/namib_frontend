@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'package:flutter_protyp/widgets/drawer.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
@@ -18,6 +19,7 @@ class TableTest extends StatefulWidget {
 //Class for user registration, will only be used at the first usage
 class _TableTestState extends State<TableTest> {
   List<DataRow> list = [];
+  bool sortFirstRow = false;
 
   @override
   void initState() {
@@ -33,41 +35,57 @@ class _TableTestState extends State<TableTest> {
           child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
             child: Container(
-              child: DataTable(
-                onSelectAll: (b){},
-                  sortColumnIndex: 0,
-                  sortAscending: true,
-                columns: <DataColumn>[
-                  DataColumn(
-                      label: Text("Name"),
-                  numeric: false,
-                  onSort: (i, b){
-                        setState(() {
-                          devicesList.sort((a,b) => a.name.compareTo(b.name));
-                        });
-                  }),
-                  DataColumn(label: Text("MUD-Regeln")),
-                  DataColumn(label: Text("Bearbeiten")),
-                  DataColumn(label: Text("Löschen")),
+              child: Column(
+                children: [
+                  Container(
+                    height: 70,
+                    child: SelectableText(
+                      'deviceOverview'.tr().toString(),
+                      style: TextStyle(
+                        fontFamily: "OpenSans",
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  DataTable(
+                    onSelectAll: (b){},
+                      sortColumnIndex: 0,
+                      sortAscending: sortFirstRow,
+                    columns: <DataColumn>[
+                      DataColumn(
+                          label: Text("Name"),
+                      numeric: false,
+                      onSort: (i, b){
+                            setState(() {
+                              devicesList.sort((a,b) => a.name.compareTo(b.name));
+                              sortFirstRow = !sortFirstRow;
+                            });
+                      }),
+                      DataColumn(label: Text("MUD-Regeln")),
+                      DataColumn(label: Text("Bearbeiten")),
+                      DataColumn(label: Text("Löschen")),
+                    ],
+                    rows: devicesList
+                        .map((device) => DataRow(cells: [
+                              DataCell(Text(device.name)),
+                              DataCell(Text(device.mudLaws)),
+                              DataCell(IconButton(
+                                icon: Icon(Icons.settings),
+                                onPressed: () {},
+                              )),
+                              DataCell(IconButton(
+                                icon: Icon(Icons.delete_forever),
+                                onPressed: () {
+                                  setState(() {
+                                    deleteItem(device.name, device.mudLaws);
+                                  });
+                                },
+                              )),
+                            ]))
+                        .toList(),
+                  ),
                 ],
-                rows: devicesList
-                    .map((device) => DataRow(cells: [
-                          DataCell(Text(device.name)),
-                          DataCell(Text(device.mudLaws)),
-                          DataCell(IconButton(
-                            icon: Icon(Icons.settings),
-                            onPressed: () {},
-                          )),
-                          DataCell(IconButton(
-                            icon: Icon(Icons.delete_forever),
-                            onPressed: () {
-                              setState(() {
-                                deleteItem(device.name, device.mudLaws);
-                              });
-                            },
-                          )),
-                        ]))
-                    .toList(),
               ),
             ),
           ),

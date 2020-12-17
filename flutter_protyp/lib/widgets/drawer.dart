@@ -85,15 +85,9 @@ class _MainDrawerState extends State<MainDrawer> {
             ),
             CustomListTile(
               icon: Icons.person_add,
-              text: "Registrieren",
+              text: "signup".tr().toString(),
               onTap: () =>
               {Navigator.pushReplacementNamed(context, "/registration")},
-            ),
-            CustomListTile(
-              icon: Icons.account_circle,
-              text: "Benutzer verwalten",
-              onTap: () =>
-              {Navigator.pushReplacementNamed(context, "/userManagement")},
             ),
             CustomListTile(
               icon: Icons.table_chart,
