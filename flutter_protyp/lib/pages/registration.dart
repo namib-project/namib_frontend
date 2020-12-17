@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:flutter_protyp/widgets/drawer.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -57,8 +58,8 @@ class _RegistrationState extends State<Registration> {
                     Container(
                       height: 70,
                       alignment: Alignment.center,
-                      child: Text(
-                        "Registrieren",
+                      child: SelectableText(
+                        "signup".tr().toString(),
                         style: TextStyle(
                           fontFamily: "OpenSans",
                           fontSize: 30,
@@ -73,7 +74,7 @@ class _RegistrationState extends State<Registration> {
                         obscureText: false,
                         decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            labelText: "Benutzername"),
+                            labelText: "username".tr().toString()),
                         onChanged: (String value) async {
                           setState(() {
                             username = value; //Username set to variable
@@ -89,7 +90,7 @@ class _RegistrationState extends State<Registration> {
                         obscureText: true,
                         decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            labelText: "Passwort"),
+                            labelText: "password".tr().toString()),
                         onChanged: (String value) async {
                           setState(() {
                             password = value; //Password set to variable
@@ -117,8 +118,8 @@ class _RegistrationState extends State<Registration> {
                       child: Container(
                         alignment: Alignment.center,
                         height: 60,
-                        child: Text(
-                          "Das Passwort muss mindestens 8 Zeichen haben",
+                        child: SelectableText(
+                          "minCharacters".tr().toString(),
                           style:
                               TextStyle(color: Colors.red[700], fontSize: 20),
                         ),
@@ -131,7 +132,7 @@ class _RegistrationState extends State<Registration> {
                         obscureText: true,
                         decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            labelText: "Passwort wiederholen"),
+                            labelText: "repeatPassword".tr().toString()),
                         onChanged: (String value) async {
                           setState(() {
                             secPassword = value;
@@ -161,8 +162,8 @@ class _RegistrationState extends State<Registration> {
                       child: Container(
                           alignment: Alignment.center,
                           height: 50,
-                          child: Text(
-                            "Die eingegebenen Passwörter stimmen nicht überein",
+                          child: SelectableText(
+                            "pswNotMatch".tr().toString(),
                             style:
                                 TextStyle(color: Colors.red[700], fontSize: 20),
                           )),
@@ -173,8 +174,8 @@ class _RegistrationState extends State<Registration> {
                       child: Container(
                           alignment: Alignment.center,
                           height: 50,
-                          child: Text(
-                            "Das Passwort ist lang genug und stimmt überein",
+                          child: SelectableText(
+                            "positivPsw".tr().toString(),
                             style: TextStyle(
                                 color: Colors.green[700], fontSize: 20),
                           )),
@@ -184,8 +185,8 @@ class _RegistrationState extends State<Registration> {
                       child: Container(
                         height: 50,
                         alignment: Alignment.center,
-                        child: Text(
-                          "Da hat etwas nicht geklappt probier es erneut",
+                        child: SelectableText(
+                          "tryAgain".tr().toString(),
                           style:
                               TextStyle(color: Colors.red[700], fontSize: 20),
                         ),
@@ -209,20 +210,24 @@ class _RegistrationState extends State<Registration> {
                                             "password": password,
                                             "username": username
                                           })),
+                                      username = "",
+                                      password = "",
+                                      secPassword = "",
                                       print(response.statusCode),
-                                      retryMessage = false,
-                                      if (response.statusCode != "200")
+                                      passwordMessage = false,
+
+                                      if (response.statusCode == "200")
                                         {
-                                          passwordMessage = false,
+                                          retryMessage = false,
                                         }
                                       else
                                         {
-                                          passwordMessage = false,
+                                          retryMessage = false,
                                         }
                                     }
                                 : null,
-                            child: Text(
-                              "Registrieren",
+                            child: Text (
+                              "signup".tr().toString(),
                               style: TextStyle(fontSize: 20),
                             ),
                             padding: EdgeInsets.all(15),
@@ -236,8 +241,8 @@ class _RegistrationState extends State<Registration> {
                         onPressed: () =>
                             {Navigator.pushReplacementNamed(context, "/login")},
                         padding: EdgeInsets.only(right: 0),
-                        child: Text(
-                          'Zurück zum Login'.trim().toString(),
+                        child: Text (
+                          'backLogin'.tr().toString(),
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 15,

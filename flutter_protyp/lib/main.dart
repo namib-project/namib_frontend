@@ -5,6 +5,7 @@ import "package:flutter_protyp/pages/deviceOverview.dart";
 import "package:flutter_protyp/pages/createDevice.dart";
 import "package:flutter_protyp/pages/networkbehaviour.dart";
 import "package:flutter_protyp/pages/createMudProfile.dart";
+import 'package:flutter_protyp/pages/ownUser.dart';
 import 'package:flutter_protyp/pages/registration.dart';
 import "package:flutter_protyp/pages/settings.dart";
 import 'package:flutter_protyp/pages/tebleTest.dart';
@@ -70,6 +71,7 @@ class MaterialAppWithTheme extends StatelessWidget {
           "/registration": (context) => Registration(),
           "/userManagement": (context) => UserManagement(),
           "/tableTest": (context) => TableTest(),
+          "/ownUser": (context) => OwnUser(),
           "/languagetest": (context) =>
               LanguageTest(), // just for testing can be deleted
         });

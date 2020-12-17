@@ -96,10 +96,16 @@ class _MainDrawerState extends State<MainDrawer> {
               {Navigator.pushReplacementNamed(context, "/userManagement")},
             ),
             CustomListTile(
-              icon: Icons.account_circle,
+              icon: Icons.table_chart,
               text: "Tabelle Alternativ",
               onTap: () =>
               {Navigator.pushReplacementNamed(context, "/tableTest")},
+            ),
+            CustomListTile(
+              icon: Icons.account_circle,
+              text: "Eigener Nutzer",
+              onTap: () =>
+              {Navigator.pushReplacementNamed(context, "/ownUser")},
             ),
           ],
         ),

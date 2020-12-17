@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:flutter_protyp/widgets/drawer.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -37,8 +38,8 @@ class _UserManagementState extends State<UserManagement> {
                 Container(
                   height: 70,
                   alignment: Alignment.center,
-                  child: Text(
-                    "Benutzer verwalten",
+                  child: SelectableText(
+                    'manageUser'.tr().toString(),
                     style: TextStyle(
                       fontFamily: "OpenSans",
                       fontSize: 30,
@@ -54,7 +55,7 @@ class _UserManagementState extends State<UserManagement> {
                       showDialog(
                           context: context,
                           builder: (context) => SimpleDialog(
-                            title: Text("Benutzernamen ändern"),
+                            title: SelectableText('changeUsername'.tr().toString()),
                                 contentPadding: EdgeInsets.all(20.0),
                                 children: <Widget>[
                                   Container(
@@ -64,7 +65,7 @@ class _UserManagementState extends State<UserManagement> {
                                       obscureText: false,
                                       decoration: InputDecoration(
                                         border: OutlineInputBorder(),
-                                        labelText: "Neuer Benutzername",
+                                        labelText: "newUsername".tr().toString(),
                                       ),
                                       onChanged: (String value) async {
                                         setState(() {
@@ -80,7 +81,7 @@ class _UserManagementState extends State<UserManagement> {
                                       obscureText: true,
                                       decoration: InputDecoration(
                                         border: OutlineInputBorder(),
-                                        labelText: "Passwort",
+                                        labelText: "password".tr().toString(),
                                       ),
                                       onChanged: (String value) async {
                                         setState(() {
@@ -100,8 +101,8 @@ class _UserManagementState extends State<UserManagement> {
                                           onPressed: () {
                                             Navigator.of(context).pop();
                                           },
-                                          child: Text(
-                                            "Ändern",
+                                          child: Text (
+                                            "change".tr().toString(),
                                             style: TextStyle(
                                               fontSize: 20,
                                             ),
@@ -111,8 +112,8 @@ class _UserManagementState extends State<UserManagement> {
                                           onPressed: () {
                                             Navigator.of(context).pop();
                                           },
-                                          child: Text(
-                                            "Abbrechen",
+                                          child: Text (
+                                            "cancel".tr().toString(),
                                             style: TextStyle(fontSize: 20),
                                           ),
                                         ),
@@ -122,8 +123,8 @@ class _UserManagementState extends State<UserManagement> {
                                 ],
                               ));
                     },
-                    child: Text(
-                      "Benutzernamen ändern",
+                    child: Text (
+                      "changeUsername".tr().toString(),
                       style: TextStyle(fontSize: 20),
                     ),
                   ),
@@ -136,7 +137,7 @@ class _UserManagementState extends State<UserManagement> {
                       showDialog(
                           context: context,
                           builder: (context) => SimpleDialog(
-                                title: Text("Passwort ändern"),
+                                title: SelectableText ("changePassword".tr().toString()),
                                 contentPadding: EdgeInsets.all(20.0),
                                 children: <Widget>[
                                   Container(
@@ -146,7 +147,7 @@ class _UserManagementState extends State<UserManagement> {
                                       obscureText: true,
                                       decoration: InputDecoration(
                                         border: OutlineInputBorder(),
-                                        labelText: "Neues Passwort",
+                                        labelText: "newPassword".tr().toString(),
                                       ),
                                       onChanged: (String value) async {
                                         setState(() {
@@ -159,8 +160,8 @@ class _UserManagementState extends State<UserManagement> {
                                     height: mobileDevice ? 45 : 60,
                                     width: 100,
                                     alignment: Alignment.center,
-                                    child: Text(
-                                      "Das Passwort muss mindestens 8 Zeichen haben",
+                                    child: SelectableText (
+                                      "minCharacters".tr().toString(),
                                       style: TextStyle(
                                           color: Colors.red[700], fontSize: 20),
                                     ),
@@ -172,7 +173,7 @@ class _UserManagementState extends State<UserManagement> {
                                       obscureText: true,
                                       decoration: InputDecoration(
                                         border: OutlineInputBorder(),
-                                        labelText: "Bisheriges Passwort",
+                                        labelText: "currentPassword".tr().toString(),
                                       ),
                                       onChanged: (String value) async {
                                         setState(() {
@@ -192,8 +193,8 @@ class _UserManagementState extends State<UserManagement> {
                                           onPressed: () {
                                             Navigator.of(context).pop();
                                           },
-                                          child: Text(
-                                            "Ändern",
+                                          child: Text (
+                                            "change".tr().toString(),
                                             style: TextStyle(fontSize: 20),
                                           ),
                                         ),
@@ -201,8 +202,8 @@ class _UserManagementState extends State<UserManagement> {
                                           onPressed: () {
                                             Navigator.of(context).pop();
                                           },
-                                          child: Text(
-                                            "Abbrechen",
+                                          child: Text (
+                                            "cancel".tr().toString(),
                                             style: TextStyle(fontSize: 20),
                                           ),
                                         ),
@@ -212,8 +213,8 @@ class _UserManagementState extends State<UserManagement> {
                                 ],
                               ));
                     },
-                    child: Text(
-                      "Passwort ändern",
+                    child: Text (
+                      "changePassword".tr().toString(),
                       style: TextStyle(fontSize: 20),
                     ),
                   ),

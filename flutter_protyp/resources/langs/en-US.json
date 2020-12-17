@@ -13,5 +13,21 @@
   "english": "English",
   "emailAddress": "E-mail address",
   "password": "Password",
-  "forgotPassword": "Forgot Password"
+  "forgotPassword": "Forgot Password",
+  "manageUser": "Manage user",
+  "changeUsername": "Change Username",
+  "newUsername": "New Username",
+  "change": "Change",
+  "cancel": "Cancel",
+  "changePassword": "Change Password",
+  "newPassword": "New Password",
+  "minCharacters": "The password must have at least 8 characters",
+  "currentPassword": "Current Password",
+  "signup": "Sign up",
+  "username": "Username",
+  "repeatPassword": "Repeat Password",
+  "pswNotMatch": "The entered passwords do not match",
+  "positivPsw": "The password is long enough and matches",
+  "tryAgain": "Something went wrong, please try again",
+  "backLogin": "Back to login"
 }
