@@ -38,127 +38,144 @@ class _MainAppbarState extends State<MainAppbar> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       /// Switch to change the Dark / LightMode
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        height: 60,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Dark mode",
-                              style: TextStyle(
-                                fontSize: 18,
-                              ),
-                            ),
-                            Switch(
-                              value: darkMode,
-                              activeColor: buttonColor,
-                              onChanged: (bool s) {
-                                setState(() {
-                                  darkMode
-                                      ? themeChanger.setTheme(ThemeData.light())
-                                      : themeChanger.setTheme(ThemeData.dark());
-                                  darkMode = !darkMode;
-                                });
-                              },
-                            ),
-                          ],
+                      SwitchListTile(
+                        title: Text(
+                          "Dark mode",
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
                         ),
+                        activeColor: buttonColor,
+                        value: darkMode,
+                        onChanged: (bool value) {
+                          setState(() {
+                            darkMode
+                                ? themeChanger.setTheme(ThemeData.light())
+                                : themeChanger.setTheme(ThemeData.dark());
+                            darkMode = !darkMode;
+                          });
+                        },
                       ),
 
-                      /// Switch to change ExpertMode
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        height: 60,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'expertMode'.tr().toString(),
-                              style: TextStyle(
-                                fontSize: 18,
-                              ),
-                            ),
-                            Switch(
-                              value: expertMode,
-                              activeColor: buttonColor,
-                              onChanged: (bool s) {
-                                setState(() {
-                                  expertMode = s;
-                                });
-                              },
-                            )
-                          ],
+                      SwitchListTile(
+                        title: Text(
+                          "Expertenmodus",
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
                         ),
+                        activeColor: buttonColor,
+                        value: expertMode,
+                        onChanged: (bool value) {
+                          setState(() {
+                            expertMode = value;
+                          });
+                        },
                       ),
 
                       Container(
-                        alignment: Alignment.centerLeft,
-                        height: 60,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'language'.tr().toString(),
-                              style: TextStyle(
-                                fontSize: 18,
-                              ),
+                        width: 250,
+                        height: 50,
+                        alignment: Alignment.center,
+                        child: InkWell(
+                          onTap: () {
+                            setState(() {
+                              for (int i = 0;
+                                  i < selectionsLanguage.length;
+                                  i++) {
+                                selectionsLanguage[i] = !selectionsLanguage[i];
+                              }
+                              if (selectionsLanguage[0]) {
+                                setState(() {
+                                  EasyLocalization.of(context).locale =
+                                      Locale('de', 'DE');
+                                });
+                              } else {
+                                setState(() {
+                                  EasyLocalization.of(context).locale =
+                                      Locale('en', 'US');
+                                });
+                              }
+                            });
+                          },
+                          child: Container(
+                            width: 300,
+                            height: 50,
+                            alignment: Alignment.center,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 15),
+                                  child: Text(
+                                    'language'.tr().toString(),
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 15),
+                                  child: Container(
+                                    height: 30,
+                                    child: ToggleButtons(
+                                      children: <Widget>[
+                                        Text("DE"),
+                                        Text("EN"),
+                                      ],
+                                      selectedColor: secondaryColor,
+                                      fillColor: lightFillColor,
+                                      borderRadius: BorderRadius.circular(8),
+                                      borderWidth: 2,
+                                      borderColor: Colors.grey,
+                                      selectedBorderColor: Colors.grey,
+                                      isSelected: selectionsLanguage,
+                                      onPressed: (int index) {
+                                        setState(() {
+                                          for (int buttonIndex = 0;
+                                              buttonIndex <
+                                                  selectionsLanguage.length;
+                                              buttonIndex++) {
+                                            if (buttonIndex == index) {
+                                              selectionsLanguage[buttonIndex] =
+                                                  true;
+                                            } else {
+                                              selectionsLanguage[buttonIndex] =
+                                                  false;
+                                            }
+                                          }
+                                          if (selectionsLanguage[0]) {
+                                            setState(() {
+                                              EasyLocalization.of(context)
+                                                  .locale = Locale('de', 'DE');
+                                            });
+                                          } else {
+                                            setState(() {
+                                              EasyLocalization.of(context)
+                                                  .locale = Locale('en', 'US');
+                                            });
+                                          }
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                            Container(
-                              height: 30,
-                              child: ToggleButtons(
-                                children: <Widget>[
-                                  Text("DE"),
-                                  Text("EN"),
-                                ],
-                                selectedColor: secondaryColor,
-                                fillColor: lightFillColor,
-                                borderRadius: BorderRadius.circular(8),
-                                borderWidth: 2,
-                                borderColor: Colors.grey,
-                                selectedBorderColor: Colors.grey,
-                                isSelected: selectionsLanguage,
-                                onPressed: (int index) {
-                                  setState(() {
-                                    for (int buttonIndex = 0;
-                                        buttonIndex < selectionsLanguage.length;
-                                        buttonIndex++) {
-                                      if (buttonIndex == index) {
-                                        selectionsLanguage[buttonIndex] = true;
-                                      } else {
-                                        selectionsLanguage[buttonIndex] = false;
-                                      }
-                                    }
-                                    if (selectionsLanguage[0]) {
-                                      setState(() {
-                                        EasyLocalization.of(context).locale =
-                                            Locale('de', 'DE');
-                                      });
-                                    } else {
-                                      setState(() {
-                                        EasyLocalization.of(context).locale =
-                                            Locale('en', 'US');
-                                      });
-                                    }
-                                  });
-                                },
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
+                      ),
+
+                      Divider(
+                        indent: 10,
+                        endIndent: 10,
+                        thickness: 2,
                       ),
 
                       Container(
                         width: 300,
                         height: 50,
                         alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color: Colors.grey[400],
-                            ),
-                          ),
-                        ),
                         child: InkWell(
                           splashColor: buttonColor,
                           onTap: () {
@@ -175,6 +192,12 @@ class _MainAppbarState extends State<MainAppbar> {
                             ),
                           ),
                         ),
+                      ),
+
+                      Divider(
+                        indent: 10,
+                        endIndent: 10,
+                        thickness: 2,
                       ),
 
                       Container(
