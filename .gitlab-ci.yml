@@ -16,7 +16,6 @@ tests:
 
 
 
-
 android:release:
   stage: archive
   image: cirrusci/flutter
