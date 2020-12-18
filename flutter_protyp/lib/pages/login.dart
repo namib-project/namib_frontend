@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_protyp/pages/registration.dart';
+import 'package:flutter_protyp/pages/handlers/LanguageChangeHandler.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:universal_io/io.dart' as osDetect;
 import 'package:http/http.dart' as http;
 import 'package:easy_localization/easy_localization.dart';
 import 'dart:convert';
+import 'package:flutter_protyp/widgets/appbar.dart' as AppBar;
 
 /// returns login site of application
 /// Can be coloured with loginColor1 and loginColor2 in constant.dart
@@ -16,9 +17,12 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   String username = "";
   String password = "";
-  bool errorMessege400 = false;
-  bool errorMessege401 = false;
+  bool errorMessage400 = false;
+  bool errorMessage401 = false;
   bool error = false;
+
+  var brightness;
+  List<Locale> systemLocale = WidgetsBinding.instance.window.locales;
 
   String url = 'http://172.24.80.1:8000/users/login';
   var response;
@@ -34,15 +38,39 @@ class _LoginState extends State<Login> {
     }
   }
 
+  void setLanguage(){
+    Locale language;
+    LanguageChangeHandler languageChangeHandler = new LanguageChangeHandler();
+
+    setState(() {
+      language = systemLocale.first;
+    });
+
+    if(language.toString() == "de_DE"){
+      setState(() {
+        //EasyLocalization.of(context).locale =
+         //   Locale('de', 'DE');
+        languageChangeHandler.setLanguage(0, context);
+      });
+    }else{
+      setState(() {
+        //EasyLocalization.of(context).locale =
+        //    Locale('en', 'US');
+        languageChangeHandler.setLanguage(1, context);
+      });
+    }
+  }
+
   @override
   void initState() {
     onlineOs();
-    return super.initState();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    setLanguage();
+  return Scaffold(
       body: Stack(
         children: <Widget>[
           Container(
@@ -167,7 +195,7 @@ class _LoginState extends State<Login> {
                             ],
                           ),
                           Visibility(
-                            visible: errorMessege400,
+                            visible: errorMessage400,
                             child: Container(
                               alignment: Alignment.center,
                               height: 50,
@@ -190,18 +218,18 @@ class _LoginState extends State<Login> {
                               ),
                             ),
                           ),
-                        //  Visibility(
-                        //    visible: errorMessege401,
-                        //    child: Container(
-                        //      alignment: Alignment.center,
-                        //      height: 50,
-                        //      child: Text(
-                        //        "Eines der beiden Felder ist leer!",
-                        //        style: TextStyle(
-                        //            color: Colors.red[700], fontSize: 20),
-                        //      ),
-                        //    ),
-                        //  ),
+                          //  Visibility(
+                          //    visible: errorMessege401,
+                          //    child: Container(
+                          //      alignment: Alignment.center,
+                          //      height: 50,
+                          //      child: Text(
+                          //        "Eines der beiden Felder ist leer!",
+                          //        style: TextStyle(
+                          //            color: Colors.red[700], fontSize: 20),
+                          //      ),
+                          //    ),
+                          //  ),
                           Container(
                             alignment: Alignment.centerRight,
                             child: FlatButton(
@@ -220,11 +248,11 @@ class _LoginState extends State<Login> {
                           Container(
                             alignment: Alignment.centerRight,
                             child: FlatButton(
-                              onPressed: () =>
-
-                              {print("Register Button pressed"),
+                              onPressed: () => {
+                                print("Register Button pressed"),
                                 Navigator.pushReplacementNamed(
-                                    context, "/registration")},
+                                    context, "/registration")
+                              },
                               padding: EdgeInsets.only(right: 0),
                               child: Text(
                                 'signup'.tr().toString(),
@@ -243,11 +271,14 @@ class _LoginState extends State<Login> {
                             width: double.infinity,
                             child: RaisedButton(
                               elevation: 5,
-                              onPressed: () async =>
-                              {
+                              onPressed: () async => {
+                                setSystemPreferences(),
+                                print(brightness),
+                                  Navigator.pushReplacementNamed(
+                                    context, "/deviceOverview"),
                                 {print(username)},
                                 {print(password)},
-                                  //Sends Http Request
+                                //Sends Http Request
                                 response = await http.post(url,
                                     headers: {
                                       "Content-Type": "application/json"
@@ -262,39 +293,40 @@ class _LoginState extends State<Login> {
                                 if (response.statusCode == 400)
                                   {
                                     setState(() {
-                                      errorMessege400 = true;
-                                      errorMessege401 = false;
+                                      errorMessage400 = true;
+                                      errorMessage401 = false;
+                                    })
+                                  }
+                                else if (response.statusCode == 401)
+                                  {
+                                    setState(() {
+                                      errorMessage401 = true;
+                                      errorMessage400 = false;
+                                    })
+                                  }
+                                else if (response.statusCode == 200)
+                                  {
+                                    Navigator.pushReplacementNamed(
+                                        context, "/deviceOverview"),
+                                    jwtToken = response.body,
+                                    jwtToken =
+                                        jwtToken.substring(9, jwtToken.length),
+                                    print(jwtToken),
+                                    setState(() {
+                                      errorMessage401 = false;
+                                      errorMessage400 = false;
                                     })
                                   }
                                 else
-                                  if (response.statusCode == 401)
-                                    {
-                                      setState(() {
-                                        errorMessege401 = true;
-                                        errorMessege400 = false;
-                                      })
-                                    } else
-                                    if (response.statusCode == 200)
-                                      {
-                                        Navigator.pushReplacementNamed(
-                                            context, "/deviceOverview"),
-                                        jwtToken = response.body,
-                                        jwtToken = jwtToken.substring(9, jwtToken.length),
-                                        print(jwtToken),
-                                        setState(() {
-                                          errorMessege401 = false;
-                                          errorMessege400 = false;
-                                        }
-                                        )}else {
-                                      setState(() {
-                                        errorMessege401 = false;
-                                        errorMessege400 = false;
-                                      })
-                                    }
-                                    ,
+                                  {
+                                    setState(() {
+                                      errorMessage401 = false;
+                                      errorMessage400 = false;
+                                    })
+                                  },
 
-                                    password = "",
-                                    username = ""
+                                password = "",
+                                username = ""
                               },
                               padding: EdgeInsets.all(15),
                               shape: RoundedRectangleBorder(
@@ -325,5 +357,9 @@ class _LoginState extends State<Login> {
         ],
       ),
     );
+  }
+
+  void setSystemPreferences(){
+    brightness = MediaQuery.of(context).platformBrightness.toString();
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_protyp/pages/handlers/LanguageChangeHandler.dart';
 import "package:flutter_protyp/widgets/constant.dart";
 import 'package:provider/provider.dart';
 import 'package:flutter_protyp/widgets/theme.dart';
@@ -131,31 +132,7 @@ class _MainAppbarState extends State<MainAppbar> {
                                       selectedBorderColor: Colors.grey,
                                       isSelected: selectionsLanguage,
                                       onPressed: (int index) {
-                                        setState(() {
-                                          for (int buttonIndex = 0;
-                                              buttonIndex <
-                                                  selectionsLanguage.length;
-                                              buttonIndex++) {
-                                            if (buttonIndex == index) {
-                                              selectionsLanguage[buttonIndex] =
-                                                  true;
-                                            } else {
-                                              selectionsLanguage[buttonIndex] =
-                                                  false;
-                                            }
-                                          }
-                                          if (selectionsLanguage[0]) {
-                                            setState(() {
-                                              EasyLocalization.of(context)
-                                                  .locale = Locale('de', 'DE');
-                                            });
-                                          } else {
-                                            setState(() {
-                                              EasyLocalization.of(context)
-                                                  .locale = Locale('en', 'US');
-                                            });
-                                          }
-                                        });
+                                        setLanguage(setState, index, context);
                                       },
                                     ),
                                   ),
@@ -239,5 +216,12 @@ class _MainAppbarState extends State<MainAppbar> {
         ),
       ],
     ));
+  }
+
+  void setLanguage(StateSetter setState, int index, BuildContext context) {
+    LanguageChangeHandler languageChangeHandler = new LanguageChangeHandler();
+    setState(() {
+      languageChangeHandler.setLanguage(index, context);
+    });
   }
 }
