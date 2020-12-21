@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_protyp/pages/handlers/LanguageChangeHandler.dart';
+import 'package:flutter_protyp/pages/handlers/ThemeHandler.dart';
 import "package:flutter_protyp/widgets/constant.dart";
 import 'package:provider/provider.dart';
 import 'package:flutter_protyp/widgets/theme.dart';
@@ -219,7 +219,7 @@ class _MainAppbarState extends State<MainAppbar> {
   }
 
   void setLanguage(StateSetter setState, int index, BuildContext context) {
-    LanguageChangeHandler languageChangeHandler = new LanguageChangeHandler();
+    ThemeChangeHandler languageChangeHandler = new ThemeChangeHandler();
     setState(() {
       languageChangeHandler.setLanguage(index, context);
     });

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_protyp/pages/handlers/LanguageChangeHandler.dart';
+import 'package:flutter_protyp/pages/handlers/ThemeHandler.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:universal_io/io.dart' as osDetect;
 import 'package:http/http.dart' as http;
@@ -24,7 +24,7 @@ class _LoginState extends State<Login> {
   var brightness;
   List<Locale> systemLocale = WidgetsBinding.instance.window.locales;
 
-  String url = 'http://172.24.80.1:8000/users/login';
+  String url = 'http://172.28.176.1:8000/users/login';
   var response;
 
   void onlineOs() {
@@ -38,25 +38,29 @@ class _LoginState extends State<Login> {
     }
   }
 
+  ThemeChangeHandler themeChangeHandler = new ThemeChangeHandler();
+
   void setLanguage(){
     Locale language;
-    LanguageChangeHandler languageChangeHandler = new LanguageChangeHandler();
-
     setState(() {
       language = systemLocale.first;
     });
 
     if(language.toString() == "de_DE"){
       setState(() {
-        //EasyLocalization.of(context).locale =
-         //   Locale('de', 'DE');
-        languageChangeHandler.setLanguage(0, context);
+        themeChangeHandler.setLanguage(0, context);
       });
     }else{
       setState(() {
-        //EasyLocalization.of(context).locale =
-        //    Locale('en', 'US');
-        languageChangeHandler.setLanguage(1, context);
+        themeChangeHandler.setLanguage(1, context);
+      });
+    }
+  }
+
+  void setTheme(){
+    if(brightness.toString() != "Brightness.light") {
+      setState(() {
+        themeChangeHandler.setDarkMode(context);
       });
     }
   }
@@ -273,6 +277,7 @@ class _LoginState extends State<Login> {
                               elevation: 5,
                               onPressed: () async => {
                                 setSystemPreferences(),
+                                setTheme(),
                                 print(brightness),
                                   Navigator.pushReplacementNamed(
                                     context, "/deviceOverview"),
@@ -326,7 +331,7 @@ class _LoginState extends State<Login> {
                                   },
 
                                 password = "",
-                                username = ""
+                                username = "",
                               },
                               padding: EdgeInsets.all(15),
                               shape: RoundedRectangleBorder(
