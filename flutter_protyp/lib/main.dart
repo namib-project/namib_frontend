@@ -51,11 +51,6 @@ class MaterialAppWithTheme extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Provider.of<ThemeChanger>(context);
-    //if (selectionsLanguage[0]) {
-    //  EasyLocalization.of(context).locale = Locale('de', 'DE');
-    //} else {
-    //  EasyLocalization.of(context).locale = Locale('en', 'US');
-    //}
 
     return MaterialApp(
         theme: theme.getTheme(),

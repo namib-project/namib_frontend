@@ -31,6 +31,7 @@
   "tryAgain": "Da hat etwas nicht geklappt, probier es bitte erneut",
   "backLogin": "Zurück zum Login",
   "error400": "Ihre Logindaten sind inkorrekt!",
-  "error": "Ein unbekannter Fehler ist aufgetreten!"
-
+  "error": "Ein unbekannter Fehler ist aufgetreten!",
+  "editDevice": "Gerät bearbeiten",
+  "save": "Speichern"
 }

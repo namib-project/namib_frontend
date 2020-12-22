@@ -60,7 +60,7 @@ class _MainAppbarState extends State<MainAppbar> {
 
                       SwitchListTile(
                         title: Text(
-                          "Expertenmodus",
+                          "expertMode".tr().toString(),
                           style: TextStyle(
                             fontSize: 18,
                           ),
@@ -164,7 +164,7 @@ class _MainAppbarState extends State<MainAppbar> {
                             height: 50,
                             alignment: Alignment.center,
                             child: Text(
-                              "Benutzer verwalten",
+                              "manageUser".tr().toString(),
                               style: TextStyle(fontSize: 18),
                             ),
                           ),

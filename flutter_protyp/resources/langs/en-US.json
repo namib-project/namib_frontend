@@ -31,5 +31,7 @@
   "tryAgain": "Something went wrong, please try again",
   "backLogin": "Back to login",
   "error400": "Your login was incorrect!",
-  "error": "An unknown error occurred!"
+  "error": "An unknown error occurred!",
+  "editDevice": "Edit Device",
+  "save": "Save"
 }

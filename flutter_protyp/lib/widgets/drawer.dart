@@ -79,7 +79,7 @@ class _MainDrawerState extends State<MainDrawer> {
             ),
             CustomListTile(
               icon: Icons.build_circle,
-              text: "Gerät bearbeiten",
+              text: "editDevice".tr().toString(),
               onTap: () =>
               {Navigator.pushReplacementNamed(context, "/test")},
             ),

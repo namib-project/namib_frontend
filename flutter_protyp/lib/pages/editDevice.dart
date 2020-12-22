@@ -7,6 +7,7 @@ import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 // Class for editing devices for example change MUD-profile for this device
 
@@ -82,7 +83,7 @@ class _EditDeviceState extends State<EditDevice> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    "Gerät bearbeiten",
+                    "editDevice".tr().toString(),
                     style: TextStyle(
                       fontFamily: "OpenSans",
                       fontSize: 30,
@@ -104,7 +105,7 @@ class _EditDeviceState extends State<EditDevice> {
                                         Text("Hier könnte Ihre Werbung stehen"),
                                     actions: [
                                       FlatButton(
-                                        child: Text("Verstanden!"),
+                                        child: Text("Ok!"),
                                         onPressed: () {
                                           Navigator.of(context)
                                               .pop(); // dismiss dialog
@@ -204,7 +205,7 @@ class _EditDeviceState extends State<EditDevice> {
                   RaisedButton(
                     onPressed: () {},
                     child: Text(
-                      "Speichern",
+                      "save".tr().toString(),
                       style: TextStyle(fontSize: 20),
                     ),
                     padding: EdgeInsets.all(15),
@@ -212,7 +213,7 @@ class _EditDeviceState extends State<EditDevice> {
                   RaisedButton(
                     onPressed: () {},
                     child: Text(
-                      "Abbrechen",
+                      "cancel".tr().toString(),
                       style: TextStyle(fontSize: 20),
                     ),
                     padding: EdgeInsets.all(15),
