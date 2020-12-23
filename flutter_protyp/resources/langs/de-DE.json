@@ -28,10 +28,13 @@
   "repeatPassword": "Passwort wiederholen",
   "pswNotMatch": "Die eingegebenen Passwörter stimmen nicht überein",
   "positivPsw": "Das Passwort ist lang genug und stimmt überein",
-  "tryAgain": "Da hat etwas nicht geklappt, probier es bitte erneut",
+  "userNameTaken": "Der Benutzername ist bereits vergeben, bitte wähle einen anderen",
   "backLogin": "Zurück zum Login",
   "error400": "Ihre Logindaten sind inkorrekt!",
   "error": "Ein unbekannter Fehler ist aufgetreten!",
   "editDevice": "Gerät bearbeiten",
-  "save": "Speichern"
+  "save": "Speichern",
+  "confirmation": "Bestätigung",
+  "registrationSuccess": "Registrierung war erfolgreich",
+  "networkError": "Registrierung konnte aufgrund eines Netzwerkfehlers nicht abgeschlossen werden. Bitte erneut versuchen"
 }

@@ -28,10 +28,11 @@ class _RegistrationState extends State<Registration> {
   bool errorMessage2 = false;
   bool passwordMessage = false;
   bool regisButton = false;
-  bool retryMessage = false;
+  bool usernameMessage = false;
+  bool networkMessage = false;
 
   ///Test for http client
-  String url = "http://172.31.112.1:8000/users/signup";
+  String url = "http://172.26.224.1:8000/users/signup";
   var response;
 
   Widget build(BuildContext context) {
@@ -39,225 +40,246 @@ class _RegistrationState extends State<Registration> {
       appBar: MainAppbar(),
       body: Center(
           child: Container(
-        height: double.infinity,
-        //Context will appear smaller on mobile devices
-        child: SingleChildScrollView(
-          physics: AlwaysScrollableScrollPhysics(),
-          padding: EdgeInsets.symmetric(
-            horizontal: 0,
-            vertical: 120,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Container(
-                width: 400,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      height: 70,
-                      alignment: Alignment.center,
-                      child: SelectableText(
-                        "signup".tr().toString(),
-                        style: TextStyle(
-                          fontFamily: "OpenSans",
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      height: 70,
-                      alignment: Alignment.center,
-                      child: TextField(
-                        obscureText: false,
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: "username".tr().toString()),
-                        onChanged: (String value) async {
-                          setState(() {
-                            username = value; //Username set to variable
-                          });
-                          checkForRegistrationButton(); //Check, if all conditions for enabling registration button are true
-                        },
-                      ),
-                    ),
-                    Container(
-                      height: 70,
-                      alignment: Alignment.center,
-                      child: TextField(
-                        obscureText: true,
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: "password".tr().toString()),
-                        onChanged: (String value) async {
-                          setState(() {
-                            password = value; //Password set to variable
-                          });
-                          await Future.delayed(const Duration(seconds: 1), () {
-                            //Wait for 1 second
-                            if (value.length < 8) {
-                              //Shows error message if password contains less then 8 characters
-                              setState(() {
-                                errorMessage1 = true;
-                              });
-                            } else {
-                              setState(() {
-                                errorMessage1 = false;
-                              });
-                            }
-                            checkForRegistrationButton(); //Check, if all conditions for enabling registration button are true
-                          });
-                        },
-                      ),
-                    ),
-                    Visibility(
-                      //The error message shows, if errorMessage1 is true
-                      visible: errorMessage1,
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: 60,
-                        child: SelectableText(
-                          "minCharacters".tr().toString(),
-                          style:
-                              TextStyle(color: Colors.red[700], fontSize: 20),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      height: 70,
-                      alignment: Alignment.center,
-                      child: TextField(
-                        obscureText: true,
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: "repeatPassword".tr().toString()),
-                        onChanged: (String value) async {
-                          setState(() {
-                            secPassword = value;
-                          });
-                          await Future.delayed(const Duration(seconds: 1), () {
-                            //Wait for 1 second
-                            if (value != password) {
-                              //Show error message, if the first password input is not equal to the second input
-                              setState(() {
-                                errorMessage2 = true;
-                                passwordMessage = false;
-                              });
-                            } else {
-                              setState(() {
-                                errorMessage2 = false;
-                                passwordMessage = true;
-                              });
-                            }
-                            checkForRegistrationButton(); //Check, if all conditions for enabling registration button are true
-                          });
-                        },
-                      ),
-                    ),
-                    Visibility(
-                      //The error message shows, if errorMessage2 is true
-                      visible: errorMessage2,
-                      child: Container(
-                          alignment: Alignment.center,
-                          height: 50,
-                          child: SelectableText(
-                            "pswNotMatch".tr().toString(),
-                            style:
-                                TextStyle(color: Colors.red[700], fontSize: 20),
-                          )),
-                    ),
-                    Visibility(
-                      //The error message shows, if passwordMessage is true
-                      visible: passwordMessage,
-                      child: Container(
-                          alignment: Alignment.center,
-                          height: 50,
-                          child: SelectableText(
-                            "positivPsw".tr().toString(),
-                            style: TextStyle(
-                                color: Colors.green[700], fontSize: 20),
-                          )),
-                    ),
-                    Visibility(
-                      visible: retryMessage,
-                      child: Container(
-                        height: 50,
-                        alignment: Alignment.center,
-                        child: SelectableText(
-                          "tryAgain".tr().toString(),
-                          style:
-                              TextStyle(color: Colors.red[700], fontSize: 20),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      height: 70,
-                      alignment: Alignment.center,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          RaisedButton(
-                            //Button is enabled if regisButton is true
-                            onPressed: regisButton
-                                ? () async => {
-                                      response = await http.post(url,
-                                          headers: {
-                                            "Content-Type": "application/json"
-                                          },
-                                          body: json.encode({
-                                            "password": password,
-                                            "username": username
-                                          })),
-                                      username = "",
-                                      password = "",
-                                      secPassword = "",
-                                      print(response.statusCode),
-                                      passwordMessage = false,
-
-                                      if (response.statusCode == "200")
-                                        {
-                                          retryMessage = false,
-                                        }
-                                      else
-                                        {
-                                          retryMessage = false,
-                                        }
-                                    }
-                                : null,
-                            child: Text (
-                              "signup".tr().toString(),
-                              style: TextStyle(fontSize: 20),
-                            ),
-                            padding: EdgeInsets.all(15),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.centerRight,
-                      child: FlatButton(
-                        onPressed: () =>
-                            {Navigator.pushReplacementNamed(context, "/login")},
-                        padding: EdgeInsets.only(right: 0),
-                        child: Text (
-                          'backLogin'.tr().toString(),
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 15,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+            height: double.infinity,
+            //Context will appear smaller on mobile devices
+            child: SingleChildScrollView(
+              physics: AlwaysScrollableScrollPhysics(),
+              padding: EdgeInsets.symmetric(
+                horizontal: 0,
+                vertical: 120,
               ),
-            ],
-          ),
-        ),
-      )),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    width: 400,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          height: 70,
+                          alignment: Alignment.center,
+                          child: SelectableText(
+                            "signup".tr().toString(),
+                            style: TextStyle(
+                              fontFamily: "OpenSans",
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          height: 70,
+                          alignment: Alignment.center,
+                          child: TextField(
+                            obscureText: false,
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: "username".tr().toString()),
+                            onChanged: (String value) async {
+                              setState(() {
+                                username = value; //Username set to variable
+                              });
+                              checkForRegistrationButton(); //Check, if all conditions for enabling registration button are true
+                            },
+                          ),
+                        ),
+                        Container(
+                          height: 70,
+                          alignment: Alignment.center,
+                          child: TextField(
+                            obscureText: true,
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: "password".tr().toString()),
+                            onChanged: (String value) async {
+                              setState(() {
+                                password = value; //Password set to variable
+                              });
+                              await Future.delayed(
+                                  const Duration(seconds: 1), () {
+                                //Wait for 1 second
+                                if (value.length < 8) {
+                                  //Shows error message if password contains less then 8 characters
+                                  setState(() {
+                                    errorMessage1 = true;
+                                  });
+                                } else {
+                                  setState(() {
+                                    errorMessage1 = false;
+                                  });
+                                }
+                                checkForRegistrationButton(); //Check, if all conditions for enabling registration button are true
+                              });
+                            },
+                          ),
+                        ),
+                        Visibility(
+                          //The error message shows, if errorMessage1 is true
+                          visible: errorMessage1,
+                          child: Container(
+                            alignment: Alignment.center,
+                            height: 60,
+                            child: SelectableText(
+                              "minCharacters".tr().toString(),
+                              style:
+                              TextStyle(color: Colors.red[700], fontSize: 20),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          height: 70,
+                          alignment: Alignment.center,
+                          child: TextField(
+                            obscureText: true,
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: "repeatPassword".tr().toString()),
+                            onChanged: (String value) async {
+                              setState(() {
+                                secPassword = value;
+                              });
+                              await Future.delayed(
+                                  const Duration(seconds: 1), () {
+                                //Wait for 1 second
+                                if (value != password) {
+                                  //Show error message, if the first password input is not equal to the second input
+                                  setState(() {
+                                    errorMessage2 = true;
+                                    passwordMessage = false;
+                                  });
+                                } else {
+                                  setState(() {
+                                    errorMessage2 = false;
+                                    passwordMessage = true;
+                                  });
+                                }
+                                checkForRegistrationButton(); //Check, if all conditions for enabling registration button are true
+                              });
+                            },
+                          ),
+                        ),
+                        Visibility(
+                          //The error message shows, if errorMessage2 is true
+                          visible: errorMessage2,
+                          child: Container(
+                              alignment: Alignment.center,
+                              height: 50,
+                              child: SelectableText(
+                                "pswNotMatch".tr().toString(),
+                                style:
+                                TextStyle(color: Colors.red[700], fontSize: 20),
+                              )),
+                        ),
+                        Visibility(
+                          //The error message shows, if passwordMessage is true
+                          visible: passwordMessage,
+                          child: Container(
+                              alignment: Alignment.center,
+                              height: 50,
+                              child: SelectableText(
+                                "positivPsw".tr().toString(),
+                                style: TextStyle(
+                                    color: Colors.green[700], fontSize: 20),
+                              )),
+                        ),
+                        Visibility(
+                          visible: usernameMessage,
+                          child: Container(
+                            height: 50,
+                            alignment: Alignment.center,
+                            child: SelectableText(
+                              "userNameTaken".tr().toString(),
+                              style:
+                              TextStyle(color: Colors.red[700], fontSize: 20),
+                            ),
+                          ),
+                        ),
+                        Visibility(
+                          visible: networkMessage,
+                          child: Container(
+                            height: 80,
+                            alignment: Alignment.center,
+                            child: SelectableText(
+                              "networkError".tr().toString(),
+                              style:
+                              TextStyle(color: Colors.red[700], fontSize: 20),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          height: 70,
+                          alignment: Alignment.center,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              RaisedButton(
+                                //Button is enabled if regisButton is true
+                                onPressed: regisButton
+                                    ? () async =>
+                                {
+                                  response = await http
+                                      .post(url,
+                                      headers: {
+                                        "Content-Type":
+                                        "application/json"
+                                      },
+                                      body: json.encode({
+                                        "password": password,
+                                        "username": username
+                                      }))
+                                      .timeout(const Duration(seconds: 3),
+                                      onTimeout: () {
+                                        return catchTimeout();
+                                      }),
+                                  username = "",
+                                  password = "",
+                                  secPassword = "",
+                                  passwordMessage = false,
+                                  checkResponse(),
+                                }
+                                    : null,
+                                child: Text(
+                                  "signup".tr().toString(),
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                                padding: EdgeInsets.all(15),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.centerRight,
+                          child: FlatButton(
+                            onPressed: () =>
+                            {Navigator.pushReplacementNamed(context, "/login")},
+                            padding: EdgeInsets.only(right: 0),
+                            child: Text(
+                              'backLogin'.tr().toString(),
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          )),
     );
+  }
+
+  dynamic catchTimeout() {
+    setState(() {
+      usernameMessage = false;
+      passwordMessage = false;
+      networkMessage = true;
+    });
+    return null;
   }
 
   //Function checks all conditions for activating the registration button
@@ -274,6 +296,51 @@ class _RegistrationState extends State<Registration> {
       setState(() {
         regisButton = false;
       });
+    }
+  }
+
+  void checkResponse() {
+    try {
+      setState(() {
+        if (response.statusCode == 200) {
+          usernameMessage = false;
+          passwordMessage = false;
+          networkMessage = false;
+
+          showDialog(
+              context: context,
+              builder: (context) =>
+                  SimpleDialog(
+                    title: SelectableText("confirmation".tr().toString()),
+                    contentPadding: EdgeInsets.all(20.0),
+                    children: [
+                      Container(
+                        height: 70,
+                        alignment: Alignment.center,
+                        child:
+                        SelectableText("registrationSuccess".tr().toString()),
+                      ),
+                      Container(
+                        height: 70,
+                        alignment: Alignment.center,
+                        child: RaisedButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            Navigator.pushReplacementNamed(context, "/login");
+                          },
+                          child: Text("Ok"),
+                        ),
+                      )
+                    ],
+                  ));
+        } else if (response.statusCode == 500) {
+          usernameMessage = true;
+          passwordMessage = false;
+          networkMessage = false;
+        }
+      });
+    } on NoSuchMethodError {
+
     }
   }
 }

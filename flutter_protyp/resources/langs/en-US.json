@@ -28,10 +28,13 @@
   "repeatPassword": "Repeat Password",
   "pswNotMatch": "The entered passwords do not match",
   "positivPsw": "The password is long enough and matches",
-  "tryAgain": "Something went wrong, please try again",
+  "userNameTaken": "The username is already taken, please choose another one",
   "backLogin": "Back to login",
   "error400": "Your login was incorrect!",
   "error": "An unknown error occurred!",
   "editDevice": "Edit Device",
-  "save": "Save"
+  "save": "Save",
+  "confirmation": "Confirmation",
+  "registrationSuccess": "Registration was successful",
+  "networkError": "Registration could not be completed due to a network error. Please try again"
 }
