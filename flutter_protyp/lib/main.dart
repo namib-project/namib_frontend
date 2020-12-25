@@ -17,6 +17,9 @@ import "package:flutter_protyp/widgets/constant.dart";
 import "package:flutter_protyp/pages/languagetest.dart";
 import "package:flutter_protyp/pages/editDevice.dart";
 
+import "package:flutter_protyp/pages/loginTest.dart";
+import 'package:flutter_protyp/pages/registrationStart.dart';
+
 /// Runs at start of application
 /// Runs MyApp which is wrapped by EasyLocalization for language support
 void main() => runApp(EasyLocalization(
@@ -39,7 +42,11 @@ class MyApp extends StatelessWidget {
         supportedLocales: context.supportedLocales,
         locale: context.locale,
         home: ChangeNotifierProvider<ThemeChanger>(
-          builder: (_) => ThemeChanger(ThemeData.light()),
+          builder: (_) => ThemeChanger(ThemeData.light().copyWith(
+            primaryColor: primaryColor,
+            accentColor: primaryColor,
+            hintColor: Colors.grey,
+          )),
           child: new MaterialAppWithTheme(),
         ));
   }
@@ -54,9 +61,10 @@ class MaterialAppWithTheme extends StatelessWidget {
 
     return MaterialApp(
         theme: theme.getTheme(),
-        initialRoute: "/login",
+        initialRoute: "/loginTest",
         routes: {
           "/login": (context) => Login(),
+          "/loginTest": (context) => LoginTest(),
           "/deviceOverview": (context) => DeviceOverview(),
           "/createDevice": (context) => CreateDevice(),
           "/networkbehaviour": (context) => Networkbehaviour(),
@@ -67,7 +75,9 @@ class MaterialAppWithTheme extends StatelessWidget {
           "/userManagement": (context) => UserManagement(),
           "/tableTest": (context) => TableTest(),
           "/ownUser": (context) => OwnUser(),
-          "/languagetest": (context) => LanguageTest(), // just for testing can be deleted
+          "/registrationStart": (context) => RegistrationStart(),
+          "/languagetest": (context) =>
+              LanguageTest(), // just for testing can be deleted
         });
   }
 }

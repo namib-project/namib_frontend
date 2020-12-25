@@ -5,7 +5,6 @@ import 'package:flutter_protyp/widgets/theme.dart';
 import 'package:provider/provider.dart';
 
 class ThemeChangeHandler {
-
   void setLanguage(int index, BuildContext context) {
     for (int buttonIndex = 0;
         buttonIndex < selectionsLanguage.length;
@@ -23,11 +22,19 @@ class ThemeChangeHandler {
     }
   }
 
-  void setDarkMode(BuildContext context){
+  void setDarkMode(BuildContext context) {
     ThemeChanger themeChanger = Provider.of<ThemeChanger>(context);
     darkMode
-        ? themeChanger.setTheme(ThemeData.light())
-        : themeChanger.setTheme(ThemeData.dark());
+        ? themeChanger.setTheme(ThemeData.light().copyWith(
+            primaryColor: primaryColor,
+            accentColor: primaryColor,
+            hintColor: Colors.grey,
+          ))
+        : themeChanger.setTheme(ThemeData.dark().copyWith(
+            primaryColor: primaryColor,
+            accentColor: primaryColor,
+            hintColor: Colors.grey,
+          ));
     print(darkMode);
     darkMode = !darkMode;
     print(darkMode);
