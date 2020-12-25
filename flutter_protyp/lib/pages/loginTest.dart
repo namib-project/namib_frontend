@@ -75,6 +75,7 @@ class _LoginTestState extends State<LoginTest> {
                       style: TextStyle(
                         fontSize: 35,
                         fontWeight: FontWeight.bold,
+                        color: Colors.black,
                       ),
                     ),
                     SizedBox(
@@ -92,29 +93,43 @@ class _LoginTestState extends State<LoginTest> {
                     ),
                     Container(
                       width: 250,
-                      child: TextField(
-                        decoration: InputDecoration(
-                            labelText: "Email Addresse",
-                            suffixIcon: Icon(
-                              FontAwesomeIcons.envelope,
-                              size: 17,
-                            )),
+                      child: Theme(
+                        data: ThemeData(
+                          primaryColor: primaryColor,
+                          accentColor: primaryColor,
+                          hintColor: Colors.grey,
+                        ),
+                        child: TextField(
+                          decoration: InputDecoration(
+                              labelText: "Email Addresse",
+                              suffixIcon: Icon(
+                                FontAwesomeIcons.envelope,
+                                size: 17,
+                              )),
+                        ),
                       ),
                     ),
                     Container(
                       width: 250,
-                      child: TextField(
-                        obscureText: !seePassword,
-                        decoration: InputDecoration(
-                            labelText: "Passwort",
-                            suffixIcon: IconButton(
-                              icon: seePassword ? iconDontSee : iconSee,
-                              onPressed: () {
-                                setState(() {
-                                  seePassword = !seePassword;
-                                });
-                              },
-                            )),
+                      child: Theme(
+                        data: ThemeData(
+                          primaryColor: primaryColor,
+                          accentColor: primaryColor,
+                          hintColor: Colors.grey,
+                        ),
+                        child: TextField(
+                          obscureText: !seePassword,
+                          decoration: InputDecoration(
+                              labelText: "Passwort",
+                              suffixIcon: IconButton(
+                                icon: seePassword ? iconDontSee : iconSee,
+                                onPressed: () {
+                                  setState(() {
+                                    seePassword = !seePassword;
+                                  });
+                                },
+                              )),
+                        ),
                       ),
                     ),
                     Padding(

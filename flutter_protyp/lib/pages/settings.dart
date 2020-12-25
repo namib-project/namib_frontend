@@ -89,8 +89,18 @@ class _SettingsState extends State<Settings> {
                         onChanged: (bool s) {
                           setState(() {
                             darkMode
-                                ? themeChanger.setTheme(ThemeData.light())
-                                : themeChanger.setTheme(ThemeData.dark());
+                                ? themeChanger
+                                    .setTheme(ThemeData.light().copyWith(
+                                    primaryColor: primaryColor,
+                                    accentColor: primaryColor,
+                                    hintColor: Colors.grey,
+                                  ))
+                                : themeChanger
+                                    .setTheme(ThemeData.dark().copyWith(
+                                    primaryColor: primaryColor,
+                                    accentColor: primaryColor,
+                                    hintColor: Colors.grey,
+                                  ));
                             darkMode = !darkMode;
                           });
                         },
