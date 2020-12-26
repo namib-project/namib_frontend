@@ -203,7 +203,7 @@ class _LoginTestState extends State<LoginTest> {
                       visible: errorMessage400,
                       child: Container(
                         alignment: Alignment.center,
-                        height: 50,
+                        height: 30,
                         child: Text(
                           'error400'.tr().toString(),
                           style:
@@ -215,7 +215,7 @@ class _LoginTestState extends State<LoginTest> {
                       visible: error,
                       child: Container(
                         alignment: Alignment.center,
-                        height: 50,
+                        height: 30,
                         child: Text(
                           'error'.tr().toString(),
                           style:
@@ -260,8 +260,13 @@ class _LoginTestState extends State<LoginTest> {
                         setTheme(),
                         print(brightness),
 
+                        /// Just for testing: delete when ready
+                        Navigator.pushReplacementNamed(
+                            context, "/deviceOverview"),
+
                         {print(username)},
                         {print(password)},
+
                         //Sends Http Request
                         response = await http.post(url,
                             headers: {"Content-Type": "application/json"},
