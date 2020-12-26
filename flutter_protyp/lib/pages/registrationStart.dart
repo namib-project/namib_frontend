@@ -29,6 +29,23 @@ class _RegistrationState extends State<RegistrationStart> {
     size: 17,
   );
 
+  ///Variables for user inputs
+  String password = "";
+  String username = "";
+  String secPassword = "";
+
+  ///Variables for visibility of error messages
+  bool errorMessage1 = false;
+  bool errorMessage2 = false;
+  bool passwordMessage = false;
+  bool regisButton = false;
+  bool usernameMessage = false;
+  bool networkMessage = false;
+
+  ///Test for http client
+  String url = "http://172.29.144.1:8000/users/signup";
+  var response;
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
@@ -62,7 +79,11 @@ class _RegistrationState extends State<RegistrationStart> {
                 height: 30,
               ),
               Container(
-                height: 480,
+                height: 480 +
+                    (errorMessage1 ? 50.0 : 0.0) +
+                    (errorMessage2 ? 50.0 : 0.0) +
+                    (usernameMessage ? 50.0 : 0.0) +
+                    (networkMessage ? 50.0 : 0.0),
                 width: 325,
                 decoration: BoxDecoration(
                     color: Colors.white,
@@ -142,11 +163,18 @@ class _RegistrationState extends State<RegistrationStart> {
                         ),
                         child: TextField(
                           decoration: InputDecoration(
-                              labelText: "Email Addresse",
-                              suffixIcon: Icon(
-                                FontAwesomeIcons.envelope,
-                                size: 17,
-                              )),
+                            labelText: "username".tr().toString(),
+                            suffixIcon: Icon(
+                              FontAwesomeIcons.envelope,
+                              size: 17,
+                            ),
+                          ),
+                          onChanged: (String value) async {
+                            setState(() {
+                              username = value; //Username set to variable
+                            });
+                            checkForRegistrationButton(); //Check, if all conditions for enabling registration button are true
+                          },
                         ),
                       ),
                     ),
@@ -161,15 +189,54 @@ class _RegistrationState extends State<RegistrationStart> {
                         child: TextField(
                           obscureText: !seePassword,
                           decoration: InputDecoration(
-                              labelText: "Passwort",
-                              suffixIcon: IconButton(
-                                icon: seePassword ? iconDontSee : iconSee,
-                                onPressed: () {
-                                  setState(() {
-                                    seePassword = !seePassword;
-                                  });
-                                },
-                              )),
+                            labelText: "password".tr().toString(),
+                            suffixIcon: IconButton(
+                              icon: seePassword ? iconDontSee : iconSee,
+                              onPressed: () {
+                                setState(() {
+                                  seePassword = !seePassword;
+                                });
+                              },
+                            ),
+                          ),
+                          onChanged: (String value) async {
+                            setState(() {
+                              password = value; //Password set to variable
+                            });
+                            await Future.delayed(const Duration(seconds: 1),
+                                () {
+                              //Wait for 1 second
+                              if (value.length < 8) {
+                                //Shows error message if password contains less then 8 characters
+                                setState(() {
+                                  errorMessage1 = true;
+                                });
+                              } else {
+                                setState(() {
+                                  errorMessage1 = false;
+                                });
+                              }
+                              checkForRegistrationButton(); //Check, if all conditions for enabling registration button are true
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+
+                    ///Visibility errorMessage
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
+                      child: Visibility(
+                        //The error message shows, if errorMessage1 is true
+                        visible: errorMessage1,
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: 50,
+                          child: SelectableText(
+                            "minCharacters".tr().toString(),
+                            style:
+                                TextStyle(color: Colors.red[700], fontSize: 20),
+                          ),
                         ),
                       ),
                     ),
@@ -184,15 +251,84 @@ class _RegistrationState extends State<RegistrationStart> {
                         child: TextField(
                           obscureText: !seePassword,
                           decoration: InputDecoration(
-                              labelText: "Passwort wiederholen",
-                              suffixIcon: IconButton(
-                                icon: seePassword ? iconDontSee : iconSee,
-                                onPressed: () {
-                                  setState(() {
-                                    seePassword = !seePassword;
-                                  });
-                                },
-                              )),
+                            labelText: "repeatPassword".tr().toString(),
+                            suffixIcon: IconButton(
+                              icon: seePassword ? iconDontSee : iconSee,
+                              onPressed: () {
+                                setState(() {
+                                  seePassword = !seePassword;
+                                });
+                              },
+                            ),
+                          ),
+                          onChanged: (String value) async {
+                            setState(() {
+                              secPassword = value;
+                            });
+                            await Future.delayed(const Duration(seconds: 1),
+                                () {
+                              //Wait for 1 second
+                              if (value != password) {
+                                //Show error message, if the first password input is not equal to the second input
+                                setState(() {
+                                  errorMessage2 = true;
+                                  passwordMessage = false;
+                                });
+                              } else {
+                                setState(() {
+                                  errorMessage2 = false;
+                                  passwordMessage = true;
+                                });
+                              }
+                              checkForRegistrationButton(); //Check, if all conditions for enabling registration button are true
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
+                      child: Visibility(
+                        //The error message shows, if errorMessage2 is true
+                        visible: errorMessage2,
+                        child: Container(
+                            alignment: Alignment.center,
+                            height: 50,
+                            child: SelectableText(
+                              "pswNotMatch".tr().toString(),
+                              style: TextStyle(
+                                  color: Colors.red[700], fontSize: 20),
+                            )),
+                      ),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
+                      child: Visibility(
+                        visible: usernameMessage,
+                        child: Container(
+                          height: 50,
+                          alignment: Alignment.center,
+                          child: SelectableText(
+                            "userNameTaken".tr().toString(),
+                            style:
+                                TextStyle(color: Colors.red[700], fontSize: 20),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
+                      child: Visibility(
+                        visible: networkMessage,
+                        child: Container(
+                          height: 80,
+                          alignment: Alignment.center,
+                          child: SelectableText(
+                            "networkError".tr().toString(),
+                            style:
+                                TextStyle(color: Colors.red[700], fontSize: 20),
+                          ),
                         ),
                       ),
                     ),
@@ -200,9 +336,28 @@ class _RegistrationState extends State<RegistrationStart> {
                       height: 60,
                     ),
                     InkWell(
-                      onTap: () => {
-                        Navigator.pushReplacementNamed(context, "/loginTest")
-                      },
+                      onTap: regisButton
+                          ? () async => {
+                                response = await http
+                                    .post(url,
+                                        headers: {
+                                          "Content-Type": "application/json"
+                                        },
+                                        body: json.encode({
+                                          "password": password,
+                                          "username": username
+                                        }))
+                                    .timeout(const Duration(seconds: 3),
+                                        onTimeout: () {
+                                  return catchTimeout();
+                                }),
+                                username = "",
+                                password = "",
+                                secPassword = "",
+                                passwordMessage = false,
+                                checkResponse(),
+                              }
+                          : null,
                       child: Container(
                         alignment: Alignment.center,
                         width: 250,
@@ -217,7 +372,7 @@ class _RegistrationState extends State<RegistrationStart> {
                         child: Padding(
                           padding: EdgeInsets.all(12),
                           child: Text(
-                            "Registrieren",
+                            "signup".tr().toString(),
                             style: TextStyle(
                               fontSize: 20,
                               color: Colors.white,
@@ -235,5 +390,73 @@ class _RegistrationState extends State<RegistrationStart> {
         ),
       ),
     );
+  }
+
+  dynamic catchTimeout() {
+    setState(() {
+      usernameMessage = false;
+      passwordMessage = false;
+      networkMessage = true;
+    });
+    return null;
+  }
+
+  //Function checks all conditions for activating the registration button
+  void checkForRegistrationButton() {
+    if (username.length > 1 &&
+        errorMessage1 == false &&
+        errorMessage2 == false &&
+        password.length > 7 &&
+        secPassword.length > 1) {
+      setState(() {
+        regisButton = true;
+      });
+    } else {
+      setState(() {
+        regisButton = false;
+      });
+    }
+  }
+
+  void checkResponse() {
+    try {
+      setState(() {
+        if (response.statusCode == 200) {
+          usernameMessage = false;
+          passwordMessage = false;
+          networkMessage = false;
+
+          showDialog(
+              context: context,
+              builder: (context) => SimpleDialog(
+                    title: SelectableText("confirmation".tr().toString()),
+                    contentPadding: EdgeInsets.all(20.0),
+                    children: [
+                      Container(
+                        height: 70,
+                        alignment: Alignment.center,
+                        child: SelectableText(
+                            "registrationSuccess".tr().toString()),
+                      ),
+                      Container(
+                        height: 70,
+                        alignment: Alignment.center,
+                        child: RaisedButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            Navigator.pushReplacementNamed(context, "/login");
+                          },
+                          child: Text("Ok"),
+                        ),
+                      )
+                    ],
+                  ));
+        } else if (response.statusCode == 500) {
+          usernameMessage = true;
+          passwordMessage = false;
+          networkMessage = false;
+        }
+      });
+    } on NoSuchMethodError {}
   }
 }
