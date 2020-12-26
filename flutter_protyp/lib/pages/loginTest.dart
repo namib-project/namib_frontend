@@ -25,6 +25,66 @@ class _LoginTestState extends State<LoginTest> {
     size: 17,
   );
 
+  String username = "";
+  String password = "";
+  bool errorMessage400 = false;
+  bool errorMessage401 = false;
+  bool error = false;
+
+  var brightness;
+  List<Locale> systemLocale = WidgetsBinding.instance.window.locales;
+
+  String url = 'http://172.29.144.1:8000/users/login';
+  var response;
+
+  void onlineOs() {
+    String android = "android";
+    String ios = "ios";
+    if (osDetect.Platform.operatingSystem == android ||
+        osDetect.Platform.operatingSystem == ios) {
+      mobileDevice = true;
+    } else {
+      mobileDevice = false;
+    }
+  }
+
+  ThemeChangeHandler themeChangeHandler = new ThemeChangeHandler();
+
+  void setLanguage() {
+    Locale language;
+    setState(() {
+      language = systemLocale.first;
+    });
+
+    if (language.toString() == "de_DE") {
+      setState(() {
+        themeChangeHandler.setLanguage(0, context);
+      });
+    } else {
+      setState(() {
+        themeChangeHandler.setLanguage(1, context);
+      });
+    }
+  }
+
+  void setTheme() {
+    if (brightness.toString() != "Brightness.light") {
+      setState(() {
+        themeChangeHandler.setDarkMode(context);
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    onlineOs();
+    super.initState();
+  }
+
+  void setSystemPreferences() {
+    brightness = MediaQuery.of(context).platformBrightness.toString();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,11 +161,13 @@ class _LoginTestState extends State<LoginTest> {
                         ),
                         child: TextField(
                           decoration: InputDecoration(
-                              labelText: "Email Addresse",
-                              suffixIcon: Icon(
-                                FontAwesomeIcons.envelope,
-                                size: 17,
-                              )),
+                            labelText: 'username'.tr().toString(),
+                            suffixIcon: Icon(
+                              FontAwesomeIcons.envelope,
+                              size: 17,
+                            ),
+                          ),
+                          onChanged: (value) => username = value,
                         ),
                       ),
                     ),
@@ -120,25 +182,55 @@ class _LoginTestState extends State<LoginTest> {
                         child: TextField(
                           obscureText: !seePassword,
                           decoration: InputDecoration(
-                              labelText: "Passwort",
-                              suffixIcon: IconButton(
-                                icon: seePassword ? iconDontSee : iconSee,
-                                onPressed: () {
-                                  setState(() {
-                                    seePassword = !seePassword;
-                                  });
-                                },
-                              )),
+                            labelText: 'password'.tr().toString(),
+                            suffixIcon: IconButton(
+                              icon: seePassword ? iconDontSee : iconSee,
+                              onPressed: () {
+                                setState(() {
+                                  seePassword = !seePassword;
+                                });
+                              },
+                            ),
+                          ),
+                          onChanged: (value) => password = value,
                         ),
                       ),
                     ),
+
+                    /// Here the ErrorMessages have to be added!!!
+
+                    Visibility(
+                      visible: errorMessage400,
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 50,
+                        child: Text(
+                          'error400'.tr().toString(),
+                          style:
+                              TextStyle(color: Colors.red[700], fontSize: 20),
+                        ),
+                      ),
+                    ),
+                    Visibility(
+                      visible: error,
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 50,
+                        child: Text(
+                          'error'.tr().toString(),
+                          style:
+                              TextStyle(color: Colors.red[700], fontSize: 20),
+                        ),
+                      ),
+                    ),
+
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 20, 20, 5),
                       child: Container(
                         alignment: Alignment.centerRight,
                         child: FlatButton(
                           child: Text(
-                            "Passwort vergessen",
+                            'forgotPassword'.tr().toString(),
                             style: TextStyle(
                               color: primaryColor,
                             ),
@@ -156,16 +248,64 @@ class _LoginTestState extends State<LoginTest> {
                                 context, "/registrationStart")
                           },
                           child: Text(
-                            "Registrieren",
+                            'signup'.tr().toString(),
                             style: TextStyle(color: primaryColor),
                           ),
                         ),
                       ),
                     ),
                     InkWell(
-                      onTap: () => {
-                        Navigator.pushReplacementNamed(
-                            context, "/deviceOverview")
+                      onTap: () async => {
+                        setSystemPreferences(),
+                        setTheme(),
+                        print(brightness),
+
+                        {print(username)},
+                        {print(password)},
+                        //Sends Http Request
+                        response = await http.post(url,
+                            headers: {"Content-Type": "application/json"},
+                            body: json.encode(
+                                {'password': password, 'username': username})),
+                        print(response.body),
+                        print(response.statusCode),
+//
+                        if (response.statusCode == 400)
+                          {
+                            setState(() {
+                              errorMessage400 = true;
+                              errorMessage401 = false;
+                            })
+                          }
+                        else if (response.statusCode == 401)
+                          {
+                            setState(() {
+                              errorMessage401 = true;
+                              errorMessage400 = false;
+                            })
+                          }
+                        else if (response.statusCode == 200)
+                          {
+                            Navigator.pushReplacementNamed(
+                                context, "/deviceOverview"),
+                            jwtToken = response.body,
+                            jwtToken = jwtToken.substring(9, jwtToken.length),
+                            print(jwtToken),
+                            setState(() {
+                              errorMessage401 = false;
+                              errorMessage400 = false;
+                            })
+                          }
+                        else
+                          {
+                            setState(() {
+                              errorMessage401 = false;
+                              errorMessage400 = false;
+                            })
+                          },
+
+                        password = "",
+                        username = "",
                       },
                       child: Container(
                         alignment: Alignment.center,

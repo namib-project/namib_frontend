@@ -24,7 +24,7 @@ class _LoginState extends State<Login> {
   var brightness;
   List<Locale> systemLocale = WidgetsBinding.instance.window.locales;
 
-  String url = 'http://172.28.176.1:8000/users/login';
+  String url = 'http://172.29.144.1:8000/users/login';
   var response;
 
   void onlineOs() {
@@ -40,25 +40,25 @@ class _LoginState extends State<Login> {
 
   ThemeChangeHandler themeChangeHandler = new ThemeChangeHandler();
 
-  void setLanguage(){
+  void setLanguage() {
     Locale language;
     setState(() {
       language = systemLocale.first;
     });
 
-    if(language.toString() == "de_DE"){
+    if (language.toString() == "de_DE") {
       setState(() {
         themeChangeHandler.setLanguage(0, context);
       });
-    }else{
+    } else {
       setState(() {
         themeChangeHandler.setLanguage(1, context);
       });
     }
   }
 
-  void setTheme(){
-    if(brightness.toString() != "Brightness.light") {
+  void setTheme() {
+    if (brightness.toString() != "Brightness.light") {
       setState(() {
         themeChangeHandler.setDarkMode(context);
       });
@@ -74,7 +74,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     setLanguage();
-  return Scaffold(
+    return Scaffold(
       body: Stack(
         children: <Widget>[
           Container(
@@ -279,7 +279,7 @@ class _LoginState extends State<Login> {
                                 setSystemPreferences(),
                                 setTheme(),
                                 print(brightness),
-                                  Navigator.pushReplacementNamed(
+                                Navigator.pushReplacementNamed(
                                     context, "/deviceOverview"),
                                 {print(username)},
                                 {print(password)},
@@ -364,7 +364,7 @@ class _LoginState extends State<Login> {
     );
   }
 
-  void setSystemPreferences(){
+  void setSystemPreferences() {
     brightness = MediaQuery.of(context).platformBrightness.toString();
   }
 }
