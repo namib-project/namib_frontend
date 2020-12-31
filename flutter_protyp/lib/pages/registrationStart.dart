@@ -163,6 +163,7 @@ class _RegistrationState extends State<RegistrationStart> {
                           hintColor: Colors.grey,
                         ),
                         child: TextField(
+                          cursorColor: Colors.grey,
                           decoration: InputDecoration(
                             labelText: "username".tr().toString(),
                             suffixIcon: Icon(
@@ -188,6 +189,7 @@ class _RegistrationState extends State<RegistrationStart> {
                           hintColor: Colors.grey,
                         ),
                         child: TextField(
+                          cursorColor: Colors.grey,
                           obscureText: !seePassword1,
                           decoration: InputDecoration(
                             labelText: "password".tr().toString(),
@@ -250,6 +252,7 @@ class _RegistrationState extends State<RegistrationStart> {
                           hintColor: Colors.grey,
                         ),
                         child: TextField(
+                          cursorColor: Colors.grey,
                           obscureText: !seePassword2,
                           decoration: InputDecoration(
                             labelText: "repeatPassword".tr().toString(),

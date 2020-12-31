@@ -161,6 +161,7 @@ class _LoginTestState extends State<LoginTest> {
                           hintColor: Colors.grey,
                         ),
                         child: TextField(
+                          cursorColor: Colors.grey,
                           decoration: InputDecoration(
                             labelText: 'username'.tr().toString(),
                             suffixIcon: Icon(
@@ -186,6 +187,7 @@ class _LoginTestState extends State<LoginTest> {
                           hintColor: Colors.grey,
                         ),
                         child: TextField(
+                          cursorColor: Colors.grey,
                           obscureText: !seePassword,
                           decoration: InputDecoration(
                             labelText: 'password'.tr().toString(),
