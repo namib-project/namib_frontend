@@ -30,11 +30,12 @@ class _LoginTestState extends State<LoginTest> {
   bool errorMessage400 = false;
   bool errorMessage401 = false;
   bool error = false;
+  bool loginButton = false;
 
   var brightness;
   List<Locale> systemLocale = WidgetsBinding.instance.window.locales;
 
-  String url = 'http://172.29.144.1:8000/users/login';
+  String url = 'http://192.168.0.1:8000/users/login';
   var response;
 
   void onlineOs() {
@@ -167,7 +168,12 @@ class _LoginTestState extends State<LoginTest> {
                               size: 17,
                             ),
                           ),
-                          onChanged: (value) => username = value,
+                          onChanged: (value) {
+                            setState(() {
+                              username = value;
+                            });
+                            checkForLoginButton();
+                          },
                         ),
                       ),
                     ),
@@ -192,7 +198,12 @@ class _LoginTestState extends State<LoginTest> {
                               },
                             ),
                           ),
-                          onChanged: (value) => password = value,
+                          onChanged: (value) {
+                            setState(() {
+                              password = value;
+                            });
+                            checkForLoginButton();
+                          },
                         ),
                       ),
                     ),
@@ -320,7 +331,9 @@ class _LoginTestState extends State<LoginTest> {
                           gradient: LinearGradient(
                             begin: Alignment.centerLeft,
                             end: Alignment.centerRight,
-                            colors: [loginColor1, loginColor2],
+                            colors: loginButton
+                                ? [loginColor1, loginColor2]
+                                : [Colors.grey[400], Colors.grey[700]],
                           ),
                         ),
                         child: Padding(
@@ -344,5 +357,17 @@ class _LoginTestState extends State<LoginTest> {
         ),
       ),
     );
+  }
+
+  void checkForLoginButton() {
+    if (username.length > 1 && password.length > 1) {
+      setState(() {
+        loginButton = true;
+      });
+    } else {
+      setState(() {
+        loginButton = false;
+      });
+    }
   }
 }

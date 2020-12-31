@@ -19,7 +19,8 @@ class RegistrationStart extends StatefulWidget {
 
 //Class for user registration, will only be used at the first usage
 class _RegistrationState extends State<RegistrationStart> {
-  bool seePassword = false;
+  bool seePassword1 = false;
+  bool seePassword2 = false;
   Icon iconSee = Icon(
     FontAwesomeIcons.eyeSlash,
     size: 17,
@@ -83,7 +84,7 @@ class _RegistrationState extends State<RegistrationStart> {
                     (errorMessage1 ? 50.0 : 0.0) +
                     (errorMessage2 ? 50.0 : 0.0) +
                     (usernameMessage ? 50.0 : 0.0) +
-                    (networkMessage ? 50.0 : 0.0),
+                    (networkMessage ? 120.0 : 0.0),
                 width: 325,
                 decoration: BoxDecoration(
                     color: Colors.white,
@@ -187,14 +188,14 @@ class _RegistrationState extends State<RegistrationStart> {
                           hintColor: Colors.grey,
                         ),
                         child: TextField(
-                          obscureText: !seePassword,
+                          obscureText: !seePassword1,
                           decoration: InputDecoration(
                             labelText: "password".tr().toString(),
                             suffixIcon: IconButton(
-                              icon: seePassword ? iconDontSee : iconSee,
+                              icon: seePassword1 ? iconDontSee : iconSee,
                               onPressed: () {
                                 setState(() {
-                                  seePassword = !seePassword;
+                                  seePassword1 = !seePassword1;
                                 });
                               },
                             ),
@@ -249,14 +250,14 @@ class _RegistrationState extends State<RegistrationStart> {
                           hintColor: Colors.grey,
                         ),
                         child: TextField(
-                          obscureText: !seePassword,
+                          obscureText: !seePassword2,
                           decoration: InputDecoration(
                             labelText: "repeatPassword".tr().toString(),
                             suffixIcon: IconButton(
-                              icon: seePassword ? iconDontSee : iconSee,
+                              icon: seePassword2 ? iconDontSee : iconSee,
                               onPressed: () {
                                 setState(() {
-                                  seePassword = !seePassword;
+                                  seePassword2 = !seePassword2;
                                 });
                               },
                             ),
@@ -322,7 +323,7 @@ class _RegistrationState extends State<RegistrationStart> {
                       child: Visibility(
                         visible: networkMessage,
                         child: Container(
-                          height: 80,
+                          height: 120,
                           alignment: Alignment.center,
                           child: SelectableText(
                             "networkError".tr().toString(),
@@ -366,7 +367,9 @@ class _RegistrationState extends State<RegistrationStart> {
                           gradient: LinearGradient(
                             begin: Alignment.centerLeft,
                             end: Alignment.centerRight,
-                            colors: [loginColor1, loginColor2],
+                            colors: regisButton
+                                ? [loginColor1, loginColor2]
+                                : [Colors.grey[400], Colors.grey[700]],
                           ),
                         ),
                         child: Padding(
