@@ -29,7 +29,7 @@ class _MainAppbarState extends State<MainAppbar> {
       title: Text("NAMIB"),
       actions: <Widget>[
         Padding(
-          padding: EdgeInsets.all(12),
+          padding: mobileDevice ? EdgeInsets.fromLTRB(12, 5, 12, 12) : EdgeInsets.fromLTRB(12, 2, 12, 12),
           child: PopupMenuButton<String>(
             itemBuilder: (context) => [
               PopupMenuItem(

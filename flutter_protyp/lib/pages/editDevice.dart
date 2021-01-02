@@ -28,12 +28,20 @@ class _EditDeviceState extends State<EditDevice> {
   //Creating the overlay element just an example for expert mode
   OverlayEntry overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
-            top: 340.0,
+            top: 400.0,
             right: 600,
-            child: CircleAvatar(
-              radius: 100,
-              backgroundColor: Colors.red,
-              child: Text("test"),
+            child: Container(
+              padding: EdgeInsets.all(20),
+              alignment: Alignment(0, 0),
+              height: 100,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                color: darkMode ? Colors.black.withOpacity(0.9) : Colors.grey.withOpacity(0.9),
+              ),
+              child: Text("Hier könnte Ihre Werbung stehen",
+              style: TextStyle(fontSize: 30,
+              color: darkMode ? Colors.white : Colors.black,
+              decoration: TextDecoration.none),),
             ),
           ));
 
