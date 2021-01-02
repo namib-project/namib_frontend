@@ -44,7 +44,7 @@ class _RegistrationState extends State<RegistrationStart> {
   bool networkMessage = false;
 
   ///Test for http client
-  String url = "http://172.29.144.1:8000/users/signup";
+  String url = "http://172.26.224.1:8000/users/signup";
   var response;
 
   Widget build(BuildContext context) {
@@ -167,7 +167,7 @@ class _RegistrationState extends State<RegistrationStart> {
                           decoration: InputDecoration(
                             labelText: "username".tr().toString(),
                             suffixIcon: Icon(
-                              FontAwesomeIcons.envelope,
+                              FontAwesomeIcons.user,
                               size: 17,
                             ),
                           ),

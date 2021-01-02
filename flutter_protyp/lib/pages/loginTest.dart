@@ -165,7 +165,7 @@ class _LoginTestState extends State<LoginTest> {
                           decoration: InputDecoration(
                             labelText: 'username'.tr().toString(),
                             suffixIcon: Icon(
-                              FontAwesomeIcons.envelope,
+                              FontAwesomeIcons.user,
                               size: 17,
                             ),
                           ),
