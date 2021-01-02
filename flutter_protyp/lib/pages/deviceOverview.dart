@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_protyp/pages/tebleTest.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import "package:flutter_protyp/widgets/drawer.dart";
 
@@ -16,8 +17,10 @@ class DeviceOverview extends StatefulWidget {
 class _DeviceOverviewState extends State<DeviceOverview> {
   bool view = true;
 
-  void changeView(){
-    view = !view;
+  void changeView() {
+    setState(() {
+      view = !view;
+    });
   }
 
   @override
@@ -27,12 +30,27 @@ class _DeviceOverviewState extends State<DeviceOverview> {
         drawer: MainDrawer(),
         body: Center(
           child: Column(children: [
-            IconButton(
-              alignment: Alignment.topRight,
-              icon: Icon(Icons.visibility),
-              onPressed:() => {
-                  changeView()
+            FlatButton(
+              onPressed: () {
+                changeView();
               },
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+              ),
+              child: Container(
+                width: 200,
+                height: 60,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(Icons.visibility),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    Text("Ansicht ändern")
+                  ],
+                ),
+              ),
             ),
             if (view)
               FlatButton(
@@ -48,97 +66,35 @@ class _DeviceOverviewState extends State<DeviceOverview> {
                     "Tree View (BuchheimWalker)",
                     style: TextStyle(color: Theme.of(context).primaryColor),
                   )),
-             if(view)
+            if (view)
               FlatButton(
-                onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Scaffold(
-                                appBar: AppBar(),
-                                body: GraphClusterViewPage(),
-                              )),
-                    ),
-                child: Text(
-                  "Graph Cluster View (FruchtermanReingold)",
-                  style: TextStyle(color: Theme.of(context).primaryColor),
-                )),
-            if(view)
+                  onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Scaffold(
+                                  appBar: AppBar(),
+                                  body: GraphClusterViewPage(),
+                                )),
+                      ),
+                  child: Text(
+                    "Graph Cluster View (FruchtermanReingold)",
+                    style: TextStyle(color: Theme.of(context).primaryColor),
+                  )),
+            if (view)
               FlatButton(
-                onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Scaffold(
-                                appBar: AppBar(),
-                                body: LayeredGraphViewPage(),
-                              )),
-                    ),
-                child: Text(
-                  "Layered View (Sugiyama)",
-                  style: TextStyle(color: Theme.of(context).primaryColor),
-                )),
-            if (!view)
-              Container(
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      height: 50,
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      margin: EdgeInsets.only(top: 20),
-                      child: Text(
-                        "Geräteübersicht",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: "OpenSans",
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                        ),
+                  onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Scaffold(
+                                  appBar: AppBar(),
+                                  body: LayeredGraphViewPage(),
+                                )),
                       ),
-                    ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      height: MediaQuery.of(context).size.height * 0.7,
-                      child: ListView(
-                        padding: EdgeInsets.zero,
-                        children: <Widget>[
-                          DeviceListTile(
-                            deviceName: "GeräteName1",
-                            deviceDescription: "Beschreibung1",
-                          ),
-                          DeviceListTile(
-                            deviceName: "GeräteName2",
-                            deviceDescription: "Beschreibung2",
-                          ),
-                          DeviceListTile(
-                            deviceName: "GeräteName3",
-                            deviceDescription: "Beschreibung3",
-                          ),
-                          DeviceListTile(
-                            deviceName: "GeräteName4",
-                            deviceDescription: "Beschreibung4",
-                          ),
-                          DeviceListTile(
-                            deviceName: "GeräteName5",
-                            deviceDescription: "Beschreibung5",
-                          ),
-                          DeviceListTile(
-                            deviceName: "GeräteName6",
-                            deviceDescription: "Beschreibung6",
-                          ),
-                          DeviceListTile(
-                            deviceName: "GeräteName7",
-                            deviceDescription: "Beschreibung7",
-                          ),
-                          DeviceListTile(
-                            deviceName: "GeräteName8",
-                            deviceDescription: "Beschreibung8",
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+                  child: Text(
+                    "Layered View (Sugiyama)",
+                    style: TextStyle(color: Theme.of(context).primaryColor),
+                  )),
+            if (!view) Expanded(child: TableTest()),
           ]),
         ));
   }

@@ -29,8 +29,6 @@ class _TableTestState extends State<TableTest> {
 
   Widget build(BuildContext context) {
     return new Scaffold(
-        appBar: MainAppbar(),
-        drawer: MainDrawer(),
         body: Center(
           child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
@@ -143,8 +141,9 @@ class _TableTestState extends State<TableTest> {
 
   void deleteItem(String name, String mudLaws) {
     DeviceOverviewItem item = DeviceOverviewItem(name, mudLaws);
-    for(int i = 0; i < devicesList.length; i++){
-      if(devicesList.elementAt(i).name == item.name && devicesList.elementAt(i).mudLaws == item.mudLaws){
+    for (int i = 0; i < devicesList.length; i++) {
+      if (devicesList.elementAt(i).name == item.name &&
+          devicesList.elementAt(i).mudLaws == item.mudLaws) {
         setState(() {
           devicesList.removeAt(i);
         });
