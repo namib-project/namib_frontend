@@ -35,7 +35,7 @@ class _DeviceOverviewState extends State<DeviceOverview> {
                 changeView();
               },
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
+                  borderRadius: BorderRadius.circular(30.0),
               ),
               child: Container(
                 width: 200,

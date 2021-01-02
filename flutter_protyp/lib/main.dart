@@ -73,7 +73,6 @@ class MaterialAppWithTheme extends StatelessWidget {
           "/test": (context) => EditDevice(),
           "/registration": (context) => Registration(),
           "/userManagement": (context) => UserManagement(),
-          "/tableTest": (context) => TableTest(),
           "/ownUser": (context) => OwnUser(),
           "/registrationStart": (context) => RegistrationStart(),
           "/languagetest": (context) =>
