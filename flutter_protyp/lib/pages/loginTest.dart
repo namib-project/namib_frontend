@@ -60,10 +60,12 @@ class _LoginTestState extends State<LoginTest> {
     if (language.toString() == "de_DE") {
       setState(() {
         themeChangeHandler.setLanguage(0, context);
+        selectionsLanguage = [true, false];
       });
     } else {
       setState(() {
         themeChangeHandler.setLanguage(1, context);
+        selectionsLanguage = [false, true];
       });
     }
   }
@@ -88,6 +90,7 @@ class _LoginTestState extends State<LoginTest> {
 
   @override
   Widget build(BuildContext context) {
+    setLanguage();
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
