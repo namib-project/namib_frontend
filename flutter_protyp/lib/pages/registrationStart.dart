@@ -44,7 +44,7 @@ class _RegistrationState extends State<RegistrationStart> {
   bool networkMessage = false;
 
   ///Test for http client
-  String url = "http://172.26.224.1:8000/users/signup";
+  String url = "http://172.19.0.1:8000/users/signup";
   var response;
 
   Widget build(BuildContext context) {
@@ -102,28 +102,42 @@ class _RegistrationState extends State<RegistrationStart> {
                           SizedBox(
                             width: 20,
                           ),
-                          InkWell(
-                            onTap: () => {
-                              Navigator.pushReplacementNamed(
-                                  context, "/loginTest")
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              width: 40,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(50),
-                                gradient: LinearGradient(
-                                  begin: Alignment.centerLeft,
-                                  end: Alignment.centerRight,
-                                  colors: [loginColor1, loginColor2],
-                                ),
+                          Container(
+                            alignment: Alignment.center,
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              gradient: LinearGradient(
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
+                                colors: [loginColor1, loginColor2],
                               ),
-                              child: Center(
-                                child: IconButton(
-                                  icon: Icon(
-                                    FontAwesomeIcons.arrowLeft,
-                                    color: Colors.white,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(0),
+                              child: Container(
+                                alignment: Alignment.center,
+                                child: ButtonTheme(
+                                  minWidth: 10,
+                                  height: 50,
+                                  child: FlatButton(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(50),
+                                    ),
+                                    onPressed: () => {
+                                      Navigator.pushReplacementNamed(
+                                          context, "/loginTest")
+                                    },
+                                    child: Padding(
+                                      padding: EdgeInsets.all(0),
+                                      child: Center(
+                                        child: Icon(
+                                          FontAwesomeIcons.arrowLeft,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -340,50 +354,66 @@ class _RegistrationState extends State<RegistrationStart> {
                       SizedBox(
                         height: 60,
                       ),
-                      InkWell(
-                        onTap: regisButton
-                            ? () async => {
-                                  response = await http
-                                      .post(url,
-                                          headers: {
-                                            "Content-Type": "application/json"
-                                          },
-                                          body: json.encode({
-                                            "password": password,
-                                            "username": username
-                                          }))
-                                      .timeout(const Duration(seconds: 3),
-                                          onTimeout: () {
-                                    return catchTimeout();
-                                  }),
-                                  username = "",
-                                  password = "",
-                                  secPassword = "",
-                                  passwordMessage = false,
-                                  checkResponse(),
-                                }
-                            : null,
-                        child: Container(
-                          alignment: Alignment.center,
-                          width: 250,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            gradient: LinearGradient(
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
-                              colors: regisButton
-                                  ? [loginColor1, loginColor2]
-                                  : [Colors.grey[400], Colors.grey[700]],
-                            ),
+
+                      /// ab hier neuer button
+                      Container(
+                        alignment: Alignment.center,
+                        width: 250,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          gradient: LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            colors: regisButton
+                                ? [loginColor1, loginColor2]
+                                : [Colors.grey[400], Colors.grey[700]],
                           ),
-                          child: Padding(
-                            padding: EdgeInsets.all(12),
-                            child: Text(
-                              "signup".tr().toString(),
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(0),
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: ButtonTheme(
+                              minWidth: 300,
+                              height: 100,
+                              child: FlatButton(
+                                color: Color(0x00000000),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
+                                onPressed: regisButton
+                                    ? () async => {
+                                          response = await http
+                                              .post(url,
+                                                  headers: {
+                                                    "Content-Type":
+                                                        "application/json"
+                                                  },
+                                                  body: json.encode({
+                                                    "password": password,
+                                                    "username": username
+                                                  }))
+                                              .timeout(
+                                                  const Duration(seconds: 3),
+                                                  onTimeout: () {
+                                            return catchTimeout();
+                                          }),
+                                          username = "",
+                                          password = "",
+                                          secPassword = "",
+                                          passwordMessage = false,
+                                          checkResponse(),
+                                        }
+                                    : null,
+                                child: Text(
+                                  "signup".tr().toString(),
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
                             ),
                           ),

@@ -35,7 +35,7 @@ class _LoginTestState extends State<LoginTest> {
   var brightness;
   List<Locale> systemLocale = WidgetsBinding.instance.window.locales;
 
-  String url = 'http://192.168.0.1:8000/users/login';
+  String url = 'http://172.19.0.1:8000/users/login';
   var response;
 
   void onlineOs() {
@@ -124,8 +124,10 @@ class _LoginTestState extends State<LoginTest> {
                   height: 30,
                 ),
                 Container(
-                  height: 480,
                   width: 325,
+                  height: 480 +
+                      (error ? 50.0 : 0.0) +
+                      (errorMessage400 ? 50.0 : 0.0),
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10)),
@@ -271,87 +273,104 @@ class _LoginTestState extends State<LoginTest> {
                           ),
                         ),
                       ),
-                      InkWell(
-                        onTap: () async => {
-                          setSystemPreferences(),
-                          setTheme(),
-                          print(brightness),
 
-                          /// Just for testing: delete when ready
-                          Navigator.pushReplacementNamed(
-                              context, "/deviceOverview"),
-
-                          {print(username)},
-                          {print(password)},
-
-                          //Sends Http Request
-                          response = await http.post(url,
-                              headers: {"Content-Type": "application/json"},
-                              body: json.encode({
-                                'password': password,
-                                'username': username
-                              })),
-                          print(response.body),
-                          print(response.statusCode),
-//
-                          if (response.statusCode == 400)
-                            {
-                              setState(() {
-                                errorMessage400 = true;
-                                errorMessage401 = false;
-                              })
-                            }
-                          else if (response.statusCode == 401)
-                            {
-                              setState(() {
-                                errorMessage401 = true;
-                                errorMessage400 = false;
-                              })
-                            }
-                          else if (response.statusCode == 200)
-                            {
-                              Navigator.pushReplacementNamed(
-                                  context, "/deviceOverview"),
-                              jwtToken = response.body,
-                              jwtToken = jwtToken.substring(9, jwtToken.length),
-                              print(jwtToken),
-                              setState(() {
-                                errorMessage401 = false;
-                                errorMessage400 = false;
-                              })
-                            }
-                          else
-                            {
-                              setState(() {
-                                errorMessage401 = false;
-                                errorMessage400 = false;
-                              })
-                            },
-
-                          password = "",
-                          username = "",
-                        },
-                        child: Container(
-                          alignment: Alignment.center,
-                          width: 250,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            gradient: LinearGradient(
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
-                              colors: loginButton
-                                  ? [loginColor1, loginColor2]
-                                  : [Colors.grey[400], Colors.grey[700]],
-                            ),
+                      /// New hoverable Button added
+                      Container(
+                        alignment: Alignment.center,
+                        width: 250,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          gradient: LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            colors: loginButton
+                                ? [loginColor1, loginColor2]
+                                : [Colors.grey[400], Colors.grey[700]],
                           ),
-                          child: Padding(
-                            padding: EdgeInsets.all(12),
-                            child: Text(
-                              "Login",
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(0),
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: ButtonTheme(
+                              minWidth: 300,
+                              height: 100,
+                              child: FlatButton(
+                                color: Color(0x00000000),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
+                                onPressed: () async => {
+                                  setSystemPreferences(),
+                                  setTheme(),
+                                  print(brightness),
+
+                                  /// Just for testing: delete when ready
+                                  Navigator.pushReplacementNamed(
+                                      context, "/deviceOverview"),
+
+                                  {print(username)},
+                                  {print(password)},
+
+                                  //Sends Http Request
+                                  response = await http.post(url,
+                                      headers: {
+                                        "Content-Type": "application/json"
+                                      },
+                                      body: json.encode({
+                                        'password': password,
+                                        'username': username
+                                      })),
+                                  print(response.body),
+                                  print(response.statusCode),
+//
+                                  if (response.statusCode == 400)
+                                    {
+                                      setState(() {
+                                        errorMessage400 = true;
+                                        errorMessage401 = false;
+                                      })
+                                    }
+                                  else if (response.statusCode == 401)
+                                    {
+                                      setState(() {
+                                        errorMessage401 = true;
+                                        errorMessage400 = false;
+                                      })
+                                    }
+                                  else if (response.statusCode == 200)
+                                    {
+                                      Navigator.pushReplacementNamed(
+                                          context, "/deviceOverview"),
+                                      jwtToken = response.body,
+                                      jwtToken = jwtToken.substring(
+                                          9, jwtToken.length),
+                                      print(jwtToken),
+                                      setState(() {
+                                        errorMessage401 = false;
+                                        errorMessage400 = false;
+                                      })
+                                    }
+                                  else
+                                    {
+                                      setState(() {
+                                        errorMessage401 = false;
+                                        errorMessage400 = false;
+                                      })
+                                    },
+
+                                  password = "",
+                                  username = "",
+                                },
+                                child: Text(
+                                  "Login",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
