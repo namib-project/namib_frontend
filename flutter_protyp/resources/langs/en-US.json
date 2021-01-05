@@ -36,5 +36,6 @@
   "save": "Save",
   "confirmation": "Confirmation",
   "registrationSuccess": "Registration was successful",
-  "networkError": "Registration could not be completed due to a network error. Please try again"
+  "networkError": "Registration could not be completed due to a network error. Please try again",
+  "changeView": "Change View"
 }

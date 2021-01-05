@@ -7,6 +7,7 @@ import "package:flutter_protyp/widgets/drawer.dart";
 import 'package:flutter_protyp/graphview/LayerGraphView.dart';
 import 'package:flutter_protyp/graphview/GraphViewClusterPage.dart';
 import 'package:flutter_protyp/graphview/TreeViewPage.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 /// returns deviceOverview site
 class DeviceOverview extends StatefulWidget {
@@ -47,7 +48,7 @@ class _DeviceOverviewState extends State<DeviceOverview> {
                     SizedBox(
                       width: 15,
                     ),
-                    Text("Ansicht ändern")
+                    Text("changeView".tr().toString())
                   ],
                 ),
               ),

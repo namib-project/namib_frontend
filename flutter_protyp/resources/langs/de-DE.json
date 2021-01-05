@@ -36,5 +36,6 @@
   "save": "Speichern",
   "confirmation": "Bestätigung",
   "registrationSuccess": "Registrierung war erfolgreich",
-  "networkError": "Registrierung konnte aufgrund eines Netzwerkfehlers nicht abgeschlossen werden. Bitte erneut versuchen"
+  "networkError": "Registrierung konnte aufgrund eines Netzwerkfehlers nicht abgeschlossen werden. Bitte erneut versuchen",
+  "changeView": "Ansicht ändern"
 }
