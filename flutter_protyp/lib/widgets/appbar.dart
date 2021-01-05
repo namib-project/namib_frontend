@@ -63,9 +63,7 @@ class _MainAppbarState extends State<MainAppbar> {
                         activeColor: buttonColor,
                         value: expertMode,
                         onChanged: (bool value) {
-                          setState(() {
-                            expertMode = value;
-                          });
+                          setExpertMode(setState, value);
                         },
                       ),
 
@@ -214,6 +212,13 @@ class _MainAppbarState extends State<MainAppbar> {
     ));
   }
 
+  void setExpertMode(StateSetter setState, bool value) {
+    ThemeChangeHandler handler = ThemeChangeHandler();
+    setState(() {
+      handler.changeExpertMode(value);
+    });
+  }
+
   void setDarkMode(StateSetter setState, ThemeChanger themeChanger) {
     ThemeChangeHandler handler = ThemeChangeHandler();
     setState(() {
@@ -222,9 +227,9 @@ class _MainAppbarState extends State<MainAppbar> {
   }
 
   void setLanguage(StateSetter setState, int index, BuildContext context) {
-    ThemeChangeHandler languageChangeHandler = new ThemeChangeHandler();
+    ThemeChangeHandler handler = new ThemeChangeHandler();
     setState(() {
-      languageChangeHandler.setLanguage(index, context);
+      handler.setLanguage(index, context);
     });
   }
 }

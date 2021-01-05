@@ -4,7 +4,15 @@ import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:flutter_protyp/widgets/theme.dart';
 import 'package:provider/provider.dart';
 
+
+// Class for handling theme changes like language, theme color and expert mode
+
 class ThemeChangeHandler {
+
+  // Function that changes the language by using the easy localization package
+  // Easy localization uses context of parent widget
+  // selectionsLanguage two entry array if first entry is true app shows in german,
+  // if second entry is true app shows in english
   void setLanguage(int index, BuildContext context) {
     for (int buttonIndex = 0;
         buttonIndex < selectionsLanguage.length;
@@ -22,6 +30,8 @@ class ThemeChangeHandler {
     }
   }
 
+  // Function that changes the darkMode variable so dark mode turns on
+  // Here theme changer is used who uses the context of the widget who calls the changer
   void changeDarkMode(BuildContext context) {
     ThemeChanger themeChanger = Provider.of<ThemeChanger>(context);
     darkMode
@@ -36,5 +46,11 @@ class ThemeChangeHandler {
             hintColor: Colors.grey,
           ));
     darkMode = !darkMode;
+  }
+
+  // Function that changes the apps appearance by the given value
+  // If true all Visibility widget depending on this expert mode variable are shown
+  void changeExpertMode(bool value){
+    expertMode = value;
   }
 }

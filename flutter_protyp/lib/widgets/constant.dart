@@ -14,7 +14,7 @@ Color loginColor1 = Colors.orange[200];
 Color loginColor2 = Colors.deepOrange;
 
 /// these are the different modes of the application
-/// should only be changed in settings in Appbar
+/// should only be changed in settings in themeChanger
 /// List with languages german is entry 0, english is entry 1
 /// initial setting is german
 List<bool> selectionsLanguage = [true, false];
