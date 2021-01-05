@@ -35,7 +35,7 @@ class _LoginTestState extends State<LoginTest> {
   var brightness;
   List<Locale> systemLocale = WidgetsBinding.instance.window.locales;
 
-  String url = 'http://172.19.0.1:8000/users/login';
+  String url = 'http://172.26.224.1:8000/users/login';
   var response;
 
   void onlineOs() {
@@ -73,7 +73,7 @@ class _LoginTestState extends State<LoginTest> {
   void setTheme() {
     if (brightness.toString() != "Brightness.light") {
       setState(() {
-        themeChangeHandler.setDarkMode(context);
+        themeChangeHandler.changeDarkMode(context);
       });
     }
   }
@@ -304,7 +304,6 @@ class _LoginTestState extends State<LoginTest> {
                                 onPressed: () async => {
                                   setSystemPreferences(),
                                   setTheme(),
-                                  print(brightness),
 
                                   /// Just for testing: delete when ready
                                   Navigator.pushReplacementNamed(

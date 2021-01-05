@@ -22,7 +22,7 @@ class ThemeChangeHandler {
     }
   }
 
-  void setDarkMode(BuildContext context) {
+  void changeDarkMode(BuildContext context) {
     ThemeChanger themeChanger = Provider.of<ThemeChanger>(context);
     darkMode
         ? themeChanger.setTheme(ThemeData.light().copyWith(
@@ -35,8 +35,6 @@ class ThemeChangeHandler {
             accentColor: primaryColor,
             hintColor: Colors.grey,
           ));
-    print(darkMode);
     darkMode = !darkMode;
-    print(darkMode);
   }
 }

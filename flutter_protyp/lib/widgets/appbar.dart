@@ -49,22 +49,7 @@ class _MainAppbarState extends State<MainAppbar> {
                         activeColor: buttonColor,
                         value: darkMode,
                         onChanged: (bool value) {
-                          setState(() {
-                            darkMode
-                                ? themeChanger
-                                    .setTheme(ThemeData.light().copyWith(
-                                    primaryColor: primaryColor,
-                                    accentColor: primaryColor,
-                                    hintColor: Colors.grey,
-                                  ))
-                                : themeChanger
-                                    .setTheme(ThemeData.dark().copyWith(
-                                    primaryColor: primaryColor,
-                                    accentColor: primaryColor,
-                                    hintColor: Colors.grey,
-                                  ));
-                            darkMode = !darkMode;
-                          });
+                          setDarkMode(setState, themeChanger);
                         },
                       ),
 
@@ -227,6 +212,13 @@ class _MainAppbarState extends State<MainAppbar> {
         ),
       ],
     ));
+  }
+
+  void setDarkMode(StateSetter setState, ThemeChanger themeChanger) {
+    ThemeChangeHandler handler = ThemeChangeHandler();
+    setState(() {
+      handler.changeDarkMode(context);
+    });
   }
 
   void setLanguage(StateSetter setState, int index, BuildContext context) {
