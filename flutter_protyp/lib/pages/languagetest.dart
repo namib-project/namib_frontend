@@ -4,22 +4,26 @@ import "package:flutter_protyp/widgets/drawer.dart";
 import 'package:easy_localization/easy_localization.dart';
 import "dart:convert";
 
+import "package:flutter_protyp/data/device.dart";
+
 /// just for testing can be deleted
 
 /// idea is from this Video: https://www.youtube.com/watch?v=Fo04xk9gIFo
-/// a better way may be: https://www.youtube.com/watch?v=8fFoLs9qVQA
+/// a better way may be: https://www.youtube.com/watch?v=8fFoLs9qVQA (see data Folder)
+/// its basically the same but the second variant saves a lot of effort
 
-String testJson = '{"name": "Gerätename1", "mudName": "Mudname1"}';
+String testJson1 = '{"deviceName": "Gerätename1", "mudName": "Mudname1"}';
+String testJson2 = '{"deviceName": "Gerätename2", "mudName": "Mudname2"}';
 
 /// I think we should also add the source of the MudProfile, to overwrite it with the new changes
-class Device {
+class Device1 {
   String deviceName;
   String mudName;
 
-  Device(this.deviceName, this.mudName);
+  Device1(this.deviceName, this.mudName);
 
-  Device.fromJson(Map<String, dynamic> json) {
-    deviceName = json["name"];
+  Device1.fromJson(Map<String, dynamic> json) {
+    deviceName = json["deviceName"];
     mudName = json["mudName"];
   }
 }
@@ -30,7 +34,10 @@ class LanguageTest extends StatefulWidget {
 }
 
 class _LanguageTestState extends State<LanguageTest> {
-  Device testDevice = Device.fromJson(json.decode(testJson));
+  Device1 testDevice1 = Device1.fromJson(json.decode(testJson1));
+
+  /// here we try to use the Device from the data folder
+  Device testDevice2 = Device.fromJson(json.decode(testJson2));
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +49,15 @@ class _LanguageTestState extends State<LanguageTest> {
           padding: const EdgeInsets.only(top: 50),
           child: Column(
             children: <Widget>[
-              Text(testDevice.deviceName),
-              Text(testDevice.mudName)
+              Text(testDevice1.deviceName),
+              Text(testDevice1.mudName),
+              SizedBox(
+                height: 50,
+              ),
+
+              /// here we try to use the Device from the data folder
+              Text(testDevice2.deviceName.toString()),
+              Text(testDevice2.mudName.toString()),
             ],
           ),
         ),
