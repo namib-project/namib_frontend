@@ -484,7 +484,10 @@ class _RegistrationState extends State<RegistrationStart> {
                             Navigator.of(context).pop();
                             Navigator.pushReplacementNamed(context, "/login");
                           },
-                          child: Text("Ok"),
+                          child: Text(
+                            "Ok",
+                            style: TextStyle(color: buttonColor),
+                          ),
                         ),
                       )
                     ],
