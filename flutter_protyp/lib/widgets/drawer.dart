@@ -3,7 +3,6 @@ import "package:flutter_protyp/widgets/constant.dart";
 
 import 'package:easy_localization/easy_localization.dart';
 
-
 /// Gives a Drawer in which the different sites are linked
 /// Can be coloured with primaryColor and secondaryColor in constant.dart
 class MainDrawer extends StatefulWidget {
@@ -75,19 +74,25 @@ class _MainDrawerState extends State<MainDrawer> {
               icon: Icons.build_circle,
               text: "editDevice".tr().toString(),
               onTap: () =>
-              {Navigator.pushReplacementNamed(context, "/editDevice")},
+                  {Navigator.pushReplacementNamed(context, "/editDevice")},
             ),
             CustomListTile(
               icon: Icons.person_add,
               text: "signup".tr().toString(),
               onTap: () =>
-              {Navigator.pushReplacementNamed(context, "/registration")},
+                  {Navigator.pushReplacementNamed(context, "/registration")},
             ),
             CustomListTile(
               icon: Icons.account_circle,
               text: "Eigener Nutzer",
               onTap: () =>
-              {Navigator.pushReplacementNamed(context, "/ownUser")},
+                  {Navigator.pushReplacementNamed(context, "/ownUser")},
+            ),
+            CustomListTile(
+              icon: Icons.account_circle,
+              text: "JSONTEST",
+              onTap: () =>
+                  {Navigator.pushReplacementNamed(context, "/languagetest")},
             ),
           ],
         ),
