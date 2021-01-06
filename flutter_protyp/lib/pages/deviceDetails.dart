@@ -17,6 +17,7 @@ class DeviceDetails extends StatefulWidget {
 class _DeviceDetailsState extends State<DeviceDetails> {
   List<DataRow> list = [];
   bool sortFirstRow = false;
+  bool sortFirstRow1 = false;
 
   @override
   void initState() {
@@ -114,8 +115,8 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                               numeric: false,
                               onSort: (i, b) {
                                 setState(() {
-                                  devices.sort((a, b) =>
-                                      a.systeminfo.compareTo(b.systeminfo));
+                                  services
+                                      .sort((a, b) => a.name.compareTo(b.name));
                                   sortFirstRow = !sortFirstRow;
                                 });
                               }),
@@ -160,7 +161,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                       child: DataTable(
                         onSelectAll: (b) {},
                         sortColumnIndex: 0,
-                        sortAscending: sortFirstRow,
+                        sortAscending: sortFirstRow1,
                         columns: <DataColumn>[
                           DataColumn(
                               label: SelectableText(
@@ -168,9 +169,9 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                               numeric: false,
                               onSort: (i, b) {
                                 setState(() {
-                                  devices.sort((a, b) =>
-                                      a.systeminfo.compareTo(b.systeminfo));
-                                  sortFirstRow = !sortFirstRow;
+                                  allowedDNSRequests
+                                      .sort((a, b) => a.compareTo(b));
+                                  sortFirstRow1 = !sortFirstRow1;
                                 });
                               }),
                           DataColumn(
