@@ -1,4 +1,4 @@
-import 'dart:html';
+//import 'dart:html';
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +28,7 @@ class _DeviceOverviewState extends State<DeviceOverview> {
       pressed = true;
     });
   }
+
   bool pressed = false;
 
   @override
@@ -46,7 +47,6 @@ class _DeviceOverviewState extends State<DeviceOverview> {
         body: Center(
           child: Column(children: [
             FlatButton(
-
               onPressed: () {
                 changeView();
               },
@@ -87,54 +87,53 @@ class _DeviceOverviewState extends State<DeviceOverview> {
                             ..style = PaintingStyle.fill,
                         )),
                   ]),
-              //FlatButton(
-              //    onPressed: () => Navigator.push(
-              //          context,
-              //          MaterialPageRoute(
-              //              builder: (context) => Scaffold(
-              //                    appBar: AppBar(),
-              //                    body: GraphClusterViewPage(),
-              //                  )),
-              //        ),
-              //    child: Text(
-              //      "Graph Cluster View (FruchtermanReingold)",
-              //      style: TextStyle(color: Theme.of(context).primaryColor),
-              //    )),
+            //FlatButton(
+            //    onPressed: () => Navigator.push(
+            //          context,
+            //          MaterialPageRoute(
+            //              builder: (context) => Scaffold(
+            //                    appBar: AppBar(),
+            //                    body: GraphClusterViewPage(),
+            //                  )),
+            //        ),
+            //    child: Text(
+            //      "Graph Cluster View (FruchtermanReingold)",
+            //      style: TextStyle(color: Theme.of(context).primaryColor),
+            //    )),
             if (!view) Expanded(child: TableTest()),
           ]),
         ));
   }
-
 
   int n = 8;
   Random r = Random();
 
   Widget getNodeText(int i, String name) {
     return GestureDetector(
-      //onLongPressStart: (details) {
-      //  var x = details.globalPosition.dx;
-      //  var y = details.globalPosition.dy;
-      //  Offset(x, y);
-      //},
-      //onPanStart: (details) {
-      //  var x = details.globalPosition.dx;
-      //  var y = details.globalPosition.dy;
-      //  setState(() {
-      //    builder.setFocusedNode(graph.getNodeAtPosition(i - 1));
-      //    graph.getNodeAtPosition(i - 1).position = Offset(x, y);
-      //  });
-      //},
-      //onPanUpdate: (details) {
-      //  var x = details.globalPosition.dx;
-      //  var y = details.globalPosition.dy;
-      //  setState(() {
-      //    builder.setFocusedNode(graph.getNodeAtPosition(i - 1));
-      //    graph.getNodeAtPosition(i - 1).position = Offset(x, y);
-      //  });
-      //},
-      //onPanEnd: (details) {
-      //  builder.setFocusedNode(null);
-      //},
+        //onLongPressStart: (details) {
+        //  var x = details.globalPosition.dx;
+        //  var y = details.globalPosition.dy;
+        //  Offset(x, y);
+        //},
+        //onPanStart: (details) {
+        //  var x = details.globalPosition.dx;
+        //  var y = details.globalPosition.dy;
+        //  setState(() {
+        //    builder.setFocusedNode(graph.getNodeAtPosition(i - 1));
+        //    graph.getNodeAtPosition(i - 1).position = Offset(x, y);
+        //  });
+        //},
+        //onPanUpdate: (details) {
+        //  var x = details.globalPosition.dx;
+        //  var y = details.globalPosition.dy;
+        //  setState(() {
+        //    builder.setFocusedNode(graph.getNodeAtPosition(i - 1));
+        //    graph.getNodeAtPosition(i - 1).position = Offset(x, y);
+        //  });
+        //},
+        //onPanEnd: (details) {
+        //  builder.setFocusedNode(null);
+        //},
         child: Container(
             padding: EdgeInsets.all(16),
             decoration: BoxDecoration(
@@ -144,8 +143,8 @@ class _DeviceOverviewState extends State<DeviceOverview> {
               ],
             ),
             child: Text(name)) //Icon(Icons.device_unknown))
-      //("Node $i")),
-    );
+        //("Node $i")),
+        );
   }
 
   final Graph graph = Graph();
