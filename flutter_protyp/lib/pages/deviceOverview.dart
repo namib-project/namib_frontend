@@ -1,13 +1,13 @@
+import 'dart:html';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_protyp/pages/tebleTest.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import "package:flutter_protyp/widgets/drawer.dart";
-
-import 'package:flutter_protyp/graphview/LayerGraphView.dart';
 import 'package:flutter_protyp/graphview/GraphViewClusterPage.dart';
-import 'package:flutter_protyp/graphview/TreeViewPage.dart';
 import 'package:easy_localization/easy_localization.dart';
+
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 /// returns deviceOverview site
 class DeviceOverview extends StatefulWidget {
@@ -21,11 +21,22 @@ class _DeviceOverviewState extends State<DeviceOverview> {
   void changeView() {
     setState(() {
       view = !view;
+      pressed = true;
     });
   }
 
+  bool pressed = false;
+
   @override
   Widget build(BuildContext context) {
+    if (!pressed) {
+      if (kIsWeb) {
+        view = true;
+      } else {
+        view = false;
+      }
+      pressed = false;
+    }
     return Scaffold(
         appBar: MainAppbar(),
         drawer: MainDrawer(),
@@ -36,7 +47,7 @@ class _DeviceOverviewState extends State<DeviceOverview> {
                 changeView();
               },
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30.0),
+                borderRadius: BorderRadius.circular(30.0),
               ),
               child: Container(
                 width: 200,

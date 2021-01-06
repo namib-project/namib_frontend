@@ -17,7 +17,10 @@ class _GraphClusterViewPageState extends State<GraphClusterViewPage> {
         appBar: MainAppbar(),
         drawer: MainDrawer(),
         body: Column(
-          children: [
+          children: [Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children:[
             InteractiveViewer(
                 constrained: true,
                 boundaryMargin: EdgeInsets.all(8),
@@ -31,8 +34,8 @@ class _GraphClusterViewPageState extends State<GraphClusterViewPage> {
                     ..strokeWidth = 1
                     ..style = PaintingStyle.fill,
                 )),
-          ],
-        ));
+          ]),
+        ]));
   }
 
   int n = 8;
