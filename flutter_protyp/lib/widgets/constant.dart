@@ -27,7 +27,7 @@ bool darkMode = false;
 bool mobileDevice = false;
 String jwtToken = "";
 
-List allowedDNSRequests = ["www.example.net","0.north-america.pool.ntp.org","media.whooshkaa.com"];
+List<String> allowedDNSRequests = ["www.example.net","0.north-america.pool.ntp.org","media.whooshkaa.com"];
 
 String json1 = '{"name":"Foo Service","product":"null","method":"null"}';
 String json2 = '{"name":"DNS Service","product":"null","method":"null"}';
@@ -40,19 +40,19 @@ ServiceForPresentaion service3 = ServiceForPresentaion("NTP Service", "null", "n
 List<ServiceForPresentaion> services = [service1, service2, service3];
 
 
-DeviceForPresentation testDevice1 = DeviceForPresentation("Light Bulb1", "Foo MUD", "0.1",
+DeviceForPresentation testDevice1 = DeviceForPresentation("Light Bulb Livingroom", "Foo MUD", "0.1",
     "192.168.1.2","https://upload.wikimedia.org/wikipedia/commons/d/dc/In_front_of_Kiyosato_Station03n4592.jpg",
     "https://lighting.example.com/lightbulb2000", "NoOneHasSignedThis", "https://lighting.example.com/documentation", services, allowedDNSRequests);
 
-DeviceForPresentation testDevice2 = DeviceForPresentation("Light Bulb2", "Foo MUD", "0.1",
+DeviceForPresentation testDevice2 = DeviceForPresentation("Light Bulb Bedroom", "Foo MUD", "0.1",
     "192.168.1.2","https://upload.wikimedia.org/wikipedia/commons/d/dc/In_front_of_Kiyosato_Station03n4592.jpg",
     "https://lighting.example.com/lightbulb2000", "NoOneHasSignedThis", "https://lighting.example.com/documentation", services, allowedDNSRequests);
 
-DeviceForPresentation testDevice3 = DeviceForPresentation("Light Bulb3", "Foo MUD", "0.1",
+DeviceForPresentation testDevice3 = DeviceForPresentation("Light Bulb Kidsroom", "Foo MUD", "0.1",
     "192.168.1.2","https://upload.wikimedia.org/wikipedia/commons/d/dc/In_front_of_Kiyosato_Station03n4592.jpg",
     "https://lighting.example.com/lightbulb2000", "NoOneHasSignedThis", "https://lighting.example.com/documentation", services, allowedDNSRequests);
 
-DeviceForPresentation testDevice4 = DeviceForPresentation("Light Bulb4", "Foo MUD", "0.1",
+DeviceForPresentation testDevice4 = DeviceForPresentation("Light Bulb Hallway", "Foo MUD", "0.1",
     "192.168.1.2","https://upload.wikimedia.org/wikipedia/commons/d/dc/In_front_of_Kiyosato_Station03n4592.jpg",
     "https://lighting.example.com/lightbulb2000", "NoOneHasSignedThis", "https://lighting.example.com/documentation", services, allowedDNSRequests);
 
