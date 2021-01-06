@@ -32,7 +32,7 @@ class _TableTestState extends State<TableTest> {
 
   void test() {
     testDevice1 = DeviceForPresentation(
-        "Light Bulb1",
+        "Light Bulb Livingroom",
         "Foo MUD",
         "0.1",
         "192.168.1.2",
@@ -44,7 +44,7 @@ class _TableTestState extends State<TableTest> {
         allowedDNSRequests);
 
     testDevice2 = DeviceForPresentation(
-        "Light Bulb2",
+        "Light Bulb Bedroom",
         "Foo MUD",
         "0.1",
         "192.168.1.2",
@@ -56,7 +56,7 @@ class _TableTestState extends State<TableTest> {
         allowedDNSRequests);
 
     testDevice3 = DeviceForPresentation(
-        "Light Bulb3",
+        "Light Bulb Kidsroom",
         "Foo MUD",
         "0.1",
         "192.168.1.2",
@@ -68,7 +68,7 @@ class _TableTestState extends State<TableTest> {
         allowedDNSRequests);
 
     testDevice4 = DeviceForPresentation(
-        "Light Bulb4",
+        "Light Bulb Hallway",
         "Foo MUD",
         "0.1",
         "192.168.1.2",
