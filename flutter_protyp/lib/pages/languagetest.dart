@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_protyp/data/mudservice.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import "package:flutter_protyp/widgets/drawer.dart";
 import 'package:easy_localization/easy_localization.dart';
@@ -12,8 +13,6 @@ import "package:flutter_protyp/data/device.dart";
 /// a better way may be: https://www.youtube.com/watch?v=8fFoLs9qVQA (see data Folder)
 /// its basically the same but the second variant saves a lot of effort
 
-String testJson1 = '{"deviceName": "Gerätename1", "mudName": "Mudname1"}';
-String testJson2 = '{"deviceName": "Gerätename2", "mudName": "Mudname2"}';
 
 /// I think we should also add the source of the MudProfile, to overwrite it with the new changes
 class Device1 {
@@ -34,34 +33,31 @@ class LanguageTest extends StatefulWidget {
 }
 
 class _LanguageTestState extends State<LanguageTest> {
-  Device1 testDevice1 = Device1.fromJson(json.decode(testJson1));
 
-  /// here we try to use the Device from the data folder
-  Device testDevice2 = Device.fromJson(json.decode(testJson2));
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: MainAppbar(),
-      drawer: MainDrawer(),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 50),
-          child: Column(
-            children: <Widget>[
-              Text(testDevice1.deviceName),
-              Text(testDevice1.mudName),
-              SizedBox(
-                height: 50,
-              ),
+ @override
+ Widget build(BuildContext context) {
+ //  return Scaffold(
+ //    appBar: MainAppbar(),
+ //    drawer: MainDrawer(),
+ //    body: Center(
+ //      child: Padding(
+ //        padding: const EdgeInsets.only(top: 50),
+ //        child: Column(
+ //          children: <Widget>[
+ //            Text(testDevice1.deviceName),
+ //            Text(testDevice1.mudName),
+ //            SizedBox(
+ //              height: 50,
+ //            ),
 
-              /// here we try to use the Device from the data folder
-              Text(testDevice2.deviceName.toString()),
-              Text(testDevice2.mudName.toString()),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+ //            /// here we try to use the Device from the data folder
+ //            Text(testDevice2.deviceName.toString()),
+ //            Text(testDevice2.mudName.toString()),
+ //          ],
+ //        ),
+ //      ),
+ //    ),
+ //  );
+ }
 }
