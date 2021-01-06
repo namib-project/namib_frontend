@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_protyp/pages/deviceDetails.dart';
 import "package:flutter_protyp/pages/login.dart";
 import "package:flutter_protyp/pages/deviceOverview.dart";
 import "package:flutter_protyp/pages/createDevice.dart";
@@ -74,6 +75,7 @@ class MaterialAppWithTheme extends StatelessWidget {
           "/userManagement": (context) => UserManagement(),
           "/ownUser": (context) => OwnUser(),
           "/registrationStart": (context) => RegistrationStart(),
+          "/deviceDetails": (context) => DeviceDetails(),
           "/languagetest": (context) =>
               LanguageTest(), // just for testing can be deleted
         });

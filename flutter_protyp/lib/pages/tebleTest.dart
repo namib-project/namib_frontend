@@ -139,7 +139,9 @@ class _TableTestState extends State<TableTest> {
                                 DataCell(Text(device.name)),
                                 DataCell(IconButton(
                                   icon: Icon(Icons.settings),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.pushReplacementNamed(context, "/deviceDetails");
+                                  },
                                 )),
                               ]))
                               .toList(),
