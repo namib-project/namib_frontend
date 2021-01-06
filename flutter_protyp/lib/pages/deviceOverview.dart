@@ -60,39 +60,11 @@ class _DeviceOverviewState extends State<DeviceOverview> {
                         MaterialPageRoute(
                             builder: (context) => Scaffold(
                                   appBar: AppBar(),
-                                  body: TreeViewPage(),
-                                )),
-                      ),
-                  child: Text(
-                    "Tree View (BuchheimWalker)",
-                    style: TextStyle(color: Theme.of(context).primaryColor),
-                  )),
-            if (view)
-              FlatButton(
-                  onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Scaffold(
-                                  appBar: AppBar(),
                                   body: GraphClusterViewPage(),
                                 )),
                       ),
                   child: Text(
                     "Graph Cluster View (FruchtermanReingold)",
-                    style: TextStyle(color: Theme.of(context).primaryColor),
-                  )),
-            if (view)
-              FlatButton(
-                  onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Scaffold(
-                                  appBar: AppBar(),
-                                  body: LayeredGraphViewPage(),
-                                )),
-                      ),
-                  child: Text(
-                    "Layered View (Sugiyama)",
                     style: TextStyle(color: Theme.of(context).primaryColor),
                   )),
             if (!view) Expanded(child: TableTest()),

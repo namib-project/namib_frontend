@@ -79,6 +79,8 @@ class _GraphClusterViewPageState extends State<GraphClusterViewPage> {
   final Graph graph = Graph();
   Layout builder;
 
+
+
   @override
   void initState() {
     final a = Node(getNodeText(1));
@@ -90,14 +92,14 @@ class _GraphClusterViewPageState extends State<GraphClusterViewPage> {
     final g = Node(getNodeText(7));
     final h = Node(getNodeText(8));
 
-    graph.addEdge(a, b, paint: Paint()..color = Colors.red);
-    graph.addEdge(a, c);
-    graph.addEdge(a, d);
-    graph.addEdge(c, e);
-    graph.addEdge(d, f);
-    graph.addEdge(f, c);
-    graph.addEdge(g, c);
-    graph.addEdge(h, g);
+    graph.addEdge(a, b, paint: Paint()..color = Colors.orange);
+    graph.addEdge(a, c, paint: Paint()..color = Colors.orange);
+    graph.addEdge(a, d, paint: Paint()..color = Colors.orange);
+    graph.addEdge(c, e, paint: Paint()..color = Colors.orange);
+    graph.addEdge(d, f, paint: Paint()..color = Colors.orange);
+    graph.addEdge(f, c, paint: Paint()..color = Colors.orange);
+    graph.addEdge(g, c, paint: Paint()..color = Colors.orange);
+    graph.addEdge(h, g, paint: Paint()..color = Colors.orange);
 
     builder = FruchtermanReingoldAlgorithm(iterations: 1000);
   }
