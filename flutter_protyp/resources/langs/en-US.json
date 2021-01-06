@@ -38,5 +38,7 @@
   "registrationSuccess": "Registration was successful",
   "networkError": "Registration could not be completed due to a network error. Please try again",
   "changeView": "Change View",
-  "useroverview": "User overview"
+  "useroverview": "User overview",
+  "device": "Device",
+  "edit": "Edit"
 }

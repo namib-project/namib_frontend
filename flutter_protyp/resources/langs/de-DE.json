@@ -5,7 +5,7 @@
   "deviceOverview": "Geräteübersicht",
   "newDevice": "Neues Gerät",
   "networkBehaviour": "Netzwerkverhalten",
-  "newMudProfile": "MUD Profil anlegen",
+  "newProfile": "MUD Profil anlegen",
   "settings": "Einstellungen",
   "expertMode": "Expertenmodus",
   "language": "Sprache",
@@ -38,5 +38,7 @@
   "registrationSuccess": "Registrierung war erfolgreich",
   "networkError": "Registrierung konnte aufgrund eines Netzwerkfehlers nicht abgeschlossen werden. Bitte erneut versuchen",
   "changeView": "Ansicht ändern",
-  "useroverview": "Nutzerübersicht"
+  "useroverview": "Nutzerübersicht",
+  "device": "Gerät",
+  "edit": "Bearbeiten"
 }
