@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:io';
+import 'package:flutter_protyp/pages/createMudProfile.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter_protyp/widgets/constant.dart';
@@ -23,6 +25,11 @@ class _UserManagementState extends State<UserManagement> {
   String newUsername = "";
   String newPassword = "";
   String confirmPassword = "";
+
+  String urlname = 'http://192.168.112.1:8000/users/me';
+  String urlpassword = 'http://192.168.112.1:8000/users/password';
+
+  var response;
 
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -98,8 +105,20 @@ class _UserManagementState extends State<UserManagement> {
                                           MainAxisAlignment.spaceAround,
                                       children: [
                                         RaisedButton(
-                                          onPressed: () {
+                                          onPressed: () async {
                                             Navigator.of(context).pop();
+                                            print(jwtToken);
+                                            response = await http.post(urlname,
+                                                headers: {
+                                                  "Content-Type": "application/json",
+                                                  "Authorization": "Bearer $jwtToken"
+                                                },
+                                                body: json.encode({
+                                                  'username': newUsername
+                                                }));
+
+                                            print(response.body);
+                                            print(response.statusCode);
                                           },
                                           child: Text (
                                             "change".tr().toString(),
@@ -109,14 +128,16 @@ class _UserManagementState extends State<UserManagement> {
                                           ),
                                         ),
                                         RaisedButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: Text (
-                                            "cancel".tr().toString(),
-                                            style: TextStyle(fontSize: 20),
-                                          ),
-                                        ),
+                                          onPressed: () async {
+                                            {
+                                              Navigator.of(context).pop();
+                                            };
+                                            child:
+                                            Text(
+                                              "cancel".tr().toString(),
+                                              style: TextStyle(fontSize: 20),
+                                            );
+                                          }),
                                       ],
                                     ),
                                   ),
@@ -190,7 +211,21 @@ class _UserManagementState extends State<UserManagement> {
                                           MainAxisAlignment.spaceAround,
                                       children: [
                                         RaisedButton(
-                                          onPressed: () {
+                                          onPressed: () async {
+
+                                            response = await http.post(urlpassword,
+                                                headers: {
+                                                  "Content-Type": "application/json",
+                                                  "Authorization": "Bearer $jwtToken"
+                                                },
+                                                body: json.encode({
+                                                  'old_password': password,
+                                                  'new_password': newPassword
+                                                }));
+
+                                            print(response.body);
+                                            print(response.statusCode);
+
                                             Navigator.of(context).pop();
                                           },
                                           child: Text (
