@@ -24,7 +24,7 @@ class _LoginState extends State<Login> {
   var brightness;
   List<Locale> systemLocale = WidgetsBinding.instance.window.locales;
 
-  String url = 'http://172.19.0.1:8000/users/login';
+  String url = 'http://172.25.32.1:8000/users/login';
   var response;
 
   void onlineOs() {
@@ -311,6 +311,8 @@ class _LoginState extends State<Login> {
                                   }
                                 else if (response.statusCode == 200)
                                   {
+                                    password = "",
+                                    username = "",
                                     Navigator.pushReplacementNamed(
                                         context, "/deviceOverview"),
                                     jwtToken = response.body,
@@ -331,8 +333,7 @@ class _LoginState extends State<Login> {
                                     })
                                   },
 
-                                password = "",
-                                username = "",
+
                               },
                               padding: EdgeInsets.all(15),
                               shape: RoundedRectangleBorder(

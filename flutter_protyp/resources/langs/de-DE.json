@@ -49,5 +49,8 @@
   "changeView": "Ansicht ändern",
   "useroverview": "Nutzerübersicht",
   "device": "Gerät",
-  "edit": "Details"
+  "edit": "Details",
+  "yourUser": "Dein Benutzername ist ",
+  "getData": "Hole Daten",
+  "clickData": "Klicke auf den Button um zu erfahren wer du bist"
 }

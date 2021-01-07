@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_protyp/widgets/constant.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class OwnUser extends StatefulWidget {
   @override
@@ -13,9 +14,8 @@ class OwnUser extends StatefulWidget {
 }
 
 class _OwnUserState extends State<OwnUser> {
+  String url = "http://172.25.32.1:8000/users/me";
   String username = "";
-  String url = "http://192.168.112.1:8000/users/me";
-
   String test = "";
   var response;
   String myJson;
@@ -24,9 +24,9 @@ class _OwnUserState extends State<OwnUser> {
   var parts = null;
   var payload = null;
   var normalized;
-var resp;
-var payloadMap;
-bool messege = false;
+  var resp;
+  var payloadMap;
+  bool messege = false;
 
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -44,7 +44,7 @@ bool messege = false;
                   height: 70,
                   alignment: Alignment.center,
                   child: SelectableText(
-                      'useroverview'.trim().toString(),
+                    'useroverview'.tr().toString(),
                     style: TextStyle(
                       fontFamily: "OpenSans",
                       fontSize: 30,
@@ -52,45 +52,55 @@ bool messege = false;
                     ),
                   ),
                 ),
-                Visibility(
-                  visible: messege,
-                  child: Container(
-                    alignment: Alignment.center,
-                    height: 50,
+                Container(
+                  child: Text(
+                      "clickData".tr().toString()
+                  ),
+                ),
+                Container(
+                  child: RaisedButton(
+                    onPressed: () => {
+                      myJson = jwtToken,
+                      clearJson = jsonDecode(myJson),
+                      token = clearJson["token"],
+                      parts = token.split('.'),
+                      payload = parts[1],
+                      normalized = base64Url.normalize(payload),
+                      resp = utf8.decode(base64Url.decode(normalized)),
+                      payloadMap = json.decode(resp),
+                      print(payloadMap["id"]),
+                      print(payloadMap["username"]),
+                      username = payloadMap["username"],
+                      setState(() {
+                        showDialog(
+                            context: context,
+                            builder: (context) => SimpleDialog(
+                              //title: SelectableText("confirmation".tr().toString()),
+                              contentPadding: EdgeInsets.all(20.0),
+                              children: [
+                                Container(
+                                  height: 70,
+                                  alignment: Alignment.center,
+                                  child: SelectableText(
+                                    "yourUser".tr().toString() + username,
+                                  ),
+
+                                ),
+                                Container(
+                                    alignment: Alignment.center,
+                                    child: Icon(
+                                      Icons.verified_user,
+                                    )
+                                )
+                              ],
+                            ));
+                      })
+                    },
                     child: Text(
-                     username.trim().toString(),
-                      style: TextStyle(
-                          color: Colors.red[700], fontSize: 20),
+                        "getData".tr().toString()
                     ),
                   ),
                 ),
-              Container(
-                child: RaisedButton(
-                  onPressed: ()  => {
-
-                    print(jwtToken),
-
-                  myJson = jwtToken,
-                  clearJson = jsonDecode(myJson),
-                  token = clearJson["token"],
-
-                  parts = token.split('.'),
-                   payload = parts[1],
-                  normalized = base64Url.normalize(payload),
-
-                  resp = utf8.decode(base64Url.decode(normalized)),
-                  payloadMap = json.decode(resp),
-                  print(payloadMap["id"]),
-                    print(payloadMap["username"]),
-
-                    username = payloadMap["username"],
-
-                    messege = true
-
-                  },
-                  child: Text("Daten holen"),
-                ),
-              ),
               ],
             ),
           ),

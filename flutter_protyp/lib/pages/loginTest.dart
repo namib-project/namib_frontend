@@ -35,7 +35,7 @@ class _LoginTestState extends State<LoginTest> {
   var brightness;
   List<Locale> systemLocale = WidgetsBinding.instance.window.locales;
 
-  String url = 'http://172.19.0.1:8000/users/login';
+  String url = 'http://172.25.32.1:8000/users/login';
   var response;
 
   void onlineOs() {
@@ -341,11 +341,13 @@ class _LoginTestState extends State<LoginTest> {
                                     }
                                   else if (response.statusCode == 200)
                                     {
+                                      password = "",
+                                      username = "",
                                       Navigator.pushReplacementNamed(
                                           context, "/deviceOverview"),
                                       jwtToken = response.body,
-                                      jwtToken = jwtToken.substring(
-                                          9, jwtToken.length),
+                                      //jwtToken = jwtToken.substring(
+                                      //    9, jwtToken.length),
                                       print(jwtToken),
                                       setState(() {
                                         errorMessage401 = false;
@@ -360,8 +362,7 @@ class _LoginTestState extends State<LoginTest> {
                                       })
                                     },
 
-                                  password = "",
-                                  username = "",
+
                                 },
                                 child: Text(
                                   "Login",
