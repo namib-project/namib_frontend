@@ -40,8 +40,5 @@
   "changeView": "Change View",
   "useroverview": "User overview",
   "device": "Device",
-  "edit": "Edit",
-  "yourUser": "Your username is ",
-  "getData": "Get Data",
-  "clickData": "Click on the button to get your Profilname"
+  "edit": "Edit"
 }
