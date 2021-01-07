@@ -88,12 +88,14 @@ class _MainDrawerState extends State<MainDrawer> {
               onTap: () =>
                   {Navigator.pushReplacementNamed(context, "/ownUser")},
             ),
-            CustomListTile(
-              icon: Icons.account_circle,
-              text: "JSONTEST",
-              onTap: () =>
-                  {Navigator.pushReplacementNamed(context, "/languagetest")},
-            ),
+
+            /// For testing JSON Serialization
+            ///CustomListTile(
+            ///  icon: Icons.account_circle,
+            ///  text: "JSONTEST",
+            ///  onTap: () =>
+            ///      {Navigator.pushReplacementNamed(context, "/languagetest")},
+            ///),
           ],
         ),
       ),

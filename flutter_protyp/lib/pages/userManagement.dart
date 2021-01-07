@@ -62,7 +62,8 @@ class _UserManagementState extends State<UserManagement> {
                       showDialog(
                           context: context,
                           builder: (context) => SimpleDialog(
-                            title: SelectableText('changeUsername'.tr().toString()),
+                                title: SelectableText(
+                                    'changeUsername'.tr().toString()),
                                 contentPadding: EdgeInsets.all(20.0),
                                 children: <Widget>[
                                   Container(
@@ -72,7 +73,8 @@ class _UserManagementState extends State<UserManagement> {
                                       obscureText: false,
                                       decoration: InputDecoration(
                                         border: OutlineInputBorder(),
-                                        labelText: "newUsername".tr().toString(),
+                                        labelText:
+                                            "newUsername".tr().toString(),
                                       ),
                                       onChanged: (String value) async {
                                         setState(() {
@@ -110,41 +112,42 @@ class _UserManagementState extends State<UserManagement> {
                                             print(jwtToken);
                                             response = await http.post(urlname,
                                                 headers: {
-                                                  "Content-Type": "application/json",
-                                                  "Authorization": "Bearer $jwtToken"
+                                                  "Content-Type":
+                                                      "application/json",
+                                                  "Authorization":
+                                                      "Bearer $jwtToken"
                                                 },
-                                                body: json.encode({
-                                                  'username': newUsername
-                                                }));
+                                                body: json.encode(
+                                                    {'username': newUsername}));
 
                                             print(response.body);
                                             print(response.statusCode);
                                           },
-                                          child: Text (
+                                          child: Text(
                                             "change".tr().toString(),
                                             style: TextStyle(
                                               fontSize: 20,
                                             ),
                                           ),
                                         ),
-                                        RaisedButton(
-                                          onPressed: () async {
-                                            {
-                                              Navigator.of(context).pop();
-                                            };
-                                            child:
-                                            Text(
-                                              "cancel".tr().toString(),
-                                              style: TextStyle(fontSize: 20),
-                                            );
-                                          }),
+                                        RaisedButton(onPressed: () async {
+                                          {
+                                            Navigator.of(context).pop();
+                                          }
+                                          ;
+                                          child:
+                                          Text(
+                                            "cancel".tr().toString(),
+                                            style: TextStyle(fontSize: 20),
+                                          );
+                                        }),
                                       ],
                                     ),
                                   ),
                                 ],
                               ));
                     },
-                    child: Text (
+                    child: Text(
                       "changeUsername".tr().toString(),
                       style: TextStyle(fontSize: 20),
                     ),
@@ -158,7 +161,8 @@ class _UserManagementState extends State<UserManagement> {
                       showDialog(
                           context: context,
                           builder: (context) => SimpleDialog(
-                                title: SelectableText ("changePassword".tr().toString()),
+                                title: SelectableText(
+                                    "changePassword".tr().toString()),
                                 contentPadding: EdgeInsets.all(20.0),
                                 children: <Widget>[
                                   Container(
@@ -168,7 +172,8 @@ class _UserManagementState extends State<UserManagement> {
                                       obscureText: true,
                                       decoration: InputDecoration(
                                         border: OutlineInputBorder(),
-                                        labelText: "newPassword".tr().toString(),
+                                        labelText:
+                                            "newPassword".tr().toString(),
                                       ),
                                       onChanged: (String value) async {
                                         setState(() {
@@ -181,7 +186,7 @@ class _UserManagementState extends State<UserManagement> {
                                     height: mobileDevice ? 45 : 60,
                                     width: 100,
                                     alignment: Alignment.center,
-                                    child: SelectableText (
+                                    child: SelectableText(
                                       "minCharacters".tr().toString(),
                                       style: TextStyle(
                                           color: Colors.red[700], fontSize: 20),
@@ -194,7 +199,8 @@ class _UserManagementState extends State<UserManagement> {
                                       obscureText: true,
                                       decoration: InputDecoration(
                                         border: OutlineInputBorder(),
-                                        labelText: "currentPassword".tr().toString(),
+                                        labelText:
+                                            "currentPassword".tr().toString(),
                                       ),
                                       onChanged: (String value) async {
                                         setState(() {
@@ -212,11 +218,13 @@ class _UserManagementState extends State<UserManagement> {
                                       children: [
                                         RaisedButton(
                                           onPressed: () async {
-
-                                            response = await http.post(urlpassword,
+                                            response = await http.post(
+                                                urlpassword,
                                                 headers: {
-                                                  "Content-Type": "application/json",
-                                                  "Authorization": "Bearer $jwtToken"
+                                                  "Content-Type":
+                                                      "application/json",
+                                                  "Authorization":
+                                                      "Bearer $jwtToken"
                                                 },
                                                 body: json.encode({
                                                   'old_password': password,
@@ -228,7 +236,7 @@ class _UserManagementState extends State<UserManagement> {
 
                                             Navigator.of(context).pop();
                                           },
-                                          child: Text (
+                                          child: Text(
                                             "change".tr().toString(),
                                             style: TextStyle(fontSize: 20),
                                           ),
@@ -237,7 +245,7 @@ class _UserManagementState extends State<UserManagement> {
                                           onPressed: () {
                                             Navigator.of(context).pop();
                                           },
-                                          child: Text (
+                                          child: Text(
                                             "cancel".tr().toString(),
                                             style: TextStyle(fontSize: 20),
                                           ),
@@ -248,7 +256,7 @@ class _UserManagementState extends State<UserManagement> {
                                 ],
                               ));
                     },
-                    child: Text (
+                    child: Text(
                       "changePassword".tr().toString(),
                       style: TextStyle(fontSize: 20),
                     ),
