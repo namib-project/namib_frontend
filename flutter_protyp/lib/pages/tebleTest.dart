@@ -61,7 +61,7 @@ class _TableTestState extends State<TableTest> {
                                 sortFirstRow = !sortFirstRow;
                               });
                             }),
-                        DataColumn(label: SelectableText("MUD-Name")),
+                        DataColumn(label: SelectableText("MUD")),
                         DataColumn(
                             label: SelectableText("edit".tr().toString()))
                       ],
