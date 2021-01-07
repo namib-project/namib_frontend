@@ -404,6 +404,42 @@ class _RegistrationState extends State<RegistrationStart> {
                                           secPassword = "",
                                           passwordMessage = false,
                                           checkResponse(),
+
+                                  ///For testing and presentation
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) => SimpleDialog(
+                                        title: SelectableText("confirmation".tr().toString()),
+                                        contentPadding: EdgeInsets.all(20.0),
+                                        children: [
+                                          Container(
+                                            height: 70,
+                                            alignment: Alignment.center,
+                                            child: SelectableText(
+                                                "registrationSuccess".tr().toString()),
+                                          ),
+                                          Container(
+                                            alignment: Alignment.center,
+                                            child: Icon(
+                                              Icons.verified_user,
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 70,
+                                            alignment: Alignment.center,
+                                            child: RaisedButton(
+                                              onPressed: () {
+                                                Navigator.pushReplacementNamed(
+                                                    context, "/loginTest");
+                                              },
+                                              child: Text("Ok"),
+                                            ),
+                                          )
+                                        ],
+                                      )
+                                  )
+
+
                                         }
                                     : null,
                                 child: Text(
