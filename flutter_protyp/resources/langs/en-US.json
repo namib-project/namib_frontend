@@ -1,5 +1,13 @@
 {
   "hello": "Hello",
+  "loginPls": "Please login",
+  "enterDataPls" : "Please enter your data",
+  "mudSignature": "MUD_Signature:",
+  "services": "Services:",
+  "service": "Service",
+  "documentation": "Documentation:",
+  "allowedDNSRequests": "Allowed DNS Requests:",
+  "DNSRequests": "DNS Requests",
   "title": "Eng Title",
   "menu": "Menu",
   "deviceOverview": "Device Overview",

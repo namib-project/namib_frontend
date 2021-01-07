@@ -160,7 +160,7 @@ class _RegistrationState extends State<RegistrationStart> {
                         height: 20,
                       ),
                       Text(
-                        "Bitte geben Sie ihre Daten ein",
+                        "enterDataPls".tr().toString(),
                         style: TextStyle(
                           fontSize: 15,
                           color: Colors.grey,

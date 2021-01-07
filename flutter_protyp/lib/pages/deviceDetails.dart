@@ -61,7 +61,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                   height: 40,
                 ),
                 Text(
-                  "MUD_Signatur: ",
+                  'mudSignature'.tr().toString(),
                   style: TextStyle(fontSize: 20),
                 ),
                 Text(
@@ -83,7 +83,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                   height: 20,
                 ),
                 Text(
-                  "Documentation: ",
+                  'documentation'.tr().toString(),
                   style: TextStyle(fontSize: 20),
                 ),
                 Text(
@@ -94,7 +94,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                   height: 40,
                 ),
                 Text(
-                  "Services: ",
+                  'services'.tr().toString(),
                   style: TextStyle(fontSize: 22),
                 ),
                 Row(
@@ -111,7 +111,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                         sortAscending: sortFirstRow,
                         columns: <DataColumn>[
                           DataColumn(
-                              label: SelectableText("Service".tr().toString()),
+                              label: SelectableText("service".tr().toString()),
                               numeric: false,
                               onSort: (i, b) {
                                 setState(() {
@@ -147,7 +147,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                   height: 30,
                 ),
                 Text(
-                  "Allowed DNS Requests: ",
+                  "allowedDNSRequests".tr().toString(),
                   style: TextStyle(fontSize: 22),
                 ),
                 Row(
@@ -164,8 +164,8 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                         sortAscending: sortFirstRow1,
                         columns: <DataColumn>[
                           DataColumn(
-                              label: SelectableText(
-                                  "DNS Requests".tr().toString()),
+                              label:
+                                  SelectableText("DNSRequests".tr().toString()),
                               numeric: false,
                               onSort: (i, b) {
                                 setState(() {

@@ -138,7 +138,7 @@ class _LoginTestState extends State<LoginTest> {
                         height: 30,
                       ),
                       Text(
-                        "Hallo",
+                        'hello'.tr().toString(),
                         style: TextStyle(
                           fontSize: 35,
                           fontWeight: FontWeight.bold,
@@ -149,7 +149,7 @@ class _LoginTestState extends State<LoginTest> {
                         height: 20,
                       ),
                       Text(
-                        "Bitte loggen Sie sich ein",
+                        'loginPls'.tr().toString(),
                         style: TextStyle(
                           fontSize: 15,
                           color: Colors.grey,

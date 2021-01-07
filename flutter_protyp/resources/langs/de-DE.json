@@ -1,5 +1,13 @@
 {
   "hello": "Hallo",
+  "loginPls": "Bitte loggen Sie sich ein",
+  "enterDataPls" : "Bitte geben Sie ihre Daten ein",
+  "mudSignature": "MUD_Signatur:",
+  "services": "Dienste:",
+  "service": "Dienst",
+  "allowedDNSRequests": "Erlaubte DNS Anfragen:",
+  "DNSRequests": "DNS Anfragen",
+  "documentation": "Dokumentation:",
   "title": "Deutscher Titel",
   "menu": "Menü",
   "deviceOverview": "Geräteübersicht",
