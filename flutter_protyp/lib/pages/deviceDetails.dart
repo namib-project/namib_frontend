@@ -8,6 +8,7 @@ import 'package:flutter_protyp/pages/tebleTest.dart';
 import 'package:flutter_protyp/dataForPresentation/device.dart';
 import 'package:flutter_protyp/dataForPresentation/service.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DeviceDetails extends StatefulWidget {
   @override
@@ -27,7 +28,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: AppBar(
-        title: Text("Details"),
+        title: SelectableText("Details"),
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -38,7 +39,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                 SizedBox(
                   height: 30,
                 ),
-                Text(
+                SelectableText(
                   testDevice1.systeminfo,
                   style: TextStyle(fontSize: 25),
                 ),
@@ -60,40 +61,43 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                 SizedBox(
                   height: 40,
                 ),
-                Text(
+                SelectableText(
                   'mudSignature'.tr().toString(),
                   style: TextStyle(fontSize: 20),
                 ),
-                Text(
+                SelectableText(
                   testDevice1.mud_signature,
                   style: TextStyle(fontSize: 18),
                 ),
                 SizedBox(
                   height: 20,
                 ),
-                Text(
-                  "MUD_URL: ",
+                SelectableText(
+                  "MUD URL: ",
                   style: TextStyle(fontSize: 20),
                 ),
-                Text(
+                SelectableText(
                   testDevice1.mud_url,
                   style: TextStyle(fontSize: 18),
+                  onTap: (){
+                    _launchMUDURL();
+                  },
                 ),
                 SizedBox(
                   height: 20,
                 ),
-                Text(
+                SelectableText(
                   'documentation'.tr().toString(),
                   style: TextStyle(fontSize: 20),
                 ),
-                Text(
+                SelectableText(
                   testDevice1.documentation,
                   style: TextStyle(fontSize: 18),
                 ),
                 SizedBox(
                   height: 40,
                 ),
-                Text(
+                SelectableText(
                   'services'.tr().toString(),
                   style: TextStyle(fontSize: 22),
                 ),
@@ -195,13 +199,23 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                       flex: 1,
                       child: Container(),
                     ),
+
                   ],
                 ),
+                Container(height: 30,)
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  _launchMUDURL() async{
+    if (await canLaunch(testDevice1.mud_url)) {
+      await launch(testDevice1.mud_url);
+    } else {
+      throw 'Could not launch test';
+    }
   }
 }

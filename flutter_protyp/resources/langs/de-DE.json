@@ -2,7 +2,7 @@
   "hello": "Hallo",
   "loginPls": "Bitte loggen Sie sich ein",
   "enterDataPls" : "Bitte geben Sie ihre Daten ein",
-  "mudSignature": "MUD_Signatur:",
+  "mudSignature": "MUD Signatur:",
   "services": "Dienste:",
   "service": "Dienst",
   "allowedDNSRequests": "Erlaubte DNS Anfragen:",
