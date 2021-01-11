@@ -345,7 +345,8 @@ class _LoginTestState extends State<LoginTest> {
                                       username = "",
                                       Navigator.pushReplacementNamed(
                                           context, "/deviceOverview"),
-                                      jwtToken = response.body,
+
+                                      jwtToken = json.decode(response.body)['token'],
                                       //jwtToken = jwtToken.substring(
                                       //    9, jwtToken.length),
                                       print(jwtToken),
