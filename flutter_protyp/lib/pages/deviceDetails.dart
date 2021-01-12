@@ -103,6 +103,9 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                 SelectableText(
                   widget.device.documentation,
                   style: TextStyle(fontSize: 18),
+                  onTap: (){
+                    _launchDocumentation();
+                  },
                 ),
                 SizedBox(
                   height: 40,
@@ -224,8 +227,16 @@ class _DeviceDetailsState extends State<DeviceDetails> {
   }
 
   _launchMUDURL() async {
-    if (await canLaunch(testDevice1.mud_url)) {
-      await launch(testDevice1.mud_url);
+    if (await canLaunch(widget.device.mud_url)) {
+      await launch(widget.device.mud_url);
+    } else {
+      throw 'Could not launch test';
+    }
+  }
+
+  _launchDocumentation() async {
+    if (await canLaunch(widget.device.documentation)) {
+      await launch(widget.device.documentation);
     } else {
       throw 'Could not launch test';
     }

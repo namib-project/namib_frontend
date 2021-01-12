@@ -5,7 +5,7 @@
   "mudSignature": "MUD Signatur:",
   "services": "Dienste:",
   "service": "Dienst",
-  "allowedDNSRequests": "Erlaubte DNS Anfragen:",
+  "allowedDNSRequests": "Erlaubte HTTP/DNS Anfragen:",
   "DNSRequests": "DNS Anfragen",
   "documentation": "Dokumentation:",
   "title": "Deutscher Titel",

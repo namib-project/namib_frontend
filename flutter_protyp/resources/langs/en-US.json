@@ -6,7 +6,7 @@
   "services": "Services:",
   "service": "Service",
   "documentation": "Documentation:",
-  "allowedDNSRequests": "Allowed DNS Requests:",
+  "allowedDNSRequests": "Allowed HTTP/DNS Requests:",
   "DNSRequests": "DNS Requests",
   "title": "Eng Title",
   "menu": "Menu",
