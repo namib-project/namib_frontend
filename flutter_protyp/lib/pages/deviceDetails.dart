@@ -2,20 +2,30 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_protyp/data/device.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/drawer.dart';
 import 'package:flutter_protyp/pages/tebleTest.dart';
 import 'package:flutter_protyp/dataForPresentation/device.dart';
 import 'package:flutter_protyp/dataForPresentation/service.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DeviceDetails extends StatefulWidget {
-  @override
+  const DeviceDetails({
+    Key key,
+    @required
+    this.device,
+  }) : super(key: key);
+  final DeviceForPresentation device;
+
   _DeviceDetailsState createState() => _DeviceDetailsState();
+
 }
 
 class _DeviceDetailsState extends State<DeviceDetails> {
+
   List<DataRow> list = [];
   bool sortFirstRow = false;
   bool sortFirstRow1 = false;
@@ -40,7 +50,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                   height: 30,
                 ),
                 SelectableText(
-                  testDevice1.systeminfo,
+                  widget.device.systeminfo,
                   style: TextStyle(fontSize: 25),
                 ),
                 SizedBox(
@@ -66,7 +76,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                   style: TextStyle(fontSize: 20),
                 ),
                 SelectableText(
-                  testDevice1.mud_signature,
+                  widget.device.mud_signature,
                   style: TextStyle(fontSize: 18),
                 ),
                 SizedBox(
@@ -77,9 +87,9 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                   style: TextStyle(fontSize: 20),
                 ),
                 SelectableText(
-                  testDevice1.mud_url,
+                  widget.device.mud_url,
                   style: TextStyle(fontSize: 18),
-                  onTap: (){
+                  onTap: () {
                     _launchMUDURL();
                   },
                 ),
@@ -91,7 +101,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                   style: TextStyle(fontSize: 20),
                 ),
                 SelectableText(
-                  testDevice1.documentation,
+                  widget.device.documentation,
                   style: TextStyle(fontSize: 18),
                 ),
                 SizedBox(
@@ -127,17 +137,18 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                           DataColumn(
                               label: SelectableText("edit".tr().toString()))
                         ],
-                        rows: services
-                            .map((service) => DataRow(cells: [
-                                  DataCell(Text(service.name)),
-                                  DataCell(IconButton(
-                                    icon: Icon(Icons.settings),
-                                    onPressed: () {
-                                      Navigator.pushReplacementNamed(
-                                          context, "/deviceDetails");
-                                    },
-                                  )),
-                                ]))
+                        rows: widget.device.services
+                            .map((service) =>
+                            DataRow(cells: [
+                              DataCell(Text(service.name)),
+                              DataCell(IconButton(
+                                icon: Icon(Icons.settings),
+                                onPressed: () {
+                                  Navigator.pushReplacementNamed(
+                                      context, "/deviceDetails");
+                                },
+                              )),
+                            ]))
                             .toList(),
                       ),
                     ),
@@ -169,7 +180,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                         columns: <DataColumn>[
                           DataColumn(
                               label:
-                                  SelectableText("DNSRequests".tr().toString()),
+                              SelectableText("DNSRequests".tr().toString()),
                               numeric: false,
                               onSort: (i, b) {
                                 setState(() {
@@ -181,17 +192,18 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                           DataColumn(
                               label: SelectableText("edit".tr().toString()))
                         ],
-                        rows: allowedDNSRequests
-                            .map((request) => DataRow(cells: [
-                                  DataCell(Text(request)),
-                                  DataCell(IconButton(
-                                    icon: Icon(Icons.settings),
-                                    onPressed: () {
-                                      Navigator.pushReplacementNamed(
-                                          context, "/deviceDetails");
-                                    },
-                                  )),
-                                ]))
+                        rows: widget.device.allowedDNSRequests
+                            .map((request) =>
+                            DataRow(cells: [
+                              DataCell(Text(request)),
+                              DataCell(IconButton(
+                                icon: Icon(Icons.settings),
+                                onPressed: () {
+                                  Navigator.pushReplacementNamed(
+                                      context, "/deviceDetails");
+                                },
+                              )),
+                            ]))
                             .toList(),
                       ),
                     ),
@@ -211,7 +223,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     );
   }
 
-  _launchMUDURL() async{
+  _launchMUDURL() async {
     if (await canLaunch(testDevice1.mud_url)) {
       await launch(testDevice1.mud_url);
     } else {

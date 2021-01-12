@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_protyp/dataForPresentation/device.dart';
 import 'package:flutter_protyp/dataForPresentation/service.dart';
+import 'package:flutter_protyp/pages/deviceDetails.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 
 class TableTest extends StatefulWidget {
@@ -72,8 +73,14 @@ class _TableTestState extends State<TableTest> {
                                 DataCell(IconButton(
                                   icon: Icon(Icons.settings),
                                   onPressed: () {
-                                    Navigator.pushNamed(
-                                        context, "/deviceDetails");
+                                    //Navigator.pushNamed(
+                                    //    context, "/deviceDetails");
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => DeviceDetails(device: device,),
+                                      ),
+                                    );
                                   },
                                 )),
                               ]))
