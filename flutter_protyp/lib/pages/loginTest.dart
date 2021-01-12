@@ -355,7 +355,7 @@ class _LoginTestState extends State<LoginTest> {
                                   print(response.body),
                                   print(response.statusCode),
 
-                                  if (response.satusCode.legth >= 1)
+                                  if (response.statusCode >= 1)
                                     {
                                       _checkResponse(response.statusCode),
                                     }
