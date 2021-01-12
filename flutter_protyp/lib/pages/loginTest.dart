@@ -35,7 +35,7 @@ class _LoginTestState extends State<LoginTest> {
   var brightness;
   List<Locale> systemLocale = WidgetsBinding.instance.window.locales;
 
-  String url = 'http://172.25.32.1:8000/users/login';
+  String url = 'http://172.26.224.1:8000/users/login';
   var response;
 
   void onlineOs() {
@@ -324,46 +324,7 @@ class _LoginTestState extends State<LoginTest> {
                                       })),
                                   print(response.body),
                                   print(response.statusCode),
-//
-                                  if (response.statusCode == 400)
-                                    {
-                                      setState(() {
-                                        errorMessage400 = true;
-                                        errorMessage401 = false;
-                                      })
-                                    }
-                                  else if (response.statusCode == 401)
-                                    {
-                                      setState(() {
-                                        errorMessage401 = true;
-                                        errorMessage400 = false;
-                                      })
-                                    }
-                                  else if (response.statusCode == 200)
-                                    {
-                                      password = "",
-                                      username = "",
-                                      Navigator.pushReplacementNamed(
-                                          context, "/deviceOverview"),
-
-                                      jwtToken = json.decode(response.body)['token'],
-                                      //jwtToken = jwtToken.substring(
-                                      //    9, jwtToken.length),
-                                      print(jwtToken),
-                                      setState(() {
-                                        errorMessage401 = false;
-                                        errorMessage400 = false;
-                                      })
-                                    }
-                                  else
-                                    {
-                                      setState(() {
-                                        errorMessage401 = false;
-                                        errorMessage400 = false;
-                                      })
-                                    },
-
-
+                                  _checkResponse(response.statusCode)
                                 },
                                 child: Text(
                                   "Login",
@@ -399,5 +360,31 @@ class _LoginTestState extends State<LoginTest> {
         loginButton = false;
       });
     }
+  }
+
+  void _checkResponse(int statusCode) {
+    setState(() {
+      if (statusCode == 400) {
+        errorMessage400 = true;
+        errorMessage401 = false;
+      } else if (statusCode == 401) {
+        errorMessage401 = true;
+        errorMessage400 = false;
+      } else if (statusCode == 200) {
+        password = "";
+        username = "";
+        Navigator.pushReplacementNamed(context, "/deviceOverview");
+
+        jwtToken = json.decode(response.body)['token'];
+        //jwtToken = jwtToken.substring(
+        //    9, jwtToken.length),
+        print(jwtToken);
+        errorMessage401 = false;
+        errorMessage400 = false;
+      } else {
+        errorMessage401 = false;
+        errorMessage400 = false;
+      }
+    });
   }
 }
