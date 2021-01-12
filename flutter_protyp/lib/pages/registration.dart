@@ -45,7 +45,7 @@ class _RegistrationState extends State<Registration> {
   bool networkMessage = false;
 
   ///Test for http client
-  String url = "http://172.19.0.1:8000/users/signup";
+  String url = "http://172.26.224.1:8000/users/signup";
   var response;
 
   Widget build(BuildContext context) {
@@ -294,6 +294,8 @@ class _RegistrationState extends State<Registration> {
     );
   }
 
+
+  // If the Server takes to long to answer error messages are displayed
   dynamic catchTimeout() {
     setState(() {
       usernameMessage = false;
@@ -320,6 +322,7 @@ class _RegistrationState extends State<Registration> {
     }
   }
 
+  // Function evaluates the http response and displays the relevant messages
   void checkResponse() {
     try {
       setState(() {
@@ -328,6 +331,7 @@ class _RegistrationState extends State<Registration> {
           passwordMessage = false;
           networkMessage = false;
 
+          // Confirmation dialog
           showDialog(
               context: context,
               builder: (context) => SimpleDialog(
