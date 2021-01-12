@@ -266,7 +266,7 @@ class _LoginTestState extends State<LoginTest> {
                           child: SelectableText(
                             "networkErrorLogin".tr().toString(),
                             style:
-                            TextStyle(color: Colors.red[700], fontSize: 20),
+                                TextStyle(color: Colors.red[700], fontSize: 20),
                           ),
                         ),
                       ),
@@ -301,8 +301,6 @@ class _LoginTestState extends State<LoginTest> {
                           ),
                         ),
                       ),
-
-
 
                       /// New hoverable Button added
                       Container(
@@ -351,23 +349,23 @@ class _LoginTestState extends State<LoginTest> {
                                       body: json.encode({
                                         'password': password,
                                         'username': username
-                                      })),
+                                      })).timeout(const Duration(seconds: 3),onTimeout: (){
+                                        return _handleTimeOut();
+                                  }),
                                   print(response.body),
                                   print(response.statusCode),
-                                  if(response.satusCode.legth >= 1){
-                                    _checkResponse(response.statusCode),
-                                  }else{
-                                  await Future.delayed(
-                                  const Duration(seconds: 2), () {
-                              //Wait for 2 seconds
-                              setState(() {
-                                networkError = true;
-                              });
-                            })
-
-                          }
-
-
+                                  if (response.satusCode.legth >= 1)
+                                    {
+                                      _checkResponse(response.statusCode),
+                                    }
+                                  else
+                                    {
+                                      await Future.delayed(
+                                          const Duration(seconds: 2), () {
+                                        //Wait for 2 seconds
+                                        _handleTimeOut();
+                                      })
+                                    }
                                 },
                                 child: Text(
                                   "Login",
@@ -393,6 +391,13 @@ class _LoginTestState extends State<LoginTest> {
     );
   }
 
+  dynamic _handleTimeOut() {
+    setState(() {
+      networkError = true;
+    });
+    return null;
+  }
+
   //Activates the login button if more then one character are in the username and password field
   void checkForLoginButton() {
     if (username.length > 1 && password.length > 1) {
@@ -408,9 +413,7 @@ class _LoginTestState extends State<LoginTest> {
 
   //Evaluates the http response an displays the relevant messages
   Future<void> _checkResponse(int statusCode) async {
-
-
-    setState(()  async {
+    setState(() async {
       if (statusCode == 400) {
         errorMessage400 = true;
         errorMessage401 = false;
@@ -432,8 +435,6 @@ class _LoginTestState extends State<LoginTest> {
         errorMessage401 = false;
         errorMessage400 = false;
       }
-
-
     });
   }
 }
