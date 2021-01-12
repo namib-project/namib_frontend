@@ -9,6 +9,20 @@ import 'dart:convert';
 import 'package:flutter_protyp/widgets/appbar.dart' as AppBar;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'dart:io';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+import 'package:flutter_protyp/widgets/constant.dart';
+import 'package:flutter_protyp/widgets/drawer.dart';
+import 'package:flutter_protyp/widgets/appbar.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+
 class LoginTest extends StatefulWidget {
   @override
   _LoginTestState createState() => _LoginTestState();
@@ -29,13 +43,14 @@ class _LoginTestState extends State<LoginTest> {
   String password = "";
   bool errorMessage400 = false;
   bool errorMessage401 = false;
+  bool networkError = false;
   bool error = false;
   bool loginButton = false;
 
   var brightness;
   List<Locale> systemLocale = WidgetsBinding.instance.window.locales;
 
-  String url = 'http://172.26.224.1:8000/users/login';
+  String url = 'http://172.17.0.1:8000/users/login';
   var response;
 
   void onlineOs() {
@@ -242,6 +257,19 @@ class _LoginTestState extends State<LoginTest> {
                           ),
                         ),
                       ),
+                      Visibility(
+                        //The error message shows, if networkError is true
+                        visible: networkError,
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: 60,
+                          child: SelectableText(
+                            "networkErrorLogin".tr().toString(),
+                            style:
+                            TextStyle(color: Colors.red[700], fontSize: 20),
+                          ),
+                        ),
+                      ),
 
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 20, 20, 5),
@@ -273,6 +301,8 @@ class _LoginTestState extends State<LoginTest> {
                           ),
                         ),
                       ),
+
+
 
                       /// New hoverable Button added
                       Container(
@@ -324,7 +354,20 @@ class _LoginTestState extends State<LoginTest> {
                                       })),
                                   print(response.body),
                                   print(response.statusCode),
-                                  _checkResponse(response.statusCode)
+                                  if(response.satusCode.legth >= 1){
+                                    _checkResponse(response.statusCode),
+                                  }else{
+                                  await Future.delayed(
+                                  const Duration(seconds: 2), () {
+                              //Wait for 2 seconds
+                              setState(() {
+                                networkError = true;
+                              });
+                            })
+
+                          }
+
+
                                 },
                                 child: Text(
                                   "Login",
@@ -364,8 +407,10 @@ class _LoginTestState extends State<LoginTest> {
   }
 
   //Evaluates the http response an displays the relevant messages
-  void _checkResponse(int statusCode) {
-    setState(() {
+  Future<void> _checkResponse(int statusCode) async {
+
+
+    setState(()  async {
       if (statusCode == 400) {
         errorMessage400 = true;
         errorMessage401 = false;
@@ -387,6 +432,8 @@ class _LoginTestState extends State<LoginTest> {
         errorMessage401 = false;
         errorMessage400 = false;
       }
+
+
     });
   }
 }

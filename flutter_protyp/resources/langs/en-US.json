@@ -51,6 +51,6 @@
   "edit": "Details",
   "yourUser": "Your username is ",
   "getData": "Get Data",
-  "clickData": "Click on the button to get your Profilname"
-
+  "clickData": "Click on the button to get your Profilname",
+  "networkErrorLogin": "Login failed due to a network error. Please try again"
 }

@@ -1,9 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_protyp/pages/handlers/ThemeHandler.dart';
 import "package:flutter_protyp/widgets/constant.dart";
 import 'package:provider/provider.dart';
 import 'package:flutter_protyp/widgets/theme.dart';
-
+import 'package:http/http.dart' as http;
 import 'package:easy_localization/easy_localization.dart';
 
 /// Gives an AppBar with logoutButton
@@ -18,18 +20,35 @@ class MainAppbar extends StatefulWidget implements PreferredSizeWidget {
   }
 }
 
+String username;
+String myJson;
+Map clearJson;
+String token;
+var parts = null;
+var payload = null;
+var normalized;
+var resp;
+var payloadMap;
+
+String url = 'http://172.25.32.1:8000/users/me';
+var response;
+
 class _MainAppbarState extends State<MainAppbar> {
   @override
   Widget build(BuildContext context) {
     ThemeChanger themeChanger = Provider.of<ThemeChanger>(context);
+    getUserName();
 
     return SizedBox(
         child: AppBar(
       backgroundColor: primaryColor,
-      title: Text("NAMIB"),
+      title: SelectableText(
+           "hello".tr().toString()),
       actions: <Widget>[
         Padding(
-          padding: mobileDevice ? EdgeInsets.fromLTRB(12, 5, 12, 12) : EdgeInsets.fromLTRB(12, 2, 12, 12),
+          padding: mobileDevice
+              ? EdgeInsets.fromLTRB(12, 5, 12, 12)
+              : EdgeInsets.fromLTRB(12, 2, 12, 12),
           child: PopupMenuButton<String>(
             itemBuilder: (context) => [
               PopupMenuItem(
@@ -231,5 +250,31 @@ class _MainAppbarState extends State<MainAppbar> {
     setState(() {
       handler.setLanguage(index, context);
     });
+  }
+
+  void getUserName() async {
+  //  myJson = jwtToken;
+  //  clearJson = jsonDecode(myJson);
+  //  token = clearJson["token"];
+  //  parts = token.split('.');
+  //  payload = parts[1];
+  //  normalized = base64Url.normalize(payload);
+  //  resp = utf8.decode(base64Url.decode(normalized));
+  //  payloadMap = json.decode(resp);
+  //  print(payloadMap["id"]);
+  //  print(payloadMap["username"]);
+  //  username = payloadMap["username"];
+
+    response = await http.get(url,
+        headers: {
+
+          "Content-Type": "application/json",
+          "Authorization":
+          "Bearer $jwtToken"
+        });
+
+    username = response.body;
+    print(username);
+
   }
 }
