@@ -350,6 +350,7 @@ class _LoginTestState extends State<LoginTest> {
     );
   }
 
+  //Activates the login button if more then one character are in the username and password field
   void checkForLoginButton() {
     if (username.length > 1 && password.length > 1) {
       setState(() {
@@ -362,6 +363,7 @@ class _LoginTestState extends State<LoginTest> {
     }
   }
 
+  //Evaluates the http response an displays the relevant messages
   void _checkResponse(int statusCode) {
     setState(() {
       if (statusCode == 400) {
