@@ -272,7 +272,7 @@ class _LoginTestState extends State<LoginTest> {
                       ),
 
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 20, 20, 5),
+                        padding: const EdgeInsets.fromLTRB(0, 0, 20, 5),
                         child: Container(
                           alignment: Alignment.centerRight,
                           child: FlatButton(
@@ -354,6 +354,7 @@ class _LoginTestState extends State<LoginTest> {
                                   }),
                                   print(response.body),
                                   print(response.statusCode),
+
                                   if (response.satusCode.legth >= 1)
                                     {
                                       _checkResponse(response.statusCode),
