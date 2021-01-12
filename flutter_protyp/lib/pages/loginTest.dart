@@ -272,7 +272,7 @@ class _LoginTestState extends State<LoginTest> {
                       ),
 
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 20, 20, 5),
+                        padding: const EdgeInsets.fromLTRB(0, 0, 20, 5),
                         child: Container(
                           alignment: Alignment.centerRight,
                           child: FlatButton(
