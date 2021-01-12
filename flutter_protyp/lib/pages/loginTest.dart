@@ -50,7 +50,7 @@ class _LoginTestState extends State<LoginTest> {
   var brightness;
   List<Locale> systemLocale = WidgetsBinding.instance.window.locales;
 
-  String url = 'http://172.17.0.1:8000/users/login';
+  String url = 'http://172.26.224.1:8000/users/login';
   var response;
 
   void onlineOs() {
@@ -342,30 +342,21 @@ class _LoginTestState extends State<LoginTest> {
                                   {print(password)},
 
                                   //Sends Http Request
-                                  response = await http.post(url,
-                                      headers: {
-                                        "Content-Type": "application/json"
-                                      },
-                                      body: json.encode({
-                                        'password': password,
-                                        'username': username
-                                      })).timeout(const Duration(seconds: 3),onTimeout: (){
-                                        return _handleTimeOut();
+                                  response = await http
+                                      .post(url,
+                                          headers: {
+                                            "Content-Type": "application/json"
+                                          },
+                                          body: json.encode({
+                                            'password': password,
+                                            'username': username
+                                          }))
+                                      .timeout(const Duration(seconds: 7),
+                                          onTimeout: () {
+                                    return _handleTimeOut();
                                   }),
-                                  print(response.body),
-                                  print(response.statusCode),
-                                  if (response.satusCode.legth >= 1)
-                                    {
-                                      _checkResponse(response.statusCode),
-                                    }
-                                  else
-                                    {
-                                      await Future.delayed(
-                                          const Duration(seconds: 2), () {
-                                        //Wait for 2 seconds
-                                        _handleTimeOut();
-                                      })
-                                    }
+
+                                  _checkResponse(response.statusCode)
                                 },
                                 child: Text(
                                   "Login",
@@ -412,29 +403,31 @@ class _LoginTestState extends State<LoginTest> {
   }
 
   //Evaluates the http response an displays the relevant messages
-  Future<void> _checkResponse(int statusCode) async {
-    setState(() async {
-      if (statusCode == 400) {
-        errorMessage400 = true;
-        errorMessage401 = false;
-      } else if (statusCode == 401) {
-        errorMessage401 = true;
-        errorMessage400 = false;
-      } else if (statusCode == 200) {
-        password = "";
-        username = "";
-        Navigator.pushReplacementNamed(context, "/deviceOverview");
+  void _checkResponse(int statusCode) {
+    try {
+      setState(() {
+        if (statusCode == 400) {
+          errorMessage400 = true;
+          errorMessage401 = false;
+        } else if (statusCode == 401) {
+          errorMessage401 = true;
+          errorMessage400 = false;
+        } else if (statusCode == 200) {
+          password = "";
+          username = "";
+          Navigator.pushReplacementNamed(context, "/deviceOverview");
 
-        jwtToken = json.decode(response.body)['token'];
-        //jwtToken = jwtToken.substring(
-        //    9, jwtToken.length),
-        print(jwtToken);
-        errorMessage401 = false;
-        errorMessage400 = false;
-      } else {
-        errorMessage401 = false;
-        errorMessage400 = false;
-      }
-    });
+          jwtToken = json.decode(response.body)['token'];
+          //jwtToken = jwtToken.substring(
+          //    9, jwtToken.length),
+          print(jwtToken);
+          errorMessage401 = false;
+          errorMessage400 = false;
+        } else {
+          errorMessage401 = false;
+          errorMessage400 = false;
+        }
+      });
+    } on NoSuchMethodError {}
   }
 }

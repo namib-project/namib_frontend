@@ -37,13 +37,12 @@ class _MainAppbarState extends State<MainAppbar> {
   @override
   Widget build(BuildContext context) {
     ThemeChanger themeChanger = Provider.of<ThemeChanger>(context);
-    getUserName();
+    //getUserName();
 
     return SizedBox(
         child: AppBar(
       backgroundColor: primaryColor,
-      title: SelectableText(
-           "hello".tr().toString()),
+      title: SelectableText("hello".tr().toString() + " " + getUserName()),
       actions: <Widget>[
         Padding(
           padding: mobileDevice
@@ -252,29 +251,26 @@ class _MainAppbarState extends State<MainAppbar> {
     });
   }
 
-  void getUserName() async {
-  //  myJson = jwtToken;
-  //  clearJson = jsonDecode(myJson);
-  //  token = clearJson["token"];
-  //  parts = token.split('.');
-  //  payload = parts[1];
-  //  normalized = base64Url.normalize(payload);
-  //  resp = utf8.decode(base64Url.decode(normalized));
-  //  payloadMap = json.decode(resp);
-  //  print(payloadMap["id"]);
-  //  print(payloadMap["username"]);
-  //  username = payloadMap["username"];
+  String getUserName() {
+     myJson = jwtToken;
+     //clearJson = jsonDecode(myJson);
+     //token = clearJson["token"];
+     parts = myJson.split('.');
+     payload = parts[1];
+     normalized = base64Url.normalize(payload);
+     resp = utf8.decode(base64Url.decode(normalized));
+     payloadMap = json.decode(resp);
+    //  print(payloadMap["id"]);
+    //  print(payloadMap["username"]);
+     username = payloadMap["username"];
 
-    response = await http.get(url,
-        headers: {
+    //response = await http.get(url, headers: {
+    //  "Content-Type": "application/json",
+    //  "Authorization": "Bearer $jwtToken"
+    //});
 
-          "Content-Type": "application/json",
-          "Authorization":
-          "Bearer $jwtToken"
-        });
-
-    username = response.body;
+    //username = response.body;
     print(username);
-
+    return username;
   }
 }
