@@ -485,7 +485,7 @@ class _RegistrationState extends State<RegistrationStart> {
                         child: RaisedButton(
                           onPressed: () {
                             Navigator.of(context).pop();
-                            // Navigator.pushReplacementNamed(context, "/login");
+                            _forward();
                           },
                           child: Text(
                             "Ok",
@@ -502,5 +502,9 @@ class _RegistrationState extends State<RegistrationStart> {
         }
       });
     } on NoSuchMethodError {}
+  }
+
+  void _forward(){
+    Navigator.pushReplacementNamed(context, "/loginTest");
   }
 }
