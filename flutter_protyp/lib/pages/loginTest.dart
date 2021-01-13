@@ -335,8 +335,8 @@ class _LoginTestState extends State<LoginTest> {
                                   print(brightness),
 
                                   /// Just for testing: delete when ready
-                                  ///Navigator.pushReplacementNamed(
-                                  ///    context, "/deviceOverview"),
+                                  Navigator.pushReplacementNamed(
+                                        context, "/deviceOverview"),
 
                                   {print(username)},
                                   {print(password)},

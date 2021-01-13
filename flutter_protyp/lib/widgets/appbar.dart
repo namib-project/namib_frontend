@@ -252,18 +252,22 @@ class _MainAppbarState extends State<MainAppbar> {
   }
 
   String getUserName() {
-     myJson = jwtToken;
-     //clearJson = jsonDecode(myJson);
-     //token = clearJson["token"];
-     parts = myJson.split('.');
-     payload = parts[1];
-     normalized = base64Url.normalize(payload);
-     resp = utf8.decode(base64Url.decode(normalized));
-     payloadMap = json.decode(resp);
-    //  print(payloadMap["id"]);
-    //  print(payloadMap["username"]);
-     username = payloadMap["username"];
-
+    ///TODO delete if for release
+    if(jwtToken.length > 1) {
+      myJson = jwtToken;
+      //clearJson = jsonDecode(myJson);
+      //token = clearJson["token"];
+      parts = myJson.split('.');
+      payload = parts[1];
+      normalized = base64Url.normalize(payload);
+      resp = utf8.decode(base64Url.decode(normalized));
+      payloadMap = json.decode(resp);
+      //  print(payloadMap["id"]);
+      //  print(payloadMap["username"]);
+      username = payloadMap["username"];
+    }else{
+      username = "test";
+    }
     //response = await http.get(url, headers: {
     //  "Content-Type": "application/json",
     //  "Authorization": "Bearer $jwtToken"
