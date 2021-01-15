@@ -25,6 +25,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
+/// This is a test to get a List of Services from All Services which are known as json
+/// Should be Deleted when ready
+String allMudServicesStr =
+    '{ "count": 3, "next": null, "previous": null, "results": [{ "name": "Foo Service","product": null,"method": null},{"name": "DNS Service","product": null,"method": null},{"name": "NTP Service","product": null,"method": null}]}';
+var resultObjjs = jsonDecode(allMudServicesStr)['results'] as List;
+List<MUDService> mudServObjs =
+    resultObjjs.map((tagJson) => MUDService.fromJson(tagJson)).toList();
+
 class LoginTest extends StatefulWidget {
   @override
   _LoginTestState createState() => _LoginTestState();
@@ -333,13 +341,19 @@ class _LoginTestState extends State<LoginTest> {
                                 ),
                                 onPressed: () async => {
                                   print(deviceTest()),
+                                  print(
+                                      "Testi1 should return the List of MudServices:"),
+                                  print(mudServObjs),
+                                  print(
+                                      "Testi2 should return name of first element:"),
+                                  print(mudServObjs.first.name),
                                   setSystemPreferences(),
                                   setTheme(),
                                   print(brightness),
 
                                   /// Just for testing: delete when ready
                                   Navigator.pushReplacementNamed(
-                                        context, "/deviceOverview"),
+                                      context, "/deviceOverview"),
 
                                   {print(username)},
                                   {print(password)},
@@ -434,7 +448,7 @@ class _LoginTestState extends State<LoginTest> {
     } on NoSuchMethodError {}
   }
 
-  String mudServiceTest(){
+  String mudServiceTest() {
     String testString = jsonEncode(mudService1.toJson());
     //Calling constructor "usual" who takes string parameters as usual
     MUDService test2 = MUDService.usual("name", "product", "method");
@@ -443,22 +457,29 @@ class _LoginTestState extends State<LoginTest> {
     String json = jsonEncode(test3);
     return json;
   }
-  //Calling constructor fromJson who takes Map<String,dynamic> and converts it into MUDService accessible under mudService1
-  MUDService mudService1 = MUDService.fromJson(jsonDecode('{"name":"test","product":"testProduct","method":"null"}'));
-  MUDService mudService2 = MUDService.fromJson(jsonDecode('{"name":"test","product":"testProduct","method":"null"}'));
-  MUDService mudService3 = MUDService.fromJson(jsonDecode('{"name":"test","product":"testProduct","method":"null"}'));
 
-  String deviceTest(){
-    List<MUDService> mudList = [mudService1, mudService2,mudService3];
+  //Calling constructor fromJson who takes Map<String,dynamic> and converts it into MUDService accessible under mudService1
+  MUDService mudService1 = MUDService.fromJson(
+      jsonDecode('{"name":"test","product":"testProduct","method":"null"}'));
+  MUDService mudService2 = MUDService.fromJson(
+      jsonDecode('{"name":"test","product":"testProduct","method":"null"}'));
+  MUDService mudService3 = MUDService.fromJson(
+      jsonDecode('{"name":"test","product":"testProduct","method":"null"}'));
+
+  String deviceTest() {
+    List<MUDService> mudList = [mudService1, mudService2, mudService3];
     //Calling the self created constructor "usual" to create a Device as we know it form java
-    Device testDevice1 = Device.usual( "Light Bulb Livingroom",
+    Device testDevice1 = Device.usual(
+        "Light Bulb Livingroom",
         "Foo MUD",
         "0.1",
         "192.168.1.2",
         "https://sc01.alicdn.com/kf/U7de314ba395248e7be6b6338c7d2e22cw.jpg_350x350.jpg",
         "https://lighting.example.com/lightbulb2000",
         "NoOneHasSignedThis",
-        "https://lighting.example.com/documentation", mudList, allowedDNSRequests);
+        "https://lighting.example.com/documentation",
+        mudList,
+        allowedDNSRequests);
 
     String deviceAsJson = jsonEncode(testDevice1.toJson());
 
