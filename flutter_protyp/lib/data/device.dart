@@ -29,6 +29,17 @@ class Device {
       this.services,
       this.allowedDNSRequests});
 
+  Device.usual(this.systeminfo,
+      this.name,
+      this.software_rev,
+      this.ipv4_addr,
+      this.image,
+      this.mud_url,
+      this.mud_signature,
+      this.documentation,
+      this.services,
+      this.allowedDNSRequests);
+
   factory Device.fromJson(Map<String, dynamic> data) => _$DeviceFromJson(data);
 
   Map<String, dynamic> toJson() => _$DeviceToJson(this);

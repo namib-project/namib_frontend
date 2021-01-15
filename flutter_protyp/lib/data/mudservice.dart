@@ -15,4 +15,13 @@ class MUDService{
   factory MUDService.fromJson(Map<String, dynamic> data) => _$MUDServiceFromJson(data);
 
   Map<String, dynamic> toJson() => _$MUDServiceToJson(this);
+  MUDService.usual(String name, String product, String method){
+    this.name = name;
+    this.product = product;
+    this.method  = method;
+  }
+
+  String getName(){
+    return name;
+  }
 }
