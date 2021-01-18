@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_protyp/data/mudservice.dart';
+import 'package:flutter_protyp/data/mudData.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import "package:flutter_protyp/widgets/drawer.dart";
 import 'package:easy_localization/easy_localization.dart';

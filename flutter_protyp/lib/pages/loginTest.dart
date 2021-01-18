@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_protyp/data/device.dart';
-import 'package:flutter_protyp/data/mudservice.dart';
+import 'package:flutter_protyp/data/mudData.dart';
 import 'package:flutter_protyp/pages/handlers/ThemeHandler.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:universal_io/io.dart' as osDetect;
@@ -30,8 +30,8 @@ import 'package:flutter/rendering.dart';
 String allMudServicesStr =
     '{ "count": 3, "next": null, "previous": null, "results": [{ "name": "Foo Service","product": null,"method": null},{"name": "DNS Service","product": null,"method": null},{"name": "NTP Service","product": null,"method": null}]}';
 var resultObjjs = jsonDecode(allMudServicesStr)['results'] as List;
-List<MUDService> mudServObjs =
-    resultObjjs.map((tagJson) => MUDService.fromJson(tagJson)).toList();
+List<MUDData> mudServObjs =
+    resultObjjs.map((tagJson) => MUDData.fromJson(tagJson)).toList();
 
 class LoginTest extends StatefulWidget {
   @override
@@ -341,12 +341,12 @@ class _LoginTestState extends State<LoginTest> {
                                 ),
                                 onPressed: () async => {
                                   print(deviceTest()),
-                                  print(
-                                      "Testi1 should return the List of MudServices:"),
-                                  print(mudServObjs),
-                                  print(
-                                      "Testi2 should return name of first element:"),
-                                  print(mudServObjs.first.name),
+                                  //print(
+                                  //    "Testi1 should return the List of MudServices:"),
+                                  //print(mudServObjs),
+                                  //print(
+                                  //    "Testi2 should return name of first element:"),
+                                  //print(mudServObjs.first.name),
                                   setSystemPreferences(),
                                   setTheme(),
                                   print(brightness),
@@ -448,41 +448,31 @@ class _LoginTestState extends State<LoginTest> {
     } on NoSuchMethodError {}
   }
 
-  String mudServiceTest() {
-    String testString = jsonEncode(mudService1.toJson());
-    //Calling constructor "usual" who takes string parameters as usual
-    MUDService test2 = MUDService.usual("name", "product", "method");
-    //Using the toJson function on an instance of MUDService
-    Map test3 = test2.toJson();
-    String json = jsonEncode(test3);
-    return json;
-  }
+  //String mudServiceTest() {
+  //  String testString = jsonEncode(mudService1.toJson());
+  //  //Calling constructor "usual" who takes string parameters as usual
+  //  MUDData test2 = MUDData.usual("name", "product", "method");
+  //  ///Using the toJson function on an instance of MUDService
+  //   Map test3 = test2.toJson();
+  //   String json = jsonEncode(test3);
+  //  return "json";
+  //}
 
-  //Calling constructor fromJson who takes Map<String,dynamic> and converts it into MUDService accessible under mudService1
-  MUDService mudService1 = MUDService.fromJson(
-      jsonDecode('{"name":"test","product":"testProduct","method":"null"}'));
-  MUDService mudService2 = MUDService.fromJson(
-      jsonDecode('{"name":"test","product":"testProduct","method":"null"}'));
-  MUDService mudService3 = MUDService.fromJson(
-      jsonDecode('{"name":"test","product":"testProduct","method":"null"}'));
+ ////Calling constructor fromJson who takes Map<String,dynamic> and converts it into MUDService accessible under mudService1
+ //MUDData mudService1 = MUDData.fromJson(
+ //    jsonDecode('{"name":"test","product":"testProduct","method":"null"}'));
+ //MUDData mudService2 = MUDData.fromJson(
+ //    jsonDecode('{"name":"test","product":"testProduct","method":"null"}'));
+ //MUDData mudService3 = MUDData.fromJson(
+ //    jsonDecode('{"name":"test","product":"testProduct","method":"null"}'));
 
   String deviceTest() {
-    List<MUDService> mudList = [mudService1, mudService2, mudService3];
-    //Calling the self created constructor "usual" to create a Device as we know it form java
-    Device testDevice1 = Device.usual(
-        "Light Bulb Livingroom",
-        "Foo MUD",
-        "0.1",
-        "192.168.1.2",
-        "https://sc01.alicdn.com/kf/U7de314ba395248e7be6b6338c7d2e22cw.jpg_350x350.jpg",
-        "https://lighting.example.com/lightbulb2000",
-        "NoOneHasSignedThis",
-        "https://lighting.example.com/documentation",
-        mudList,
-        allowedDNSRequests);
-
-    String deviceAsJson = jsonEncode(testDevice1.toJson());
-
-    return deviceAsJson;
+    String test =
+        '[{"hostname": "string","id": 0,"ip_addr": "string","last_interaction": "string","mac_addr": "string","mud_data": {"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","direction_initiated": "FromDevice","dnsname": "string"},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-01-17T21:05:00.692Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "string","url": "string"},"mud_url": "string","vendor_class": "string"}]';
+    var jsonDevices = jsonDecode(test) as List;
+    List<Device> devices =
+        jsonDevices.map((tagJson) => Device.fromJson(tagJson)).toList();
+    Device device = devices[0];
+    return device.mud_data.acllist[0].ace[0].matches.dnsname;
   }
 }
