@@ -341,6 +341,7 @@ class _LoginTestState extends State<LoginTest> {
                                 ),
                                 onPressed: () async => {
                                   print(deviceTest()),
+                                  print(mudTest()),
                                   //print(
                                   //    "Testi1 should return the List of MudServices:"),
                                   //print(mudServObjs),
@@ -474,5 +475,12 @@ class _LoginTestState extends State<LoginTest> {
         jsonDevices.map((tagJson) => Device.fromJson(tagJson)).toList();
     Device device = devices[0];
     return device.mud_data.acllist[0].ace[0].matches.dnsname;
+  }
+
+  String mudTest(){
+    String mud = '{"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","direction_initiated": "FromDevice","dnsname": "string"},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-01-17T21:04:22.265Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "string","url": "string"}';
+    var jsonMud = jsonDecode(mud);
+    MUDData mudData = MUDData.fromJson(jsonMud);
+    return mudData.acllist[0].ace[0].matches.dnsname;
   }
 }
