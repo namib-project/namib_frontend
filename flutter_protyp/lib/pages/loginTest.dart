@@ -58,9 +58,6 @@ class _LoginTestState extends State<LoginTest> {
   bool error = false;
   bool loginButton = false;
 
-  /// Response form get devices
-  var devices;
-
   var brightness;
   List<Locale> systemLocale = WidgetsBinding.instance.window.locales;
 
@@ -344,13 +341,6 @@ class _LoginTestState extends State<LoginTest> {
                                   borderRadius: BorderRadius.circular(50),
                                 ),
                                 onPressed: () async => {
-                                  print(deviceTest()
-                                      .mud_data
-                                      .acllist[0]
-                                      .ace[0]
-                                      .matches
-                                      .dnsname),
-                                  print(mudTest()),
                                   //print(
                                   //    "Testi1 should return the List of MudServices:"),
                                   //print(mudServObjs),
@@ -449,14 +439,14 @@ class _LoginTestState extends State<LoginTest> {
           jwtToken = json.decode(response.body)['token'];
           //jwtToken = jwtToken.substring(
           //    9, jwtToken.length),
-          print(jwtToken);
+          print(jwtToken);//TODO richtige List übergeben
           errorMessage401 = false;
           errorMessage400 = false;
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => DeviceOverview(
-                devices: devices,
+                devices: deviceTest(),
               ),
             ),
           );
@@ -476,25 +466,26 @@ class _LoginTestState extends State<LoginTest> {
     String test =
         '[{"hostname": "string","id": 0,"ip_addr": "string","last_interaction": "string","mac_addr": "string","mud_data": {"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","direction_initiated": "FromDevice","dnsname": "string"},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-01-17T21:05:00.692Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "string","url": "string"},"mud_url": "string","vendor_class": "string"}]';
     var jsonDevices = jsonDecode(test) as List;
-    List<Device> devices =
+    List<Device> devicesTest =
         jsonDevices.map((tagJson) => Device.fromJson(tagJson)).toList();
-    Device device = devices[0];
+    Device device = devicesTest[0];
+
     if (responseDevices.body.toString() == "[]") {
-      devices.add(device);
+      //devices.add(device);
     } else {
       //devices = jsonDecode(responseDevices.body) as List;
       //devicesList = devices.map((tagJson) => Device.fromJson(tagJson)).toList();
     }
   }
 
-  Device deviceTest() {
+  List<Device> deviceTest() {
     String test =
-        '[{"hostname": "string","id": 0,"ip_addr": "string","last_interaction": "string","mac_addr": "string","mud_data": {"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","direction_initiated": "FromDevice","dnsname": "string"},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-01-17T21:05:00.692Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "string","url": "string"},"mud_url": "string","vendor_class": "string"}]';
+        '[{"hostname": "string","id": 0,"ip_addr": "string","last_interaction": "string","mac_addr": "string","mud_data": {"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","direction_initiated": "FromDevice","dnsname": "string"},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-01-17T21:05:00.692Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "string","url": "string"},"mud_url": "string","vendor_class": "string"}, {"hostname": "string","id": 0,"ip_addr": "string","last_interaction": "string","mac_addr": "string","mud_data": {"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","direction_initiated": "FromDevice","dnsname": "string"},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-01-17T21:05:00.692Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "string","url": "string"},"mud_url": "string","vendor_class": "string"}]';
     var jsonDevices = jsonDecode(test) as List;
     List<Device> devices =
         jsonDevices.map((tagJson) => Device.fromJson(tagJson)).toList();
     Device device = devices[0];
-    return device;
+    return devices;
   }
 
   String mudTest() {
