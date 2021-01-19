@@ -3,19 +3,22 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_protyp/dataForPresentation/device.dart';
-import 'package:flutter_protyp/dataForPresentation/service.dart';
+import 'package:flutter_protyp/data/device.dart';
 import 'package:flutter_protyp/pages/deviceDetails.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 
 class TableTest extends StatefulWidget {
-  @override
+  const TableTest({
+    Key key,
+    @required this.devices,
+  }) : super(key: key);
+  final List<Device> devices;
+
   _TableTestState createState() => _TableTestState();
 }
 
 //Class for user registration, will only be used at the first usage
 class _TableTestState extends State<TableTest> {
-  List<DataRow> list = [];
   bool sortFirstRow = false;
 
   @override
@@ -47,7 +50,7 @@ class _TableTestState extends State<TableTest> {
                   Expanded(flex: 1, child: Container()),
                   Expanded(
                     flex: 16,
-                    child: DataTable(
+                    child: widget.devices != null ? DataTable(
                       onSelectAll: (b) {},
                       sortColumnIndex: 0,
                       sortAscending: sortFirstRow,
@@ -57,7 +60,7 @@ class _TableTestState extends State<TableTest> {
                             numeric: false,
                             onSort: (i, b) {
                               setState(() {
-                                devices.sort((a, b) =>
+                                devicesForPresentation.sort((a, b) =>
                                     a.systeminfo.compareTo(b.systeminfo));
                                 sortFirstRow = !sortFirstRow;
                               });
@@ -66,10 +69,10 @@ class _TableTestState extends State<TableTest> {
                         DataColumn(
                             label: SelectableText("edit".tr().toString()))
                       ],
-                      rows: devices
+                      rows: widget.devices
                           .map((device) => DataRow(cells: [
-                                DataCell(Text(device.systeminfo)),
-                                DataCell(Text(device.name)),
+                                DataCell(Text(device.mud_data.systeminfo)),
+                                DataCell(Text(device.mud_url)),
                                 DataCell(IconButton(
                                   icon: Icon(Icons.settings),
                                   onPressed: () {
@@ -78,13 +81,17 @@ class _TableTestState extends State<TableTest> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => DeviceDetails(device: device,),
+                                        builder: (context) => DeviceDetails(
+                                          device: device,
+                                        ),
                                       ),
                                     );
                                   },
                                 )),
                               ]))
                           .toList(),
+                    ): CircularProgressIndicator(
+                        strokeWidth: 1.0
                     ),
                   ),
                   Expanded(flex: 1, child: Container())
@@ -97,7 +104,7 @@ class _TableTestState extends State<TableTest> {
     ));
   }
 
-  /*void _generateTableRows() {
+/*void _generateTableRows() {
     for (int i = 0; i < 100; ++i) {
       int j = i;
       list.add(DataRow(key: Key(i.toString()), cells: <DataCell>[

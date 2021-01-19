@@ -18,7 +18,7 @@ class DeviceDetails extends StatefulWidget {
     @required
     this.device,
   }) : super(key: key);
-  final DeviceForPresentation device;
+  final Device device;
 
   _DeviceDetailsState createState() => _DeviceDetailsState();
 
@@ -50,7 +50,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                   height: 30,
                 ),
                 SelectableText(
-                  widget.device.systeminfo,
+                  widget.device.mud_data.systeminfo,
                   style: TextStyle(fontSize: 25),
                 ),
                 SizedBox(
@@ -71,17 +71,17 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                 SizedBox(
                   height: 40,
                 ),
-                SelectableText(
-                  'mudSignature'.tr().toString(),
-                  style: TextStyle(fontSize: 20),
-                ),
-                SelectableText(
-                  widget.device.mud_signature,
-                  style: TextStyle(fontSize: 18),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
+                //SelectableText(
+                //  'mudSignature'.tr().toString(),
+                //  style: TextStyle(fontSize: 20),
+                //),
+                //SelectableText(
+                //  widget.device.mud_data.s,
+                //  style: TextStyle(fontSize: 18),
+                //),
+                //SizedBox(
+                //  height: 20,
+                //),
                 SelectableText(
                   "MUD URL: ",
                   style: TextStyle(fontSize: 20),
@@ -101,7 +101,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                   style: TextStyle(fontSize: 20),
                 ),
                 SelectableText(
-                  widget.device.documentation,
+                  widget.device.mud_data.documentation,
                   style: TextStyle(fontSize: 18),
                   onTap: (){
                     _launchDocumentation();
@@ -120,41 +120,41 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                       flex: 1,
                       child: Container(),
                     ),
-                    Expanded(
-                      flex: 16,
-                      child: DataTable(
-                        onSelectAll: (b) {},
-                        sortColumnIndex: 0,
-                        sortAscending: sortFirstRow,
-                        columns: <DataColumn>[
-                          DataColumn(
-                              label: SelectableText("service".tr().toString()),
-                              numeric: false,
-                              onSort: (i, b) {
-                                setState(() {
-                                  services
-                                      .sort((a, b) => a.name.compareTo(b.name));
-                                  sortFirstRow = !sortFirstRow;
-                                });
-                              }),
-                          DataColumn(
-                              label: SelectableText("edit".tr().toString()))
-                        ],
-                        rows: widget.device.services
-                            .map((service) =>
-                            DataRow(cells: [
-                              DataCell(Text(service.name)),
-                              DataCell(IconButton(
-                                icon: Icon(Icons.settings),
-                                onPressed: () {
-                                  Navigator.pushReplacementNamed(
-                                      context, "/deviceDetails");
-                                },
-                              )),
-                            ]))
-                            .toList(),
-                      ),
-                    ),
+                    //Expanded(
+                    //  flex: 16,
+                    //  child: DataTable(
+                    //    onSelectAll: (b) {},
+                    //    sortColumnIndex: 0,
+                    //    sortAscending: sortFirstRow,
+                    //    columns: <DataColumn>[
+                    //      DataColumn(
+                    //          label: SelectableText("service".tr().toString()),
+                    //          numeric: false,
+                    //          onSort: (i, b) {
+                    //            setState(() {
+                    //              services
+                    //                  .sort((a, b) => a.name.compareTo(b.name));
+                    //              sortFirstRow = !sortFirstRow;
+                    //            });
+                    //          }),
+                    //      DataColumn(
+                    //          label: SelectableText("edit".tr().toString()))
+                    //    ],
+                    //    rows: widget.device.services
+                    //        .map((service) =>
+                    //        DataRow(cells: [
+                    //          DataCell(Text(service.name)),
+                    //          DataCell(IconButton(
+                    //            icon: Icon(Icons.settings),
+                    //            onPressed: () {
+                    //              Navigator.pushReplacementNamed(
+                    //                  context, "/deviceDetails");
+                    //            },
+                    //          )),
+                    //        ]))
+                    //        .toList(),
+                    //  ),
+                    //),
                     Expanded(
                       flex: 1,
                       child: Container(),
@@ -174,42 +174,42 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                       flex: 1,
                       child: Container(),
                     ),
-                    Expanded(
-                      flex: 16,
-                      child: DataTable(
-                        onSelectAll: (b) {},
-                        sortColumnIndex: 0,
-                        sortAscending: sortFirstRow1,
-                        columns: <DataColumn>[
-                          DataColumn(
-                              label:
-                              SelectableText("DNSRequests".tr().toString()),
-                              numeric: false,
-                              onSort: (i, b) {
-                                setState(() {
-                                  allowedDNSRequests
-                                      .sort((a, b) => a.compareTo(b));
-                                  sortFirstRow1 = !sortFirstRow1;
-                                });
-                              }),
-                          DataColumn(
-                              label: SelectableText("edit".tr().toString()))
-                        ],
-                        rows: widget.device.allowedDNSRequests
-                            .map((request) =>
-                            DataRow(cells: [
-                              DataCell(Text(request)),
-                              DataCell(IconButton(
-                                icon: Icon(Icons.settings),
-                                onPressed: () {
-                                  Navigator.pushReplacementNamed(
-                                      context, "/deviceDetails");
-                                },
-                              )),
-                            ]))
-                            .toList(),
-                      ),
-                    ),
+                    //Expanded(
+                    //  flex: 16,
+                    //  child: DataTable(
+                    //    onSelectAll: (b) {},
+                    //    sortColumnIndex: 0,
+                    //    sortAscending: sortFirstRow1,
+                    //    columns: <DataColumn>[
+                    //      DataColumn(
+                    //          label:
+                    //          SelectableText("DNSRequests".tr().toString()),
+                    //          numeric: false,
+                    //          onSort: (i, b) {
+                    //            setState(() {
+                    //              allowedDNSRequests
+                    //                  .sort((a, b) => a.compareTo(b));
+                    //              sortFirstRow1 = !sortFirstRow1;
+                    //            });
+                    //          }),
+                    //      DataColumn(
+                    //          label: SelectableText("edit".tr().toString()))
+                    //    ],
+                    //    rows: widget.device.allowedDNSRequests
+                    //        .map((request) =>
+                    //        DataRow(cells: [
+                    //          DataCell(Text(request)),
+                    //          DataCell(IconButton(
+                    //            icon: Icon(Icons.settings),
+                    //            onPressed: () {
+                    //              Navigator.pushReplacementNamed(
+                    //                  context, "/deviceDetails");
+                    //            },
+                    //          )),
+                    //        ]))
+                    //        .toList(),
+                    //  ),
+                    //),
                     Expanded(
                       flex: 1,
                       child: Container(),
@@ -235,8 +235,8 @@ class _DeviceDetailsState extends State<DeviceDetails> {
   }
 
   _launchDocumentation() async {
-    if (await canLaunch(widget.device.documentation)) {
-      await launch(widget.device.documentation);
+    if (await canLaunch(widget.device.mud_data.documentation)) {
+      await launch(widget.device.mud_data.documentation);
     } else {
       throw 'Could not launch test';
     }

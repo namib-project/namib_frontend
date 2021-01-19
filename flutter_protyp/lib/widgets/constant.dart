@@ -94,7 +94,7 @@ DeviceForPresentation testDevice4 = DeviceForPresentation(
     services,
     allowedDNSRequests);
 
-var devices = <DeviceForPresentation>[
+var devicesForPresentation = <DeviceForPresentation>[
   testDevice1,
   testDevice2,
   testDevice3,

@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_protyp/data/device.dart';
 import 'package:flutter_protyp/data/mudData.dart';
+import 'package:flutter_protyp/pages/deviceOverview.dart';
 import 'package:flutter_protyp/pages/handlers/ThemeHandler.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:universal_io/io.dart' as osDetect;
@@ -57,10 +58,13 @@ class _LoginTestState extends State<LoginTest> {
   bool error = false;
   bool loginButton = false;
 
+  /// Response form get devices
+  var devices;
+
   var brightness;
   List<Locale> systemLocale = WidgetsBinding.instance.window.locales;
 
-  String url = 'http://172.26.224.1:8000/users/login';
+  String url = 'http://172.21.112.1:8000/users/login';
   var response;
 
   void onlineOs() {
@@ -340,7 +344,12 @@ class _LoginTestState extends State<LoginTest> {
                                   borderRadius: BorderRadius.circular(50),
                                 ),
                                 onPressed: () async => {
-                                  print(deviceTest()),
+                                  print(deviceTest()
+                                      .mud_data
+                                      .acllist[0]
+                                      .ace[0]
+                                      .matches
+                                      .dnsname),
                                   print(mudTest()),
                                   //print(
                                   //    "Testi1 should return the List of MudServices:"),
@@ -353,8 +362,8 @@ class _LoginTestState extends State<LoginTest> {
                                   print(brightness),
 
                                   /// Just for testing: delete when ready
-                                  Navigator.pushReplacementNamed(
-                                      context, "/deviceOverview"),
+                                  // Navigator.pushReplacementNamed(
+                                  //     context, "/deviceOverview"),
 
                                   {print(username)},
                                   {print(password)},
@@ -433,7 +442,9 @@ class _LoginTestState extends State<LoginTest> {
         } else if (statusCode == 200) {
           password = "";
           username = "";
-          Navigator.pushReplacementNamed(context, "/deviceOverview");
+          _getDevices();
+
+          //Navigator.pushReplacementNamed(context, "/deviceOverview");
 
           jwtToken = json.decode(response.body)['token'];
           //jwtToken = jwtToken.substring(
@@ -441,6 +452,14 @@ class _LoginTestState extends State<LoginTest> {
           print(jwtToken);
           errorMessage401 = false;
           errorMessage400 = false;
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DeviceOverview(
+                devices: devices,
+              ),
+            ),
+          );
         } else {
           errorMessage401 = false;
           errorMessage400 = false;
@@ -449,36 +468,38 @@ class _LoginTestState extends State<LoginTest> {
     } on NoSuchMethodError {}
   }
 
-  //String mudServiceTest() {
-  //  String testString = jsonEncode(mudService1.toJson());
-  //  //Calling constructor "usual" who takes string parameters as usual
-  //  MUDData test2 = MUDData.usual("name", "product", "method");
-  //  ///Using the toJson function on an instance of MUDService
-  //   Map test3 = test2.toJson();
-  //   String json = jsonEncode(test3);
-  //  return "json";
-  //}
-
- ////Calling constructor fromJson who takes Map<String,dynamic> and converts it into MUDService accessible under mudService1
- //MUDData mudService1 = MUDData.fromJson(
- //    jsonDecode('{"name":"test","product":"testProduct","method":"null"}'));
- //MUDData mudService2 = MUDData.fromJson(
- //    jsonDecode('{"name":"test","product":"testProduct","method":"null"}'));
- //MUDData mudService3 = MUDData.fromJson(
- //    jsonDecode('{"name":"test","product":"testProduct","method":"null"}'));
-
-  String deviceTest() {
+  Future _getDevices() async {
+    String urlDevices = 'http://172.21.112.1:8000/devices/';
+    var responseDevices;
+    responseDevices = await http.get(urlDevices);
+    List<Device> devicesList;
     String test =
         '[{"hostname": "string","id": 0,"ip_addr": "string","last_interaction": "string","mac_addr": "string","mud_data": {"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","direction_initiated": "FromDevice","dnsname": "string"},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-01-17T21:05:00.692Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "string","url": "string"},"mud_url": "string","vendor_class": "string"}]';
     var jsonDevices = jsonDecode(test) as List;
     List<Device> devices =
         jsonDevices.map((tagJson) => Device.fromJson(tagJson)).toList();
     Device device = devices[0];
-    return device.mud_data.acllist[0].ace[0].matches.dnsname;
+    if (responseDevices.body.toString() == "[]") {
+      devices.add(device);
+    } else {
+      //devices = jsonDecode(responseDevices.body) as List;
+      //devicesList = devices.map((tagJson) => Device.fromJson(tagJson)).toList();
+    }
   }
 
-  String mudTest(){
-    String mud = '{"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","direction_initiated": "FromDevice","dnsname": "string"},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-01-17T21:04:22.265Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "string","url": "string"}';
+  Device deviceTest() {
+    String test =
+        '[{"hostname": "string","id": 0,"ip_addr": "string","last_interaction": "string","mac_addr": "string","mud_data": {"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","direction_initiated": "FromDevice","dnsname": "string"},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-01-17T21:05:00.692Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "string","url": "string"},"mud_url": "string","vendor_class": "string"}]';
+    var jsonDevices = jsonDecode(test) as List;
+    List<Device> devices =
+        jsonDevices.map((tagJson) => Device.fromJson(tagJson)).toList();
+    Device device = devices[0];
+    return device;
+  }
+
+  String mudTest() {
+    String mud =
+        '{"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","direction_initiated": "FromDevice","dnsname": "string"},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-01-17T21:04:22.265Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "string","url": "string"}';
     var jsonMud = jsonDecode(mud);
     MUDData mudData = MUDData.fromJson(jsonMud);
     return mudData.acllist[0].ace[0].matches.dnsname;

@@ -2,6 +2,7 @@
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_protyp/data/device.dart';
 import 'package:flutter_protyp/dataForPresentation/device.dart';
 import 'package:flutter_protyp/pages/tebleTest.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
@@ -15,7 +16,12 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 /// returns deviceOverview site
 class DeviceOverview extends StatefulWidget {
-  @override
+  const DeviceOverview({
+    Key key,
+    @required this.devices,
+  }) : super(key: key);
+  final List<Device> devices;
+
   _DeviceOverviewState createState() => _DeviceOverviewState();
 }
 
@@ -100,7 +106,11 @@ class _DeviceOverviewState extends State<DeviceOverview> {
             //      "Graph Cluster View (FruchtermanReingold)",
             //      style: TextStyle(color: Theme.of(context).primaryColor),
             //    )),
-            if (!view) Expanded(child: TableTest()),
+            if (!view)
+              Expanded(
+                  child: TableTest(
+                devices: widget.devices,
+              )),
           ]),
         ));
   }
