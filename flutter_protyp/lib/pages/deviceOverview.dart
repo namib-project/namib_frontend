@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_protyp/data/device.dart';
 import 'package:flutter_protyp/dataForPresentation/device.dart';
-import 'package:flutter_protyp/pages/tebleTest.dart';
+import 'package:flutter_protyp/pages/devicesTable.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import "package:flutter_protyp/widgets/drawer.dart";

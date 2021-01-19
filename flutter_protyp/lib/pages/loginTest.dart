@@ -352,8 +352,8 @@ class _LoginTestState extends State<LoginTest> {
                                   print(brightness),
 
                                   /// Just for testing: delete when ready
-                                  // Navigator.pushReplacementNamed(
-                                  //     context, "/deviceOverview"),
+                                   Navigator.pushReplacementNamed(
+                                       context, "/deviceOverview"),
 
                                   {print(username)},
                                   {print(password)},
@@ -434,7 +434,6 @@ class _LoginTestState extends State<LoginTest> {
           username = "";
           _getDevices();
 
-          //Navigator.pushReplacementNamed(context, "/deviceOverview");
 
           jwtToken = json.decode(response.body)['token'];
           //jwtToken = jwtToken.substring(
@@ -446,7 +445,7 @@ class _LoginTestState extends State<LoginTest> {
             context,
             MaterialPageRoute(
               builder: (context) => DeviceOverview(
-                devices: deviceTest(),
+                devices: null,
               ),
             ),
           );

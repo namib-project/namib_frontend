@@ -274,7 +274,6 @@ class _MainAppbarState extends State<MainAppbar> {
     //});
 
     //username = response.body;
-    print(username);
     return username;
   }
 }

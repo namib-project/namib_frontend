@@ -53,5 +53,6 @@
   "yourUser": "Dein Benutzername ist ",
   "getData": "Hole Daten",
   "clickData": "Klicke auf den Button um zu erfahren wer du bist",
-  "networkErrorLogin": "Login fehlgeschlagen, ein Netzwerkfehler ist aufgetreten. Bitte erneut versuchen"
+  "networkErrorLogin": "Login fehlgeschlagen, ein Netzwerkfehler ist aufgetreten. Bitte erneut versuchen",
+  "noEntries": "Keine Einträge!"
 }

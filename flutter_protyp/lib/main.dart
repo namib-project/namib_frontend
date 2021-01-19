@@ -9,7 +9,7 @@ import "package:flutter_protyp/pages/createMudProfile.dart";
 import 'package:flutter_protyp/pages/ownUser.dart';
 import 'package:flutter_protyp/pages/registration.dart';
 import "package:flutter_protyp/pages/settings.dart";
-import 'package:flutter_protyp/pages/tebleTest.dart';
+import 'package:flutter_protyp/pages/devicesTable.dart';
 import 'package:flutter_protyp/pages/userManagement.dart';
 import 'package:flutter_protyp/widgets/theme.dart';
 import 'package:provider/provider.dart';
