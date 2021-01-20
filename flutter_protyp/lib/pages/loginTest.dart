@@ -341,6 +341,14 @@ class _LoginTestState extends State<LoginTest> {
                                   borderRadius: BorderRadius.circular(50),
                                 ),
                                 onPressed: () async => {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => DeviceOverview(
+                                        devices: deviceTest(),
+                                      ),
+                                    ),
+                                  ),
                                   //print(
                                   //    "Testi1 should return the List of MudServices:"),
                                   //print(mudServObjs),
@@ -352,8 +360,8 @@ class _LoginTestState extends State<LoginTest> {
                                   print(brightness),
 
                                   /// Just for testing: delete when ready
-                                   Navigator.pushReplacementNamed(
-                                       context, "/deviceOverview"),
+                                  //Navigator.pushReplacementNamed(
+                                  //    context, "/deviceOverview"),
 
                                   {print(username)},
                                   {print(password)},
@@ -434,18 +442,17 @@ class _LoginTestState extends State<LoginTest> {
           username = "";
           _getDevices();
 
-
           jwtToken = json.decode(response.body)['token'];
           //jwtToken = jwtToken.substring(
           //    9, jwtToken.length),
-          print(jwtToken);//TODO richtige List übergeben
+          print(jwtToken); //TODO richtige List übergeben
           errorMessage401 = false;
           errorMessage400 = false;
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => DeviceOverview(
-                devices: null,
+                devices: deviceTest(),
               ),
             ),
           );
