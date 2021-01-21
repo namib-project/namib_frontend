@@ -47,55 +47,11 @@ class _MainDrawerState extends State<MainDrawer> {
                   {Navigator.pushReplacementNamed(context, "/deviceOverview")},
             ),
             CustomListTile(
-              icon: Icons.add_rounded,
-              text: 'newDevice'.tr().toString(),
-              onTap: () =>
-                  {Navigator.pushReplacementNamed(context, "/createDevice")},
-            ),
-            CustomListTile(
-              icon: Icons.bar_chart,
-              text: 'networkBehaviour'.tr().toString(),
-              onTap: () => {
-                Navigator.pushReplacementNamed(context, "/networkbehaviour")
-              },
-            ),
-            Visibility(
-              // just for testing
-              visible: expertMode,
-              child: CustomListTile(
-                icon: Icons.add_rounded,
-                text: 'newMudProfile'.tr().toString(),
-                onTap: () => {
-                  Navigator.pushReplacementNamed(context, "/createMudProfile")
-                },
-              ),
-            ),
-            CustomListTile(
-              icon: Icons.build_circle,
-              text: "editDevice".tr().toString(),
-              onTap: () =>
-                  {Navigator.pushReplacementNamed(context, "/editDevice")},
-            ),
-            CustomListTile(
               icon: Icons.person_add,
               text: "signup".tr().toString(),
               onTap: () =>
                   {Navigator.pushReplacementNamed(context, "/registration")},
             ),
-            CustomListTile(
-              icon: Icons.account_circle,
-              text: "Eigener Nutzer",
-              onTap: () =>
-                  {Navigator.pushReplacementNamed(context, "/ownUser")},
-            ),
-
-            /// For testing JSON Serialization
-            ///CustomListTile(
-            ///  icon: Icons.account_circle,
-            ///  text: "JSONTEST",
-            ///  onTap: () =>
-            ///      {Navigator.pushReplacementNamed(context, "/languagetest")},
-            ///),
           ],
         ),
       ),
