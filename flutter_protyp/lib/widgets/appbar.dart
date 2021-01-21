@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_protyp/widgets/theme.dart';
 import 'package:http/http.dart' as http;
 import 'package:easy_localization/easy_localization.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 /// Gives an AppBar with logoutButton
 /// Can be coloured with primaryColor in constant.dart
@@ -42,13 +43,31 @@ class _MainAppbarState extends State<MainAppbar> {
     return SizedBox(
         child: AppBar(
       backgroundColor: primaryColor,
+      leading: Builder(
+        builder: (BuildContext context) {
+          return IconButton(
+            icon: Icon(FontAwesomeIcons.bars),
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+            tooltip: 'openNavigation'.tr().toString(),
+          );
+        },
+      ),
       title: SelectableText("hello".tr().toString() + " " + getUserName()),
       actions: <Widget>[
         Padding(
           padding: mobileDevice
               ? EdgeInsets.fromLTRB(12, 5, 12, 12)
-              : EdgeInsets.fromLTRB(12, 2, 12, 12),
-          child: PopupMenuButton<String>(
+              : EdgeInsets.fromLTRB(0, 5, 12, 12),
+          child: PopupMenuButton<Widget>(
+            icon: Center(
+              child: Icon(
+                FontAwesomeIcons.user,
+                size: mobileDevice ? 20 : 25,
+              ),
+            ),
+            tooltip: 'openMenu'.tr().toString(),
             itemBuilder: (context) => [
               PopupMenuItem(
                 child: StatefulBuilder(
@@ -219,10 +238,6 @@ class _MainAppbarState extends State<MainAppbar> {
                 }),
               ),
             ],
-            icon: Icon(
-              Icons.account_box_rounded,
-              size: 30,
-            ),
             offset: Offset(0, 100),
           ),
         ),
