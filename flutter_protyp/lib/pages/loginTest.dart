@@ -12,10 +12,6 @@ import 'dart:convert';
 import 'package:flutter_protyp/widgets/appbar.dart' as AppBar;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'dart:io';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:flutter_protyp/widgets/drawer.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
@@ -341,7 +337,11 @@ class _LoginTestState extends State<LoginTest> {
                                   borderRadius: BorderRadius.circular(50),
                                 ),
                                 onPressed: () async => {
-                                  Navigator.push(
+                                  setSystemPreferences(),
+                                  setTheme(),
+                                  print(brightness),
+
+                                  Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => DeviceOverview(
@@ -349,9 +349,6 @@ class _LoginTestState extends State<LoginTest> {
                                       ),
                                     ),
                                   ),
-                                  setSystemPreferences(),
-                                  setTheme(),
-                                  print(brightness),
 
                                   {print(username)},
                                   {print(password)},

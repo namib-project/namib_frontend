@@ -4,11 +4,9 @@ import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:flutter_protyp/widgets/theme.dart';
 import 'package:provider/provider.dart';
 
-
 // Class for handling theme changes like language, theme color and expert mode
 
 class ThemeChangeHandler {
-
   // Function that changes the language by using the easy localization package
   // Easy localization uses context of parent widget
   // selectionsLanguage two entry array if first entry is true app shows in german,
@@ -50,7 +48,7 @@ class ThemeChangeHandler {
 
   // Function that changes the apps appearance by the given value
   // If true all Visibility widget depending on this expert mode variable are shown
-  void changeExpertMode(bool value){
+  void changeExpertMode(bool value) {
     expertMode = value;
   }
 }

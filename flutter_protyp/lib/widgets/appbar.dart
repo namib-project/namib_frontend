@@ -253,7 +253,7 @@ class _MainAppbarState extends State<MainAppbar> {
 
   String getUserName() {
     ///TODO delete if for release
-    if(jwtToken.length > 1) {
+    if (jwtToken.length > 1) {
       myJson = jwtToken;
       //clearJson = jsonDecode(myJson);
       //token = clearJson["token"];
@@ -265,7 +265,7 @@ class _MainAppbarState extends State<MainAppbar> {
       //  print(payloadMap["id"]);
       //  print(payloadMap["username"]);
       username = payloadMap["username"];
-    }else{
+    } else {
       username = "test";
     }
     //response = await http.get(url, headers: {
