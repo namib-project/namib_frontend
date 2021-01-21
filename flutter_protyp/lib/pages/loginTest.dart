@@ -349,19 +349,9 @@ class _LoginTestState extends State<LoginTest> {
                                       ),
                                     ),
                                   ),
-                                  //print(
-                                  //    "Testi1 should return the List of MudServices:"),
-                                  //print(mudServObjs),
-                                  //print(
-                                  //    "Testi2 should return name of first element:"),
-                                  //print(mudServObjs.first.name),
                                   setSystemPreferences(),
                                   setTheme(),
                                   print(brightness),
-
-                                  /// Just for testing: delete when ready
-                                  //Navigator.pushReplacementNamed(
-                                  //    context, "/deviceOverview"),
 
                                   {print(username)},
                                   {print(password)},
@@ -407,6 +397,7 @@ class _LoginTestState extends State<LoginTest> {
     );
   }
 
+  // Displays message if the http response takes to long
   dynamic _handleTimeOut() {
     setState(() {
       networkError = true;
@@ -464,6 +455,7 @@ class _LoginTestState extends State<LoginTest> {
     } on NoSuchMethodError {}
   }
 
+  // Function getting the list of devices in network from controller
   Future _getDevices() async {
     String urlDevices = 'http://172.21.112.1:8000/devices/';
     var responseDevices;
@@ -484,6 +476,7 @@ class _LoginTestState extends State<LoginTest> {
     }
   }
 
+  //For tests
   List<Device> deviceTest() {
     String test =
         '[{"hostname": "string","id": 0,"ip_addr": "string","last_interaction": "string","mac_addr": "string","mud_data": {"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","direction_initiated": "FromDevice","dnsname": "string"},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-01-17T21:05:00.692Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "string","url": "string"},"mud_url": "string","vendor_class": "string"}, {"hostname": "string","id": 0,"ip_addr": "string","last_interaction": "string","mac_addr": "string","mud_data": {"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","direction_initiated": "FromDevice","dnsname": "string"},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-01-17T21:05:00.692Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "string","url": "string"},"mud_url": "string","vendor_class": "string"}]';
@@ -494,6 +487,7 @@ class _LoginTestState extends State<LoginTest> {
     return devices;
   }
 
+  //for tests
   String mudTest() {
     String mud =
         '{"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","direction_initiated": "FromDevice","dnsname": "string"},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-01-17T21:04:22.265Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "string","url": "string"}';
