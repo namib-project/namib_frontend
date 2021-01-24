@@ -15,17 +15,14 @@ import 'package:url_launcher/url_launcher.dart';
 class DeviceDetails extends StatefulWidget {
   const DeviceDetails({
     Key key,
-    @required
-    this.device,
+    @required this.device,
   }) : super(key: key);
   final Device device;
 
   _DeviceDetailsState createState() => _DeviceDetailsState();
-
 }
 
 class _DeviceDetailsState extends State<DeviceDetails> {
-
   List<DataRow> list = [];
   bool sortFirstRow = false;
   bool sortFirstRow1 = false;
@@ -39,6 +36,14 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     return new Scaffold(
       appBar: AppBar(
         title: SelectableText("Details"),
+        actions: <Widget>[
+          Padding(
+            padding: mobileDevice
+                ? EdgeInsets.fromLTRB(12, 5, 12, 12)
+                : EdgeInsets.fromLTRB(0, 5, 12, 12),
+            child: SettingsPopup(),
+          ),
+        ],
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -103,7 +108,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                 SelectableText(
                   widget.device.mud_data.documentation,
                   style: TextStyle(fontSize: 18),
-                  onTap: (){
+                  onTap: () {
                     _launchDocumentation();
                   },
                 ),
@@ -214,10 +219,11 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                       flex: 1,
                       child: Container(),
                     ),
-
                   ],
                 ),
-                Container(height: 30,)
+                Container(
+                  height: 30,
+                )
               ],
             ),
           ),
