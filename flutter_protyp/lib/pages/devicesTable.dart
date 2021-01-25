@@ -49,16 +49,17 @@ class _TableTestState extends State<TableTest> {
                 children: [
                   Expanded(flex: 1, child: Container()),
                   Expanded(
-                      flex: 16,
-                      child: widget.devices != null
-                          ? DataTable(
+                    flex: 16,
+                    child: widget.devices != null
+                        ? SingleChildScrollView(
+                            child: DataTable(
                               onSelectAll: (b) {},
                               sortColumnIndex: 0,
                               sortAscending: sortFirstRow,
                               columns: <DataColumn>[
                                 DataColumn(
                                     label: SelectableText(
-                                            "device".tr().toString()),
+                                        "device".tr().toString()),
                                     numeric: false,
                                     onSort: (i, b) {
                                       setState(() {
@@ -68,19 +69,17 @@ class _TableTestState extends State<TableTest> {
                                         sortFirstRow = !sortFirstRow;
                                       });
                                     }),
+                                DataColumn(label: SelectableText("MUD")),
                                 DataColumn(
                                     label:
-                                        SelectableText("MUD")),
-                                DataColumn(
-                                    label: SelectableText(
-                                            "edit".tr().toString()))
+                                        SelectableText("edit".tr().toString()))
                               ],
                               rows: widget.devices
                                   .map((device) => DataRow(cells: [
                                         DataCell(SelectableText(
-                                                device.mud_data.systeminfo)),
-                                        DataCell(SelectableText(
-                                                device.mud_url)),
+                                            device.mud_data.systeminfo)),
+                                        DataCell(
+                                            SelectableText(device.mud_url)),
                                         DataCell(IconButton(
                                           icon: Icon(Icons.settings),
                                           onPressed: () {
@@ -99,30 +98,53 @@ class _TableTestState extends State<TableTest> {
                                         )),
                                       ]))
                                   .toList(),
-                            )
-                          : DataTable(
+                            ),
+                          )
+                        : SingleChildScrollView(
+                            child: DataTable(
                               columns: <DataColumn>[
                                 DataColumn(
-                                  label:
-                                      SelectableText("device".tr().toString()),
+                                  label: SelectableText(
+                                    "device".tr().toString(),
+                                  ),
                                 ),
-                                DataColumn(label: SelectableText("MUD")),
                                 DataColumn(
-                                    label:
-                                        SelectableText("edit".tr().toString()))
+                                  label: SelectableText("MUD"),
+                                ),
+                                DataColumn(
+                                  label: SelectableText(
+                                    "edit".tr().toString(),
+                                  ),
+                                )
                               ],
                               rows: [
-                                DataRow(cells: [
-                                  DataCell(SelectableText(
-                                      "noEntries".tr().toString())),
-                                  DataCell(SelectableText(
-                                      "noEntries".tr().toString())),
-                                  DataCell(SelectableText(
-                                      "noEntries".tr().toString())),
-                                ])
+                                DataRow(
+                                  cells: [
+                                    DataCell(
+                                      SelectableText(
+                                        "noEntries".tr().toString(),
+                                      ),
+                                    ),
+                                    DataCell(
+                                      SelectableText(
+                                        "noEntries".tr().toString(),
+                                      ),
+                                    ),
+                                    DataCell(
+                                      SelectableText(
+                                        "noEntries".tr().toString(),
+                                      ),
+                                    ),
+                                  ],
+                                )
                               ],
-                            )),
-                  Expanded(flex: 1, child: Container())
+                            ),
+                          ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Container(),
+                  )
                 ],
               ),
             ],
