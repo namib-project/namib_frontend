@@ -58,7 +58,7 @@ class _TableTestState extends State<TableTest> {
                               columns: <DataColumn>[
                                 DataColumn(
                                     label: SelectableText(
-                                        "device".tr().toString()),
+                                            "device".tr().toString()),
                                     numeric: false,
                                     onSort: (i, b) {
                                       setState(() {
@@ -68,16 +68,19 @@ class _TableTestState extends State<TableTest> {
                                         sortFirstRow = !sortFirstRow;
                                       });
                                     }),
-                                DataColumn(label: SelectableText("MUD")),
                                 DataColumn(
                                     label:
-                                        SelectableText("edit".tr().toString()))
+                                        SelectableText("MUD")),
+                                DataColumn(
+                                    label: SelectableText(
+                                            "edit".tr().toString()))
                               ],
                               rows: widget.devices
                                   .map((device) => DataRow(cells: [
-                                        DataCell(
-                                            Text(device.mud_data.systeminfo)),
-                                        DataCell(Text(device.mud_url)),
+                                        DataCell(SelectableText(
+                                                device.mud_data.systeminfo)),
+                                        DataCell(SelectableText(
+                                                device.mud_url)),
                                         DataCell(IconButton(
                                           icon: Icon(Icons.settings),
                                           onPressed: () {
@@ -110,9 +113,12 @@ class _TableTestState extends State<TableTest> {
                               ],
                               rows: [
                                 DataRow(cells: [
-                                  DataCell(SelectableText("noEntries".tr().toString())),
-                                  DataCell(SelectableText("noEntries".tr().toString())),
-                                  DataCell(SelectableText("noEntries".tr().toString())),
+                                  DataCell(SelectableText(
+                                      "noEntries".tr().toString())),
+                                  DataCell(SelectableText(
+                                      "noEntries".tr().toString())),
+                                  DataCell(SelectableText(
+                                      "noEntries".tr().toString())),
                                 ])
                               ],
                             )),

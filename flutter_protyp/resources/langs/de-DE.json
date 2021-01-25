@@ -49,12 +49,13 @@
   "changeView": "Ansicht ändern",
   "useroverview": "Nutzerübersicht",
   "device": "Gerät",
-  "edit": "Details",
+  "edit": "Bearbeiten",
   "yourUser": "Dein Benutzername ist ",
   "getData": "Hole Daten",
   "clickData": "Klicke auf den Button um zu erfahren wer du bist",
   "networkErrorLogin": "Login fehlgeschlagen, ein Netzwerkfehler ist aufgetreten. Bitte erneut versuchen",
   "noEntries": "Keine Einträge!",
   "openNavigation": "Navigation öffnen",
-  "openMenu": "Menü öffnen"
+  "openMenu": "Menü öffnen",
+  "address": "Adresse"
 }
