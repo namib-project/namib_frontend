@@ -1,4 +1,4 @@
-//import 'dart:html';
+import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,17 +16,12 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 /// returns deviceOverview site
 class DeviceOverview extends StatefulWidget {
-  const DeviceOverview({
-    Key key,
-    @required this.devices,
-  }) : super(key: key);
-  final List<Device> devices;
-
   _DeviceOverviewState createState() => _DeviceOverviewState();
 }
 
 class _DeviceOverviewState extends State<DeviceOverview> {
   bool view = true;
+
 
   void changeView() {
     setState(() {
@@ -108,9 +103,7 @@ class _DeviceOverviewState extends State<DeviceOverview> {
             //    )),
             if (!view)
               Expanded(
-                  child: TableTest(
-                devices: widget.devices,
-              )),
+                  child: TableTest()),
           ]),
         ));
   }
@@ -189,6 +182,3 @@ class _DeviceOverviewState extends State<DeviceOverview> {
     builder = FruchtermanReingoldAlgorithm(iterations: 1000);
   }
 }
-
-//Preferable icon for switching between graph/table
-//icon: Icon(Icons.visibility),

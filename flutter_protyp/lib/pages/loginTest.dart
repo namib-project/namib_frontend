@@ -57,7 +57,7 @@ class _LoginTestState extends State<LoginTest> {
   var brightness;
   List<Locale> systemLocale = WidgetsBinding.instance.window.locales;
 
-  String url = 'http://172.21.112.1:8000/users/login';
+  String url = 'http://172.26.144.1:8000/users/login';
   var response;
 
   void onlineOs() {
@@ -341,14 +341,7 @@ class _LoginTestState extends State<LoginTest> {
                                   setTheme(),
                                   print(brightness),
 
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => DeviceOverview(
-                                        devices: deviceTest(),
-                                      ),
-                                    ),
-                                  ),
+                                  Navigator.pushReplacementNamed(context, "/deviceOverview"),
 
                                   {print(username)},
                                   {print(password)},
@@ -436,14 +429,7 @@ class _LoginTestState extends State<LoginTest> {
           print(jwtToken); //TODO richtige List übergeben
           errorMessage401 = false;
           errorMessage400 = false;
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => DeviceOverview(
-                devices: deviceTest(),
-              ),
-            ),
-          );
+          Navigator.pushReplacementNamed(context, "/deviceOverview");
         } else {
           errorMessage401 = false;
           errorMessage400 = false;
@@ -457,29 +443,19 @@ class _LoginTestState extends State<LoginTest> {
     String urlDevices = 'http://172.21.112.1:8000/devices/';
     var responseDevices;
     responseDevices = await http.get(urlDevices);
-    List<Device> devicesList;
-    String test =
-        '[{"hostname": "string","id": 0,"ip_addr": "string","last_interaction": "string","mac_addr": "string","mud_data": {"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","direction_initiated": "FromDevice","dnsname": "string"},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-01-17T21:05:00.692Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "string","url": "string"},"mud_url": "string","vendor_class": "string"}]';
-    var jsonDevices = jsonDecode(test) as List;
+    var jsonDevices = jsonDecode(responseDevices) as List;
     List<Device> devicesTest =
         jsonDevices.map((tagJson) => Device.fromJson(tagJson)).toList();
-    Device device = devicesTest[0];
-
-    if (responseDevices.body.toString() == "[]") {
-      //devices.add(device);
-    } else {
-      //devices = jsonDecode(responseDevices.body) as List;
-      //devicesList = devices.map((tagJson) => Device.fromJson(tagJson)).toList();
-    }
+    return devicesTest;
   }
 
   //For tests
   List<Device> deviceTest() {
-    String test = '[{"hostname": "string","id": 0,"ip_addr": "string","last_interaction": "string","mac_addr": "string","mud_data": {"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","direction_initiated": "FromDevice","dnsname": "ntp.org"},"name": "string"},{"action": "Accept","matches": {"address_mask": "string","direction_initiated": "FromDevice","dnsname": "weather.com"},"name": "string"},{"action": "Accept","matches": {"address_mask": "string","direction_initiated": "FromDevice", "dnsname": "xyz.media"},"name": "string"},{"action": "Accept","matches": {"address_mask": "string","direction_initiated": "FromDevice","dnsname": "storage.de"},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-01-23T10:35:17.609Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "string","url": "string"},"mud_url": "string","vendor_class": "string"}, {"hostname": "string","id": 0,"ip_addr": "string","last_interaction": "string","mac_addr": "string","mud_data": {"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","direction_initiated": "FromDevice","dnsname": "string"},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-01-17T21:05:00.692Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "string","url": "string"},"mud_url": "string","vendor_class": "string"}]';
+    String test =
+        '[{"hostname": "string","id": 0,"ip_addr": "string","last_interaction": "string","mac_addr": "string","mud_data": {"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","direction_initiated": "FromDevice","dnsname": "ntp.org"},"name": "string"},{"action": "Accept","matches": {"address_mask": "string","direction_initiated": "FromDevice","dnsname": "weather.com"},"name": "string"},{"action": "Accept","matches": {"address_mask": "string","direction_initiated": "FromDevice", "dnsname": "xyz.media"},"name": "string"},{"action": "Accept","matches": {"address_mask": "string","direction_initiated": "FromDevice","dnsname": "storage.de"},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-01-23T10:35:17.609Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "string","url": "string"},"mud_url": "string","vendor_class": "string"}, {"hostname": "string","id": 0,"ip_addr": "string","last_interaction": "string","mac_addr": "string","mud_data": {"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","direction_initiated": "FromDevice","dnsname": "string"},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-01-17T21:05:00.692Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "string","url": "string"},"mud_url": "string","vendor_class": "string"}]';
     var jsonDevices = jsonDecode(test) as List;
     List<Device> devices =
         jsonDevices.map((tagJson) => Device.fromJson(tagJson)).toList();
-    Device device = devices[0];
     return devices;
   }
 

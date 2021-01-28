@@ -105,30 +105,35 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                 SizedBox(
                   height: 40,
                 ),
-                SelectableText(
-                  'allowedDNSRequests'.tr().toString(),
-                  style: TextStyle(fontSize: 22),
-                ),
-                Visibility(
-                  visible: !editColumn,
-                  child: RaisedButton(
-                      onPressed: () {
-                        setState(() {
-                          editColumn = !editColumn;
-                        });
-                      },
-                      child: Text("edit".tr().toString())),
-                ),
-                Visibility(
-                  visible: editColumn,
-                  child: RaisedButton(
-                      onPressed: () {
-                        setState(() {
-                          editColumn = !editColumn;
-                        });
-                        _transmitData();
-                      },
-                      child: Text("save".tr().toString())),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    SelectableText(
+                      'allowedDNSRequests'.tr().toString(),
+                      style: TextStyle(fontSize: 22),
+                    ),
+                    Visibility(
+                      visible: !editColumn,
+                      child: RaisedButton(
+                          onPressed: () {
+                            setState(() {
+                              editColumn = !editColumn;
+                            });
+                          },
+                          child: Text("edit".tr().toString())),
+                    ),
+                    Visibility(
+                      visible: editColumn,
+                      child: RaisedButton(
+                          onPressed: () {
+                            setState(() {
+                              editColumn = !editColumn;
+                            });
+                            _transmitData();
+                          },
+                          child: Text("save".tr().toString())),
+                    ),
+                  ],
                 ),
                 Row(
                   children: [
