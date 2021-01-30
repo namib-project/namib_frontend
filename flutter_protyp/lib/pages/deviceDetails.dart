@@ -67,7 +67,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(30),
                       child: Image.network(
-                        testDevice1.image,
+                        testDevice1.image,//TODO clipart integrieren
                         height: 200,
                         width: 200,
                       ),
@@ -75,7 +75,29 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                   ],
                 ),
                 SizedBox(
-                  height: 40,
+                  height: 20,
+                ),
+                SelectableText(
+                  "ipaddress".tr().toString(),
+                  style: TextStyle(fontSize: 20),
+                ),
+                SelectableText(
+                  widget.device.ip_addr,
+                  style: TextStyle(fontSize: 18),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                SelectableText(
+                  "lastinteraction".tr().toString(),
+                  style: TextStyle(fontSize: 20),
+                ),
+                SelectableText(
+                  widget.device.last_interaction,
+                  style: TextStyle(fontSize: 18),
+                ),
+                SizedBox(
+                  height: 20,
                 ),
                 SelectableText(
                   "MUD URL: ",

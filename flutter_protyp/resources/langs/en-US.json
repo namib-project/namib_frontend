@@ -56,5 +56,7 @@
   "noEntries": "No Entries!",
   "openNavigation": "Open Navigation",
   "openMenu": "Open Menu",
-  "address": "Address"
+  "address": "Address",
+  "ipaddress": "IP-Address",
+  "lastinteraction": "Last Interaction"
 }
