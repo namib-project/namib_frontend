@@ -59,5 +59,6 @@
   "openMenu": "Menü öffnen",
   "address": "Adresse",
   "ipaddress": "IP-Adresse",
-  "lastinteraction": "Letzte Anfrage"
+  "lastinteraction": "Letzte Anfrage",
+  "controllerVersion": "Aktuelle Controller Version:"
 }

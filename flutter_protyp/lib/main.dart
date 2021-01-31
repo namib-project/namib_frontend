@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_protyp/pages/about.dart';
 import 'package:flutter_protyp/pages/deviceDetails.dart';
 import "package:flutter_protyp/pages/login.dart";
 import "package:flutter_protyp/pages/deviceOverview.dart";
@@ -10,6 +11,7 @@ import 'package:flutter_protyp/pages/ownUser.dart';
 import 'package:flutter_protyp/pages/registration.dart';
 import "package:flutter_protyp/pages/settings.dart";
 import 'package:flutter_protyp/pages/devicesTable.dart';
+import 'package:flutter_protyp/pages/startService.dart';
 import 'package:flutter_protyp/pages/userManagement.dart';
 import 'package:flutter_protyp/widgets/theme.dart';
 import 'package:provider/provider.dart';
@@ -62,9 +64,10 @@ class MaterialAppWithTheme extends StatelessWidget {
 
     return MaterialApp(
         theme: theme.getTheme(),
-        initialRoute: "/loginTest",
+        initialRoute: "/startService",
         routes: {
           "/login": (context) => Login(),
+          "/startService": (context) => StartService(),
           "/loginTest": (context) => LoginTest(),
           "/deviceOverview": (context) => DeviceOverview(),
           "/createDevice": (context) => CreateDevice(),
@@ -76,6 +79,7 @@ class MaterialAppWithTheme extends StatelessWidget {
           "/ownUser": (context) => OwnUser(),
           "/registrationStart": (context) => RegistrationStart(),
           "/deviceDetails": (context) => DeviceDetails(),
+          "/about": (context) => About(),
           "/languagetest": (context) =>
               LanguageTest(), // just for testing can be deleted
         });

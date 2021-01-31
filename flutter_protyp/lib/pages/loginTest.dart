@@ -1,25 +1,15 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_protyp/data/device.dart';
 import 'package:flutter_protyp/data/mudData.dart';
-import 'package:flutter_protyp/pages/deviceOverview.dart';
 import 'package:flutter_protyp/pages/handlers/ThemeHandler.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:universal_io/io.dart' as osDetect;
 import 'package:http/http.dart' as http;
 import 'package:easy_localization/easy_localization.dart';
 import 'dart:convert';
-import 'package:flutter_protyp/widgets/appbar.dart' as AppBar;
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-import 'package:flutter_protyp/widgets/constant.dart';
-import 'package:flutter_protyp/widgets/drawer.dart';
-import 'package:flutter_protyp/widgets/appbar.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 /// This is a test to get a List of Services from All Services which are known as json
@@ -55,7 +45,6 @@ class _LoginTestState extends State<LoginTest> {
   bool loginButton = false;
 
   var brightness;
-  List<Locale> systemLocale = WidgetsBinding.instance.window.locales;
 
   String url = 'http://172.26.144.1:8000/users/login';
   var response;
@@ -73,25 +62,6 @@ class _LoginTestState extends State<LoginTest> {
 
   ThemeChangeHandler themeChangeHandler = new ThemeChangeHandler();
 
-  void setLanguage() {
-    Locale language;
-    setState(() {
-      language = systemLocale.first;
-    });
-
-    if (language.toString() == "de_DE") {
-      setState(() {
-        themeChangeHandler.setLanguage(0, context);
-        selectionsLanguage = [true, false];
-      });
-    } else {
-      setState(() {
-        themeChangeHandler.setLanguage(1, context);
-        selectionsLanguage = [false, true];
-      });
-    }
-  }
-
   void setTheme() {
     if (brightness.toString() != "Brightness.light") {
       setState(() {
@@ -99,6 +69,7 @@ class _LoginTestState extends State<LoginTest> {
       });
     }
   }
+
 
   @override
   void initState() {
@@ -112,7 +83,6 @@ class _LoginTestState extends State<LoginTest> {
 
   @override
   Widget build(BuildContext context) {
-    setLanguage();
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(

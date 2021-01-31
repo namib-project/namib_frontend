@@ -26,6 +26,7 @@ bool expertMode = true;
 bool darkMode = false;
 bool mobileDevice = false;
 String jwtToken = "";
+String version = "";
 
 List<String> allowedDNSRequests = [
   "www.example.net",
