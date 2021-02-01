@@ -13,6 +13,7 @@ import 'package:flutter_protyp/widgets/theme.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:websafe_svg/websafe_svg.dart';
 
 class DeviceDetails extends StatefulWidget {
   const DeviceDetails({
@@ -74,7 +75,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                         child: Container(
                           height: 200,
                           width: 200,
-                          child: SvgPicture.asset(
+                          child: WebsafeSvg.asset(
                             allClipArts[0],
                             semanticsLabel: 'phone',
                           ),
@@ -119,7 +120,8 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                               Container(
                                                 height: 200,
                                                 width: 250,
-                                                child: SvgPicture.asset(  // TODO: use Websave SVG because this doesnt work in chrome
+                                                child: WebsafeSvg.asset(
+                                                  // TODO: use Websave SVG because this doesnt work in chrome
                                                   selectedClipArt,
                                                   color: Colors.blue,
                                                 ),
@@ -144,7 +146,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                                     allClipArts[index];
                                                 return GestureDetector(
                                                   child: Container(
-                                                    child: SvgPicture.asset(
+                                                    child: WebsafeSvg.asset(
                                                       clipArt,
                                                       semanticsLabel: 'phone',
                                                     ),
