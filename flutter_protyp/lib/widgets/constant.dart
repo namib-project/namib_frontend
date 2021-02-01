@@ -101,3 +101,27 @@ var devicesForPresentation = <DeviceForPresentation>[
   testDevice3,
   testDevice4
 ];
+
+/// this is for all the clipart pictures
+/// is used in chooseClipArt.dart
+final List<String> allClipArts = [
+  'resources/clipart/cloud.svg',
+  'resources/clipart/desktop_mac.svg',
+  'resources/clipart/desktop_windows.svg',
+  'resources/clipart/lamp.svg',
+  'resources/clipart/laptop.svg',
+  'resources/clipart/laptop_chromebook.svg',
+  'resources/clipart/laptop_mac.svg',
+  'resources/clipart/laptop_windows.svg',
+  'resources/clipart/lightning.svg',
+  'resources/clipart/music_note.svg',
+  'resources/clipart/music_note_beamed.svg',
+  'resources/clipart/phone_android.svg',
+  'resources/clipart/phone_iphone.svg',
+  'resources/clipart/router.svg',
+  'resources/clipart/smartphone.svg',
+  'resources/clipart/speaker.svg',
+  'resources/clipart/sun.svg',
+  'resources/clipart/thermometer.svg',
+  'resources/clipart/tv.svg'
+];

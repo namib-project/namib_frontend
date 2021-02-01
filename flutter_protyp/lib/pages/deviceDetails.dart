@@ -11,6 +11,7 @@ import 'package:flutter_protyp/dataForPresentation/service.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class DeviceDetails extends StatefulWidget {
   const DeviceDetails({
@@ -27,6 +28,8 @@ class _DeviceDetailsState extends State<DeviceDetails> {
   bool sortFirstRow = false;
   bool sortFirstRow1 = false;
   bool editColumn = false;
+
+  String selectedClipArt = allClipArts[0];
 
   @override
   void initState() {
@@ -66,13 +69,98 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(30),
-                      child: Image.network(
-                        testDevice1.image,//TODO clipart integrieren
-                        height: 200,
-                        width: 200,
+                      child: GestureDetector(
+                        child: Container(
+                          height: 200,
+                          width: 200,
+                          child: SvgPicture.asset(
+                            allClipArts[0],
+                            semanticsLabel: 'phone',
+                          ),
+                        ),
+                        onTap: () {},
                       ),
                     ),
                   ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                RaisedButton(
+                  child: Text("Clipart ändern"),
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        barrierDismissible: true,
+                        builder: (BuildContext context) {
+                          return StatefulBuilder(builder: (context, setState) {
+                            return AlertDialog(
+                              content: Container(
+                                width: 300,
+                                height: 600,
+                                child: Column(
+                                  children: <Widget>[
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Container(
+                                          height: 300,
+                                          width: 250,
+                                          child: SvgPicture.asset(
+                                            selectedClipArt,
+                                            color: Colors.blue,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Divider(
+                                      height: 20,
+                                    ),
+                                    Container(
+                                      height: 250,
+                                      child: GridView.builder(
+                                        itemCount: allClipArts.length,
+                                        gridDelegate:
+                                            SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 3,
+                                          crossAxisSpacing: 4,
+                                          mainAxisSpacing: 4,
+                                        ),
+                                        itemBuilder: (context, index) {
+                                          var clipArt = allClipArts[index];
+                                          return GestureDetector(
+                                            child: Container(
+                                              child: SvgPicture.asset(
+                                                clipArt,
+                                                semanticsLabel: 'phone',
+                                              ),
+                                            ),
+                                            onTap: () {
+                                              setState(() {
+                                                selectedClipArt = clipArt;
+                                              });
+                                            },
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              actions: [
+                                FlatButton(
+                                  child: Text("Ok!"),
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .pop(); // dismiss dialog
+                                  },
+                                )
+                              ],
+                            );
+                          });
+                        });
+                  },
                 ),
                 SizedBox(
                   height: 20,
@@ -120,7 +208,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                 SelectableText(
                   widget.device.mud_data.documentation,
                   style: TextStyle(fontSize: 18),
-                  onTap: (){
+                  onTap: () {
                     _launchDocumentation();
                   },
                 ),
@@ -242,7 +330,5 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     }
   }
 
-  Future _transmitData() async{
-
-  }
+  Future _transmitData() async {}
 }
