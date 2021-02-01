@@ -9,6 +9,7 @@ import 'package:flutter_protyp/pages/devicesTable.dart';
 import 'package:flutter_protyp/dataForPresentation/device.dart';
 import 'package:flutter_protyp/dataForPresentation/service.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
+import 'package:flutter_protyp/widgets/theme.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -94,69 +95,108 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                         barrierDismissible: true,
                         builder: (BuildContext context) {
                           return StatefulBuilder(builder: (context, setState) {
-                            return AlertDialog(
-                              content: Container(
-                                width: 300,
-                                height: 600,
-                                child: Column(
-                                  children: <Widget>[
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Container(
-                                          height: 300,
-                                          width: 250,
-                                          child: SvgPicture.asset(
-                                            selectedClipArt,
-                                            color: Colors.blue,
-                                          ),
-                                        ),
-                                      ],
+                            return Theme(
+                              data: ThemeData(
+                                primaryColor: primaryColor,
+                                accentColor: primaryColor,
+                                hintColor: Colors.grey,
+                              ),
+                              child: Center(
+                                child: SingleChildScrollView(
+                                  child: AlertDialog(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(18.0),
                                     ),
-                                    Divider(
-                                      height: 20,
-                                    ),
-                                    Container(
-                                      height: 250,
-                                      child: GridView.builder(
-                                        itemCount: allClipArts.length,
-                                        gridDelegate:
-                                            SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 3,
-                                          crossAxisSpacing: 4,
-                                          mainAxisSpacing: 4,
-                                        ),
-                                        itemBuilder: (context, index) {
-                                          var clipArt = allClipArts[index];
-                                          return GestureDetector(
-                                            child: Container(
-                                              child: SvgPicture.asset(
-                                                clipArt,
-                                                semanticsLabel: 'phone',
+                                    content: Container(
+                                      width: 300,
+                                      height: 490,
+                                      child: Column(
+                                        children: <Widget>[
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              Container(
+                                                height: 200,
+                                                width: 250,
+                                                child: SvgPicture.asset(  // TODO: use Websave SVG because this doesnt work in chrome
+                                                  selectedClipArt,
+                                                  color: Colors.blue,
+                                                ),
                                               ),
+                                            ],
+                                          ),
+                                          Divider(
+                                            height: 20,
+                                          ),
+                                          Container(
+                                            height: 200,
+                                            child: GridView.builder(
+                                              itemCount: allClipArts.length,
+                                              gridDelegate:
+                                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                                crossAxisCount: 3,
+                                                crossAxisSpacing: 4,
+                                                mainAxisSpacing: 4,
+                                              ),
+                                              itemBuilder: (context, index) {
+                                                var clipArt =
+                                                    allClipArts[index];
+                                                return GestureDetector(
+                                                  child: Container(
+                                                    child: SvgPicture.asset(
+                                                      clipArt,
+                                                      semanticsLabel: 'phone',
+                                                    ),
+                                                  ),
+                                                  onTap: () {
+                                                    setState(() {
+                                                      selectedClipArt = clipArt;
+                                                    });
+                                                  },
+                                                );
+                                              },
                                             ),
-                                            onTap: () {
-                                              setState(() {
-                                                selectedClipArt = clipArt;
-                                              });
-                                            },
-                                          );
-                                        },
+                                          ),
+                                          SizedBox(
+                                            height: 22,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              FlatButton(
+                                                child: Text(
+                                                  "Abbrechen",
+                                                  style: TextStyle(
+                                                    color: buttonColor,
+                                                  ),
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.of(context)
+                                                      .pop(); // dismiss dialog
+                                                },
+                                              ),
+                                              FlatButton(
+                                                child: Text(
+                                                  "Übernehmen",
+                                                  style: TextStyle(
+                                                    color: buttonColor,
+                                                  ),
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.of(context)
+                                                      .pop(); // dismiss dialog
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                  ],
+                                  ),
                                 ),
                               ),
-                              actions: [
-                                FlatButton(
-                                  child: Text("Ok!"),
-                                  onPressed: () {
-                                    Navigator.of(context)
-                                        .pop(); // dismiss dialog
-                                  },
-                                )
-                              ],
                             );
                           });
                         });
