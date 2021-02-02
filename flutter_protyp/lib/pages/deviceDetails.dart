@@ -75,10 +75,8 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                         child: Container(
                           height: 200,
                           width: 200,
-                          child: WebsafeSvg.asset(
-                            allClipArts[0],
-                            semanticsLabel: 'phone',
-                          ),
+                          child: WebsafeSvg.asset(allClipArts[0],
+                              semanticsLabel: 'phone', height: 200, width: 200),
                         ),
                         onTap: () {},
                       ),
@@ -115,15 +113,16 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                         children: <Widget>[
                                           Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                                MainAxisAlignment.center,
                                             children: <Widget>[
                                               Container(
                                                 height: 200,
-                                                width: 250,
+                                                width: 200,
                                                 child: WebsafeSvg.asset(
-                                                  // TODO: use Websave SVG because this doesnt work in chrome
                                                   selectedClipArt,
                                                   color: Colors.blue,
+                                                  height: 200,
+                                                  width: 200,
                                                 ),
                                               ),
                                             ],
@@ -149,6 +148,8 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                                     child: WebsafeSvg.asset(
                                                       clipArt,
                                                       semanticsLabel: 'phone',
+                                                      height: 80,
+                                                      width: 80,
                                                     ),
                                                   ),
                                                   onTap: () {
