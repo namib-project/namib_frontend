@@ -42,13 +42,13 @@ class _StartServiceState extends State<StartService> {
 
   Future<String> fetchSetup() async {
     //try {
-     //String url = "http:://192.26.144.1/status";
-     //var response = await http.get(url);
-     //if (response.statusCode == 200) {
-     //  return response.body;
-     // }
+    //String url = "http:://192.26.144.1/status";
+    //var response = await http.get(url);
+    //if (response.statusCode == 200) {
+    //  return response.body;
+    // }
     //} on Exception {
-      return '{"setup_required":false,"version":"master_238571de23"}'; //TODO real exception catch by release
+    return '{"setup_required":false,"version":"master_238571de23"}'; //TODO real exception catch by release
     //}
   }
 
@@ -76,7 +76,12 @@ class _StartServiceState extends State<StartService> {
           return LoginTest();
         }
         // By default, show a loading spinner.
-        return CircularProgressIndicator();
+        return SizedBox(
+            width: 30,
+            height: 30,
+            child:
+            CircularProgressIndicator()
+        );
       },
     );
   }
