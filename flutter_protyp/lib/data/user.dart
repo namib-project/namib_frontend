@@ -6,10 +6,10 @@ part 'user.g.dart';
 @JsonSerializable(explicitToJson: true)
 class User{
   String username;
-  bool admin, guest;
+  bool admin;
 
 
-  User(this.username, this.admin, this.guest);
+  User(this.username, this.admin);
 
   factory User.fromJson(Map<String, dynamic> data) => _$UserFromJson(data);
 
