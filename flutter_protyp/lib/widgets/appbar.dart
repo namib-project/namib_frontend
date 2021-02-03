@@ -229,7 +229,7 @@ class _SettingsPopupState extends State<SettingsPopup> {
                     splashColor: buttonColor,
                     onTap: () {
                       Navigator.pushReplacementNamed(
-                          context, "/userManagement");
+                          context, "/manageUser");
                     },
                     child: Container(
                       width: 300,

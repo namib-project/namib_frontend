@@ -59,5 +59,6 @@
   "address": "Address",
   "ipaddress": "IP-Address",
   "lastinteraction": "Last Interaction",
-  "controllerVersion": "Current version of Controller:"
+  "controllerVersion": "Current version of Controller:",
+  "userManagement": "User Management"
 }

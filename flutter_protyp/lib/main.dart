@@ -12,6 +12,7 @@ import 'package:flutter_protyp/pages/registration.dart';
 import "package:flutter_protyp/pages/settings.dart";
 import 'package:flutter_protyp/pages/devicesTable.dart';
 import 'package:flutter_protyp/pages/startService.dart';
+import 'package:flutter_protyp/pages/manageUser.dart';
 import 'package:flutter_protyp/pages/userManagement.dart';
 import 'package:flutter_protyp/widgets/theme.dart';
 import 'package:provider/provider.dart';
@@ -75,11 +76,12 @@ class MaterialAppWithTheme extends StatelessWidget {
           "/createMudProfile": (context) => CreateMudProfile(),
           "/editDevice": (context) => EditDevice(),
           "/registration": (context) => Registration(),
-          "/userManagement": (context) => UserManagement(),
+          "/manageUser": (context) => ManageUser(),
           "/ownUser": (context) => OwnUser(),
           "/registrationStart": (context) => RegistrationStart(),
           "/deviceDetails": (context) => DeviceDetails(),
           "/about": (context) => About(),
+          "/userManagement": (context) => UserManagement(),
           "/languagetest": (context) =>
               LanguageTest(), // just for testing can be deleted
         });

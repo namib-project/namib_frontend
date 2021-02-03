@@ -60,5 +60,6 @@
   "address": "Adresse",
   "ipaddress": "IP-Adresse",
   "lastinteraction": "Letzte Anfrage",
-  "controllerVersion": "Aktuelle Controller Version:"
+  "controllerVersion": "Aktuelle Controller Version:",
+  "userManagement": "Benutzerverwaltung"
 }
