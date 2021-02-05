@@ -4,15 +4,8 @@ import 'package:flutter/rendering.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_protyp/data/device.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
-import 'package:flutter_protyp/widgets/drawer.dart';
-import 'package:flutter_protyp/pages/devicesTable.dart';
-import 'package:flutter_protyp/dataForPresentation/device.dart';
-import 'package:flutter_protyp/dataForPresentation/service.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
-import 'package:flutter_protyp/widgets/theme.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
 class DeviceDetails extends StatefulWidget {
@@ -317,10 +310,10 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                   child:
                                       SelectableText("edit".tr().toString())))
                         ],
-                        rows: widget.device.mud_data.acllist[0].ace
+                        rows: widget.device.mud_data.acllist
                             .map((accessControlEntry) => DataRow(cells: [
                                   DataCell(
-                                      Text(accessControlEntry.matches.dnsname)),
+                                      Text(accessControlEntry.ace[0].matches.dnsname)),
                                   DataCell(
                                     Visibility(
                                       visible: editColumn,
@@ -329,7 +322,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                         onPressed: () {
                                           setState(() {
                                             widget
-                                                .device.mud_data.acllist[0].ace
+                                                .device.mud_data.acllist
                                                 .remove(accessControlEntry);
                                           });
                                         },
