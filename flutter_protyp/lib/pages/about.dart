@@ -15,7 +15,8 @@ class About extends StatefulWidget {
 class _AboutState extends State<About> {
   Future<String> version;
 
-
+  // Future string type to build at runtime
+  // Get request for the controller version to display it for the user
   Future<String> fetchVersion() async{
     //try {
     //String url = "http:://192.26.144.1/status";
@@ -65,6 +66,8 @@ class _AboutState extends State<About> {
                     child: SelectableText("controllerVersion".tr().toString()),
                   ),
                   Container(
+                    // FutureBuilder element, that will be build but context will be shown after get request above
+                    // Here will be presentet the current controller version
                       child: FutureBuilder<String>(
                     future: version,
                     builder: (context, snapshot) {

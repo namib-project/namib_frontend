@@ -86,6 +86,8 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                         context: context,
                         barrierDismissible: true,
                         builder: (BuildContext context) {
+                          // Here are displayed all cliparts to put devieces in different classes
+                          // At the end there ist a pop-up dialog to save or dismiss the changes
                           return StatefulBuilder(builder: (context, setState) {
                             return Theme(
                               data: ThemeData(
@@ -161,6 +163,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
+                                              // Buttons to accept or dismiss the changes like discribed above
                                               FlatButton(
                                                 child: Text(
                                                   "Abbrechen",
@@ -198,6 +201,8 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                         });
                   },
                 ),
+
+                // Here are some textfields and boxes to display allpertinent information about the device
                 SizedBox(
                   height: 20,
                 ),
@@ -251,6 +256,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                 SizedBox(
                   height: 40,
                 ),
+                // Table row to display and edit the diffrent DNS-Requests
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -281,6 +287,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                     ),
                   ],
                 ),
+                // This table displays the HTTP-Adresses which are allowed
                 Row(
                   children: [
                     Expanded(
@@ -350,6 +357,8 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     );
   }
 
+  // This method launchs the MUDURL to the device, these URLs are the profils for the devices that are added to the app
+  // if it not possible it will be thrown an error
   _launchMUDURL() async {
     if (await canLaunch(widget.device.mud_url)) {
       await launch(widget.device.mud_url);
@@ -358,6 +367,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     }
   }
 
+  // This method launch the datas to the profils, if it is not possible there will be thrown an error
   _launchDocumentation() async {
     if (await canLaunch(widget.device.mud_data.documentation)) {
       await launch(widget.device.mud_data.documentation);

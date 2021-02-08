@@ -1,3 +1,11 @@
+
+
+
+// Class will not be used but maybe some constructs will be used therefore it will not be deleted
+
+
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import "package:flutter_protyp/widgets/drawer.dart";

@@ -68,6 +68,7 @@ class _DeviceOverviewState extends State<DeviceOverview> {
 
   @override
   Widget build(BuildContext context) {
+    // Query if device mobile, if not, the graph view will be shown
     if (!pressed) {
       if (!mobileDevice) {
         view = true;
@@ -81,6 +82,7 @@ class _DeviceOverviewState extends State<DeviceOverview> {
         drawer: MainDrawer(),
         body: Center(
             child: Column(children: [
+              // Button to change view between table and graph view
           FlatButton(
             onPressed: () {
               changeView();
@@ -103,6 +105,8 @@ class _DeviceOverviewState extends State<DeviceOverview> {
               ),
             ),
           ),
+          // This future builder element put in the different devices after these will be loaded
+          // The future builder element a delayed sending of context
           FutureBuilder<List<Device>>(
             future: devices,
             builder: (context, snapshot) {
@@ -133,6 +137,7 @@ class _DeviceOverviewState extends State<DeviceOverview> {
                   ));
                 }
               } else if (snapshot.hasError) {
+                // If the process failed this message
                 return Container(
                   width: 600,
                   child: Row(
@@ -165,6 +170,7 @@ class _DeviceOverviewState extends State<DeviceOverview> {
   int n = 8;
   Random r = Random();
 
+  // This method takes the text from the method below and puts in the graph
   Widget getNodeText(int i, String name) {
     return GestureDetector(
         //onLongPressStart: (details) {

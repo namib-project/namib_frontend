@@ -133,6 +133,7 @@ class _CreateMudProfileState extends State<CreateMudProfile> {
                     ],
                   ),
                 ),
+                // Some textboxes for inputs for the mudprofile
                 Container(
                   height: 70,
                   alignment: Alignment.center,
