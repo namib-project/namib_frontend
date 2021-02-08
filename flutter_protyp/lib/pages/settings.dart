@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import "package:flutter_protyp/widgets/drawer.dart";
-
 import 'package:provider/provider.dart';
 import 'package:flutter_protyp/widgets/theme.dart';
-
 import 'package:easy_localization/easy_localization.dart';
 
 /// /settings

@@ -1,11 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_protyp/data/mudData.dart';
-import 'package:flutter_protyp/widgets/appbar.dart';
-import "package:flutter_protyp/widgets/drawer.dart";
-import 'package:easy_localization/easy_localization.dart';
-import "dart:convert";
-
-import "package:flutter_protyp/data/device.dart";
 
 /// just for testing can be deleted
 

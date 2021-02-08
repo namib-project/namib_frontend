@@ -1,3 +1,7 @@
+
+// This class is not be used anymore, maybe some constructs will be used later
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_protyp/pages/handlers/ThemeHandler.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
@@ -5,7 +9,6 @@ import 'package:universal_io/io.dart' as osDetect;
 import 'package:http/http.dart' as http;
 import 'package:easy_localization/easy_localization.dart';
 import 'dart:convert';
-import 'package:flutter_protyp/widgets/appbar.dart' as AppBar;
 
 /// returns login site of application
 /// Can be coloured with loginColor1 and loginColor2 in constant.dart
@@ -21,12 +24,18 @@ class _LoginState extends State<Login> {
   bool errorMessage401 = false;
   bool error = false;
 
+  /// Var for saving the brightness state of the device
   var brightness;
+  /// A list which stores some device settings
   List<Locale> systemLocale = WidgetsBinding.instance.window.locales;
 
   String url = 'http://172.26.224.1:8000/users/login';
+
+  /// Stores the response from the controller
   var response;
 
+
+  // This method scans the operating system and starts if its true the mobile device version
   void onlineOs() {
     String android = "android";
     String ios = "ios";
@@ -40,6 +49,7 @@ class _LoginState extends State<Login> {
 
   ThemeChangeHandler themeChangeHandler = new ThemeChangeHandler();
 
+  // This method handles the language of the operating system
   void setLanguage() {
     Locale language;
     setState(() {
@@ -57,6 +67,7 @@ class _LoginState extends State<Login> {
     }
   }
 
+  // This method sets the brightness-theme for the app from the operating system
   void setTheme() {
     if (brightness.toString() != "Brightness.light") {
       setState(() {
@@ -222,18 +233,6 @@ class _LoginState extends State<Login> {
                               ),
                             ),
                           ),
-                          //  Visibility(
-                          //    visible: errorMessege401,
-                          //    child: Container(
-                          //      alignment: Alignment.center,
-                          //      height: 50,
-                          //      child: Text(
-                          //        "Eines der beiden Felder ist leer!",
-                          //        style: TextStyle(
-                          //            color: Colors.red[700], fontSize: 20),
-                          //      ),
-                          //    ),
-                          //  ),
                           Container(
                             alignment: Alignment.centerRight,
                             child: FlatButton(
@@ -270,6 +269,9 @@ class _LoginState extends State<Login> {
                           SizedBox(
                             height: 20,
                           ),
+
+                          // This container contains the login-button which handles the login-functions
+                          // also with the http-request
                           Container(
                             padding: EdgeInsets.symmetric(vertical: 25),
                             width: double.infinity,
@@ -366,6 +368,7 @@ class _LoginState extends State<Login> {
     );
   }
 
+  // This mehtod sets the brightness for the hole app
   void setSystemPreferences() {
     brightness = MediaQuery.of(context).platformBrightness.toString();
   }

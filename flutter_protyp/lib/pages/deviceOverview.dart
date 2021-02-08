@@ -8,10 +8,8 @@ import 'package:flutter_protyp/pages/devicesTable.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import "package:flutter_protyp/widgets/drawer.dart";
-import 'package:flutter_protyp/graphview/GraphViewClusterPage.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:graphview/GraphView.dart';
-import 'package:http/http.dart' as http;
 
 import 'package:flutter/foundation.dart' show kIsWeb;
 
@@ -22,6 +20,7 @@ class DeviceOverview extends StatefulWidget {
 
 class _DeviceOverviewState extends State<DeviceOverview> {
   bool view = true;
+  /// A List to safe all devices
   Future<List<Device>> devices;
 
   void changeView() {
@@ -52,6 +51,7 @@ class _DeviceOverviewState extends State<DeviceOverview> {
     //  print(element.name);
     //});
 
+    /// Nodes and edges for the graphview
     final router = Node(getNodeText(10, "Router"));
 
     final a = Node(getNodeText(1, devicesforpres[0].systeminfo));
@@ -105,6 +105,7 @@ class _DeviceOverviewState extends State<DeviceOverview> {
               ),
             ),
           ),
+
           // This future builder element put in the different devices after these will be loaded
           // The future builder element a delayed sending of context
           FutureBuilder<List<Device>>(
@@ -137,7 +138,7 @@ class _DeviceOverviewState extends State<DeviceOverview> {
                   ));
                 }
               } else if (snapshot.hasError) {
-                // If the process failed this message
+                // If the process failed this message returns
                 return Container(
                   width: 600,
                   child: Row(

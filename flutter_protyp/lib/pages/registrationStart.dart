@@ -45,6 +45,7 @@ class _RegistrationState extends State<RegistrationStart> {
 
   ///Test for http client
   String url = "http://172.26.224.1:8000/users/signup";
+  /// Stores the response from the controller
   var response;
 
   Widget build(BuildContext context) {
@@ -355,7 +356,8 @@ class _RegistrationState extends State<RegistrationStart> {
                         height: 60,
                       ),
 
-                      /// ab hier neuer button
+                      // This container contains the logic to register the new user
+                      // also with the http logic
                       Container(
                         alignment: Alignment.center,
                         width: 250,

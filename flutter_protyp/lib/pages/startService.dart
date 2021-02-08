@@ -16,11 +16,15 @@ class StartService extends StatefulWidget {
 }
 
 class _StartServiceState extends State<StartService> {
+
+  /// Future element for delayed displaying
   Future<String> setupData;
 
+  /// Vars for saving the settings from the operating system
   ThemeChangeHandler themeChangeHandler = new ThemeChangeHandler();
   List<Locale> systemLocale = WidgetsBinding.instance.window.locales;
 
+  // This method handles the language of the operating system
   void setLanguage() {
     Locale language;
     setState(() {
@@ -40,6 +44,8 @@ class _StartServiceState extends State<StartService> {
     }
   }
 
+  // Future string type to build at runtime
+  // Get request for the controller version to display it for the user
   Future<String> fetchSetup() async {
     //try {
     //String url = "http:://192.26.144.1/status";
@@ -61,6 +67,8 @@ class _StartServiceState extends State<StartService> {
   @override
   Widget build(BuildContext context) {
     setLanguage();
+    // FutureBuilder element, that will be build but context will be shown after get request above
+    // Here will be presentet the current controller version
     return FutureBuilder<String>(
       future: setupData,
       builder: (context, snapshot) {

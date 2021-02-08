@@ -9,7 +9,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import "package:flutter_protyp/widgets/drawer.dart";
-import 'package:flutter_protyp/widgets/constant.dart';
 
 import 'package:easy_localization/easy_localization.dart';
 
@@ -21,6 +20,7 @@ class CreateDevice extends StatefulWidget {
 class _CreateDeviceState extends State<CreateDevice> {
   @override
   String mud = "MUD Profil";
+  /// Number for choosing the right MUD-Profil
   int number = 1;
 
   Widget build(BuildContext context) {

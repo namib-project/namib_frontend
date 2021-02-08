@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
-import 'package:flutter_protyp/pages/createMudProfile.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter_protyp/widgets/constant.dart';
@@ -19,7 +17,7 @@ class ManageUser extends StatefulWidget {
 
 //Class for user management
 class _ManageUserState extends State<ManageUser> {
-  ///
+  /// Strings for handle the userinformation
   String username = "mustermann";
   String password = "asdfasdf";
   String newUsername = "";
@@ -29,6 +27,7 @@ class _ManageUserState extends State<ManageUser> {
   String urlname = 'http://192.168.112.1:8000/users/me';
   String urlpassword = 'http://192.168.112.1:8000/users/password';
 
+  /// Var for saving the brightness state of the device
   var response;
 
   Widget build(BuildContext context) {
@@ -99,6 +98,9 @@ class _ManageUserState extends State<ManageUser> {
                                       },
                                     ),
                                   ),
+
+                                  // This container contains a button which sends a request for the new username
+                                  // of the user
                                   Container(
                                     height: 70,
                                     alignment: Alignment.center,
@@ -153,6 +155,8 @@ class _ManageUserState extends State<ManageUser> {
                     ),
                   ),
                 ),
+                // This container contains a button which sends a request for the new password
+                // of the user
                 Container(
                   height: 70,
                   alignment: Alignment.center,

@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:flutter_protyp/widgets/drawer.dart';
@@ -208,6 +207,8 @@ class _EditDeviceState extends State<EditDevice> {
                 child: Icon(Icons.list),
               ),
             ),
+
+            // This container contains a save/cancel dialog
             Container(
               height: 70,
               alignment: Alignment.center,

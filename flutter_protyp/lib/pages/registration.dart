@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -46,6 +45,7 @@ class _RegistrationState extends State<Registration> {
 
   ///Test for http client
   String url = "http://172.26.224.1:8000/users/signup";
+  /// Stores the response from the controller
   var response;
 
   Widget build(BuildContext context) {
@@ -243,6 +243,9 @@ class _RegistrationState extends State<Registration> {
                       SizedBox(
                         height: 15,
                       ),
+
+                      // This container contains the logic to register the new user
+                      // also with the http logic
                       Container(
                         height: 70,
                         alignment: Alignment.center,

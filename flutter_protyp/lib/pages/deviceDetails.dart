@@ -19,11 +19,13 @@ class DeviceDetails extends StatefulWidget {
 }
 
 class _DeviceDetailsState extends State<DeviceDetails> {
+  /// Simple list to safe the ACL fromo controller
   List<DataRow> list = [];
   bool sortFirstRow = false;
   bool sortFirstRow1 = false;
   bool editColumn = false;
 
+  /// A string that safes the selected clipart from the clipart-list
   String selectedClipArt = allClipArts[0];
 
   @override

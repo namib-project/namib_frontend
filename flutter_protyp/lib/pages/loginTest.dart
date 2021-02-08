@@ -38,17 +38,21 @@ class _LoginTestState extends State<LoginTest> {
 
   String username = "";
   String password = "";
+  ///Variables for visibility of error messages
   bool errorMessage400 = false;
   bool errorMessage401 = false;
   bool networkError = false;
   bool error = false;
   bool loginButton = false;
-
+  /// Var for saving the brightness state of the device
   var brightness;
 
   String url = 'http://172.26.144.1:8000/users/login';
+
+  /// Stores the response from the controller
   var response;
 
+  // This method scans the operating system and starts if its true the mobile device version
   void onlineOs() {
     String android = "android";
     String ios = "ios";
@@ -62,6 +66,7 @@ class _LoginTestState extends State<LoginTest> {
 
   ThemeChangeHandler themeChangeHandler = new ThemeChangeHandler();
 
+  // This method sets the brightness-theme for the app from the operating system
   void setTheme() {
     if (brightness.toString() != "Brightness.light") {
       setState(() {
@@ -77,6 +82,7 @@ class _LoginTestState extends State<LoginTest> {
     super.initState();
   }
 
+  // This mehtod sets the brightness for the hole app
   void setSystemPreferences() {
     brightness = MediaQuery.of(context).platformBrightness.toString();
   }
@@ -280,6 +286,8 @@ class _LoginTestState extends State<LoginTest> {
                       ),
 
                       /// New hoverable Button added
+                      // This container contains the login-button which handles the login-functions
+                      // also with the http-request
                       Container(
                         alignment: Alignment.center,
                         width: 250,

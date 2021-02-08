@@ -12,6 +12,7 @@ class TableTest extends StatefulWidget {
     Key key,
     @required this.devices,
   }) : super(key: key);
+  /// List which stores all given devices
   final List<Device> devices;
 
   _TableTestState createState() => _TableTestState();
@@ -40,6 +41,9 @@ class _TableTestState extends State<TableTest> {
                     ),
                   ),
                 ),
+
+                // This row table is to display the given devices and their MUD-Profiles
+                // you can edit the Profiles at the edit button
                 Row(children: [
                   Expanded(flex: 1, child: Container()),
                   Expanded(

@@ -30,6 +30,8 @@ class _UserManagementState extends State<UserManagement> {
                 ),
               ),
             ),
+
+            // This table row displays all users who have an account at the controller
             Row(children: [
               Expanded(flex: 1, child: Container()),
               Expanded(
