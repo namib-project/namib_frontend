@@ -1,6 +1,7 @@
-import 'package:flutter_protyp/data/ace.dart';
 import 'package:flutter_protyp/data/aclElement.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+// This class is a data construct for a MUD-Profile
 
 part 'mudData.g.dart';
 

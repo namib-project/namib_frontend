@@ -5,6 +5,8 @@ import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/drawer.dart';
 import 'package:graphview/GraphView.dart';
 
+// This class builds a tree graph model, in this folder are three different models, for testing
+
 class TreeViewPage extends StatefulWidget {
   @override
   _TreeViewPageState createState() => _TreeViewPageState();

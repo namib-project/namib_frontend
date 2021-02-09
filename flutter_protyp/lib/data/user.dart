@@ -1,6 +1,7 @@
 
 import 'package:json_annotation/json_annotation.dart';
 
+// This class is a data construct for a user-model
 part 'user.g.dart';
 
 @JsonSerializable(explicitToJson: true)

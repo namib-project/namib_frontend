@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_protyp/dataForPresentation/device.dart';
-import 'dart:convert';
 
 import 'package:flutter_protyp/dataForPresentation/service.dart';
 

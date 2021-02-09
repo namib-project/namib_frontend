@@ -5,6 +5,8 @@ import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/drawer.dart';
 import 'package:graphview/GraphView.dart';
 
+
+// This class builds a layer graph model, in this folder are three different models, for testing
 class LayeredGraphViewPage extends StatefulWidget {
   @override
   _LayeredGraphViewPageState createState() => _LayeredGraphViewPageState();

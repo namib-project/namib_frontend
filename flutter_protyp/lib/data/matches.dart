@@ -1,5 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 
+
+// This class is a data construct for a DNS-entry
+
 part 'matches.g.dart';
 
 @JsonSerializable()

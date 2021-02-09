@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_protyp/dataForPresentation/device.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/drawer.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:graphview/GraphView.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 
+// This class builds a cluster graph model, in this folder are three different models, for testing
 class GraphClusterViewPage extends StatefulWidget {
   @override
   _GraphClusterViewPageState createState() => _GraphClusterViewPageState();

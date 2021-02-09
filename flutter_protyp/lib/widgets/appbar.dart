@@ -21,6 +21,7 @@ class MainAppbar extends StatefulWidget implements PreferredSizeWidget {
   }
 }
 
+/// Var for showing username in appbar (little parser for http response)
 String username;
 String myJson;
 Map clearJson;
@@ -31,7 +32,9 @@ var normalized;
 var resp;
 var payloadMap;
 
+
 String url = 'http://172.25.32.1:8000/users/me';
+/// Stores the response from the controller
 var response;
 
 class _MainAppbarState extends State<MainAppbar> {
@@ -54,6 +57,8 @@ class _MainAppbarState extends State<MainAppbar> {
             );
           },
         ),
+
+        // Textfield for displaying the username
         title: SelectableText("hello".tr().toString() + " " + getUserName()),
         actions: <Widget>[
           Padding(
@@ -67,6 +72,7 @@ class _MainAppbarState extends State<MainAppbar> {
     );
   }
 
+  // This method parses the string with username from controller
   String getUserName() {
     ///TODO delete if for release
     if (jwtToken.length > 1) {
@@ -119,7 +125,7 @@ class _SettingsPopupState extends State<SettingsPopup> {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                /// Switch to change the Dark / LightMode
+                // Switch to change the Dark / LightMode
                 SwitchListTile(
                   title: Text(
                     "Dark mode",
@@ -133,7 +139,7 @@ class _SettingsPopupState extends State<SettingsPopup> {
                     setDarkMode(setState, themeChanger);
                   },
                 ),
-
+                // Switch to change expert mode/normal mode
                 SwitchListTile(
                   title: Text(
                     "expertMode".tr().toString(),
@@ -148,6 +154,7 @@ class _SettingsPopupState extends State<SettingsPopup> {
                   },
                 ),
 
+                // Switch to change languages
                 Container(
                   width: 250,
                   height: 50,
@@ -221,6 +228,7 @@ class _SettingsPopupState extends State<SettingsPopup> {
                   thickness: 2,
                 ),
 
+                // Button to get user information
                 Container(
                   width: 300,
                   height: 50,
@@ -249,6 +257,7 @@ class _SettingsPopupState extends State<SettingsPopup> {
                   thickness: 2,
                 ),
 
+                // Logoutbutton
                 Container(
                   width: 300,
                   height: 50,
@@ -283,6 +292,8 @@ class _SettingsPopupState extends State<SettingsPopup> {
     );
   }
 
+  // This method activates the expert mode, if the devices is new, its default turned out
+  // otherwise its saved in the systemvariables
   void setExpertMode(StateSetter setState, bool value) {
     ThemeChangeHandler handler = ThemeChangeHandler();
     setState(() {
@@ -290,6 +301,9 @@ class _SettingsPopupState extends State<SettingsPopup> {
     });
   }
 
+
+  // This method activates the dark mode, if the devices is new, its default turned out
+  // otherwise its saved in the systemvariables
   void setDarkMode(StateSetter setState, ThemeChanger themeChanger) {
     ThemeChangeHandler handler = ThemeChangeHandler();
     setState(() {
@@ -297,6 +311,8 @@ class _SettingsPopupState extends State<SettingsPopup> {
     });
   }
 
+  // This method activates the language the user selected, the default language
+  // is from the operating system
   void setLanguage(StateSetter setState, int index, BuildContext context) {
     ThemeChangeHandler handler = new ThemeChangeHandler();
     setState(() {

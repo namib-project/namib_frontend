@@ -4,6 +4,8 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'aclElement.g.dart';
 
+// This class is a data construct for an access-control-list
+
 @JsonSerializable(explicitToJson: true)
 class ACLElement{
   String acl_type, name, packet_direction;

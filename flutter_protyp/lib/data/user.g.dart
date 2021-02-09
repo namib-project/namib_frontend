@@ -1,5 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-
+// This class is generated, it converts an user-model to map and other direction
 part of 'user.dart';
 
 // **************************************************************************

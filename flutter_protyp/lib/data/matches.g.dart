@@ -1,5 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
+// This class is generated, it converts an DNS-entry to map and other direction
 part of 'matches.dart';
 
 // **************************************************************************
