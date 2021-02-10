@@ -60,5 +60,9 @@
   "ipaddress": "IP-Address",
   "lastinteraction": "Last Interaction",
   "controllerVersion": "Current version of Controller:",
-  "userManagement": "User Management"
+  "userManagement": "User Management",
+  "roles": "Roles",
+  "user": "User",
+  "delete": "Delete",
+  "confirm": "Confirm"
 }

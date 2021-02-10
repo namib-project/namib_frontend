@@ -10,6 +10,7 @@ import 'package:flutter_protyp/widgets/constant.dart';
 import "package:flutter_protyp/widgets/drawer.dart";
 import 'package:easy_localization/easy_localization.dart';
 import 'package:graphview/GraphView.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:flutter/foundation.dart' show kIsWeb;
 
