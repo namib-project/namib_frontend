@@ -17,8 +17,6 @@ class UserManagement extends StatefulWidget {
 
 class _UserManagementState extends State<UserManagement> {
   Future<List<User>> users;
-  bool admin = false;
-  bool userRights = false;
 
   Future<List<User>> fetchUsers() async {
     //String url = "http://172.26.144.1:8000/users";
@@ -28,7 +26,7 @@ class _UserManagementState extends State<UserManagement> {
     //});
     //return response.body;
     String test =
-        '[{"username":"manfred", "admin":true},{"username":"gertrud", "admin":false}]';
+    '[{"username":"manfred", "admin":true, "user": true},{"username":"gertrud", "admin":false, "user":true}]';
     var jdecode = jsonDecode(test) as List;
     List<User> mudServObjs =
         jdecode.map((tagJson) => User.fromJson(tagJson)).toList();
@@ -121,7 +119,7 @@ class _UserManagementState extends State<UserManagement> {
                                                           ),
                                                           content: Container(
                                                             width: 300,
-                                                            height: 490,
+                                                            height: 280,
                                                             child: Column(
                                                               children: <
                                                                   Widget>[
@@ -148,6 +146,15 @@ class _UserManagementState extends State<UserManagement> {
                                                                   ),
                                                                 ),
                                                                 SizedBox(
+                                                                  height: 20,
+                                                                ),
+                                                                SelectableText(
+                                                                    user
+                                                                        .username,
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            25)),
+                                                                SizedBox(
                                                                   height: 30,
                                                                 ),
                                                                 Row(
@@ -166,11 +173,10 @@ class _UserManagementState extends State<UserManagement> {
                                                                             "Admin"),
                                                                         Checkbox(
                                                                             value:
-                                                                                admin,
-                                                                            onChanged:
-                                                                                (bool value) {
+                                                                                user.admin,
+                                                                            onChanged: (bool value) {
                                                                               setState(() {
-                                                                                admin = value;
+                                                                                user.admin = value;
                                                                               });
                                                                             })
                                                                       ],
@@ -182,22 +188,15 @@ class _UserManagementState extends State<UserManagement> {
                                                                             .toString()),
                                                                         Checkbox(
                                                                             value:
-                                                                                userRights,
-                                                                            onChanged:
-                                                                                (bool value) {
+                                                                                user.user,
+                                                                            onChanged: (bool value) {
                                                                               setState(() {
-                                                                                userRights = value;
-                                                                              });
+                                                                                user.user = value;
+                                                                              }); //TODO erst übernehmen wenn save drücken
                                                                             })
                                                                       ],
                                                                     )
                                                                   ],
-                                                                ),
-                                                                SizedBox(
-                                                                  height: 30,
-                                                                ),
-                                                                Divider(
-                                                                  height: 20,
                                                                 ),
                                                                 SizedBox(
                                                                   height: 22,
@@ -241,9 +240,9 @@ class _UserManagementState extends State<UserManagement> {
                                                                       onPressed:
                                                                           () {
                                                                         //TODO http request to update roles of user
-                                                                            Navigator.pushReplacementNamed(context, "/userManagement");
-                                                                            Navigator.of(context)
+                                                                        Navigator.of(context)
                                                                             .pop(); // dismiss dialog
+                                                                        saveChanges();
                                                                       },
                                                                     ),
                                                                   ],
@@ -266,22 +265,30 @@ class _UserManagementState extends State<UserManagement> {
                                               barrierDismissible: true,
                                               builder: (BuildContext context) {
                                                 return AlertDialog(
-                                                  title: SelectableText(user.username),
+                                                  title: SelectableText(
+                                                      user.username),
                                                   content: SelectableText(
-                                                      "confirm".tr().toString() + "?"),
+                                                      "confirm"
+                                                              .tr()
+                                                              .toString() +
+                                                          "?"),
                                                   actions: [
                                                     SizedBox(
-                                                      width: 100,
-                                                      height: 30,
+                                                        width: 100,
+                                                        height: 30,
                                                         child: RaisedButton(
                                                             onPressed: () {
-                                                              deleteUser();
-                                                              Navigator.of(context)
+                                                              deleteUser(user);
+                                                              snapshot.data
+                                                                  .remove(user);
+                                                              Navigator.of(
+                                                                      context)
                                                                   .pop(); // dismiss dialog
                                                             },
-                                                            child: Text("confirmation"
-                                                                .tr()
-                                                                .toString())))
+                                                            child: Text(
+                                                                "confirmation"
+                                                                    .tr()
+                                                                    .toString())))
                                                   ],
                                                 );
                                               });
@@ -292,7 +299,18 @@ class _UserManagementState extends State<UserManagement> {
                                 .toList(),
                           );
                         } else if (snapshot.hasError) {
-                          return DeviceDetails(device: null);
+                          return Column(
+                            children: [
+                              SelectableText(
+                                  "wentWrongError".tr().toString()),
+                              FlatButton(
+                                color: primaryColor,
+                                  onPressed: () {
+                                    forwarding();
+                                  },
+                                  child: Text("reload".tr().toString()))
+                            ],
+                          );
                         }
                         return SizedBox(
                             width: 30,
@@ -307,7 +325,15 @@ class _UserManagementState extends State<UserManagement> {
     );
   }
 
-  void deleteUser() {
+  void saveChanges() {
+    Navigator.pushReplacementNamed(context, "/userManagement");
+  }
+
+  void forwarding() {
+    Navigator.pushReplacementNamed(context, "/userManagement");
+  }
+
+  void deleteUser(User user) {
     Navigator.pushReplacementNamed(context, "/userManagement");
   }
 }

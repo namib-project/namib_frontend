@@ -65,5 +65,7 @@
   "roles": "Rollen",
   "user": "Benutzer",
   "delete": "Löschen",
-  "confirm": "Bestätigen"
+  "confirm": "Bestätigen",
+  "wentWrongError": "Hier hat etwas nicht geklappt, versuche es erneut",
+  "reload": "Neuladen"
 }

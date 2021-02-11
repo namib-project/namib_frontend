@@ -8,9 +8,10 @@ part 'user.g.dart';
 class User{
   String username;
   bool admin;
+  bool user;
 
 
-  User(this.username, this.admin);
+  User(this.username, this.admin, this.user);
 
   factory User.fromJson(Map<String, dynamic> data) => _$UserFromJson(data);
 

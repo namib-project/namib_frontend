@@ -64,5 +64,7 @@
   "roles": "Roles",
   "user": "User",
   "delete": "Delete",
-  "confirm": "Confirm"
+  "confirm": "Confirm",
+  "wentWrongError": "Something did not work here, try again",
+  "reload": "Reload"
 }
