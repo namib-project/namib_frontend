@@ -1,5 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// This class is generated, it converts an access-control-list to map and other direction
+
 part of 'aclElement.dart';
 
 // **************************************************************************

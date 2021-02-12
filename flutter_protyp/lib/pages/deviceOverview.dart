@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_protyp/data/device.dart';
+import 'package:flutter_protyp/data/device_mud/device.dart';
 import 'package:flutter_protyp/dataForPresentation/device.dart';
 import 'package:flutter_protyp/pages/devicesTable.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
@@ -146,9 +146,9 @@ class _DeviceOverviewState extends State<DeviceOverview> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
                         SelectableText(
-                            "Daten konnten nicht geholt werden bitte erneut versuchen"),
+                            "wentWrongError".tr().toString()),
                         RaisedButton(
-                            child: Text("Neu laden"),
+                            child: Text("reload".tr().toString()),
                             onPressed: () {
                               Navigator.pushReplacementNamed(
                                   context, "/deviceOverview");
@@ -220,8 +220,10 @@ class _DeviceOverviewState extends State<DeviceOverview> {
     String urlDevices = 'http://172.26.144.1:8000/devices/';
     var responseDevices;
     //responseDevices = await http.get(urlDevices);
-    String test = '[{"hostname": "string","id": 0,"ip_addr": "string","last_interaction": "string","mac_addr": "string","mud_data": {"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","direction_initiated": "FromDevice","dnsname": "ntp.org"},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"},{"ace": [{"action": "Accept","matches": {"address_mask": "string","direction_initiated": "FromDevice","dnsname": "amazon.de"},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-02-05T09:30:26.460Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "string","url": "string"},"mud_url": "string","vendor_class": "string"}]';
+    String test = '[{"hostname": "string","id": 0,"ip_addr": "string","last_interaction": "2021-02-12T07:41:54.362Z","mac_addr": "string","mud_data": {"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","destination_port": {"range": [0],"single": 0},"direction_initiated": "FromDevice","dnsname": "string","protocol": {"name": "TCP","num": 0},"source_port": {"range": [0],"single": 0}},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-02-12T07:41:54.362Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "string","url": "string"},"mud_url": "string","vendor_class": "string"}, {"hostname": "string","id": 0,"ip_addr": "string","last_interaction": "2021-02-12T07:41:54.362Z","mac_addr": "string","mud_data": {"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","destination_port": {"range": [0],"single": 0},"direction_initiated": "FromDevice","dnsname": "string","protocol": {"name": "TCP","num": 0},"source_port": {"range": [0],"single": 0}},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-02-12T07:41:54.362Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "string","url": "string"},"mud_url": "string","vendor_class": "string"}]';
+
     var jsonDevices = jsonDecode(test) as List;
+
     List<Device> devicesTest =
         jsonDevices.map((tagJson) => Device.fromJson(tagJson)).toList();
     return devicesTest;

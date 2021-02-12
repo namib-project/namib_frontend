@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_protyp/data/device.dart';
-import 'package:flutter_protyp/data/mudData.dart';
+import 'package:flutter_protyp/data/device_mud/device.dart';
+import 'package:flutter_protyp/data/device_mud/mudData.dart';
 import 'package:flutter_protyp/pages/handlers/ThemeHandler.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:universal_io/io.dart' as osDetect;

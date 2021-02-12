@@ -1,5 +1,5 @@
-import 'package:flutter_protyp/data/ace.dart';
-import 'package:flutter_protyp/data/matches.dart';
+import 'package:flutter_protyp/data/device_mud/ace.dart';
+import 'package:flutter_protyp/data/device_mud/matches.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'aclElement.g.dart';

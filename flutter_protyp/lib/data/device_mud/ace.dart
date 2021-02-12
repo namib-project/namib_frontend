@@ -1,4 +1,4 @@
-import 'package:flutter_protyp/data/matches.dart';
+import 'package:flutter_protyp/data/device_mud/matches.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'ace.g.dart';

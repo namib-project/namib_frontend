@@ -1,5 +1,4 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// This class is generated, it converts an MUD-Profile to map and other direction
 
 part of 'mudData.dart';
 

@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:flutter_protyp/data/mudData.dart';
+import 'package:flutter_protyp/data/device_mud/mudData.dart';
+
 // This class is a data construct for a device
 /// This is a Test to see if this is a viable option to convert json to dartClass
 /// idea: https://www.youtube.com/watch?v=8fFoLs9qVQA
@@ -12,7 +13,6 @@ class Device {
   String hostname, ip_addr, last_interaction, mac_addr, mud_url, vendor_class;
   int id;
   MUDData mud_data;
-
 
   Device(this.hostname, this.ip_addr, this.last_interaction, this.mac_addr,
       this.mud_url, this.vendor_class, this.id, this.mud_data);
