@@ -26,7 +26,7 @@ class _UserManagementState extends State<UserManagement> {
     //});
     //return response.body;
     String test =
-    '[{"username":"manfred", "admin":true, "user": true},{"username":"gertrud", "admin":false, "user":true}]';
+        '[{"username":"manfred", "admin":true, "user": true},{"username":"gertrud", "admin":false, "user":true}]';
     var jdecode = jsonDecode(test) as List;
     List<User> mudServObjs =
         jdecode.map((tagJson) => User.fromJson(tagJson)).toList();
@@ -109,145 +109,159 @@ class _UserManagementState extends State<UserManagement> {
                                                     child: Center(
                                                       child:
                                                           SingleChildScrollView(
-                                                        child: AlertDialog(
-                                                          shape:
-                                                              RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        18.0),
+                                                        child: Theme(
+                                                          data: ThemeData(
+                                                            brightness: darkMode
+                                                                ? Brightness
+                                                                    .dark
+                                                                : Brightness
+                                                                    .light,
+                                                            primaryColor:
+                                                                primaryColor,
+                                                            accentColor:
+                                                                primaryColor,
+                                                            hintColor:
+                                                                Colors.grey,
                                                           ),
-                                                          content: Container(
-                                                            width: 300,
-                                                            height: 280,
-                                                            child: Column(
-                                                              children: <
-                                                                  Widget>[
-                                                                Container(
-                                                                  height: 70,
-                                                                  alignment:
-                                                                      Alignment
-                                                                          .center,
-                                                                  child:
-                                                                      SelectableText(
-                                                                    'edit'
-                                                                        .tr()
-                                                                        .toString(),
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontFamily:
-                                                                          "OpenSans",
-                                                                      fontSize:
-                                                                          30,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
+                                                          child: AlertDialog(
+                                                            shape:
+                                                                RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          18.0),
+                                                            ),
+                                                            content: Container(
+                                                              width: 300,
+                                                              height: 280,
+                                                              child: Column(
+                                                                children: <
+                                                                    Widget>[
+                                                                  Container(
+                                                                    height: 70,
+                                                                    alignment:
+                                                                        Alignment
+                                                                            .center,
+                                                                    child:
+                                                                        SelectableText(
+                                                                      'edit'
+                                                                          .tr()
+                                                                          .toString(),
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontFamily:
+                                                                            "OpenSans",
+                                                                        fontSize:
+                                                                            30,
+                                                                        fontWeight:
+                                                                            FontWeight.bold,
+                                                                      ),
                                                                     ),
                                                                   ),
-                                                                ),
-                                                                SizedBox(
-                                                                  height: 20,
-                                                                ),
-                                                                SelectableText(
-                                                                    user
-                                                                        .username,
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            25)),
-                                                                SizedBox(
-                                                                  height: 30,
-                                                                ),
-                                                                Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .spaceBetween,
-                                                                  children: <
-                                                                      Widget>[
-                                                                    SelectableText("roles"
-                                                                            .tr()
-                                                                            .toString() +
-                                                                        ":"),
-                                                                    Row(
-                                                                      children: [
-                                                                        SelectableText(
-                                                                            "Admin"),
-                                                                        Checkbox(
-                                                                            value:
-                                                                                user.admin,
-                                                                            onChanged: (bool value) {
-                                                                              setState(() {
-                                                                                user.admin = value;
-                                                                              });
-                                                                            })
-                                                                      ],
-                                                                    ),
-                                                                    Row(
-                                                                      children: [
-                                                                        SelectableText("user"
-                                                                            .tr()
-                                                                            .toString()),
-                                                                        Checkbox(
-                                                                            value:
-                                                                                user.user,
-                                                                            onChanged: (bool value) {
-                                                                              setState(() {
-                                                                                user.user = value;
-                                                                              }); //TODO erst übernehmen wenn save drücken
-                                                                            })
-                                                                      ],
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                                SizedBox(
-                                                                  height: 22,
-                                                                ),
-                                                                Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .spaceBetween,
-                                                                  children: [
-                                                                    // Buttons to accept or dismiss the changes like discribed above
-                                                                    FlatButton(
-                                                                      child:
-                                                                          Text(
-                                                                        "cancel"
-                                                                            .tr()
-                                                                            .toString(),
-                                                                        style:
-                                                                            TextStyle(
-                                                                          color:
-                                                                              buttonColor,
-                                                                        ),
+                                                                  SizedBox(
+                                                                    height: 20,
+                                                                  ),
+                                                                  SelectableText(
+                                                                      user
+                                                                          .username,
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              25)),
+                                                                  SizedBox(
+                                                                    height: 30,
+                                                                  ),
+                                                                  Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceBetween,
+                                                                    children: <
+                                                                        Widget>[
+                                                                      SelectableText("roles"
+                                                                              .tr()
+                                                                              .toString() +
+                                                                          ":"),
+                                                                      Row(
+                                                                        children: [
+                                                                          SelectableText(
+                                                                              "Admin"),
+                                                                          Checkbox(
+                                                                              activeColor: buttonColor,
+                                                                              value: user.admin,
+                                                                              onChanged: (bool value) {
+                                                                                setState(() {
+                                                                                  user.admin = value;
+                                                                                });
+                                                                              })
+                                                                        ],
                                                                       ),
-                                                                      onPressed:
-                                                                          () {
-                                                                        Navigator.of(context)
-                                                                            .pop(); // dismiss dialog
-                                                                      },
-                                                                    ),
-                                                                    FlatButton(
-                                                                      child:
-                                                                          Text(
-                                                                        "save"
-                                                                            .tr()
-                                                                            .toString(),
-                                                                        style:
-                                                                            TextStyle(
-                                                                          color:
-                                                                              buttonColor,
+                                                                      Row(
+                                                                        children: [
+                                                                          SelectableText("user"
+                                                                              .tr()
+                                                                              .toString()),
+                                                                          Checkbox(
+                                                                              activeColor: buttonColor,
+                                                                              value: user.user,
+                                                                              onChanged: (bool value) {
+                                                                                setState(() {
+                                                                                  user.user = value;
+                                                                                }); //TODO erst übernehmen wenn save drücken
+                                                                              })
+                                                                        ],
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                  SizedBox(
+                                                                    height: 22,
+                                                                  ),
+                                                                  Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceBetween,
+                                                                    children: [
+                                                                      // Buttons to accept or dismiss the changes like discribed above
+                                                                      FlatButton(
+                                                                        child:
+                                                                            Text(
+                                                                          "cancel"
+                                                                              .tr()
+                                                                              .toString(),
+                                                                          style:
+                                                                              TextStyle(
+                                                                            color:
+                                                                                buttonColor,
+                                                                          ),
                                                                         ),
+                                                                        onPressed:
+                                                                            () {
+                                                                          Navigator.of(context)
+                                                                              .pop(); // dismiss dialog
+                                                                        },
                                                                       ),
-                                                                      onPressed:
-                                                                          () {
-                                                                        //TODO http request to update roles of user
-                                                                        Navigator.of(context)
-                                                                            .pop(); // dismiss dialog
-                                                                        saveChanges();
-                                                                      },
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ],
+                                                                      FlatButton(
+                                                                        child:
+                                                                            Text(
+                                                                          "save"
+                                                                              .tr()
+                                                                              .toString(),
+                                                                          style:
+                                                                              TextStyle(
+                                                                            color:
+                                                                                buttonColor,
+                                                                          ),
+                                                                        ),
+                                                                        onPressed:
+                                                                            () {
+                                                                          //TODO http request to update roles of user
+                                                                          Navigator.of(context)
+                                                                              .pop(); // dismiss dialog
+                                                                          saveChanges();
+                                                                        },
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ],
+                                                              ),
                                                             ),
                                                           ),
                                                         ),
@@ -301,10 +315,9 @@ class _UserManagementState extends State<UserManagement> {
                         } else if (snapshot.hasError) {
                           return Column(
                             children: [
-                              SelectableText(
-                                  "wentWrongError".tr().toString()),
+                              SelectableText("wentWrongError".tr().toString()),
                               FlatButton(
-                                color: primaryColor,
+                                  color: primaryColor,
                                   onPressed: () {
                                     forwarding();
                                   },

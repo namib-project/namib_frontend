@@ -99,100 +99,113 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                               ),
                               child: Center(
                                 child: SingleChildScrollView(
-                                  child: AlertDialog(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(18.0),
+                                  child: Theme(
+                                    data: ThemeData(
+                                      brightness: darkMode
+                                          ? Brightness.dark
+                                          : Brightness.light,
+                                      primaryColor: primaryColor,
+                                      accentColor: primaryColor,
+                                      hintColor: Colors.grey,
                                     ),
-                                    content: Container(
-                                      width: 300,
-                                      height: 490,
-                                      child: Column(
-                                        children: <Widget>[
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: <Widget>[
-                                              Container(
-                                                height: 200,
-                                                width: 200,
-                                                child: WebsafeSvg.asset(
-                                                  selectedClipArt,
-                                                  color: Colors.blue,
+                                    child: AlertDialog(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(18.0),
+                                      ),
+                                      content: Container(
+                                        width: 300,
+                                        height: 490,
+                                        child: Column(
+                                          children: <Widget>[
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: <Widget>[
+                                                Container(
                                                   height: 200,
                                                   width: 200,
+                                                  child: WebsafeSvg.asset(
+                                                    selectedClipArt,
+                                                    color: Colors.blue,
+                                                    height: 200,
+                                                    width: 200,
+                                                  ),
                                                 ),
+                                              ],
+                                            ),
+                                            Divider(
+                                              height: 20,
+                                            ),
+                                            Container(
+                                              height: 200,
+                                              child: GridView.builder(
+                                                itemCount: allClipArts.length,
+                                                gridDelegate:
+                                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                                  crossAxisCount: 3,
+                                                  crossAxisSpacing: 4,
+                                                  mainAxisSpacing: 4,
+                                                ),
+                                                itemBuilder: (context, index) {
+                                                  var clipArt =
+                                                      allClipArts[index];
+                                                  return GestureDetector(
+                                                    child: Container(
+                                                      child: WebsafeSvg.asset(
+                                                        clipArt,
+                                                        semanticsLabel: 'phone',
+                                                        height: 80,
+                                                        width: 80,
+                                                      ),
+                                                    ),
+                                                    onTap: () {
+                                                      setState(() {
+                                                        selectedClipArt =
+                                                            clipArt;
+                                                      });
+                                                    },
+                                                  );
+                                                },
                                               ),
-                                            ],
-                                          ),
-                                          Divider(
-                                            height: 20,
-                                          ),
-                                          Container(
-                                            height: 200,
-                                            child: GridView.builder(
-                                              itemCount: allClipArts.length,
-                                              gridDelegate:
-                                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                                crossAxisCount: 3,
-                                                crossAxisSpacing: 4,
-                                                mainAxisSpacing: 4,
-                                              ),
-                                              itemBuilder: (context, index) {
-                                                var clipArt =
-                                                    allClipArts[index];
-                                                return GestureDetector(
-                                                  child: Container(
-                                                    child: WebsafeSvg.asset(
-                                                      clipArt,
-                                                      semanticsLabel: 'phone',
-                                                      height: 80,
-                                                      width: 80,
+                                            ),
+                                            SizedBox(
+                                              height: 22,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                // Buttons to accept or dismiss the changes like discribed above
+                                                FlatButton(
+                                                  child: Text(
+                                                    "Abbrechen",
+                                                    style: TextStyle(
+                                                      color: buttonColor,
                                                     ),
                                                   ),
-                                                  onTap: () {
-                                                    setState(() {
-                                                      selectedClipArt = clipArt;
-                                                    });
+                                                  onPressed: () {
+                                                    Navigator.of(context)
+                                                        .pop(); // dismiss dialog
                                                   },
-                                                );
-                                              },
+                                                ),
+                                                FlatButton(
+                                                  child: Text(
+                                                    "Übernehmen",
+                                                    style: TextStyle(
+                                                      color: buttonColor,
+                                                    ),
+                                                  ),
+                                                  onPressed: () {
+                                                    Navigator.of(context)
+                                                        .pop(); // dismiss dialog
+                                                  },
+                                                ),
+                                              ],
                                             ),
-                                          ),
-                                          SizedBox(
-                                            height: 22,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              // Buttons to accept or dismiss the changes like discribed above
-                                              FlatButton(
-                                                child: Text(
-                                                  "Abbrechen",
-                                                  style: TextStyle(
-                                                    color: buttonColor,
-                                                  ),
-                                                ),
-                                                onPressed: () {
-                                                  Navigator.of(context)
-                                                      .pop(); // dismiss dialog
-                                                },
-                                              ),
-                                              FlatButton(
-                                                child: Text(
-                                                  "Übernehmen",
-                                                  style: TextStyle(
-                                                    color: buttonColor,
-                                                  ),
-                                                ),
-                                                onPressed: () {
-                                                  Navigator.of(context)
-                                                      .pop(); // dismiss dialog
-                                                },
-                                              ),
-                                            ],
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -321,8 +334,8 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                         ],
                         rows: widget.device.mud_data.acllist
                             .map((accessControlEntry) => DataRow(cells: [
-                                  DataCell(
-                                      Text(accessControlEntry.ace[0].matches.dnsname)),
+                                  DataCell(Text(accessControlEntry
+                                      .ace[0].matches.dnsname)),
                                   DataCell(
                                     Visibility(
                                       visible: editColumn,
@@ -330,8 +343,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                         icon: Icon(Icons.delete),
                                         onPressed: () {
                                           setState(() {
-                                            widget
-                                                .device.mud_data.acllist
+                                            widget.device.mud_data.acllist
                                                 .remove(accessControlEntry);
                                           });
                                         },
