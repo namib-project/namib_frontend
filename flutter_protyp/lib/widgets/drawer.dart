@@ -57,13 +57,18 @@ class _MainDrawerState extends State<MainDrawer> {
               icon: Icons.group,
               text: "userManagement".tr().toString(),
               onTap: () =>
-              {Navigator.pushReplacementNamed(context, "/userManagement")},
+                  {Navigator.pushReplacementNamed(context, "/userManagement")},
             ),
             CustomListTile(
               icon: Icons.feedback,
               text: "About",
+              onTap: () => {Navigator.pushReplacementNamed(context, "/about")},
+            ),
+            CustomListTile(
+              icon: Icons.feedback,
+              text: "ChooseRoom",
               onTap: () =>
-              {Navigator.pushReplacementNamed(context, "/about")},
+                  {Navigator.pushReplacementNamed(context, "/chooseRoom")},
             ),
           ],
         ),

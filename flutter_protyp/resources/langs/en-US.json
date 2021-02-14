@@ -66,5 +66,7 @@
   "delete": "Delete",
   "confirm": "Confirm",
   "wentWrongError": "Something did not work here, try again",
-  "reload": "Reload"
+  "reload": "Reload",
+  "selectColor": "Select Color",
+  "selectShade": "Select Shade"
 }

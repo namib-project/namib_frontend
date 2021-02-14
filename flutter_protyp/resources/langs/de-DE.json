@@ -67,5 +67,7 @@
   "delete": "Löschen",
   "confirm": "Bestätigen",
   "wentWrongError": "Hier hat etwas nicht geklappt, versuche es erneut",
-  "reload": "Neuladen"
+  "reload": "Neuladen",
+  "selectColor": "Farbe wählen",
+  "selectShade": "Schattierung wählen"
 }

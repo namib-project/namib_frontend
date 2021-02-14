@@ -5,6 +5,7 @@ import 'package:flutter_protyp/pages/deviceDetails.dart';
 import "package:flutter_protyp/pages/login.dart";
 import "package:flutter_protyp/pages/deviceOverview.dart";
 import "package:flutter_protyp/pages/createDevice.dart";
+import "package:flutter_protyp/pages/chooseRoom.dart";
 import "package:flutter_protyp/pages/networkbehaviour.dart";
 import "package:flutter_protyp/pages/createMudProfile.dart";
 import 'package:flutter_protyp/pages/ownUser.dart';
@@ -80,6 +81,7 @@ class MaterialAppWithTheme extends StatelessWidget {
           "/deviceDetails": (context) => DeviceDetails(),
           "/about": (context) => About(),
           "/userManagement": (context) => UserManagement(),
+          "/chooseRoom": (context) => ChooseRoom(),
           "/languagetest": (context) =>
               LanguageTest(), // just for testing can be deleted
         });

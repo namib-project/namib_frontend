@@ -109,6 +109,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                       hintColor: Colors.grey,
                                     ),
                                     child: AlertDialog(
+                                      contentPadding: EdgeInsets.all(15),
                                       shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(18.0),
