@@ -12,6 +12,7 @@ class ChooseRoom extends StatefulWidget {
 }
 
 class _ChooseRoomState extends State<ChooseRoom> {
+  bool sortFirstRow = false;
   Color currentColor = Colors.red;
 
   static const Color guidePrimary = Color(0xFF6200EE);
@@ -144,107 +145,255 @@ class _ChooseRoomState extends State<ChooseRoom> {
         child: Container(
           height: double.infinity,
           child: SingleChildScrollView(
-            physics: AlwaysScrollableScrollPhysics(),
-            padding: EdgeInsets.symmetric(
-              horizontal: 0,
-              vertical: 120,
-            ),
-            child: SingleChildScrollView(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Container(
-                    width: 350,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          height: 70,
-                          alignment: Alignment.center,
-                          child: SelectableText(
-                            "Raumwahl",
-                            style: TextStyle(
-                              fontFamily: "OpenSans",
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold,
-                            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  width: 350,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        height: 40,
+                        alignment: Alignment.center,
+                        child: SelectableText(
+                          "Raumwahl",
+                          style: TextStyle(
+                            fontFamily: "OpenSans",
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Container(
-                          height: 70,
-                          alignment: Alignment.center,
-                          child: SelectableText(
-                            "Wählen Sie einen Raum",
-                            style: TextStyle(
-                              fontFamily: "OpenSans",
-                              fontSize: 20,
-                            ),
+                      ),
+                      Container(
+                        height: 70,
+                        alignment: Alignment.center,
+                        child: SelectableText(
+                          "Wählen Sie einen Raum",
+                          style: TextStyle(
+                            fontFamily: "OpenSans",
+                            fontSize: 20,
                           ),
                         ),
-                        Container(
-                          height: 70,
-                          alignment: Alignment.center,
-                          child: TextField(
-                            obscureText: false,
-                            cursorColor: Colors.grey,
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: "Hier Tabelle hin "),
-                          ),
-                        ),
-                        Container(
-                          height: 70,
-                          alignment: Alignment.center,
-                          child: SelectableText(
-                            "Oder erstellen Sie einen neuen",
-                            style: TextStyle(
-                              fontFamily: "OpenSans",
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          height: 70,
-                          alignment: Alignment.center,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            //crossAxisAlignment: CrossAxisAlignment.baseline,
-                            children: [
-                              Container(
-                                height: 50,
-                                width: 280,
-                                child: TextField(
-                                  obscureText: false,
-                                  cursorColor: Colors.grey,
-                                  decoration: InputDecoration(
-                                      border: OutlineInputBorder(),
-                                      labelText: "Raumname"),
+                      ),
+                      Container(
+                        height: 250,
+                        width: 350,
+                        child: SingleChildScrollView(
+                          // TODO: show only when rooms exists; sort has to be implemented; Fill with real information and delete examples
+
+                          child: DataTable(
+                            sortColumnIndex: 0,
+                            sortAscending: sortFirstRow,
+                            columns: <DataColumn>[
+                              DataColumn(
+                                label: SelectableText("Raum"),
+                                numeric: false,
+                                onSort: (i, b) {},
+                              ),
+                              DataColumn(
+                                label: SelectableText(
+                                  "Farbe",
                                 ),
                               ),
-                              SizedBox(
-                                width: 20,
+                              DataColumn(
+                                label: SelectableText(
+                                  "Wählen",
+                                ),
                               ),
-                              InkWell(
-                                onTap: () {
-                                  showAlertDialog(context);
-                                },
-                                child: Container(
-                                  height: 50,
-                                  width: 50,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(4),
-                                    color: currentColor,
+                            ],
+
+                            /// just exampleData
+                            rows: [
+                              DataRow(
+                                cells: [
+                                  DataCell(
+                                    SelectableText("Küche"),
                                   ),
-                                ),
+                                  DataCell(
+                                    Container(
+                                      height: 35,
+                                      width: 35,
+                                      decoration: BoxDecoration(
+                                        color: Colors.red,
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
+                                    ),
+                                  ),
+                                  DataCell(Checkbox(
+                                      activeColor: buttonColor,
+                                      value: true,
+                                      onChanged: (bool value) {})),
+                                ],
+                              ),
+                              DataRow(
+                                cells: [
+                                  DataCell(
+                                    SelectableText("Badezimmer"),
+                                  ),
+                                  DataCell(
+                                    Container(
+                                      height: 35,
+                                      width: 35,
+                                      decoration: BoxDecoration(
+                                        color: Colors.blue,
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
+                                    ),
+                                  ),
+                                  DataCell(Checkbox(
+                                      activeColor: buttonColor,
+                                      value: false,
+                                      onChanged: (bool value) {})),
+                                ],
+                              ),
+                              DataRow(
+                                cells: [
+                                  DataCell(
+                                    SelectableText("Wohnzimmer"),
+                                  ),
+                                  DataCell(
+                                    Container(
+                                      height: 35,
+                                      width: 35,
+                                      decoration: BoxDecoration(
+                                        color: Colors.orange,
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
+                                    ),
+                                  ),
+                                  DataCell(Checkbox(
+                                      activeColor: buttonColor,
+                                      value: false,
+                                      onChanged: (bool value) {})),
+                                ],
+                              ),
+                              DataRow(
+                                cells: [
+                                  DataCell(
+                                    SelectableText("Schlafzimmer"),
+                                  ),
+                                  DataCell(
+                                    Container(
+                                      height: 35,
+                                      width: 35,
+                                      decoration: BoxDecoration(
+                                        color: Colors.yellow,
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
+                                    ),
+                                  ),
+                                  DataCell(Checkbox(
+                                      activeColor: buttonColor,
+                                      value: false,
+                                      onChanged: (bool value) {})),
+                                ],
+                              ),
+                              DataRow(
+                                cells: [
+                                  DataCell(
+                                    SelectableText("Flur"),
+                                  ),
+                                  DataCell(
+                                    Container(
+                                      height: 35,
+                                      width: 35,
+                                      decoration: BoxDecoration(
+                                        color: Colors.green,
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
+                                    ),
+                                  ),
+                                  DataCell(Checkbox(
+                                      activeColor: buttonColor,
+                                      value: false,
+                                      onChanged: (bool value) {})),
+                                ],
                               ),
                             ],
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                      Container(
+                        height: 70,
+                        alignment: Alignment.center,
+                        child: SelectableText(
+                          "Oder erstellen Sie einen neuen",
+                          style: TextStyle(
+                            fontFamily: "OpenSans",
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 70,
+                        alignment: Alignment.center,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          //crossAxisAlignment: CrossAxisAlignment.baseline,
+                          children: [
+                            Container(
+                              height: 50,
+                              width: 280,
+                              child: TextField(
+                                obscureText: false,
+                                cursorColor: Colors.grey,
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: "Raumname"),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            InkWell(
+                              onTap: () {
+                                showAlertDialog(context);
+                              },
+                              child: Container(
+                                height: 50,
+                                width: 50,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(4),
+                                  color: currentColor,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        height: 70,
+                        alignment: Alignment.center,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            FlatButton(
+                              child: Text(
+                                "Abbrechen",
+                                style: TextStyle(
+                                  color: buttonColor,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                            FlatButton(
+                              child: Text(
+                                "Bestätigen",
+                                style: TextStyle(
+                                  color: buttonColor,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
