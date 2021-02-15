@@ -154,6 +154,9 @@ class _ChooseRoomState extends State<ChooseRoom> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
+                      SizedBox(
+                        height: 60,
+                      ),
                       Container(
                         height: 40,
                         alignment: Alignment.center,
