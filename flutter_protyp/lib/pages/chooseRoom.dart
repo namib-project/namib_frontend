@@ -66,7 +66,7 @@ class _ChooseRoomState extends State<ChooseRoom> {
                   ),
                   content: Container(
                     width: 300,
-                    height: 600,
+                    height: 470,
                     child: Column(
                       children: [
                         Padding(
@@ -81,6 +81,7 @@ class _ChooseRoomState extends State<ChooseRoom> {
                               height: 50,
                               elevation: 0,
                               borderRadius: 4,
+                              padding: EdgeInsets.fromLTRB(6, 10, 6, 0),
                               heading: Text(
                                 "selectColor".tr().toString(),
                                 style: TextStyle(
@@ -103,24 +104,25 @@ class _ChooseRoomState extends State<ChooseRoom> {
                           ),
                         ),
                         Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 15),
-                                child: FlatButton(
-                                  child: Text(
-                                    "Ok",
-                                    style: TextStyle(
-                                      color: buttonColor,
-                                      fontSize: 18,
-                                    ),
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 15),
+                              child: FlatButton(
+                                child: Text(
+                                  "Ok",
+                                  style: TextStyle(
+                                    color: buttonColor,
+                                    fontSize: 18,
                                   ),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
                                 ),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
                               ),
-                            ]),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ),
@@ -140,23 +142,110 @@ class _ChooseRoomState extends State<ChooseRoom> {
       drawer: MainDrawer(),
       body: Center(
         child: Container(
-          height: 600,
-          width: 400,
-          child: Column(
-            children: <Widget>[
-              Container(
-                height: 20,
-                width: 20,
-                color: currentColor,
+          height: double.infinity,
+          child: SingleChildScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
+            padding: EdgeInsets.symmetric(
+              horizontal: 0,
+              vertical: 120,
+            ),
+            child: SingleChildScrollView(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    width: 350,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          height: 70,
+                          alignment: Alignment.center,
+                          child: SelectableText(
+                            "Raumwahl",
+                            style: TextStyle(
+                              fontFamily: "OpenSans",
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          height: 70,
+                          alignment: Alignment.center,
+                          child: SelectableText(
+                            "Wählen Sie einen Raum",
+                            style: TextStyle(
+                              fontFamily: "OpenSans",
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          height: 70,
+                          alignment: Alignment.center,
+                          child: TextField(
+                            obscureText: false,
+                            cursorColor: Colors.grey,
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: "Hier Tabelle hin "),
+                          ),
+                        ),
+                        Container(
+                          height: 70,
+                          alignment: Alignment.center,
+                          child: SelectableText(
+                            "Oder erstellen Sie einen neuen",
+                            style: TextStyle(
+                              fontFamily: "OpenSans",
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          height: 70,
+                          alignment: Alignment.center,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            //crossAxisAlignment: CrossAxisAlignment.baseline,
+                            children: [
+                              Container(
+                                height: 50,
+                                width: 280,
+                                child: TextField(
+                                  obscureText: false,
+                                  cursorColor: Colors.grey,
+                                  decoration: InputDecoration(
+                                      border: OutlineInputBorder(),
+                                      labelText: "Raumname"),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  showAlertDialog(context);
+                                },
+                                child: Container(
+                                  height: 50,
+                                  width: 50,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(4),
+                                    color: currentColor,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-              RaisedButton(
-                child: Text("Farbe ändern"),
-                onPressed: () {
-                  showAlertDialog(context);
-                },
-                color: currentColor,
-              ),
-            ],
+            ),
           ),
         ),
       ),
