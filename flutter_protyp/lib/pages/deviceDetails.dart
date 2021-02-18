@@ -445,7 +445,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
       builder: (context) => Center(
             child: Container(
               width: 400,
-              height: 150,
+              height: 200,
               padding: EdgeInsets.all(20),
               alignment: Alignment(0, 0),
               decoration: BoxDecoration(
@@ -454,12 +454,28 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                     ? Colors.black.withOpacity(0.9)
                     : Colors.grey.withOpacity(0.9),
               ),
-              child: Text(
-                "Hier könnte Ihre Werbung stehen",
-                style: TextStyle(
-                    fontSize: 30,
-                    color: darkMode ? Colors.white : Colors.black,
-                    decoration: TextDecoration.none),
+              child: Column(
+                children: [
+                  SelectableText(
+                    "explanation".tr().toString(),
+                    style: TextStyle(
+                        fontFamily: "OpenSans",
+                        fontSize: 35,
+                        color: darkMode ? Colors.white : Colors.black,
+                        decoration: TextDecoration.none),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  SelectableText(
+                    "explanationDNSNames".tr().toString(),
+                    style: TextStyle(
+                        fontFamily: "OpenSans",
+                        fontSize: 20,
+                        color: darkMode ? Colors.white : Colors.black,
+                        decoration: TextDecoration.none),
+                  ),
+                ],
               ),
             ),
           ));

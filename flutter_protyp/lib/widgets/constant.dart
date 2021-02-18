@@ -21,7 +21,7 @@ Color loginColor2 = Colors.deepOrange;
 /// List with languages german is entry 0, english is entry 1
 /// initial setting is german
 List<bool> selectionsLanguage = [true, false];
-bool expertMode = true;
+bool expertMode = false;
 bool darkMode = false;
 bool mobileDevice = false;
 String jwtToken = "";
