@@ -69,5 +69,7 @@
   "wentWrongError": "Hier hat etwas nicht geklappt, versuche es erneut",
   "reload": "Neuladen",
   "selectColor": "Farbe wählen",
-  "selectShade": "Schattierung wählen"
+  "selectShade": "Schattierung wählen",
+  "explanation": "Erklärung",
+  "explanationDNSNames": "In dieser Liste sind alle Dienste aufgeführt, auf die Ihr Gerät zugriff hat."
 }

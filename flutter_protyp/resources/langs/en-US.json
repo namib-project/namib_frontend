@@ -68,5 +68,7 @@
   "wentWrongError": "Something did not work here, try again",
   "reload": "Reload",
   "selectColor": "Select Color",
-  "selectShade": "Select Shade"
+  "selectShade": "Select Shade",
+  "explanation": "Explanation",
+  "explanationDNSNames": "This list contains all the services that your device has access to."
 }

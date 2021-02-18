@@ -21,6 +21,9 @@ class DeviceOverview extends StatefulWidget {
 
 class _DeviceOverviewState extends State<DeviceOverview> {
   bool view = true;
+
+  var response;
+
   /// A List to safe all devices
   Future<List<Device>> devices;
 
@@ -83,7 +86,7 @@ class _DeviceOverviewState extends State<DeviceOverview> {
         drawer: MainDrawer(),
         body: Center(
             child: Column(children: [
-              // Button to change view between table and graph view
+          // Button to change view between table and graph view
           FlatButton(
             onPressed: () {
               changeView();
@@ -140,13 +143,13 @@ class _DeviceOverviewState extends State<DeviceOverview> {
                 }
               } else if (snapshot.hasError) {
                 // If the process failed this message returns
+                print(snapshot.error);
                 return Container(
                   width: 600,
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
-                        SelectableText(
-                            "wentWrongError".tr().toString()),
+                        SelectableText("wentWrongError".tr().toString()),
                         RaisedButton(
                             child: Text("reload".tr().toString()),
                             onPressed: () {
@@ -217,21 +220,29 @@ class _DeviceOverviewState extends State<DeviceOverview> {
 
   // Function getting the list of devices in network from controller
   Future<List<Device>> getDevices() async {
-    String urlDevices = 'http://172.26.144.1:8000/devices/';
-    var responseDevices;
+    String urlDevices = 'http://172.30.96.1:8000/devices';
     //responseDevices = await http.get(urlDevices);
+    //response = await http.get(urlDevices, headers: {
+    //  "Content-Type": "application/json",
+    //  "Authorization": "Bearer $jwtToken"
+    //}).timeout(const Duration(seconds: 5), onTimeout: () {
+    //  return _handleTimeOut();
+    //});
+
     String test = '[{"hostname": "string","id": 0,"ip_addr": "string","last_interaction": "2021-02-12T07:41:54.362Z","mac_addr": "string","mud_data": {"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","destination_port": {"range": [0],"single": 0},"direction_initiated": "FromDevice","dnsname": "string","protocol": {"name": "TCP","num": 0},"source_port": {"range": [0],"single": 0}},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-02-12T07:41:54.362Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "string","url": "string"},"mud_url": "string","vendor_class": "string"}, {"hostname": "string","id": 0,"ip_addr": "string","last_interaction": "2021-02-12T07:41:54.362Z","mac_addr": "string","mud_data": {"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","destination_port": {"range": [0],"single": 0},"direction_initiated": "FromDevice","dnsname": "string","protocol": {"name": "TCP","num": 0},"source_port": {"range": [0],"single": 0}},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-02-12T07:41:54.362Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "string","url": "string"},"mud_url": "string","vendor_class": "string"}]';
+    //print("Response code: " + response.statusCode.toString());
+    //print(response.body);
 
-    var jsonDevices = jsonDecode(test) as List;
-
-    List<Device> devicesTest =
-        jsonDevices.map((tagJson) => Device.fromJson(tagJson)).toList();
-    return devicesTest;
-    //if (responseDevices.statusCode == 200) {
-    //  return devicesTest;
+    //if (response.statusCode == 200) {
+      var jsonDevices = jsonDecode(test) as List;
+      List<Device> devicesTest =
+          jsonDevices.map((tagJson) => Device.fromJson(tagJson)).toList();
+      return devicesTest;
     //} else {
-    //  throw Exception("Failed to get Data");
+      //throw Exception("Failed to get Data");
     //}
     //TODO bei release auf http request umstellen
   }
+
+  dynamic _handleTimeOut() {}
 }

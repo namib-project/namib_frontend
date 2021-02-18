@@ -48,7 +48,19 @@ class ThemeChangeHandler {
 
   // Function that changes the apps appearance by the given value
   // If true all Visibility widget depending on this expert mode variable are shown
-  void changeExpertMode(bool value) {
+  void changeExpertMode(bool value, BuildContext context) {
     expertMode = value;
+    ThemeChanger themeChanger = Provider.of<ThemeChanger>(context);
+    !darkMode
+        ? themeChanger.setTheme(ThemeData.light().copyWith(
+            primaryColor: primaryColor,
+            accentColor: primaryColor,
+            hintColor: Colors.grey,
+          ))
+        : themeChanger.setTheme(ThemeData.dark().copyWith(
+            primaryColor: primaryColor,
+            accentColor: primaryColor,
+            hintColor: Colors.grey,
+          ));
   }
 }

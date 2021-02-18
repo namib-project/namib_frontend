@@ -32,8 +32,8 @@ var normalized;
 var resp;
 var payloadMap;
 
-
 String url = 'http://172.25.32.1:8000/users/me';
+
 /// Stores the response from the controller
 var response;
 
@@ -236,8 +236,7 @@ class _SettingsPopupState extends State<SettingsPopup> {
                   child: InkWell(
                     splashColor: buttonColor,
                     onTap: () {
-                      Navigator.pushReplacementNamed(
-                          context, "/manageUser");
+                      Navigator.pushReplacementNamed(context, "/manageUser");
                     },
                     child: Container(
                       width: 300,
@@ -293,17 +292,16 @@ class _SettingsPopupState extends State<SettingsPopup> {
   }
 
   // This method activates the expert mode, if the devices is new, its default turned out
-  // otherwise its saved in the systemvariables
+  // otherwise its saved in the system variables
   void setExpertMode(StateSetter setState, bool value) {
     ThemeChangeHandler handler = ThemeChangeHandler();
     setState(() {
-      handler.changeExpertMode(value);
+      handler.changeExpertMode(value, context);
     });
   }
 
-
   // This method activates the dark mode, if the devices is new, its default turned out
-  // otherwise its saved in the systemvariables
+  // otherwise its saved in the system variables
   void setDarkMode(StateSetter setState, ThemeChanger themeChanger) {
     ThemeChangeHandler handler = ThemeChangeHandler();
     setState(() {

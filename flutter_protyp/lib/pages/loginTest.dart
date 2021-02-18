@@ -38,16 +38,18 @@ class _LoginTestState extends State<LoginTest> {
 
   String username = "";
   String password = "";
+
   ///Variables for visibility of error messages
   bool errorMessage400 = false;
   bool errorMessage401 = false;
   bool networkError = false;
   bool error = false;
   bool loginButton = false;
+
   /// Var for saving the brightness state of the device
   var brightness;
 
-  String url = 'http://172.26.144.1:8000/users/login';
+  String url = 'http://172.30.96.1:8000/users/login';
 
   /// Stores the response from the controller
   var response;
@@ -74,7 +76,6 @@ class _LoginTestState extends State<LoginTest> {
       });
     }
   }
-
 
   @override
   void initState() {
@@ -318,8 +319,8 @@ class _LoginTestState extends State<LoginTest> {
                                   setSystemPreferences(),
                                   setTheme(),
                                   print(brightness),
-
-                                  Navigator.pushReplacementNamed(context, "/deviceOverview"),
+                                  Navigator.pushReplacementNamed(
+                                      context, "/deviceOverview"),
 
                                   {print(username)},
                                   {print(password)},
@@ -399,8 +400,7 @@ class _LoginTestState extends State<LoginTest> {
         } else if (statusCode == 200) {
           password = "";
           username = "";
-          _getDevices();
-
+          //_getDevices();
           jwtToken = json.decode(response.body)['token'];
           //jwtToken = jwtToken.substring(
           //    9, jwtToken.length),

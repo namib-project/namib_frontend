@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_protyp/data/device_mud/device.dart';
+import 'package:flutter_protyp/pages/handlers/ThemeHandler.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
@@ -272,34 +274,76 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                 SizedBox(
                   height: 40,
                 ),
-                // Table row to display and edit the diffrent DNS-Requests
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    SelectableText(
-                      'allowedDNSRequests'.tr().toString(),
-                      style: TextStyle(fontSize: 22),
-                    ),
+                // Table row to display and edit the different DNS-Requests
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          SelectableText(
+                            'allowedDNSRequests'.tr().toString(),
+                            style: TextStyle(fontSize: 22),
+                          ),
+                          Visibility(
+                            visible: !editColumn,
+                            child: RaisedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    editColumn = !editColumn;
+                                  });
+                                },
+                                child: Text("edit".tr().toString())),
+                          ),
+                          Visibility(
+                            visible: editColumn,
+                            child: RaisedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    editColumn = !editColumn;
+                                  });
+                                  _transmitData();
+                                },
+                                child: Text("save".tr().toString())),
+                          ),
+                        ]),
                     Visibility(
-                      visible: !editColumn,
-                      child: RaisedButton(
-                          onPressed: () {
-                            setState(() {
-                              editColumn = !editColumn;
-                            });
-                          },
-                          child: Text("edit".tr().toString())),
-                    ),
-                    Visibility(
-                      visible: editColumn,
-                      child: RaisedButton(
-                          onPressed: () {
-                            setState(() {
-                              editColumn = !editColumn;
-                            });
-                            _transmitData();
-                          },
-                          child: Text("save".tr().toString())),
+                      visible: !expertMode,
+                      child:
+                          mobileDevice //if mobile device, then icon button with dialog, else icon with hover effect
+                              ? IconButton(
+                                  icon: Icon(Icons.help_center),
+                                  iconSize: 30,
+                                  onPressed: () {
+                                    showDialog(
+                                        context: context,
+                                        barrierDismissible: true,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: Text(
+                                                "explanation".tr().toString()),
+                                            content: Text("explanationDNSNames"
+                                                .tr()
+                                                .toString()),
+                                            actions: [
+                                              FlatButton(
+                                                child: Text("Ok!"),
+                                                onPressed: () {
+                                                  Navigator.of(context)
+                                                      .pop(); // dismiss dialog
+                                                },
+                                              )
+                                            ],
+                                          );
+                                        });
+                                  },
+                                )
+                              : MouseRegion(
+                                  //MouseRegion for the hover element
+                                  onEnter: _enterInRegion,
+                                  onExit: _exitInRegion,
+                                  child: Icon(Icons.help_center),
+                                ),
                     ),
                   ],
                 ),
@@ -392,4 +436,59 @@ class _DeviceDetailsState extends State<DeviceDetails> {
   }
 
   Future _transmitData() async {}
+
+  ///True if mouse is in the MouseRegion widget, else false
+  bool inRegion = false;
+
+  //Creating the overlay element just an example for expert mode
+  OverlayEntry overlayEntry = OverlayEntry(
+      builder: (context) => Center(
+            child: Container(
+              width: 400,
+              height: 150,
+              padding: EdgeInsets.all(20),
+              alignment: Alignment(0, 0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                color: darkMode
+                    ? Colors.black.withOpacity(0.9)
+                    : Colors.grey.withOpacity(0.9),
+              ),
+              child: Text(
+                "Hier könnte Ihre Werbung stehen",
+                style: TextStyle(
+                    fontSize: 30,
+                    color: darkMode ? Colors.white : Colors.black,
+                    decoration: TextDecoration.none),
+              ),
+            ),
+          ));
+
+  //Function that shows the overlay element
+  showOverlay(BuildContext context) {
+    OverlayState overlayState = Overlay.of(context);
+    overlayState.insert(overlayEntry);
+  }
+
+  //Function for closing the overlay element
+
+  closeOverlay() {
+    overlayEntry.remove();
+  }
+
+  //Function called from MouseRegion widget below, opens the overlay on mouse enter
+  void _enterInRegion(PointerEvent details) {
+    setState(() {
+      inRegion = true;
+    });
+    showOverlay(context);
+  }
+
+  //Function called from MouseRegion widget below, closes the overlay on mouse exit
+  void _exitInRegion(PointerEvent details) {
+    setState(() {
+      inRegion = false;
+    });
+    closeOverlay();
+  }
 }
