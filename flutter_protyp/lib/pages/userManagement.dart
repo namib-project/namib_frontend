@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_protyp/data/user.dart';
-import 'package:flutter_protyp/pages/deviceDetails.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:flutter_protyp/widgets/drawer.dart';
@@ -160,7 +159,7 @@ class _UserManagementState extends State<UserManagement> {
         context: context,
         barrierDismissible: true,
         builder: (BuildContext context) {
-          // Here are displayed all cliparts to put devieces in different classes
+          // Here are displayed all cliparts to put devices in different classes
           // At the end there ist a pop-up dialog to save or dismiss the changes
           return StatefulBuilder(builder: (context, setState) {
             return Theme(
