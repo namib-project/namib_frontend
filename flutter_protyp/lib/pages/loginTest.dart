@@ -255,19 +255,22 @@ class _LoginTestState extends State<LoginTest> {
                         ),
                       ),
 
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 20, 5),
-                        child: Container(
-                          alignment: Alignment.centerRight,
-                          child: FlatButton(
-                            child: Text(
-                              'forgotPassword'.tr().toString(),
-                              style: TextStyle(
-                                color: primaryColor,
-                              ),
-                            ),
-                          ),
-                        ),
+                      // Padding(
+                      //   padding: const EdgeInsets.fromLTRB(0, 0, 20, 5),
+                      //   child: Container(
+                      //     alignment: Alignment.centerRight,
+                      //     child: FlatButton(
+                      //       child: Text(
+                      //         'forgotPassword'.tr().toString(),
+                      //         style: TextStyle(
+                      //           color: primaryColor,
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+                      SizedBox(
+                        height: 15,
                       ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 0, 20, 20),

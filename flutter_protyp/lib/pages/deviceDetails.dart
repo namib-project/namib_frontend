@@ -86,141 +86,10 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                 RaisedButton(
                   child: Text("Clipart ändern"),
                   onPressed: () {
-                    showDialog(
-                        context: context,
-                        barrierDismissible: true,
-                        builder: (BuildContext context) {
-                          // Here are displayed all cliparts to put devieces in different classes
-                          // At the end there ist a pop-up dialog to save or dismiss the changes
-                          return StatefulBuilder(builder: (context, setState) {
-                            return Theme(
-                              data: ThemeData(
-                                primaryColor: primaryColor,
-                                accentColor: primaryColor,
-                                hintColor: Colors.grey,
-                              ),
-                              child: Center(
-                                child: SingleChildScrollView(
-                                  child: Theme(
-                                    data: ThemeData(
-                                      brightness: darkMode
-                                          ? Brightness.dark
-                                          : Brightness.light,
-                                      primaryColor: primaryColor,
-                                      accentColor: primaryColor,
-                                      hintColor: Colors.grey,
-                                    ),
-                                    child: AlertDialog(
-                                      contentPadding: EdgeInsets.all(15),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(18.0),
-                                      ),
-                                      content: Container(
-                                        width: 300,
-                                        height: 490,
-                                        child: Column(
-                                          children: <Widget>[
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: <Widget>[
-                                                Container(
-                                                  height: 200,
-                                                  width: 200,
-                                                  child: WebsafeSvg.asset(
-                                                    selectedClipArt,
-                                                    color: Colors.blue,
-                                                    height: 200,
-                                                    width: 200,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            Divider(
-                                              height: 20,
-                                            ),
-                                            Container(
-                                              height: 200,
-                                              child: GridView.builder(
-                                                itemCount: allClipArts.length,
-                                                gridDelegate:
-                                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                                  crossAxisCount: 3,
-                                                  crossAxisSpacing: 4,
-                                                  mainAxisSpacing: 4,
-                                                ),
-                                                itemBuilder: (context, index) {
-                                                  var clipArt =
-                                                      allClipArts[index];
-                                                  return GestureDetector(
-                                                    child: Container(
-                                                      child: WebsafeSvg.asset(
-                                                        clipArt,
-                                                        semanticsLabel: 'phone',
-                                                        height: 80,
-                                                        width: 80,
-                                                      ),
-                                                    ),
-                                                    onTap: () {
-                                                      setState(() {
-                                                        selectedClipArt =
-                                                            clipArt;
-                                                      });
-                                                    },
-                                                  );
-                                                },
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 22,
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                // Buttons to accept or dismiss the changes like discribed above
-                                                FlatButton(
-                                                  child: Text(
-                                                    "Abbrechen",
-                                                    style: TextStyle(
-                                                      color: buttonColor,
-                                                    ),
-                                                  ),
-                                                  onPressed: () {
-                                                    Navigator.of(context)
-                                                        .pop(); // dismiss dialog
-                                                  },
-                                                ),
-                                                FlatButton(
-                                                  child: Text(
-                                                    "Übernehmen",
-                                                    style: TextStyle(
-                                                      color: buttonColor,
-                                                    ),
-                                                  ),
-                                                  onPressed: () {
-                                                    Navigator.of(context)
-                                                        .pop(); // dismiss dialog
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          });
-                        });
+                    _chooseClipartDialog(context);
                   },
                 ),
-
-                // Here are some textfields and boxes to display allpertinent information about the device
+                // Here are some text fields and boxes to display all pertinent information about the device
                 SizedBox(
                   height: 20,
                 ),
@@ -307,44 +176,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                 child: Text("save".tr().toString())),
                           ),
                         ]),
-                    Visibility(
-                      visible: !expertMode,
-                      child:
-                          mobileDevice //if mobile device, then icon button with dialog, else icon with hover effect
-                              ? IconButton(
-                                  icon: Icon(Icons.help_center),
-                                  iconSize: 30,
-                                  onPressed: () {
-                                    showDialog(
-                                        context: context,
-                                        barrierDismissible: true,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            title: Text(
-                                                "explanation".tr().toString()),
-                                            content: Text("explanationDNSNames"
-                                                .tr()
-                                                .toString()),
-                                            actions: [
-                                              FlatButton(
-                                                child: Text("Ok!"),
-                                                onPressed: () {
-                                                  Navigator.of(context)
-                                                      .pop(); // dismiss dialog
-                                                },
-                                              )
-                                            ],
-                                          );
-                                        });
-                                  },
-                                )
-                              : MouseRegion(
-                                  //MouseRegion for the hover element
-                                  onEnter: _enterInRegion,
-                                  onExit: _exitInRegion,
-                                  child: Icon(Icons.help_center),
-                                ),
-                    ),
+                    _expertModeText(context),
                   ],
                 ),
                 // This table displays the HTTP-Adresses which are allowed
@@ -354,51 +186,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                       flex: 1,
                       child: Container(),
                     ),
-                    Expanded(
-                      flex: 16,
-                      child: DataTable(
-                        onSelectAll: (b) {},
-                        sortColumnIndex: 0,
-                        sortAscending: sortFirstRow,
-                        columns: <DataColumn>[
-                          DataColumn(
-                              label: SelectableText("address".tr().toString()),
-                              numeric: false,
-                              onSort: (i, b) {
-                                setState(() {
-                                  services
-                                      .sort((a, b) => a.name.compareTo(b.name));
-                                  sortFirstRow = !sortFirstRow;
-                                });
-                              }),
-                          DataColumn(
-                              label: Visibility(
-                                  visible: editColumn,
-                                  child:
-                                      SelectableText("edit".tr().toString())))
-                        ],
-                        rows: widget.device.mud_data.acllist
-                            .map((accessControlEntry) => DataRow(cells: [
-                                  DataCell(Text(accessControlEntry
-                                      .ace[0].matches.dnsname)),
-                                  DataCell(
-                                    Visibility(
-                                      visible: editColumn,
-                                      child: IconButton(
-                                        icon: Icon(Icons.delete),
-                                        onPressed: () {
-                                          setState(() {
-                                            widget.device.mud_data.acllist
-                                                .remove(accessControlEntry);
-                                          });
-                                        },
-                                      ),
-                                    ),
-                                  )
-                                ]))
-                            .toList(),
-                      ),
-                    ),
+                    _tableDNSNames(),
                     Expanded(
                       flex: 1,
                       child: Container(),
@@ -414,6 +202,229 @@ class _DeviceDetailsState extends State<DeviceDetails> {
         ),
       ),
     );
+  }
+
+  Future _chooseClipartDialog(BuildContext context) {
+    return showDialog(
+                      context: context,
+                      barrierDismissible: true,
+                      builder: (BuildContext context) {
+                        // Here are displayed all cliparts to put devieces in different classes
+                        // At the end there ist a pop-up dialog to save or dismiss the changes
+                        return StatefulBuilder(builder: (context, setState) {
+                          return Theme(
+                            data: ThemeData(
+                              primaryColor: primaryColor,
+                              accentColor: primaryColor,
+                              hintColor: Colors.grey,
+                            ),
+                            child: Center(
+                              child: SingleChildScrollView(
+                                child: Theme(
+                                  data: ThemeData(
+                                    brightness: darkMode
+                                        ? Brightness.dark
+                                        : Brightness.light,
+                                    primaryColor: primaryColor,
+                                    accentColor: primaryColor,
+                                    hintColor: Colors.grey,
+                                  ),
+                                  child: AlertDialog(
+                                    contentPadding: EdgeInsets.all(15),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(18.0),
+                                    ),
+                                    content: Container(
+                                      width: 300,
+                                      height: 490,
+                                      child: Column(
+                                        children: <Widget>[
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: <Widget>[
+                                              Container(
+                                                height: 200,
+                                                width: 200,
+                                                child: WebsafeSvg.asset(
+                                                  selectedClipArt,
+                                                  color: Colors.blue,
+                                                  height: 200,
+                                                  width: 200,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Divider(
+                                            height: 20,
+                                          ),
+                                          Container(
+                                            height: 200,
+                                            child: GridView.builder(
+                                              itemCount: allClipArts.length,
+                                              gridDelegate:
+                                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                                crossAxisCount: 3,
+                                                crossAxisSpacing: 4,
+                                                mainAxisSpacing: 4,
+                                              ),
+                                              itemBuilder: (context, index) {
+                                                var clipArt =
+                                                    allClipArts[index];
+                                                return GestureDetector(
+                                                  child: Container(
+                                                    child: WebsafeSvg.asset(
+                                                      clipArt,
+                                                      semanticsLabel: 'phone',
+                                                      height: 80,
+                                                      width: 80,
+                                                    ),
+                                                  ),
+                                                  onTap: () {
+                                                    setState(() {
+                                                      selectedClipArt =
+                                                          clipArt;
+                                                    });
+                                                  },
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 22,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment
+                                                    .spaceBetween,
+                                            children: [
+                                              // Buttons to accept or dismiss the changes like discribed above
+                                              FlatButton(
+                                                child: Text(
+                                                  "Abbrechen",
+                                                  style: TextStyle(
+                                                    color: buttonColor,
+                                                  ),
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.of(context)
+                                                      .pop(); // dismiss dialog
+                                                },
+                                              ),
+                                              FlatButton(
+                                                child: Text(
+                                                  "Übernehmen",
+                                                  style: TextStyle(
+                                                    color: buttonColor,
+                                                  ),
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.of(context)
+                                                      .pop(); // dismiss dialog
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        });
+                      });
+  }
+
+  Expanded _tableDNSNames() {
+    return Expanded(
+                    flex: 16,
+                    child: DataTable(
+                      onSelectAll: (b) {},
+                      sortColumnIndex: 0,
+                      sortAscending: sortFirstRow,
+                      columns: <DataColumn>[
+                        DataColumn(
+                            label: SelectableText("address".tr().toString()),
+                            numeric: false,
+                            onSort: (i, b) {
+                              setState(() {
+                                services
+                                    .sort((a, b) => a.name.compareTo(b.name));
+                                sortFirstRow = !sortFirstRow;
+                              });
+                            }),
+                        DataColumn(
+                            label: Visibility(
+                                visible: editColumn,
+                                child:
+                                    SelectableText("edit".tr().toString())))
+                      ],
+                      rows: widget.device.mud_data.acllist
+                          .map((accessControlEntry) => DataRow(cells: [
+                                DataCell(Text(accessControlEntry
+                                    .ace[0].matches.dnsname)),
+                                DataCell(
+                                  Visibility(
+                                    visible: editColumn,
+                                    child: IconButton(
+                                      icon: Icon(Icons.delete),
+                                      onPressed: () {
+                                        setState(() {
+                                          widget.device.mud_data.acllist
+                                              .remove(accessControlEntry);
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                )
+                              ]))
+                          .toList(),
+                    ),
+                  );
+  }
+
+  Visibility _expertModeText(BuildContext context) {
+    return Visibility(
+                    visible: !expertMode,
+                    child:
+                        mobileDevice //if mobile device, then icon button with dialog, else icon with hover effect
+                            ? IconButton(
+                                icon: Icon(Icons.help_center),
+                                iconSize: 30,
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      barrierDismissible: true,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text(
+                                              "explanation".tr().toString()),
+                                          content: Text("explanationDNSNames"
+                                              .tr()
+                                              .toString()),
+                                          actions: [
+                                            FlatButton(
+                                              child: Text("Ok!"),
+                                              onPressed: () {
+                                                Navigator.of(context)
+                                                    .pop(); // dismiss dialog
+                                              },
+                                            )
+                                          ],
+                                        );
+                                      });
+                                },
+                              )
+                            : MouseRegion(
+                                //MouseRegion for the hover element
+                                onEnter: _enterInRegion,
+                                onExit: _exitInRegion,
+                                child: Icon(Icons.help_center),
+                              ),
+                  );
   }
 
   // This method launchs the MUDURL to the device, these URLs are the profils for the devices that are added to the app
