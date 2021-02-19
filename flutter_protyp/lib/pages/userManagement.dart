@@ -77,71 +77,68 @@ class _UserManagementState extends State<UserManagement> {
 
   Expanded _userTable() {
     return Expanded(
-                flex: 16,
-                child: FutureBuilder<List<User>>(
-                    future: users,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return DataTable(
-                          columns: [
-                            DataColumn(
-                              label:
-                                  SelectableText("username".tr().toString()),
-                            ),
-                            DataColumn(
-                              label: SelectableText("edit".tr().toString()),
-                            ),
-                            DataColumn(
-                              label: SelectableText("delete".tr().toString()),
-                            ),
-                          ],
-                          rows: snapshot.data
-                              .map((user) => DataRow(cells: [
-                                    DataCell(SelectableText(user.username)),
-                                    DataCell(IconButton(
-                                      icon: Icon(Icons.settings),
-                                      onPressed: () {
-                                        _editUserRoleDialog(context, user);
-                                      },
-                                    )),
-                                    DataCell(IconButton(
-                                      onPressed: () {
-                                        _deleteUserDialog(context, user, snapshot);
-                                      },
-                                      icon: Icon(Icons.delete),
-                                    ))
-                                  ]))
-                              .toList(),
-                        );
-                      } else if (snapshot.hasError) {
-                        return Column(
-                          children: [
-                            SelectableText("wentWrongError".tr().toString()),
-                            FlatButton(
-                                color: primaryColor,
-                                onPressed: () {
-                                  forwarding();
-                                },
-                                child: Text("reload".tr().toString()))
-                          ],
-                        );
-                      }
-                      return SizedBox(
-                          width: 30,
-                          height: 30,
-                          child: CircularProgressIndicator());
-                    }));
+        flex: 16,
+        child: FutureBuilder<List<User>>(
+            future: users,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return DataTable(
+                  columns: [
+                    DataColumn(
+                      label: SelectableText("username".tr().toString()),
+                    ),
+                    DataColumn(
+                      label: SelectableText("edit".tr().toString()),
+                    ),
+                    DataColumn(
+                      label: SelectableText("delete".tr().toString()),
+                    ),
+                  ],
+                  rows: snapshot.data
+                      .map((user) => DataRow(cells: [
+                            DataCell(SelectableText(user.username)),
+                            DataCell(IconButton(
+                              icon: Icon(Icons.settings),
+                              onPressed: () {
+                                _editUserRoleDialog(context, user);
+                              },
+                            )),
+                            DataCell(IconButton(
+                              onPressed: () {
+                                _deleteUserDialog(context, user, snapshot);
+                              },
+                              icon: Icon(Icons.delete),
+                            ))
+                          ]))
+                      .toList(),
+                );
+              } else if (snapshot.hasError) {
+                return Column(
+                  children: [
+                    SelectableText("wentWrongError".tr().toString()),
+                    FlatButton(
+                        color: primaryColor,
+                        onPressed: () {
+                          forwarding();
+                        },
+                        child: Text("reload".tr().toString()))
+                  ],
+                );
+              }
+              return SizedBox(
+                  width: 30, height: 30, child: CircularProgressIndicator());
+            }));
   }
 
-  void _deleteUserDialog(BuildContext context, User user, AsyncSnapshot<List<User>> snapshot) {
+  void _deleteUserDialog(
+      BuildContext context, User user, AsyncSnapshot<List<User>> snapshot) {
     showDialog(
         context: context,
         barrierDismissible: true,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: SelectableText(
-                "delete".tr().toString() + "?"),
-            content: SelectableText( user.username),
+            title: SelectableText("delete".tr().toString() + "?"),
+            content: SelectableText(user.username),
             actions: [
               SizedBox(
                   width: 100,
@@ -149,16 +146,10 @@ class _UserManagementState extends State<UserManagement> {
                   child: RaisedButton(
                       onPressed: () {
                         deleteUser(user);
-                        snapshot.data
-                            .remove(user);
-                        Navigator.of(
-                                context)
-                            .pop(); // dismiss dialog
+                        snapshot.data.remove(user);
+                        Navigator.of(context).pop(); // dismiss dialog
                       },
-                      child: Text(
-                          "confirmation"
-                              .tr()
-                              .toString())))
+                      child: Text("confirmation".tr().toString())))
             ],
           );
         });
@@ -171,93 +162,58 @@ class _UserManagementState extends State<UserManagement> {
         builder: (BuildContext context) {
           // Here are displayed all cliparts to put devieces in different classes
           // At the end there ist a pop-up dialog to save or dismiss the changes
-          return StatefulBuilder(builder:
-              (context, setState) {
+          return StatefulBuilder(builder: (context, setState) {
             return Theme(
               data: ThemeData(
-                primaryColor:
-                    primaryColor,
+                primaryColor: primaryColor,
                 accentColor: primaryColor,
                 hintColor: Colors.grey,
               ),
               child: Center(
-                child:
-                    SingleChildScrollView(
+                child: SingleChildScrollView(
                   child: Theme(
                     data: ThemeData(
-                      brightness: darkMode
-                          ? Brightness
-                              .dark
-                          : Brightness
-                              .light,
-                      primaryColor:
-                          primaryColor,
-                      accentColor:
-                          primaryColor,
-                      hintColor:
-                          Colors.grey,
+                      brightness: darkMode ? Brightness.dark : Brightness.light,
+                      primaryColor: primaryColor,
+                      accentColor: primaryColor,
+                      hintColor: Colors.grey,
                     ),
                     child: AlertDialog(
-                      shape:
-                          RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius
-                                .circular(
-                                    18.0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
                       ),
                       content: Container(
                         width: 300,
                         height: 280,
                         child: Column(
-                          children: <
-                              Widget>[
+                          children: <Widget>[
                             Container(
                               height: 70,
-                              alignment:
-                                  Alignment
-                                      .center,
-                              child:
-                                  SelectableText(
-                                'edit'
-                                    .tr()
-                                    .toString(),
-                                style:
-                                    TextStyle(
-                                  fontFamily:
-                                      "OpenSans",
-                                  fontSize:
-                                      30,
-                                  fontWeight:
-                                      FontWeight.bold,
+                              alignment: Alignment.center,
+                              child: SelectableText(
+                                'edit'.tr().toString(),
+                                style: TextStyle(
+                                  fontFamily: "OpenSans",
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
                             SizedBox(
                               height: 20,
                             ),
-                            SelectableText(
-                                user
-                                    .username,
-                                style: TextStyle(
-                                    fontSize:
-                                        25)),
+                            SelectableText(user.username,
+                                style: TextStyle(fontSize: 25)),
                             SizedBox(
                               height: 30,
                             ),
                             Row(
-                              mainAxisAlignment:
-                                  MainAxisAlignment
-                                      .spaceBetween,
-                              children: <
-                                  Widget>[
-                                SelectableText("roles"
-                                        .tr()
-                                        .toString() +
-                                    ":"),
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                SelectableText("roles".tr().toString() + ":"),
                                 Row(
                                   children: [
-                                    SelectableText(
-                                        "Admin"),
+                                    SelectableText("Admin"),
                                     Checkbox(
                                         activeColor: buttonColor,
                                         value: user.admin,
@@ -270,9 +226,7 @@ class _UserManagementState extends State<UserManagement> {
                                 ),
                                 Row(
                                   children: [
-                                    SelectableText("user"
-                                        .tr()
-                                        .toString()),
+                                    SelectableText("user".tr().toString()),
                                     Checkbox(
                                         activeColor: buttonColor,
                                         value: user.user,
@@ -289,43 +243,29 @@ class _UserManagementState extends State<UserManagement> {
                               height: 22,
                             ),
                             Row(
-                              mainAxisAlignment:
-                                  MainAxisAlignment
-                                      .spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 // Buttons to accept or dismiss the changes like discribed above
                                 FlatButton(
-                                  child:
-                                      Text(
-                                    "cancel"
-                                        .tr()
-                                        .toString(),
-                                    style:
-                                        TextStyle(
-                                      color:
-                                          buttonColor,
+                                  child: Text(
+                                    "cancel".tr().toString(),
+                                    style: TextStyle(
+                                      color: buttonColor,
                                     ),
                                   ),
-                                  onPressed:
-                                      () {
+                                  onPressed: () {
                                     Navigator.of(context)
                                         .pop(); // dismiss dialog
                                   },
                                 ),
                                 FlatButton(
-                                  child:
-                                      Text(
-                                    "save"
-                                        .tr()
-                                        .toString(),
-                                    style:
-                                        TextStyle(
-                                      color:
-                                          buttonColor,
+                                  child: Text(
+                                    "save".tr().toString(),
+                                    style: TextStyle(
+                                      color: buttonColor,
                                     ),
                                   ),
-                                  onPressed:
-                                      () {
+                                  onPressed: () {
                                     //TODO http request to update roles of user
                                     Navigator.of(context)
                                         .pop(); // dismiss dialog

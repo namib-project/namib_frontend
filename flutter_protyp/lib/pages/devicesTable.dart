@@ -12,6 +12,7 @@ class TableTest extends StatefulWidget {
     Key key,
     @required this.devices,
   }) : super(key: key);
+
   /// List which stores all given devices
   final List<Device> devices;
 
@@ -49,75 +50,8 @@ class _TableTestState extends State<TableTest> {
                   Expanded(
                       flex: 16,
                       child: widget.devices != null
-                          ? DataTable(
-                              onSelectAll: (b) {},
-                              sortColumnIndex: 0,
-                              sortAscending: sortFirstRow,
-                              columns: <DataColumn>[
-                                DataColumn(
-                                    label: SelectableText(
-                                        "device".tr().toString()),
-                                    numeric: false,
-                                    onSort: (i, b) {
-                                      setState(() {
-                                        devicesForPresentation.sort((a, b) => a
-                                            .systeminfo
-                                            .compareTo(b.systeminfo));
-                                        sortFirstRow = !sortFirstRow;
-                                      });
-                                    }),
-                                DataColumn(label: SelectableText("MUD")),
-                                DataColumn(
-                                    label:
-                                        SelectableText("edit".tr().toString()))
-                              ],
-                              rows: widget.devices
-                                  .map((device) => DataRow(cells: [
-                                        DataCell(SelectableText(
-                                            device.mud_data.systeminfo)),
-                                        DataCell(
-                                            SelectableText(device.mud_url)),
-                                        DataCell(IconButton(
-                                          icon: Icon(Icons.settings),
-                                          onPressed: () {
-                                            //Navigator.pushNamed(
-                                            //    context, "/deviceDetails");
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    DeviceDetails(
-                                                  device: device,
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        )),
-                                      ]))
-                                  .toList(),
-                            )
-                          : DataTable(
-                              columns: <DataColumn>[
-                                DataColumn(
-                                  label:
-                                      SelectableText("device".tr().toString()),
-                                ),
-                                DataColumn(label: SelectableText("MUD")),
-                                DataColumn(
-                                    label:
-                                        SelectableText("edit".tr().toString()))
-                              ],
-                              rows: [
-                                DataRow(cells: [
-                                  DataCell(SelectableText(
-                                      "noEntries".tr().toString())),
-                                  DataCell(SelectableText(
-                                      "noEntries".tr().toString())),
-                                  DataCell(SelectableText(
-                                      "noEntries".tr().toString())),
-                                ])
-                              ],
-                            )),
+                          ? _tableForData(context)
+                          : _tableNoEntries()),
                   Expanded(
                     flex: 1,
                     child: Container(),
@@ -128,6 +62,68 @@ class _TableTestState extends State<TableTest> {
           ),
         ),
       ),
+    );
+  }
+
+  DataTable _tableNoEntries() {
+    return DataTable(
+      columns: <DataColumn>[
+        DataColumn(
+          label: SelectableText("device".tr().toString()),
+        ),
+        DataColumn(label: SelectableText("MUD")),
+        DataColumn(label: SelectableText("edit".tr().toString()))
+      ],
+      rows: [
+        DataRow(cells: [
+          DataCell(SelectableText("noEntries".tr().toString())),
+          DataCell(SelectableText("noEntries".tr().toString())),
+          DataCell(SelectableText("noEntries".tr().toString())),
+        ])
+      ],
+    );
+  }
+
+  DataTable _tableForData(BuildContext context) {
+    return DataTable(
+      onSelectAll: (b) {},
+      sortColumnIndex: 0,
+      sortAscending: sortFirstRow,
+      columns: <DataColumn>[
+        DataColumn(
+            label: SelectableText("device".tr().toString()),
+            numeric: false,
+            onSort: (i, b) {
+              setState(() {
+                devicesForPresentation
+                    .sort((a, b) => a.systeminfo.compareTo(b.systeminfo));
+                sortFirstRow = !sortFirstRow;
+              });
+            }),
+        DataColumn(label: SelectableText("MUD")),
+        DataColumn(label: SelectableText("edit".tr().toString()))
+      ],
+      rows: widget.devices
+          .map((device) => DataRow(cells: [
+                DataCell(SelectableText(device.mud_data.systeminfo)),
+                DataCell(SelectableText(device.mud_url)),
+                DataCell(IconButton(
+                  icon: Icon(Icons.settings),
+                  onPressed: () {
+                    //Navigator.pushNamed(
+                    //    context, "/deviceDetails");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DeviceDetails(
+                          device: device,
+                        ),
+                      ),
+                    );
+                  },
+                )),
+              ]))
+          .toList(),
     );
   }
 }

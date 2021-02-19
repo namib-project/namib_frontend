@@ -16,7 +16,6 @@ class StartService extends StatefulWidget {
 }
 
 class _StartServiceState extends State<StartService> {
-
   /// Future element for delayed displaying
   Future<String> setupData;
 
@@ -85,11 +84,7 @@ class _StartServiceState extends State<StartService> {
         }
         // By default, show a loading spinner.
         return SizedBox(
-            width: 30,
-            height: 30,
-            child:
-            CircularProgressIndicator()
-        );
+            width: 30, height: 30, child: CircularProgressIndicator());
       },
     );
   }

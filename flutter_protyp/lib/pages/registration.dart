@@ -45,6 +45,7 @@ class _RegistrationState extends State<Registration> {
 
   ///Test for http client
   String url = "http://172.26.224.1:8000/users/signup";
+
   /// Stores the response from the controller
   var response;
 
@@ -296,7 +297,6 @@ class _RegistrationState extends State<Registration> {
       )),
     );
   }
-
 
   // If the Server takes to long to answer error messages are displayed
   dynamic catchTimeout() {

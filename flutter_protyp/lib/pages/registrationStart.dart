@@ -3,8 +3,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:flutter_protyp/widgets/constant.dart';
-import 'package:flutter_protyp/widgets/drawer.dart';
-import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -45,6 +43,7 @@ class _RegistrationState extends State<RegistrationStart> {
 
   ///Test for http client
   String url = "http://172.26.224.1:8000/users/signup";
+
   /// Stores the response from the controller
   var response;
 
@@ -506,7 +505,7 @@ class _RegistrationState extends State<RegistrationStart> {
     } on NoSuchMethodError {}
   }
 
-  void _forward(){
+  void _forward() {
     Navigator.pushReplacementNamed(context, "/loginTest");
   }
 }

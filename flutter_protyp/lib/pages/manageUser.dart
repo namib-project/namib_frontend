@@ -58,96 +58,7 @@ class _ManageUserState extends State<ManageUser> {
                   alignment: Alignment.center,
                   child: RaisedButton(
                     onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) => SimpleDialog(
-                                title: SelectableText(
-                                    'changeUsername'.tr().toString()),
-                                contentPadding: EdgeInsets.all(20.0),
-                                children: <Widget>[
-                                  Container(
-                                    height: 70,
-                                    alignment: Alignment.center,
-                                    child: TextField(
-                                      obscureText: false,
-                                      decoration: InputDecoration(
-                                        border: OutlineInputBorder(),
-                                        labelText:
-                                            "newUsername".tr().toString(),
-                                      ),
-                                      onChanged: (String value) async {
-                                        setState(() {
-                                          newUsername = value;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 70,
-                                    alignment: Alignment.center,
-                                    child: TextField(
-                                      obscureText: true,
-                                      decoration: InputDecoration(
-                                        border: OutlineInputBorder(),
-                                        labelText: "password".tr().toString(),
-                                      ),
-                                      onChanged: (String value) async {
-                                        setState(() {
-                                          confirmPassword = value;
-                                        });
-                                      },
-                                    ),
-                                  ),
-
-                                  // This container contains a button which sends a request for the new username
-                                  // of the user
-                                  Container(
-                                    height: 70,
-                                    alignment: Alignment.center,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        RaisedButton(
-                                          onPressed: () async {
-                                            Navigator.of(context).pop();
-                                            print(jwtToken);
-                                            response = await http.post(urlname,
-                                                headers: {
-                                                  "Content-Type":
-                                                      "application/json",
-                                                  "Authorization":
-                                                      "Bearer $jwtToken"
-                                                },
-                                                body: json.encode(
-                                                    {'username': newUsername}));
-
-                                            print(response.body);
-                                            print(response.statusCode);
-                                          },
-                                          child: Text(
-                                            "change".tr().toString(),
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                            ),
-                                          ),
-                                        ),
-                                        RaisedButton(onPressed: () async {
-                                          {
-                                            Navigator.of(context).pop();
-                                          }
-                                          ;
-                                          child:
-                                          Text(
-                                            "cancel".tr().toString(),
-                                            style: TextStyle(fontSize: 20),
-                                          );
-                                        }),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ));
+                      _changeUsernameDialog(context);
                     },
                     child: Text(
                       "changeUsername".tr().toString(),
@@ -162,103 +73,7 @@ class _ManageUserState extends State<ManageUser> {
                   alignment: Alignment.center,
                   child: RaisedButton(
                     onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) => SimpleDialog(
-                                title: SelectableText(
-                                    "changePassword".tr().toString()),
-                                contentPadding: EdgeInsets.all(20.0),
-                                children: <Widget>[
-                                  Container(
-                                    height: 70,
-                                    alignment: Alignment.center,
-                                    child: TextField(
-                                      obscureText: true,
-                                      decoration: InputDecoration(
-                                        border: OutlineInputBorder(),
-                                        labelText:
-                                            "newPassword".tr().toString(),
-                                      ),
-                                      onChanged: (String value) async {
-                                        setState(() {
-                                          newPassword = value;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                  Container(
-                                    height: mobileDevice ? 45 : 60,
-                                    width: 100,
-                                    alignment: Alignment.center,
-                                    child: SelectableText(
-                                      "minCharacters".tr().toString(),
-                                      style: TextStyle(
-                                          color: Colors.red[700], fontSize: 20),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 70,
-                                    alignment: Alignment.center,
-                                    child: TextField(
-                                      obscureText: true,
-                                      decoration: InputDecoration(
-                                        border: OutlineInputBorder(),
-                                        labelText:
-                                            "currentPassword".tr().toString(),
-                                      ),
-                                      onChanged: (String value) async {
-                                        setState(() {
-                                          confirmPassword = value;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 70,
-                                    alignment: Alignment.center,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        RaisedButton(
-                                          onPressed: () async {
-                                            response = await http.post(
-                                                urlpassword,
-                                                headers: {
-                                                  "Content-Type":
-                                                      "application/json",
-                                                  "Authorization":
-                                                      "Bearer $jwtToken"
-                                                },
-                                                body: json.encode({
-                                                  'old_password': password,
-                                                  'new_password': newPassword
-                                                }));
-
-                                            print(response.body);
-                                            print(response.statusCode);
-
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: Text(
-                                            "change".tr().toString(),
-                                            style: TextStyle(fontSize: 20),
-                                          ),
-                                        ),
-                                        RaisedButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: Text(
-                                            "cancel".tr().toString(),
-                                            style: TextStyle(fontSize: 20),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ));
+                      _changePasswordDialog(context);
                     },
                     child: Text(
                       "changePassword".tr().toString(),
@@ -270,5 +85,181 @@ class _ManageUserState extends State<ManageUser> {
             ),
           ),
         ));
+  }
+
+  _changeUsernameDialog(BuildContext context) async {
+    showDialog(
+        context: context,
+        builder: (context) => SimpleDialog(
+              title: SelectableText('changeUsername'.tr().toString()),
+              contentPadding: EdgeInsets.all(20.0),
+              children: <Widget>[
+                Container(
+                  height: 70,
+                  alignment: Alignment.center,
+                  child: TextField(
+                    obscureText: false,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: "newUsername".tr().toString(),
+                    ),
+                    onChanged: (String value) async {
+                      setState(() {
+                        newUsername = value;
+                      });
+                    },
+                  ),
+                ),
+                Container(
+                  height: 70,
+                  alignment: Alignment.center,
+                  child: TextField(
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: "password".tr().toString(),
+                    ),
+                    onChanged: (String value) async {
+                      setState(() {
+                        confirmPassword = value;
+                      });
+                    },
+                  ),
+                ),
+
+                // This container contains a button which sends a request for the new username
+                // of the user
+                Container(
+                  height: 70,
+                  alignment: Alignment.center,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      RaisedButton(
+                        onPressed: () async {
+                          Navigator.of(context).pop();
+                          print(jwtToken);
+                          response = await http.post(urlname,
+                              headers: {
+                                "Content-Type": "application/json",
+                                "Authorization": "Bearer $jwtToken"
+                              },
+                              body: json.encode({'username': newUsername}));
+
+                          print(response.body);
+                          print(response.statusCode);
+                        },
+                        child: Text(
+                          "change".tr().toString(),
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                      RaisedButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text(
+                            "cancel".tr().toString(),
+                            style: TextStyle(fontSize: 20),
+                          )),
+                    ],
+                  ),
+                ),
+              ],
+            ));
+  }
+
+  _changePasswordDialog(BuildContext context) async {
+    showDialog(
+        context: context,
+        builder: (context) => SimpleDialog(
+              title: SelectableText("changePassword".tr().toString()),
+              contentPadding: EdgeInsets.all(20.0),
+              children: <Widget>[
+                Container(
+                  height: 70,
+                  alignment: Alignment.center,
+                  child: TextField(
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: "newPassword".tr().toString(),
+                    ),
+                    onChanged: (String value) async {
+                      setState(() {
+                        newPassword = value;
+                      });
+                    },
+                  ),
+                ),
+                Container(
+                  height: mobileDevice ? 45 : 60,
+                  width: 100,
+                  alignment: Alignment.center,
+                  child: SelectableText(
+                    "minCharacters".tr().toString(),
+                    style: TextStyle(color: Colors.red[700], fontSize: 20),
+                  ),
+                ),
+                Container(
+                  height: 70,
+                  alignment: Alignment.center,
+                  child: TextField(
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: "currentPassword".tr().toString(),
+                    ),
+                    onChanged: (String value) async {
+                      setState(() {
+                        confirmPassword = value;
+                      });
+                    },
+                  ),
+                ),
+                Container(
+                  height: 70,
+                  alignment: Alignment.center,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      RaisedButton(
+                        onPressed: () async {
+                          response = await http.post(urlpassword,
+                              headers: {
+                                "Content-Type": "application/json",
+                                "Authorization": "Bearer $jwtToken"
+                              },
+                              body: json.encode({
+                                'old_password': password,
+                                'new_password': newPassword
+                              }));
+
+                          print(response.body);
+                          print(response.statusCode);
+
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          "change".tr().toString(),
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ),
+                      RaisedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          "cancel".tr().toString(),
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ));
   }
 }
