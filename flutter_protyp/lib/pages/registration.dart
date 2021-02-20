@@ -31,9 +31,9 @@ class _RegistrationState extends State<Registration> {
   );
 
   ///Variables for user inputs
-  String password = "";
-  String username = "";
-  String secPassword = "";
+  String _password = "";
+  String _username = "";
+  String _secPassword = "";
 
   ///Variables for visibility of error messages
   bool errorMessage1 = false;
@@ -44,7 +44,7 @@ class _RegistrationState extends State<Registration> {
   bool networkMessage = false;
 
   ///Test for http client
-  String url = "http://172.26.224.1:8000/users/signup";
+  String signupExtension = "users/signup";
 
   /// Stores the response from the controller
   var response;
@@ -98,7 +98,7 @@ class _RegistrationState extends State<Registration> {
                               labelText: "username".tr().toString()),
                           onChanged: (String value) async {
                             setState(() {
-                              username = value; //Username set to variable
+                              _username = value; //Username set to variable
                             });
                             checkForRegistrationButton(); //Check, if all conditions for enabling registration button are true
                           },
@@ -127,7 +127,7 @@ class _RegistrationState extends State<Registration> {
                           ),
                           onChanged: (String value) async {
                             setState(() {
-                              password = value; //Password set to variable
+                              _password = value; //Password set to variable
                             });
                             await Future.delayed(const Duration(seconds: 1),
                                 () {
@@ -183,12 +183,12 @@ class _RegistrationState extends State<Registration> {
                           ),
                           onChanged: (String value) async {
                             setState(() {
-                              secPassword = value;
+                              _secPassword = value;
                             });
                             await Future.delayed(const Duration(seconds: 1),
                                 () {
                               //Wait for 1 second
-                              if (value != password) {
+                              if (value != _password) {
                                 //Show error message, if the first password input is not equal to the second input
                                 setState(() {
                                   errorMessage2 = true;
@@ -258,22 +258,22 @@ class _RegistrationState extends State<Registration> {
                               onPressed: regisButton
                                   ? () async => {
                                         response = await http
-                                            .post(url,
+                                            .post(url + signupExtension,
                                                 headers: {
                                                   "Content-Type":
                                                       "application/json"
                                                 },
                                                 body: json.encode({
-                                                  "password": password,
-                                                  "username": username
+                                                  "password": _password,
+                                                  "username": _username
                                                 }))
                                             .timeout(const Duration(seconds: 3),
                                                 onTimeout: () {
                                           return catchTimeout();
                                         }),
-                                        username = "",
-                                        password = "",
-                                        secPassword = "",
+                                        _username = "",
+                                        _password = "",
+                                        _secPassword = "",
                                         passwordMessage = false,
                                         checkResponse(),
                                       }
@@ -310,11 +310,11 @@ class _RegistrationState extends State<Registration> {
 
   //Function checks all conditions for activating the registration button
   void checkForRegistrationButton() {
-    if (username.length > 1 &&
+    if (_username.length > 1 &&
         errorMessage1 == false &&
         errorMessage2 == false &&
-        password.length > 7 &&
-        secPassword.length > 1) {
+        _password.length > 7 &&
+        _secPassword.length > 1) {
       setState(() {
         regisButton = true;
       });

@@ -18,8 +18,8 @@ class _UserManagementState extends State<UserManagement> {
   Future<List<User>> users;
 
   Future<List<User>> fetchUsers() async {
-    //String url = "http://172.26.144.1:8000/users";
-    //response = await http.get(url, headers: {
+    //String usersExtension = "users";
+    //response = await http.get(url + usersExtension, headers: {
     //  "Content-Type": "application/json",
     //  "Authorization": "Bearer $jwtToken"
     //});

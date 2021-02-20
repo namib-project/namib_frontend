@@ -47,8 +47,8 @@ class _StartServiceState extends State<StartService> {
   // Get request for the controller version to display it for the user
   Future<String> fetchSetup() async {
     //try {
-    //String url = "http:://192.26.144.1/status";
-    //var response = await http.get(url);
+    //String statusExtension = "status";
+    //var response = await http.get(url+statusExtension);
     //if (response.statusCode == 200) {
     //  return response.body;
     // }

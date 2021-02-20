@@ -18,14 +18,14 @@ class ManageUser extends StatefulWidget {
 //Class for user management
 class _ManageUserState extends State<ManageUser> {
   /// Strings for handle the userinformation
-  String username = "mustermann";
-  String password = "asdfasdf";
-  String newUsername = "";
-  String newPassword = "";
-  String confirmPassword = "";
+  String _username = "mustermann";
+  String _password = "asdfasdf";
+  String _newUsername = "";
+  String _newPassword = "";
+  String _confirmPassword = "";
 
-  String urlname = 'http://192.168.112.1:8000/users/me';
-  String urlpassword = 'http://192.168.112.1:8000/users/password';
+  String nameExtension = 'users/me';
+  String passwordExtension = 'users/password';
 
   /// Var for saving the brightness state of the device
   var response;
@@ -105,7 +105,7 @@ class _ManageUserState extends State<ManageUser> {
                     ),
                     onChanged: (String value) async {
                       setState(() {
-                        newUsername = value;
+                        _newUsername = value;
                       });
                     },
                   ),
@@ -121,7 +121,7 @@ class _ManageUserState extends State<ManageUser> {
                     ),
                     onChanged: (String value) async {
                       setState(() {
-                        confirmPassword = value;
+                        _confirmPassword = value;
                       });
                     },
                   ),
@@ -139,12 +139,12 @@ class _ManageUserState extends State<ManageUser> {
                         onPressed: () async {
                           Navigator.of(context).pop();
                           print(jwtToken);
-                          response = await http.post(urlname,
+                          response = await http.post(url + nameExtension,
                               headers: {
                                 "Content-Type": "application/json",
                                 "Authorization": "Bearer $jwtToken"
                               },
-                              body: json.encode({'username': newUsername}));
+                              body: json.encode({'username': _newUsername}));
 
                           print(response.body);
                           print(response.statusCode);
@@ -189,7 +189,7 @@ class _ManageUserState extends State<ManageUser> {
                     ),
                     onChanged: (String value) async {
                       setState(() {
-                        newPassword = value;
+                        _newPassword = value;
                       });
                     },
                   ),
@@ -214,7 +214,7 @@ class _ManageUserState extends State<ManageUser> {
                     ),
                     onChanged: (String value) async {
                       setState(() {
-                        confirmPassword = value;
+                        _confirmPassword = value;
                       });
                     },
                   ),
@@ -227,14 +227,14 @@ class _ManageUserState extends State<ManageUser> {
                     children: [
                       RaisedButton(
                         onPressed: () async {
-                          response = await http.post(urlpassword,
+                          response = await http.post(url + passwordExtension,
                               headers: {
                                 "Content-Type": "application/json",
                                 "Authorization": "Bearer $jwtToken"
                               },
                               body: json.encode({
-                                'old_password': password,
-                                'new_password': newPassword
+                                'old_password': _password,
+                                'new_password': _newPassword
                               }));
 
                           print(response.body);

@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
+import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:flutter_protyp/widgets/drawer.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:http/http.dart' as http;
 
 class About extends StatefulWidget {
   @override
@@ -17,11 +19,13 @@ class _AboutState extends State<About> {
 
   // Future string type to build at runtime
   // Get request for the controller version to display it for the user
-  Future<String> fetchVersion() async{
+  Future<String> fetchVersion() async {
     //try {
-    //String url = "http:://192.26.144.1/status";
-    //var response = await http.get(url);
+    String statusExtension = "status";
+    var response = await http.get(url + statusExtension);
     //if (response.statusCode == 200) {
+    //  var statusResponse = jsonDecode(response.body);
+    //  return statusResponse["version"];
     //  return response.body;
     // }
     //} on Exception {
@@ -42,10 +46,10 @@ class _AboutState extends State<About> {
         drawer: MainDrawer(),
         body: Center(
             child: Container(
-              width: 400,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
+          width: 400,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
               Container(
                 child: SelectableText(
                   "About",
@@ -66,8 +70,8 @@ class _AboutState extends State<About> {
                     child: SelectableText("controllerVersion".tr().toString()),
                   ),
                   Container(
-                    // FutureBuilder element, that will be build but context will be shown after get request above
-                    // Here will be presentet the current controller version
+                      // FutureBuilder element, that will be build but context will be shown after get request above
+                      // Here will be presentet the current controller version
                       child: FutureBuilder<String>(
                     future: version,
                     builder: (context, snapshot) {
@@ -85,8 +89,8 @@ class _AboutState extends State<About> {
                   )),
                 ],
               ),
-          ],
-        ),
-            )));
+            ],
+          ),
+        )));
   }
 }

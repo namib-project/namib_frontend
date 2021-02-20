@@ -32,10 +32,10 @@ var normalized;
 var resp;
 var payloadMap;
 
-String url = 'http://172.25.32.1:8000/users/me';
+//String url = 'http://172.25.32.1:8000/users/me';
 
 /// Stores the response from the controller
-var response;
+//var response;
 
 class _MainAppbarState extends State<MainAppbar> {
   @override

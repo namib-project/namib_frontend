@@ -36,8 +36,8 @@ class _LoginTestState extends State<LoginTest> {
     size: 17,
   );
 
-  String username = "";
-  String password = "";
+  String _username = "";
+  String _password = "";
 
   ///Variables for visibility of error messages
   bool errorMessage400 = false;
@@ -49,7 +49,7 @@ class _LoginTestState extends State<LoginTest> {
   /// Var for saving the brightness state of the device
   var brightness;
 
-  String url = 'http://172.30.96.1:8000/users/login';
+  String loginExtension = 'users/login';
 
   /// Stores the response from the controller
   var response;
@@ -176,7 +176,7 @@ class _LoginTestState extends State<LoginTest> {
                             ),
                             onChanged: (value) {
                               setState(() {
-                                username = value;
+                                _username = value;
                               });
                               checkForLoginButton();
                             },
@@ -207,7 +207,7 @@ class _LoginTestState extends State<LoginTest> {
                             ),
                             onChanged: (value) {
                               setState(() {
-                                password = value;
+                                _password = value;
                               });
                               checkForLoginButton();
                             },
@@ -325,18 +325,18 @@ class _LoginTestState extends State<LoginTest> {
                                   Navigator.pushReplacementNamed(
                                       context, "/deviceOverview"),
 
-                                  {print(username)},
-                                  {print(password)},
+                                  {print(_username)},
+                                  {print(_password)},
 
                                   //Sends Http Request
                                   response = await http
-                                      .post(url,
+                                      .post(url + loginExtension,
                                           headers: {
                                             "Content-Type": "application/json"
                                           },
                                           body: json.encode({
-                                            'password': password,
-                                            'username': username
+                                            'password': _password,
+                                            'username': _username
                                           }))
                                       .timeout(const Duration(seconds: 7),
                                           onTimeout: () {
@@ -379,7 +379,7 @@ class _LoginTestState extends State<LoginTest> {
 
   //Activates the login button if more then one character are in the username and password field
   void checkForLoginButton() {
-    if (username.length > 1 && password.length > 1) {
+    if (_username.length > 1 && _password.length > 1) {
       setState(() {
         loginButton = true;
       });
@@ -401,12 +401,13 @@ class _LoginTestState extends State<LoginTest> {
           errorMessage401 = true;
           errorMessage400 = false;
         } else if (statusCode == 200) {
-          password = "";
-          username = "";
+          _password = "";
+          _username = "";
           //_getDevices();
           jwtToken = json.decode(response.body)['token'];
           //jwtToken = jwtToken.substring(
           //    9, jwtToken.length),
+          //TODO request für Benutzerrollen
           print(jwtToken); //TODO richtige List übergeben
           errorMessage401 = false;
           errorMessage400 = false;

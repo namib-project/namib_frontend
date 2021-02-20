@@ -25,7 +25,8 @@ bool expertMode = false;
 bool darkMode = false;
 bool mobileDevice = false;
 String jwtToken = "";
-String version = "";
+String url = "http://172.30.96.1:8000/";
+var permissions = ["read_permission", "write_permission"];
 
 List<String> allowedDNSRequests = [
   "www.example.net",
