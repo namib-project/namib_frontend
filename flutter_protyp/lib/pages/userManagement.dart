@@ -135,21 +135,37 @@ class _UserManagementState extends State<UserManagement> {
         context: context,
         barrierDismissible: true,
         builder: (BuildContext context) {
-          return AlertDialog(
-            title: SelectableText("delete".tr().toString() + "?"),
-            content: SelectableText(user.username),
-            actions: [
-              SizedBox(
+          return Theme(
+            data: ThemeData(
+              brightness: darkMode ? Brightness.dark : Brightness.light,
+              primaryColor: primaryColor,
+              accentColor: primaryColor,
+              hintColor: Colors.grey,
+            ),
+            child: AlertDialog(
+              scrollable: true,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0),
+              ),
+              title: SelectableText("delete".tr().toString() + "?"),
+              content: SelectableText(user.username),
+              actions: [
+                SizedBox(
                   width: 100,
                   height: 30,
                   child: RaisedButton(
-                      onPressed: () {
-                        deleteUser(user);
-                        snapshot.data.remove(user);
-                        Navigator.of(context).pop(); // dismiss dialog
-                      },
-                      child: Text("confirmation".tr().toString())))
-            ],
+                    onPressed: () {
+                      deleteUser(user);
+                      snapshot.data.remove(user);
+                      Navigator.of(context).pop(); // dismiss dialog
+                    },
+                    child: Text(
+                      "confirmation".tr().toString(),
+                    ),
+                  ),
+                )
+              ],
+            ),
           );
         });
   }
@@ -162,120 +178,111 @@ class _UserManagementState extends State<UserManagement> {
           // Here are displayed all cliparts to put devices in different classes
           // At the end there ist a pop-up dialog to save or dismiss the changes
           return StatefulBuilder(builder: (context, setState) {
-            return Theme(
-              data: ThemeData(
-                primaryColor: primaryColor,
-                accentColor: primaryColor,
-                hintColor: Colors.grey,
-              ),
-              child: Center(
-                child: SingleChildScrollView(
-                  child: Theme(
-                    data: ThemeData(
-                      brightness: darkMode ? Brightness.dark : Brightness.light,
-                      primaryColor: primaryColor,
-                      accentColor: primaryColor,
-                      hintColor: Colors.grey,
-                    ),
-                    child: AlertDialog(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0),
-                      ),
-                      content: Container(
-                        width: 300,
-                        height: 280,
-                        child: Column(
+            return Center(
+              child: Theme(
+                data: ThemeData(
+                  brightness: darkMode ? Brightness.dark : Brightness.light,
+                  primaryColor: primaryColor,
+                  accentColor: primaryColor,
+                  hintColor: Colors.grey,
+                ),
+                child: AlertDialog(
+                  scrollable: true,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                  ),
+                  content: Container(
+                    width: 300,
+                    height: 280,
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          height: 70,
+                          alignment: Alignment.center,
+                          child: SelectableText(
+                            'edit'.tr().toString(),
+                            style: TextStyle(
+                              fontFamily: "OpenSans",
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        SelectableText(user.username,
+                            style: TextStyle(fontSize: 25)),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Container(
-                              height: 70,
-                              alignment: Alignment.center,
-                              child: SelectableText(
-                                'edit'.tr().toString(),
-                                style: TextStyle(
-                                  fontFamily: "OpenSans",
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            SelectableText(user.username,
-                                style: TextStyle(fontSize: 25)),
-                            SizedBox(
-                              height: 30,
-                            ),
+                            SelectableText("roles".tr().toString() + ":"),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                SelectableText("roles".tr().toString() + ":"),
-                                Row(
-                                  children: [
-                                    SelectableText("Admin"),
-                                    Checkbox(
-                                        activeColor: buttonColor,
-                                        value: user.admin,
-                                        onChanged: (bool value) {
-                                          setState(() {
-                                            user.admin = value;
-                                          });
-                                        })
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    SelectableText("user".tr().toString()),
-                                    Checkbox(
-                                        activeColor: buttonColor,
-                                        value: user.user,
-                                        onChanged: (bool value) {
-                                          setState(() {
-                                            user.user = value;
-                                          }); //TODO erst übernehmen wenn save drücken
-                                        })
-                                  ],
+                              children: [
+                                SelectableText("Admin"),
+                                Checkbox(
+                                  activeColor: buttonColor,
+                                  value: user.admin,
+                                  onChanged: (bool value) {
+                                    setState(() {
+                                      user.admin = value;
+                                    });
+                                  },
                                 )
                               ],
                             ),
-                            SizedBox(
-                              height: 22,
-                            ),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                // Buttons to accept or dismiss the changes like discribed above
-                                FlatButton(
-                                  child: Text(
-                                    "cancel".tr().toString(),
-                                    style: TextStyle(
-                                      color: buttonColor,
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.of(context)
-                                        .pop(); // dismiss dialog
-                                  },
-                                ),
-                                FlatButton(
-                                  child: Text(
-                                    "save".tr().toString(),
-                                    style: TextStyle(
-                                      color: buttonColor,
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    //TODO http request to update roles of user
-                                    Navigator.of(context)
-                                        .pop(); // dismiss dialog
-                                    saveChanges();
-                                  },
-                                ),
+                                SelectableText("user".tr().toString()),
+                                Checkbox(
+                                    activeColor: buttonColor,
+                                    value: user.user,
+                                    onChanged: (bool value) {
+                                      setState(() {
+                                        user.user = value;
+                                      }); //TODO erst übernehmen wenn save drücken
+                                    })
                               ],
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: 22,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            // Buttons to accept or dismiss the changes like discribed above
+                            FlatButton(
+                              child: Text(
+                                "cancel".tr().toString(),
+                                style: TextStyle(
+                                  color: buttonColor,
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop(); // dismiss dialog
+                              },
+                            ),
+                            FlatButton(
+                              child: Text(
+                                "save".tr().toString(),
+                                style: TextStyle(
+                                  color: buttonColor,
+                                ),
+                              ),
+                              onPressed: () {
+                                //TODO http request to update roles of user
+                                Navigator.of(context).pop(); // dismiss dialog
+                                saveChanges();
+                              },
                             ),
                           ],
                         ),
-                      ),
+                      ],
                     ),
                   ),
                 ),

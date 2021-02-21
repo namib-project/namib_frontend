@@ -45,88 +45,78 @@ class _ChooseRoomState extends State<ChooseRoom> {
     showDialog(
       context: context,
       builder: (context) {
-        return Theme(
-          data: ThemeData(
-            primaryColor: primaryColor,
-            accentColor: primaryColor,
-            hintColor: Colors.grey,
-          ),
-          child: Center(
-            child: SingleChildScrollView(
-              child: Theme(
-                data: ThemeData(
-                  brightness: darkMode ? Brightness.dark : Brightness.light,
-                  primaryColor: primaryColor,
-                  accentColor: primaryColor,
-                  hintColor: Colors.grey,
-                ),
-                child: AlertDialog(
-                  contentPadding: EdgeInsets.all(0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18.0),
-                  ),
-                  content: Container(
-                    width: 300,
-                    height: 470,
-                    child: Column(
+        return Center(
+          child: Theme(
+            data: ThemeData(
+              brightness: darkMode ? Brightness.dark : Brightness.light,
+              primaryColor: primaryColor,
+              accentColor: primaryColor,
+              hintColor: Colors.grey,
+            ),
+            child: AlertDialog(
+              scrollable: true,
+              contentPadding: EdgeInsets.all(0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0),
+              ),
+              content: Container(
+                width: 300,
+                height: 470,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(0),
+                      child: Card(
+                        elevation: 0,
+                        child: ColorPicker(
+                          color: currentColor,
+                          onColorChanged: (Color color) =>
+                              setState(() => currentColor = color),
+                          width: 50,
+                          height: 50,
+                          elevation: 0,
+                          borderRadius: 4,
+                          padding: EdgeInsets.fromLTRB(6, 10, 6, 0),
+                          heading: Text(
+                            "selectColor".tr().toString(),
+                            style: TextStyle(
+                                fontSize: 22,
+                                color: darkMode ? Colors.white : Colors.black),
+                          ),
+                          subheading: Text(
+                            "selectShade".tr().toString(),
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: darkMode ? Colors.white : Colors.black),
+                          ),
+                          pickersEnabled: const <ColorPickerType, bool>{
+                            ColorPickerType.primary: true,
+                            ColorPickerType.accent: false,
+                          },
+                        ),
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.all(0),
-                          child: Card(
-                            elevation: 0,
-                            child: ColorPicker(
-                              color: currentColor,
-                              onColorChanged: (Color color) =>
-                                  setState(() => currentColor = color),
-                              width: 50,
-                              height: 50,
-                              elevation: 0,
-                              borderRadius: 4,
-                              padding: EdgeInsets.fromLTRB(6, 10, 6, 0),
-                              heading: Text(
-                                "selectColor".tr().toString(),
-                                style: TextStyle(
-                                    fontSize: 22,
-                                    color:
-                                        darkMode ? Colors.white : Colors.black),
+                          padding: const EdgeInsets.only(right: 15),
+                          child: FlatButton(
+                            child: Text(
+                              "Ok",
+                              style: TextStyle(
+                                color: buttonColor,
+                                fontSize: 18,
                               ),
-                              subheading: Text(
-                                "selectShade".tr().toString(),
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color:
-                                        darkMode ? Colors.white : Colors.black),
-                              ),
-                              pickersEnabled: const <ColorPickerType, bool>{
-                                ColorPickerType.primary: true,
-                                ColorPickerType.accent: false,
-                              },
                             ),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
                           ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 15),
-                              child: FlatButton(
-                                child: Text(
-                                  "Ok",
-                                  style: TextStyle(
-                                    color: buttonColor,
-                                    fontSize: 18,
-                                  ),
-                                ),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ),
-                          ],
                         ),
                       ],
                     ),
-                  ),
+                  ],
                 ),
               ),
             ),

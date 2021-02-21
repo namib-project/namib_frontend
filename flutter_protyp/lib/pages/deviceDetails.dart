@@ -210,115 +210,105 @@ class _DeviceDetailsState extends State<DeviceDetails> {
           // Here are displayed all cliparts to put devieces in different classes
           // At the end there ist a pop-up dialog to save or dismiss the changes
           return StatefulBuilder(builder: (context, setState) {
-            return Theme(
-              data: ThemeData(
-                primaryColor: primaryColor,
-                accentColor: primaryColor,
-                hintColor: Colors.grey,
-              ),
-              child: Center(
-                child: SingleChildScrollView(
-                  child: Theme(
-                    data: ThemeData(
-                      brightness: darkMode ? Brightness.dark : Brightness.light,
-                      primaryColor: primaryColor,
-                      accentColor: primaryColor,
-                      hintColor: Colors.grey,
-                    ),
-                    child: AlertDialog(
-                      contentPadding: EdgeInsets.all(15),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0),
-                      ),
-                      content: Container(
-                        width: 300,
-                        height: 490,
-                        child: Column(
+            return Center(
+              child: Theme(
+                data: ThemeData(
+                  brightness: darkMode ? Brightness.dark : Brightness.light,
+                  primaryColor: primaryColor,
+                  accentColor: primaryColor,
+                  hintColor: Colors.grey,
+                ),
+                child: AlertDialog(
+                  scrollable: true,
+                  contentPadding: EdgeInsets.all(15),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                  ),
+                  content: Container(
+                    width: 300,
+                    height: 490,
+                    child: Column(
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Container(
-                                  height: 200,
-                                  width: 200,
-                                  child: WebsafeSvg.asset(
-                                    selectedClipArt,
-                                    color: Colors.blue,
-                                    height: 200,
-                                    width: 200,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Divider(
-                              height: 20,
-                            ),
                             Container(
                               height: 200,
-                              child: GridView.builder(
-                                itemCount: allClipArts.length,
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 3,
-                                  crossAxisSpacing: 4,
-                                  mainAxisSpacing: 4,
-                                ),
-                                itemBuilder: (context, index) {
-                                  var clipArt = allClipArts[index];
-                                  return GestureDetector(
-                                    child: Container(
-                                      child: WebsafeSvg.asset(
-                                        clipArt,
-                                        semanticsLabel: 'phone',
-                                        height: 80,
-                                        width: 80,
-                                      ),
-                                    ),
-                                    onTap: () {
-                                      setState(() {
-                                        selectedClipArt = clipArt;
-                                      });
-                                    },
-                                  );
-                                },
+                              width: 200,
+                              child: WebsafeSvg.asset(
+                                selectedClipArt,
+                                color: Colors.blue,
+                                height: 200,
+                                width: 200,
                               ),
-                            ),
-                            SizedBox(
-                              height: 22,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                // Buttons to accept or dismiss the changes like discribed above
-                                FlatButton(
-                                  child: Text(
-                                    "Abbrechen",
-                                    style: TextStyle(
-                                      color: buttonColor,
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.of(context)
-                                        .pop(); // dismiss dialog
-                                  },
-                                ),
-                                FlatButton(
-                                  child: Text(
-                                    "Übernehmen",
-                                    style: TextStyle(
-                                      color: buttonColor,
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.of(context)
-                                        .pop(); // dismiss dialog
-                                  },
-                                ),
-                              ],
                             ),
                           ],
                         ),
-                      ),
+                        Divider(
+                          height: 20,
+                        ),
+                        Container(
+                          height: 200,
+                          child: GridView.builder(
+                            itemCount: allClipArts.length,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              crossAxisSpacing: 4,
+                              mainAxisSpacing: 4,
+                            ),
+                            itemBuilder: (context, index) {
+                              var clipArt = allClipArts[index];
+                              return GestureDetector(
+                                child: Container(
+                                  child: WebsafeSvg.asset(
+                                    clipArt,
+                                    semanticsLabel: 'phone',
+                                    height: 80,
+                                    width: 80,
+                                  ),
+                                ),
+                                onTap: () {
+                                  setState(() {
+                                    selectedClipArt = clipArt;
+                                  });
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 22,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            // Buttons to accept or dismiss the changes like discribed above
+                            FlatButton(
+                              child: Text(
+                                "Abbrechen",
+                                style: TextStyle(
+                                  color: buttonColor,
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop(); // dismiss dialog
+                              },
+                            ),
+                            FlatButton(
+                              child: Text(
+                                "Übernehmen",
+                                style: TextStyle(
+                                  color: buttonColor,
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop(); // dismiss dialog
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ),
