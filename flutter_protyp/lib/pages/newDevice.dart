@@ -12,6 +12,7 @@ class NewDevice extends StatefulWidget {
 }
 
 class _NewDeviceState extends State<NewDevice> {
+  // for sorting the profileTable
   bool sortFirstRow = false;
 
   @override

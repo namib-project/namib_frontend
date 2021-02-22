@@ -12,9 +12,14 @@ class ChooseRoom extends StatefulWidget {
 }
 
 class _ChooseRoomState extends State<ChooseRoom> {
+  // for sorting the roomTable
   bool sortFirstRow = false;
+  // the chosen color
   Color currentColor = Colors.red;
 
+  // Define some custom colors for the custom picker segment.
+  // The 'guide' color values are from
+  // https://material.io/design/color/the-color-system.html#color-theme-creation
   static const Color guidePrimary = Color(0xFF6200EE);
   static const Color guidePrimaryVariant = Color(0xFF3700B3);
   static const Color guideSecondary = Color(0xFF03DAC6);
@@ -23,6 +28,7 @@ class _ChooseRoomState extends State<ChooseRoom> {
   static const Color guideErrorDark = Color(0xFFCF6679);
   static const Color blueBlues = Color(0xFF174378);
 
+  // Make a custom ColorSwatch to name map from the above custom colors.
   final Map<ColorSwatch<Object>, String> colorsNameMap =
       <ColorSwatch<Object>, String>{
     ColorTools.createPrimarySwatch(guidePrimary): 'Guide Purple',
@@ -40,8 +46,8 @@ class _ChooseRoomState extends State<ChooseRoom> {
     });
   }
 
+  // Gives the colorPicker AlertDialog with the colors above
   showAlertDialog(BuildContext context) {
-    // show the dialog
     showDialog(
       context: context,
       builder: (context) {
@@ -80,14 +86,16 @@ class _ChooseRoomState extends State<ChooseRoom> {
                           heading: Text(
                             "selectColor".tr().toString(),
                             style: TextStyle(
-                                fontSize: 22,
-                                color: darkMode ? Colors.white : Colors.black),
+                              fontSize: 22,
+                              color: darkMode ? Colors.white : Colors.black,
+                            ),
                           ),
                           subheading: Text(
                             "selectShade".tr().toString(),
                             style: TextStyle(
-                                fontSize: 16,
-                                color: darkMode ? Colors.white : Colors.black),
+                              fontSize: 16,
+                              color: darkMode ? Colors.white : Colors.black,
+                            ),
                           ),
                           pickersEnabled: const <ColorPickerType, bool>{
                             ColorPickerType.primary: true,
