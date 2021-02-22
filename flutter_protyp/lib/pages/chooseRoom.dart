@@ -192,7 +192,7 @@ class _ChooseRoomState extends State<ChooseRoom> {
                               ),
                               DataColumn(
                                 label: SelectableText(
-                                  "Wählen",
+                                  "Wahl",
                                 ),
                               ),
                             ],
@@ -214,10 +214,12 @@ class _ChooseRoomState extends State<ChooseRoom> {
                                       ),
                                     ),
                                   ),
-                                  DataCell(Checkbox(
-                                      activeColor: buttonColor,
-                                      value: true,
-                                      onChanged: (bool value) {})),
+                                  DataCell(
+                                    Checkbox(
+                                        activeColor: buttonColor,
+                                        value: true,
+                                        onChanged: (bool value) {}),
+                                  ),
                                 ],
                               ),
                               DataRow(

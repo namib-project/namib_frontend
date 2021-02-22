@@ -66,6 +66,12 @@ class _MainDrawerState extends State<MainDrawer> {
             ),
             CustomListTile(
               icon: Icons.feedback,
+              text: "NewDevice",
+              onTap: () =>
+                  {Navigator.pushReplacementNamed(context, "/newDevice")},
+            ),
+            CustomListTile(
+              icon: Icons.feedback,
               text: "ChooseRoom",
               onTap: () =>
                   {Navigator.pushReplacementNamed(context, "/chooseRoom")},
