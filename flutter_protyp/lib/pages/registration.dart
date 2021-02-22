@@ -353,6 +353,7 @@ class _RegistrationState extends State<Registration> {
                         child: RaisedButton(
                           onPressed: () {
                             Navigator.of(context).pop();
+                            _forwarding();
                           },
                           child: Text(
                             "Ok",
@@ -369,5 +370,10 @@ class _RegistrationState extends State<Registration> {
         }
       });
     } on NoSuchMethodError {}
+  }
+
+  void _forwarding() {
+    Navigator.pushReplacementNamed(
+        context, "/userManagement");
   }
 }

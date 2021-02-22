@@ -22,7 +22,7 @@ class _AboutState extends State<About> {
   Future<String> fetchVersion() async {
     //try {
     String statusExtension = "status";
-    var response = await http.get(url + statusExtension);
+    //var response = await http.get(url + statusExtension);
     //if (response.statusCode == 200) {
     //  var statusResponse = jsonDecode(response.body);
     //  return statusResponse["version"];

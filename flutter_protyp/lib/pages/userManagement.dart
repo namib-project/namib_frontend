@@ -193,11 +193,11 @@ class _UserManagementState extends State<UserManagement> {
                   ),
                   content: Container(
                     width: 300,
-                    height: 280,
+                    height: 227,
                     child: Column(
                       children: <Widget>[
                         Container(
-                          height: 70,
+                          height: 50,
                           alignment: Alignment.center,
                           child: SelectableText(
                             'edit'.tr().toString(),
@@ -209,12 +209,12 @@ class _UserManagementState extends State<UserManagement> {
                           ),
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
                         SelectableText(user.username,
                             style: TextStyle(fontSize: 25)),
                         SizedBox(
-                          height: 30,
+                          height: 20,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -255,7 +255,7 @@ class _UserManagementState extends State<UserManagement> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            // Buttons to accept or dismiss the changes like discribed above
+                            // Buttons to accept or dismiss the changes like described above
                             FlatButton(
                               child: Text(
                                 "cancel".tr().toString(),
