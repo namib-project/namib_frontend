@@ -17,7 +17,7 @@ class ManageUser extends StatefulWidget {
 
 //Class for user management
 class _ManageUserState extends State<ManageUser> {
-  /// Strings for handle the userinformation
+  /// Strings for handle the user information
   String _username = "mustermann";
   String _password = "asdfasdf";
   String _newUsername = "";
@@ -39,8 +39,11 @@ class _ManageUserState extends State<ManageUser> {
             width: 400,
             //Context will appear smaller on mobile devices
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
+                SizedBox(
+                  height: 50,
+                ),
                 Container(
                   height: 70,
                   alignment: Alignment.center,

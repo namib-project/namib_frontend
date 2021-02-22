@@ -48,8 +48,11 @@ class _AboutState extends State<About> {
             child: Container(
           width: 400,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
+              SizedBox(
+                height: 50,
+              ),
               Container(
                 child: SelectableText(
                   "About",
@@ -61,7 +64,7 @@ class _AboutState extends State<About> {
                 ),
               ),
               SizedBox(
-                height: 70,
+                height: 50,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
