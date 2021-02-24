@@ -126,7 +126,6 @@ class _DevicesGraphState extends State<DevicesGraph> {
 
 
 
-  @override
   void initStat() {
     List<Device> devices = getDevices() as List<Device>;
 
