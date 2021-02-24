@@ -19,7 +19,7 @@ class DeviceDetails extends StatefulWidget {
 }
 
 class _DeviceDetailsState extends State<DeviceDetails> {
-  /// Simple list to safe the ACL fromo controller
+  /// Simple list to safe the ACL from controller
   List<DataRow> list = [];
   bool sortFirstRow = false;
   bool sortFirstRow1 = false;
@@ -91,53 +91,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                 SizedBox(
                   height: 20,
                 ),
-                SelectableText(
-                  "ipaddress".tr().toString(),
-                  style: TextStyle(fontSize: 20),
-                ),
-                SelectableText(
-                  widget.device.ip_addr,
-                  style: TextStyle(fontSize: 18),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                SelectableText(
-                  "lastinteraction".tr().toString(),
-                  style: TextStyle(fontSize: 20),
-                ),
-                SelectableText(
-                  widget.device.last_interaction,
-                  style: TextStyle(fontSize: 18),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                SelectableText(
-                  "MUD URL: ",
-                  style: TextStyle(fontSize: 20),
-                ),
-                SelectableText(
-                  widget.device.mud_url,
-                  style: TextStyle(fontSize: 18),
-                  onTap: () {
-                    _launchMUDURL();
-                  },
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                SelectableText(
-                  'documentation'.tr().toString(),
-                  style: TextStyle(fontSize: 20),
-                ),
-                SelectableText(
-                  widget.device.mud_data.documentation,
-                  style: TextStyle(fontSize: 18),
-                  onTap: () {
-                    _launchDocumentation();
-                  },
-                ),
+                Column(children: mobileDevice ? _mobileView() : _desktopView()),
                 SizedBox(
                   height: 40,
                 ),
@@ -177,7 +131,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                     _expertModeText(context),
                   ],
                 ),
-                // This table displays the HTTP-Adresses which are allowed
+                // This table displays the HTTP-addresses which are allowed
                 Row(
                   children: [
                     Expanded(
@@ -207,7 +161,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
         context: context,
         barrierDismissible: true,
         builder: (BuildContext context) {
-          // Here are displayed all cliparts to put devieces in different classes
+          // Here are displayed all cliparts to put devices in different classes
           // At the end there ist a pop-up dialog to save or dismiss the changes
           return StatefulBuilder(builder: (context, setState) {
             return Center(
@@ -283,7 +237,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            // Buttons to accept or dismiss the changes like discribed above
+                            // Buttons to accept or dismiss the changes like described above
                             FlatButton(
                               child: Text(
                                 "Abbrechen",
@@ -411,7 +365,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     }
   }
 
-  // This method launch the datas to the profils, if it is not possible there will be thrown an error
+  // This method launch the data to the profils, if it is not possible there will be thrown an error
   _launchDocumentation() async {
     if (await canLaunch(widget.device.mud_data.documentation)) {
       await launch(widget.device.mud_data.documentation);
@@ -491,5 +445,171 @@ class _DeviceDetailsState extends State<DeviceDetails> {
       inRegion = false;
     });
     closeOverlay();
+  }
+
+  List<Widget> _desktopView() {
+    var column1 = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SelectableText(
+              "ipaddress".tr().toString() + ": ",
+              style: TextStyle(fontSize: 20),
+            ),
+            SelectableText(
+              widget.device.ip_addr,
+              style: TextStyle(fontSize: 18),
+            ),
+          ],
+        ),
+        SizedBox(
+          height: 50,
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SelectableText(
+              "MUD URL: ",
+              style: TextStyle(fontSize: 20),
+            ),
+            SelectableText(
+              widget.device.mud_url,
+              style: TextStyle(fontSize: 18),
+              onTap: () {
+                _launchMUDURL();
+              },
+            ),
+          ],
+        )
+      ],
+    );
+
+    var column2 = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SelectableText(
+              "lastinteraction".tr().toString() + ": ",
+              style: TextStyle(fontSize: 20),
+            ),
+            SelectableText(
+              widget.device.last_interaction,
+              style: TextStyle(fontSize: 18),
+            ),
+          ],
+        ),
+        SizedBox(
+          height: 50,
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SelectableText(
+              'documentation'.tr().toString() + ": ",
+              style: TextStyle(fontSize: 20),
+            ),
+            SelectableText(
+              widget.device.mud_data.documentation,
+              style: TextStyle(fontSize: 18),
+              onTap: () {
+                _launchDocumentation();
+              },
+            ),
+          ],
+        )
+      ],
+    );
+
+    var row = Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        column1,
+        SizedBox(
+          width: 200,
+        ),
+        column2
+      ],
+    );
+
+    List<Widget> list = [
+      SizedBox(
+        height: 40,
+      ),
+      row,
+      SizedBox(
+        height: 30,
+      )
+    ];
+    return list;
+  }
+
+  List<Widget> _mobileView() {
+    var selectableText1 = SelectableText(
+      "ipaddress".tr().toString(),
+      style: TextStyle(fontSize: 20),
+    );
+    var selectableText2 = SelectableText(
+      widget.device.ip_addr,
+      style: TextStyle(fontSize: 18),
+    );
+    var sizedBox1 = SizedBox(
+      height: 20,
+    );
+    var selectableText3 = SelectableText(
+      "lastinteraction".tr().toString(),
+      style: TextStyle(fontSize: 20),
+    );
+    var selectableText4 = SelectableText(
+      widget.device.last_interaction,
+      style: TextStyle(fontSize: 18),
+    );
+    var sizedBox2 = SizedBox(
+      height: 20,
+    );
+    var selectableText5 = SelectableText(
+      "MUD URL: ",
+      style: TextStyle(fontSize: 20),
+    );
+    var selectableText6 = SelectableText(
+      widget.device.mud_url,
+      style: TextStyle(fontSize: 18),
+      onTap: () {
+        _launchMUDURL();
+      },
+    );
+    var sizedBox3 = SizedBox(
+      height: 20,
+    );
+    var selectableText7 = SelectableText(
+      'documentation'.tr().toString(),
+      style: TextStyle(fontSize: 20),
+    );
+    var selectableText8 = SelectableText(
+      widget.device.mud_data.documentation,
+      style: TextStyle(fontSize: 18),
+      onTap: () {
+        _launchDocumentation();
+      },
+    );
+
+    List<Widget> list = [
+      selectableText1,
+      selectableText2,
+      sizedBox1,
+      selectableText3,
+      selectableText4,
+      sizedBox2,
+      selectableText5,
+      selectableText6,
+      sizedBox3,
+      selectableText7,
+      selectableText8
+    ];
+
+    return list;
   }
 }

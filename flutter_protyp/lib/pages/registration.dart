@@ -373,7 +373,6 @@ class _RegistrationState extends State<Registration> {
   }
 
   void _forwarding() {
-    Navigator.pushReplacementNamed(
-        context, "/userManagement");
+    Navigator.pushReplacementNamed(context, "/userManagement");
   }
 }
