@@ -12,7 +12,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:graphview/GraphView.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'devicesGraph.dart';
 
 /// returns deviceOverview site
 class DeviceOverview extends StatefulWidget {
@@ -35,40 +35,6 @@ class _DeviceOverviewState extends State<DeviceOverview> {
   }
 
   bool pressed = false;
-
-  @override
-  void initState() {
-    super.initState();
-    devices = getDevices();
-
-    List<DeviceForPresentation> devicesforpres =
-        new List<DeviceForPresentation>();
-    devicesforpres.add(testDevice1);
-    devicesforpres.add(testDevice2);
-    devicesforpres.add(testDevice3);
-    devicesforpres.add(testDevice4);
-//
-    //List<String> deviceNames = new List<String>();
-//
-    //devicesforpres.forEach((element) {
-    //  deviceNames.add(element.name);
-    //  print(element.name);
-    //});
-
-    /// Nodes and edges for the graphview
-    final router = Node(getNodeText(10, "Router"));
-
-    final a = Node(getNodeText(1, devicesforpres[0].systeminfo));
-    final b = Node(getNodeText(2, devicesforpres[1].systeminfo));
-    final c = Node(getNodeText(3, devicesforpres[2].systeminfo));
-    final d = Node(getNodeText(4, devicesforpres[3].systeminfo));
-
-    graph.addEdge(router, a, paint: Paint()..color = Colors.orange);
-    graph.addEdge(router, b, paint: Paint()..color = Colors.orange);
-    graph.addEdge(router, c, paint: Paint()..color = Colors.orange);
-    graph.addEdge(router, d, paint: Paint()..color = Colors.orange);
-    builder = FruchtermanReingoldAlgorithm(iterations: 1000);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,26 +81,12 @@ class _DeviceOverviewState extends State<DeviceOverview> {
           FutureBuilder<List<Device>>(
             future: devices,
             builder: (context, snapshot) {
-              if (snapshot.hasData) {
+              if (!snapshot.hasData) {
                 if (view) {
-                  return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        InteractiveViewer(
-                            constrained: true,
-                            boundaryMargin: EdgeInsets.all(8),
-                            minScale: 0.001,
-                            maxScale: 100,
-                            child: GraphView(
-                              graph: graph,
-                              algorithm: builder,
-                              paint: Paint()
-                                ..color = Colors.green
-                                ..strokeWidth = 1
-                                ..style = PaintingStyle.fill,
-                            )),
-                      ]);
+                  return Expanded(
+                      child: DevicesGraph(
+                    devices: snapshot.data,
+                  ));
                 } else {
                   return Expanded(
                       child: TableTest(
@@ -172,52 +124,8 @@ class _DeviceOverviewState extends State<DeviceOverview> {
         ])));
   }
 
-  int n = 8;
-  Random r = Random();
 
-  // This method takes the text from the method below and puts in the graph
-  Widget getNodeText(int i, String name) {
-    return GestureDetector(
-        //onLongPressStart: (details) {
-        //  var x = details.globalPosition.dx;
-        //  var y = details.globalPosition.dy;
-        //  Offset(x, y);
-        //},
-        //onPanStart: (details) {
-        //  var x = details.globalPosition.dx;
-        //  var y = details.globalPosition.dy;
-        //  setState(() {
-        //    builder.setFocusedNode(graph.getNodeAtPosition(i - 1));
-        //    graph.getNodeAtPosition(i - 1).position = Offset(x, y);
-        //  });
-        //},
-        //onPanUpdate: (details) {
-        //  var x = details.globalPosition.dx;
-        //  var y = details.globalPosition.dy;
-        //  setState(() {
-        //    builder.setFocusedNode(graph.getNodeAtPosition(i - 1));
-        //    graph.getNodeAtPosition(i - 1).position = Offset(x, y);
-        //  });
-        //},
-        //onPanEnd: (details) {
-        //  builder.setFocusedNode(null);
-        //},
-        child: Container(
-            padding: EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(4),
-              boxShadow: [
-                BoxShadow(color: Colors.blue[100], spreadRadius: 1),
-              ],
-            ),
-            child: Text(name)) //Icon(Icons.device_unknown))
-        //("Node $i")),
-        );
   }
-
-  final Graph graph = Graph();
-  Layout builder;
-
   // Function getting the list of devices in network from controller
   Future<List<Device>> getDevices() async {
     // String devicesExtension = 'devices';
@@ -241,7 +149,8 @@ class _DeviceOverviewState extends State<DeviceOverview> {
       //throw Exception("Failed to get Data");
     //}
     //TODO bei release auf http request umstellen
+
   }
 
   dynamic _handleTimeOut() {}
-}
+
