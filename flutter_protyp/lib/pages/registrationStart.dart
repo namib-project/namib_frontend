@@ -442,7 +442,7 @@ class _RegistrationState extends State<RegistrationStart> {
 
   //Function checks all conditions for activating the registration button
   void checkForRegistrationButton() {
-    if (_username.length > 1 &&
+    if (_username.length > 0 &&
         errorMessage1 == false &&
         errorMessage2 == false &&
         _password.length > 7 &&
@@ -471,10 +471,13 @@ class _RegistrationState extends State<RegistrationStart> {
               context: context,
               builder: (context) => SimpleDialog(
                     title: SelectableText("confirmation".tr().toString()),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0)),
                     contentPadding: EdgeInsets.all(20.0),
                     children: [
                       Container(
-                        height: 70,
+                        height: 100,
+                        width: 300,
                         alignment: Alignment.center,
                         child: SelectableText(
                             "registrationSuccess".tr().toString()),
@@ -482,7 +485,7 @@ class _RegistrationState extends State<RegistrationStart> {
                       Container(
                         height: 70,
                         alignment: Alignment.center,
-                        child: RaisedButton(
+                        child: FlatButton(
                           onPressed: () {
                             Navigator.of(context).pop();
                             _forward();

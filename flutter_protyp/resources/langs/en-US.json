@@ -70,5 +70,10 @@
   "selectColor": "Select Color",
   "selectShade": "Select Shade",
   "explanation": "Explanation",
-  "explanationDNSNames": "This list contains all the services that your device has access to."
+  "explanationDNSNames": "This list contains all the services that your device has access to.",
+  "attention": "Attention!",
+  "reset": "Reset",
+  "resetDisclaimer": "When you reset the state of your device, all the settings you have made will be undone.",
+  "deleteDNSNameDisclaimer": "Are you sure you want to delete this entry? Your device will no longer be able to access the website service.",
+  "deleteUserDisclaimer": "Are you sure you want to delete this user? This operation cannot be undone."
 }

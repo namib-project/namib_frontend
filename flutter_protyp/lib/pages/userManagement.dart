@@ -104,7 +104,7 @@ class _UserManagementState extends State<UserManagement> {
                             )),
                             DataCell(IconButton(
                               onPressed: () {
-                                _deleteUserDialog(context, user, snapshot);
+                                _deleteUserDialog(user, snapshot);
                               },
                               icon: Icon(Icons.delete),
                             ))
@@ -129,8 +129,7 @@ class _UserManagementState extends State<UserManagement> {
             }));
   }
 
-  void _deleteUserDialog(
-      BuildContext context, User user, AsyncSnapshot<List<User>> snapshot) {
+  void _deleteUserDialog(User user, AsyncSnapshot<List<User>> snapshot) {
     showDialog(
         context: context,
         barrierDismissible: true,
@@ -147,24 +146,50 @@ class _UserManagementState extends State<UserManagement> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(18.0),
               ),
-              title: SelectableText("delete".tr().toString() + "?"),
-              content: SelectableText(user.username),
-              actions: [
-                SizedBox(
-                  width: 100,
-                  height: 30,
-                  child: RaisedButton(
-                    onPressed: () {
-                      deleteUser(user);
-                      snapshot.data.remove(user);
-                      Navigator.of(context).pop(); // dismiss dialog
-                    },
-                    child: Text(
-                      "confirmation".tr().toString(),
+              title: SelectableText("attention".tr().toString()),
+              content: Container(
+                height: 175,
+                width: 300,
+                child: Column(
+                  children: [
+                    SelectableText("deleteUserDisclaimer".tr().toString()),
+                    SizedBox(
+                      height: 40,
                     ),
-                  ),
-                )
-              ],
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // Buttons to accept or dismiss the changes like described above
+                        FlatButton(
+                          child: Text(
+                            "Abbrechen",
+                            style: TextStyle(
+                              color: buttonColor,
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop(); // dismiss dialog
+                          },
+                        ),
+                        FlatButton(
+                          child: Text(
+                            "confirmation".tr().toString(),
+                            style: TextStyle(
+                              color: buttonColor,
+                            ),
+                          ),
+                          onPressed: () {
+                            deleteUser(user);
+                            snapshot.data.remove(user);
+                            Navigator.of(context).pop(); // dismiss dialog
+                          },
+                        ),
+                      ],
+                    ),
+
+                  ],
+                ),
+              ),
             ),
           );
         });

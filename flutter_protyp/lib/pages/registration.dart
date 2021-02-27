@@ -257,20 +257,20 @@ class _RegistrationState extends State<Registration> {
                               //Button is enabled if regisButton is true
                               onPressed: regisButton
                                   ? () async => {
-                                        response = await http
-                                            .post(url + signupExtension,
-                                                headers: {
-                                                  "Content-Type":
-                                                      "application/json"
-                                                },
-                                                body: json.encode({
-                                                  "password": _password,
-                                                  "username": _username
-                                                }))
-                                            .timeout(const Duration(seconds: 3),
-                                                onTimeout: () {
-                                          return catchTimeout();
-                                        }),
+                                        // response = await http
+                                        //     .post(url + signupExtension,
+                                        //         headers: {
+                                        //           "Content-Type":
+                                        //               "application/json"
+                                        //         },
+                                        //         body: json.encode({
+                                        //           "password": _password,
+                                        //           "username": _username
+                                        //         }))
+                                        //     .timeout(const Duration(seconds: 3),
+                                        //         onTimeout: () {
+                                        //   return catchTimeout();
+                                        // }),
                                         _username = "",
                                         _password = "",
                                         _secPassword = "",
@@ -310,7 +310,7 @@ class _RegistrationState extends State<Registration> {
 
   //Function checks all conditions for activating the registration button
   void checkForRegistrationButton() {
-    if (_username.length > 1 &&
+    if (_username.length > 0 &&
         errorMessage1 == false &&
         errorMessage2 == false &&
         _password.length > 7 &&
@@ -338,11 +338,15 @@ class _RegistrationState extends State<Registration> {
           showDialog(
               context: context,
               builder: (context) => SimpleDialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18.0),
+                ),
                     title: SelectableText("confirmation".tr().toString()),
                     contentPadding: EdgeInsets.all(20.0),
                     children: [
                       Container(
-                        height: 70,
+                        height: 100,
+                        width: 300,
                         alignment: Alignment.center,
                         child: SelectableText(
                             "registrationSuccess".tr().toString()),
@@ -350,7 +354,7 @@ class _RegistrationState extends State<Registration> {
                       Container(
                         height: 70,
                         alignment: Alignment.center,
-                        child: RaisedButton(
+                        child: FlatButton(
                           onPressed: () {
                             Navigator.of(context).pop();
                             _forwarding();
@@ -370,7 +374,7 @@ class _RegistrationState extends State<Registration> {
         }
       });
     } on NoSuchMethodError {}
-  }
+   }
 
   void _forwarding() {
     Navigator.pushReplacementNamed(context, "/userManagement");

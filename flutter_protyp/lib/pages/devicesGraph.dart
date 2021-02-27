@@ -139,21 +139,21 @@ class _DevicesGraphState extends State<DevicesGraph> {
       if (!rooms.contains(element.room)) rooms.add(element.room);
     });
 
-    rooms.forEach((element) {
-      Node room = new Node(getNodeText(null, element));
-      room.name = element;
-      graph.addEdge(router, room, paint: Paint()..color = Colors.orange);
-      roomNodes.add(room);
-    });
-
-    devices.forEach((elementDevice) {
-      Node device = new Node(getNodeText(elementDevice));
-      roomNodes.forEach((elementRoom) {
-        if(elementRoom.name == elementDevice.room){
-          graph.addEdge(elementRoom, device, paint: Paint()..color = Colors.orange);
-        }
-      });
-    });
+    // rooms.forEach((element) {
+    //   Node room = new Node(getNodeText(null, element));
+    //   room.name = element;
+    //   graph.addEdge(router, room, paint: Paint()..color = Colors.orange);
+    //   roomNodes.add(room);
+    // });
+    //
+    // devices.forEach((elementDevice) {
+    //   Node device = new Node(getNodeText(elementDevice));
+    //   roomNodes.forEach((elementRoom) {
+    //     if(elementRoom.name == elementDevice.room){
+    //       graph.addEdge(elementRoom, device, paint: Paint()..color = Colors.orange);
+    //     }
+    //   });
+    // });
 
     builder = FruchtermanReingoldAlgorithm(iterations: 10000);
   }

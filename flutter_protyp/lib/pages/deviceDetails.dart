@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_protyp/data/device_mud/aclElement.dart';
 import 'package:flutter_protyp/data/device_mud/device.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
@@ -58,6 +59,15 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                 SelectableText(
                   widget.device.mud_data.systeminfo,
                   style: TextStyle(fontSize: 25),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                RaisedButton(
+                  onPressed: () {
+                    _resetDialog();
+                  },
+                  child: Text("reset".tr().toString()),
                 ),
                 SizedBox(
                   height: 20,
@@ -303,10 +313,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                       child: IconButton(
                         icon: Icon(Icons.delete),
                         onPressed: () {
-                          setState(() {
-                            widget.device.mud_data.acllist
-                                .remove(accessControlEntry);
-                          });
+                          _deleteDNSName(accessControlEntry);
                         },
                       ),
                     ),
@@ -315,6 +322,64 @@ class _DeviceDetailsState extends State<DeviceDetails> {
             .toList(),
       ),
     );
+  }
+
+  void _deleteDNSName(ACLElement accessControlEntry) {
+    showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18.0),
+            ),
+            title: SelectableText("attention".tr().toString()),
+            content: Container(
+              width: 300,
+              height: 175,
+              child: Column(
+                children: [
+                  SelectableText("deleteDNSNameDisclaimer".tr().toString()),
+                  SizedBox(
+                    height: 40,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Buttons to accept or dismiss the changes like described above
+                      FlatButton(
+                        child: Text(
+                          "cancel".tr().toString(),
+                          style: TextStyle(
+                            color: buttonColor,
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop(); // dismiss dialog
+                        },
+                      ),
+                      FlatButton(
+                        child: Text(
+                          "delete".tr().toString(),
+                          style: TextStyle(
+                            color: buttonColor,
+                          ),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            widget.device.mud_data.acllist
+                                .remove(accessControlEntry);
+                          });
+                          Navigator.of(context).pop(); // dismiss dialog
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 
   Visibility _expertModeText(BuildContext context) {
@@ -611,5 +676,59 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     ];
 
     return list;
+  }
+
+  void _resetDialog() {
+    showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18.0),
+            ),
+            title: SelectableText("attention".tr().toString()),
+            content: Container(
+              width: 300,
+              height: 175,
+              child: Column(
+                children: [
+                  SelectableText("resetDisclaimer".tr().toString()),
+                  SizedBox(
+                    height: 40,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Buttons to accept or dismiss the changes like described above
+                      FlatButton(
+                        child: Text(
+                          "cancel".tr().toString(),
+                          style: TextStyle(
+                            color: buttonColor,
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop(); // dismiss dialog
+                        },
+                      ),
+                      FlatButton(
+                        child: Text(
+                          "reset".tr().toString(),
+                          style: TextStyle(
+                            color: buttonColor,
+                          ),
+                        ),
+                        onPressed: () {
+                          //TODO call reset route
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 }
