@@ -133,7 +133,6 @@ class _SettingsState extends State<Settings> {
                             expertMode = s;
                             
                           });
-                          StateOfExpertMode = s;
                         },
                       )
                     ],
