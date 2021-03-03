@@ -11,10 +11,6 @@ import 'package:easy_localization/easy_localization.dart';
 /// The site for the states/settings of the entire software, such as language and mode.
 class Settings extends StatefulWidget {
 
-  //TODO: Must get the correct state by controller, hasnt to be false by default.
-  bool StateOfExpertMode = false;
-
-
   @override
   _SettingsState createState() => _SettingsState();
 }

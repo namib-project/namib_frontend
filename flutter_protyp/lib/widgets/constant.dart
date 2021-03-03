@@ -126,6 +126,9 @@ final List<String> allClipArts = [
   'resources/clipart/tv.svg'
 ];
 
-bool get getExpertMode{
-  return expertMode;
+class Constant{
+  bool get getExpertMode{
+    return expertMode;
+  }
 }
+
