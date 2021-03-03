@@ -10,6 +10,7 @@ import 'package:easy_localization/easy_localization.dart';
 /// /settings
 /// The site for the states/settings of the entire software, such as language and mode.
 class Settings extends StatefulWidget {
+
   @override
   _SettingsState createState() => _SettingsState();
 }
@@ -126,6 +127,7 @@ class _SettingsState extends State<Settings> {
                         onChanged: (bool s) {
                           setState(() {
                             expertMode = s;
+                            
                           });
                         },
                       )

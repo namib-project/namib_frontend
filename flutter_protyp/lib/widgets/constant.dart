@@ -125,3 +125,10 @@ final List<String> allClipArts = [
   'resources/clipart/thermometer.svg',
   'resources/clipart/tv.svg'
 ];
+
+class Constant{
+  bool get getExpertMode{
+    return expertMode;
+  }
+}
+
