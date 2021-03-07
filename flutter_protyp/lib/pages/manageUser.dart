@@ -59,13 +59,17 @@ class _ManageUserState extends State<ManageUser> {
                 Container(
                   height: 70,
                   alignment: Alignment.center,
-                  child: RaisedButton(
-                    onPressed: () {
-                      _changeUsernameDialog(context);
-                    },
-                    child: Text(
-                      "changeUsername".tr().toString(),
-                      style: TextStyle(fontSize: 20),
+                  child: ButtonTheme(
+                    minWidth: 200,
+                    height: 50,
+                    child: RaisedButton(
+                      onPressed: () {
+                        _changeUsernameDialog(context);
+                      },
+                      child: Text(
+                        "changeUsername".tr().toString(),
+                        style: TextStyle(fontSize: 20),
+                      ),
                     ),
                   ),
                 ),
@@ -74,13 +78,17 @@ class _ManageUserState extends State<ManageUser> {
                 Container(
                   height: 70,
                   alignment: Alignment.center,
-                  child: RaisedButton(
-                    onPressed: () {
-                      _changePasswordDialog(context);
-                    },
-                    child: Text(
-                      "changePassword".tr().toString(),
-                      style: TextStyle(fontSize: 20),
+                  child: ButtonTheme(
+                    minWidth: 150,
+                    height: 50,
+                    child: RaisedButton(
+                      onPressed: () {
+                        _changePasswordDialog(context);
+                      },
+                      child: Text(
+                        "changePassword".tr().toString(),
+                        style: TextStyle(fontSize: 20),
+                      ),
                     ),
                   ),
                 ),
@@ -113,22 +121,6 @@ class _ManageUserState extends State<ManageUser> {
                     },
                   ),
                 ),
-                Container(
-                  height: 70,
-                  alignment: Alignment.center,
-                  child: TextField(
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: "password".tr().toString(),
-                    ),
-                    onChanged: (String value) async {
-                      setState(() {
-                        _confirmPassword = value;
-                      });
-                    },
-                  ),
-                ),
 
                 // This container contains a button which sends a request for the new username
                 // of the user
@@ -138,35 +130,43 @@ class _ManageUserState extends State<ManageUser> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      RaisedButton(
-                        onPressed: () async {
-                          Navigator.of(context).pop();
-                          print(jwtToken);
-                          response = await http.post(url + nameExtension,
-                              headers: {
-                                "Content-Type": "application/json",
-                                "Authorization": "Bearer $jwtToken"
-                              },
-                              body: json.encode({'username': _newUsername}));
+                      ButtonTheme(
+                        minWidth: 100,
+                        height: 50,
+                        child: RaisedButton(
+                          onPressed: () async {
+                            Navigator.of(context).pop();
+                            print(jwtToken);
+                            response = await http.post(url + nameExtension,
+                                headers: {
+                                  "Content-Type": "application/json",
+                                  "Authorization": "Bearer $jwtToken"
+                                },
+                                body: json.encode({'username': _newUsername}));
 
-                          print(response.body);
-                          print(response.statusCode);
-                        },
-                        child: Text(
-                          "change".tr().toString(),
-                          style: TextStyle(
-                            fontSize: 20,
+                            print(response.body);
+                            print(response.statusCode);
+                          },
+                          child: Text(
+                            "change".tr().toString(),
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
                           ),
                         ),
                       ),
-                      RaisedButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text(
-                            "cancel".tr().toString(),
-                            style: TextStyle(fontSize: 20),
-                          )),
+                      ButtonTheme(
+                        minWidth: 130,
+                        height: 50,
+                        child: RaisedButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(
+                              "cancel".tr().toString(),
+                              style: TextStyle(fontSize: 20),
+                            )),
+                      ),
                     ],
                   ),
                 ),
@@ -228,35 +228,43 @@ class _ManageUserState extends State<ManageUser> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      RaisedButton(
-                        onPressed: () async {
-                          response = await http.post(url + passwordExtension,
-                              headers: {
-                                "Content-Type": "application/json",
-                                "Authorization": "Bearer $jwtToken"
-                              },
-                              body: json.encode({
-                                'old_password': _password,
-                                'new_password': _newPassword
-                              }));
+                      ButtonTheme(
+                        minWidth: 100,
+                        height: 50,
+                        child: RaisedButton(
+                          onPressed: () async {
+                            response = await http.post(url + passwordExtension,
+                                headers: {
+                                  "Content-Type": "application/json",
+                                  "Authorization": "Bearer $jwtToken"
+                                },
+                                body: json.encode({
+                                  'old_password': _password,
+                                  'new_password': _newPassword
+                                }));
 
-                          print(response.body);
-                          print(response.statusCode);
+                            print(response.body);
+                            print(response.statusCode);
 
-                          Navigator.of(context).pop();
-                        },
-                        child: Text(
-                          "change".tr().toString(),
-                          style: TextStyle(fontSize: 20),
+                            Navigator.of(context).pop();
+                          },
+                          child: Text(
+                            "change".tr().toString(),
+                            style: TextStyle(fontSize: 20),
+                          ),
                         ),
                       ),
-                      RaisedButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Text(
-                          "cancel".tr().toString(),
-                          style: TextStyle(fontSize: 20),
+                      ButtonTheme(
+                        minWidth: 130,
+                        height: 50,
+                        child: RaisedButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text(
+                            "cancel".tr().toString(),
+                            style: TextStyle(fontSize: 20),
+                          ),
                         ),
                       ),
                     ],
