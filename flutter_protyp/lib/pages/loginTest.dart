@@ -3,12 +3,14 @@ import 'package:flutter_protyp/data/device_mud/device.dart';
 import 'package:flutter_protyp/data/device_mud/mudData.dart';
 import 'package:flutter_protyp/pages/handlers/ThemeHandler.dart';
 import 'package:flutter_protyp/pages/themingService.dart';
+import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:universal_io/io.dart' as osDetect;
 import 'package:http/http.dart' as http;
 import 'package:easy_localization/easy_localization.dart';
 import 'dart:convert';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:collection/collection.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
@@ -311,14 +313,14 @@ class _LoginTestState extends State<LoginTest> {
                                 onPressed: () async => {
                                   setSystemPreferences(),
                                   print(brightness),
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ThemingService(
-                                        brightness: brightness,
-                                      ),
-                                    ),
-                                  ),
+                                  //  Navigator.push(
+                                  //    context,
+                                  //    MaterialPageRoute(
+                                  //      builder: (context) => ThemingService(
+                                  //        brightness: brightness,
+                                  //      ),
+                                  //    ),
+                                  //  ),
 
                                   {print(_username)},
                                   {print(_password)},
@@ -327,7 +329,8 @@ class _LoginTestState extends State<LoginTest> {
                                   response = await http
                                       .post(url + loginExtension,
                                           headers: {
-                                            "Content-Type": "application/json"
+                                            "Content-Type": "application/json",
+                                            'Charset': 'utf-8'
                                           },
                                           body: json.encode({
                                             'password': _password,
@@ -338,7 +341,10 @@ class _LoginTestState extends State<LoginTest> {
                                     return _handleTimeOut();
                                   }),
 
-                                  _checkResponse(response.statusCode)
+                                  _checkResponse(response.statusCode),
+                                  // decodeToken()
+
+                                  testPermissions()
                                 },
                                 child: Text(
                                   "Login",
@@ -424,7 +430,7 @@ class _LoginTestState extends State<LoginTest> {
 
   // Function getting the list of devices in network from controller
   Future _getDevices() async {
-    String urlDevices = 'http://172.21.112.1:8000/devices/';
+    String urlDevices = 'http://172.31.160.1:8000/devices/';
     var responseDevices;
     responseDevices = await http.get(urlDevices);
     var jsonDevices = jsonDecode(responseDevices) as List;
@@ -450,5 +456,51 @@ class _LoginTestState extends State<LoginTest> {
     var jsonMud = jsonDecode(mud);
     MUDData mudData = MUDData.fromJson(jsonMud);
     return mudData.acllist[0].ace[0].matches.dnsname;
+  }
+
+  // Funtion to get the permission from the JWT-Token
+  void decodeToken() {
+    String test = "\"";
+    String myJson;
+    Map clearJson;
+    String _token;
+    var parts = null;
+    var payload = null;
+    var normalized;
+    var resp;
+    var payloadMap;
+
+    _token = jwtToken;
+    //clearJson = jsonDecode(myJson);
+    //token = clearJson["token"];
+    parts = _token.split('.');
+    payload = parts[1];
+    normalized = base64Url.normalize(payload);
+    resp = utf8.decode(base64Url.decode(normalized));
+    //payloadMap = resp;
+
+    permissions = jsonDecode(resp)["permissions"];
+    // print(permissions);
+
+    // print(resp);
+  }
+
+
+  // Function for set the access permission for the application
+  Future testPermissions() async {
+    Function eq = const ListEquality().equals;
+
+    List<dynamic> user = ["read_permission"];
+    List<dynamic> admin = ["read_permission", "write_permission"];
+
+    if (eq(admin, permissions) == true) {
+      print("babo");
+      adminAccess = true;
+      userAccess = false;
+    } else if (eq(user, permissions) == true) {
+      print("lappen");
+      userAccess = true;
+      adminAccess = false;
+    }
   }
 }

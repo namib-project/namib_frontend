@@ -62,6 +62,8 @@ class _OwnUserState extends State<OwnUser> {
                 Container(
                   child: RaisedButton(
                     onPressed: () => {
+
+
                       myJson = jwtToken,
                       clearJson = jsonDecode(myJson),
                       token = clearJson["token"],
@@ -70,6 +72,8 @@ class _OwnUserState extends State<OwnUser> {
                       normalized = base64Url.normalize(payload),
                       resp = utf8.decode(base64Url.decode(normalized)),
                       payloadMap = json.decode(resp),
+
+
                       print(payloadMap["id"]),
                       print(payloadMap["username"]),
                       username = payloadMap["username"],

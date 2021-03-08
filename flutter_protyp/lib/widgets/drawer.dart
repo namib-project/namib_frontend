@@ -76,6 +76,12 @@ class _MainDrawerState extends State<MainDrawer> {
               onTap: () =>
                   {Navigator.pushReplacementNamed(context, "/chooseRoom")},
             ),
+            CustomListTile(
+              icon: Icons.feedback,
+              text: "OpenCoapClient",
+              onTap: () =>
+              {Navigator.pushReplacementNamed(context, "/ownUser")},
+            ),
           ],
         ),
       ),

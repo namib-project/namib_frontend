@@ -265,6 +265,7 @@ class _SettingsPopupState extends State<SettingsPopup> {
                     splashColor: buttonColor,
                     onTap: () {
                       Navigator.pushReplacementNamed(context, "/loginTest");
+                      print(permissions);
                       jwtToken = "";
                     },
                     child: Container(

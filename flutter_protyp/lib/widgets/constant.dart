@@ -26,8 +26,11 @@ bool darkMode = false;
 bool mobileDevice = false;
 String language = "en";
 String jwtToken = "";
-String url = "http://172.28.240.1:8000/";
-var permissions = ["read_permission", "write_permission"];
+String url = "http://192.168.240.1:8000/";
+List<dynamic> permissions = ["read_permission", "write_permission"];
+///Variables for permissions
+bool adminAccess = false;
+bool userAccess = false;
 
 List<String> allowedDNSRequests = [
   "www.example.net",
