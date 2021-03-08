@@ -1,15 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_protyp/pages/about.dart';
-import 'package:flutter_protyp/pages/deviceDetails.dart';
-import "package:flutter_protyp/pages/login.dart";
 import "package:flutter_protyp/pages/deviceOverview.dart";
-import "package:flutter_protyp/pages/createDevice.dart";
 import "package:flutter_protyp/pages/chooseRoom.dart";
 import "package:flutter_protyp/pages/newDevice.dart";
-import "package:flutter_protyp/pages/networkbehaviour.dart";
-import "package:flutter_protyp/pages/createMudProfile.dart";
-import 'package:flutter_protyp/pages/ownUser.dart';
 import 'package:flutter_protyp/pages/registration.dart';
 import 'package:flutter_protyp/pages/startService.dart';
 import 'package:flutter_protyp/pages/manageUser.dart';
@@ -18,8 +12,6 @@ import 'package:flutter_protyp/widgets/theme.dart';
 import 'package:provider/provider.dart';
 import "package:flutter_protyp/widgets/constant.dart";
 
-import "package:flutter_protyp/pages/languagetest.dart";
-import "package:flutter_protyp/pages/editDevice.dart";
 
 import "package:flutter_protyp/pages/loginTest.dart";
 import 'package:flutter_protyp/pages/registrationStart.dart';
@@ -67,11 +59,9 @@ class MaterialAppWithTheme extends StatelessWidget {
         theme: theme.getTheme(),
         initialRoute: "/startService",
         routes: {
-          "/login": (context) => Login(),
           "/startService": (context) => StartService(),
           "/loginTest": (context) => LoginTest(),
           "/deviceOverview": (context) => DeviceOverview(),
-          "/createDevice": (context) => CreateDevice(),
           "/registration": (context) => Registration(),
           "/manageUser": (context) => ManageUser(),
           "/registrationStart": (context) => RegistrationStart(),
@@ -79,8 +69,6 @@ class MaterialAppWithTheme extends StatelessWidget {
           "/userManagement": (context) => UserManagement(),
           "/chooseRoom": (context) => ChooseRoom(),
           "/newDevice": (context) => NewDevice(),
-          "/languagetest": (context) =>
-              LanguageTest(), // just for testing can be deleted
         });
   }
 }
