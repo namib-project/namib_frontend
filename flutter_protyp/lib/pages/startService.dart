@@ -25,21 +25,23 @@ class _StartServiceState extends State<StartService> {
 
   // This method handles the language of the operating system
   void setLanguage() {
-    Locale language;
+    Locale localeLanguage;
     setState(() {
-      language = systemLocale.first;
+      localeLanguage = systemLocale.first;
     });
 
-    if (language.toString() == "de_DE") {
+    if (localeLanguage.toString() == "de_DE") {
       setState(() {
         themeChangeHandler.setLanguage(0, context);
         selectionsLanguage = [true, false];
       });
+      language = "de";
     } else {
       setState(() {
         themeChangeHandler.setLanguage(1, context);
         selectionsLanguage = [false, true];
       });
+      language = "en";
     }
   }
 
@@ -66,8 +68,8 @@ class _StartServiceState extends State<StartService> {
   @override
   Widget build(BuildContext context) {
     setLanguage();
-    // FutureBuilder element, that will be build but context will be shown after get request above
-    // Here will be presentet the current controller version
+    // FutureBuilder widget, that will be build but context will be shown after get request above
+    // Here will be presented the current controller version
     return FutureBuilder<String>(
       future: setupData,
       builder: (context, snapshot) {

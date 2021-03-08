@@ -24,8 +24,9 @@ List<bool> selectionsLanguage = [true, false];
 bool expertMode = false;
 bool darkMode = false;
 bool mobileDevice = false;
+String language = "en";
 String jwtToken = "";
-String url = "http://172.30.96.1:8000/";
+String url = "http://172.28.240.1:8000/";
 var permissions = ["read_permission", "write_permission"];
 
 List<String> allowedDNSRequests = [

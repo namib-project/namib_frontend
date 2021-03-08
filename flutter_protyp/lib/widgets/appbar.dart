@@ -298,6 +298,7 @@ class _SettingsPopupState extends State<SettingsPopup> {
     setState(() {
       handler.changeExpertMode(value, context);
     });
+    handler.setExpertModeUserConfig(expertMode);
   }
 
   // This method activates the dark mode, if the devices is new, its default turned out
@@ -307,6 +308,7 @@ class _SettingsPopupState extends State<SettingsPopup> {
     setState(() {
       handler.changeDarkMode(context);
     });
+    handler.setDarkModeUserConfig(darkMode);
   }
 
   // This method activates the language the user selected, the default language
@@ -316,5 +318,6 @@ class _SettingsPopupState extends State<SettingsPopup> {
     setState(() {
       handler.setLanguage(index, context);
     });
+    handler.setLanguageUserConfig(language);
   }
 }

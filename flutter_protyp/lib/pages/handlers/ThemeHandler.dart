@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:flutter_protyp/widgets/theme.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 // Class for handling theme changes like language, theme color and expert mode
 
@@ -23,8 +25,10 @@ class ThemeChangeHandler {
     }
     if (selectionsLanguage[0]) {
       EasyLocalization.of(context).locale = Locale('de', 'DE');
+      language = "de";
     } else {
       EasyLocalization.of(context).locale = Locale('en', 'US');
+      language = "en";
     }
   }
 
@@ -62,5 +66,50 @@ class ThemeChangeHandler {
             accentColor: primaryColor,
             hintColor: Colors.grey,
           ));
+  }
+
+  // Function that posts the value of the dark mode variable to the key value store on controller
+  void setDarkModeUserConfig(bool value) async {
+    String urlDarkModeExtension = "users/configs/darkMode";
+    try {
+      await http.post(url + urlDarkModeExtension,
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $jwtToken"
+          },
+          body: jsonEncode({
+            "value": "$value",
+          }));
+    } on Exception {}
+  }
+
+  // Function that posts the value of the language variable to the key value store on controller
+  void setLanguageUserConfig(String isoCode) async {
+    String urlLanguageExtension = "users/configs/language";
+    try {
+      await http.post(url + urlLanguageExtension,
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $jwtToken"
+          },
+          body: jsonEncode({
+            "value": "$isoCode",
+          }));
+    } on Exception {}
+  }
+
+  // Function that posts the value of the expert mode variable to the key value store on controller
+  setExpertModeUserConfig(bool value) async {
+    String urlExpertModeExtension = "users/configs/expertMode";
+    try {
+      await http.post(url + urlExpertModeExtension,
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $jwtToken"
+          },
+          body: jsonEncode({
+            "value": "$value",
+          }));
+    } on Exception {}
   }
 }

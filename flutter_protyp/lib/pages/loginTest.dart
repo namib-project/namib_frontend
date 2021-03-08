@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_protyp/data/device_mud/device.dart';
 import 'package:flutter_protyp/data/device_mud/mudData.dart';
 import 'package:flutter_protyp/pages/handlers/ThemeHandler.dart';
+import 'package:flutter_protyp/pages/themingService.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:universal_io/io.dart' as osDetect;
 import 'package:http/http.dart' as http;
@@ -47,7 +48,7 @@ class _LoginTestState extends State<LoginTest> {
   bool loginButton = false;
 
   /// Var for saving the brightness state of the device
-  var brightness;
+  String brightness;
 
   String loginExtension = 'users/login';
 
@@ -66,24 +67,13 @@ class _LoginTestState extends State<LoginTest> {
     }
   }
 
-  ThemeChangeHandler themeChangeHandler = new ThemeChangeHandler();
-
-  // This method sets the brightness-theme for the app from the operating system
-  void setTheme() {
-    if (brightness.toString() != "Brightness.light") {
-      setState(() {
-        themeChangeHandler.changeDarkMode(context);
-      });
-    }
-  }
-
   @override
   void initState() {
     onlineOs();
     super.initState();
   }
 
-  // This mehtod sets the brightness for the hole app
+  // This method sets the brightness for the hole app
   void setSystemPreferences() {
     brightness = MediaQuery.of(context).platformBrightness.toString();
   }
@@ -320,10 +310,15 @@ class _LoginTestState extends State<LoginTest> {
                                 ),
                                 onPressed: () async => {
                                   setSystemPreferences(),
-                                  setTheme(),
                                   print(brightness),
-                                  Navigator.pushReplacementNamed(
-                                      context, "/deviceOverview"),
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ThemingService(
+                                        brightness: brightness,
+                                      ),
+                                    ),
+                                  ),
 
                                   {print(_username)},
                                   {print(_password)},
@@ -411,7 +406,14 @@ class _LoginTestState extends State<LoginTest> {
           print(jwtToken); //TODO richtige List übergeben
           errorMessage401 = false;
           errorMessage400 = false;
-          Navigator.pushReplacementNamed(context, "/deviceOverview");
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ThemingService(
+                brightness: brightness,
+              ),
+            ),
+          );
         } else {
           errorMessage401 = false;
           errorMessage400 = false;
