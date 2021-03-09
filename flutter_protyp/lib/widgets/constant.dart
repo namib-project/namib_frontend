@@ -26,8 +26,9 @@ bool darkMode = false;
 bool mobileDevice = false;
 String language = "en";
 String jwtToken = "";
-String url = "http://192.168.240.1:8000/";
+String url = "http://192.168.178.51:8000/";
 List<dynamic> permissions = ["read_permission", "write_permission"];
+
 ///Variables for permissions
 bool adminAccess = false;
 bool userAccess = false;
@@ -130,9 +131,8 @@ final List<String> allClipArts = [
   'resources/clipart/tv.svg'
 ];
 
-class Constant{
-  bool get getExpertMode{
+class Constant {
+  bool get getExpertMode {
     return expertMode;
   }
 }
-

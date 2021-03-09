@@ -4,6 +4,7 @@ import 'package:flutter_protyp/pages/about.dart';
 import "package:flutter_protyp/pages/deviceOverview.dart";
 import "package:flutter_protyp/pages/chooseRoom.dart";
 import "package:flutter_protyp/pages/newDevice.dart";
+import "package:flutter_protyp/pages/newDeviceOverview.dart";
 import 'package:flutter_protyp/pages/registration.dart';
 import 'package:flutter_protyp/pages/startService.dart';
 import 'package:flutter_protyp/pages/manageUser.dart';
@@ -11,7 +12,6 @@ import 'package:flutter_protyp/pages/userManagement.dart';
 import 'package:flutter_protyp/widgets/theme.dart';
 import 'package:provider/provider.dart';
 import "package:flutter_protyp/widgets/constant.dart";
-
 
 import "package:flutter_protyp/pages/loginTest.dart";
 import 'package:flutter_protyp/pages/registrationStart.dart';
@@ -69,6 +69,7 @@ class MaterialAppWithTheme extends StatelessWidget {
           "/userManagement": (context) => UserManagement(),
           "/chooseRoom": (context) => ChooseRoom(),
           "/newDevice": (context) => NewDevice(),
+          "/newDeviceOverview": (context) => NewDeviceOverview(),
         });
   }
 }

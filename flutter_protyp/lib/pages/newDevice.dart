@@ -312,6 +312,10 @@ class _NewDeviceState extends State<NewDevice> {
                                   fontSize: 18,
                                 ),
                               ),
+                              onPressed: () => {
+                                Navigator.pushReplacementNamed(
+                                    context, "/chooseRoom")
+                              },
                             ),
                           ],
                         ),

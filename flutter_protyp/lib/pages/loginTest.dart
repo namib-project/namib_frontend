@@ -313,14 +313,16 @@ class _LoginTestState extends State<LoginTest> {
                                 onPressed: () async => {
                                   setSystemPreferences(),
                                   print(brightness),
-                                  //  Navigator.push(
-                                  //    context,
-                                  //    MaterialPageRoute(
-                                  //      builder: (context) => ThemingService(
-                                  //        brightness: brightness,
-                                  //      ),
-                                  //    ),
-                                  //  ),
+
+                                  /// just for testing
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ThemingService(
+                                        brightness: brightness,
+                                      ),
+                                    ),
+                                  ),
 
                                   {print(_username)},
                                   {print(_password)},
@@ -461,7 +463,7 @@ class _LoginTestState extends State<LoginTest> {
   // Funtion to get the permission from the JWT-Token
   void decodeToken() {
 //    String myJson;
-  //  Map clearJson;
+    //  Map clearJson;
     String _token;
     //var payloadMap;
 
@@ -479,7 +481,6 @@ class _LoginTestState extends State<LoginTest> {
 
     // print(resp);
   }
-
 
   // Function for set the access permission for the application
   Future testPermissions() async {
