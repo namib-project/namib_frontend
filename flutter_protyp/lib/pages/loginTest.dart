@@ -460,23 +460,18 @@ class _LoginTestState extends State<LoginTest> {
 
   // Funtion to get the permission from the JWT-Token
   void decodeToken() {
-    String test = "\"";
-    String myJson;
-    Map clearJson;
+//    String myJson;
+  //  Map clearJson;
     String _token;
-    var parts = null;
-    var payload = null;
-    var normalized;
-    var resp;
-    var payloadMap;
+    //var payloadMap;
 
     _token = jwtToken;
     //clearJson = jsonDecode(myJson);
     //token = clearJson["token"];
-    parts = _token.split('.');
-    payload = parts[1];
-    normalized = base64Url.normalize(payload);
-    resp = utf8.decode(base64Url.decode(normalized));
+    var parts = _token.split('.');
+    var payload = parts[1];
+    var normalized = base64Url.normalize(payload);
+    var resp = utf8.decode(base64Url.decode(normalized));
     //payloadMap = resp;
 
     permissions = jsonDecode(resp)["permissions"];
