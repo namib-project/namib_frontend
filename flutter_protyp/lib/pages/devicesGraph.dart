@@ -72,7 +72,7 @@ class _DevicesGraphState extends State<DevicesGraph> {
     var responseDevices;
     //responseDevices = await http.get(urlDevices);
     String test =
-        '[{"hostname": "string","id": 0,"ip_addr": "string","last_interaction": "string","mac_addr": "string","mud_data": {"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","direction_initiated": "FromDevice","dnsname": "ntp.org"},"name": "string"},{"action": "Accept","matches": {"address_mask": "string","direction_initiated": "FromDevice","dnsname": "weather.com"},"name": "string"},{"action": "Accept","matches": {"address_mask": "string","direction_initiated": "FromDevice", "dnsname": "xyz.media"},"name": "string"},{"action": "Accept","matches": {"address_mask": "string","direction_initiated": "FromDevice","dnsname": "storage.de"},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-01-23T10:35:17.609Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "string","url": "string"},"mud_url": "string","vendor_class": "string"}, {"hostname": "string","id": 0,"ip_addr": "string","last_interaction": "string","mac_addr": "string","mud_data": {"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","direction_initiated": "FromDevice","dnsname": "string"},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-01-17T21:05:00.692Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "string","url": "string"},"mud_url": "string","vendor_class": "string"}]';
+        '[{"hostname": "string","id": 0,"ip_addr": "string","last_interaction": "2021-02-12T07:41:54.362Z","mac_addr": "string","mud_data": {"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","destination_port": {"range": [0],"single": 0},"direction_initiated": "FromDevice","dnsname": "string","protocol": {"name": "TCP","num": 0},"source_port": {"range": [0],"single": 0}},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-02-12T07:41:54.362Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "string","url": "string"},"mud_url": "string","vendor_class": "string","room":"Bath room"}, {"hostname": "string","id": 0,"ip_addr": "string","last_interaction": "2021-02-12T07:41:54.362Z","mac_addr": "string","mud_data": {"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","destination_port": {"range": [0],"single": 0},"direction_initiated": "FromDevice","dnsname": "string","protocol": {"name": "TCP","num": 0},"source_port": {"range": [0],"single": 0}},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-02-12T07:41:54.362Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "string","url": "string"},"mud_url": "string","vendor_class": "string", "room":"Living Room"}]';
     var jsonDevices = jsonDecode(test) as List;
     List<Device> devicesTest =
         jsonDevices.map((tagJson) => Device.fromJson(tagJson)).toList();
@@ -85,10 +85,33 @@ class _DevicesGraphState extends State<DevicesGraph> {
     //TODO bei release auf http request umstellen
   }
 
-
-  Widget getNodeText([Device device, String name]) {
+  Widget getNodeText(int i, [Device device, String name]) {
     if (device != null) {
       return GestureDetector(
+        onLongPressStart: (details) {
+          var x = details.globalPosition.dx;
+          var y = details.globalPosition.dy;
+          Offset(x, y);
+        },
+        onPanStart: (details) {
+          var x = details.globalPosition.dx;
+          var y = details.globalPosition.dy;
+          setState(() {
+            builder.setFocusedNode(graph.getNodeAtPosition(i - 1));
+            graph.getNodeAtPosition(i - 1).position = Offset(x, y);
+          });
+        },
+        onPanUpdate: (details) {
+          var x = details.globalPosition.dx;
+          var y = details.globalPosition.dy;
+          setState(() {
+            builder.setFocusedNode(graph.getNodeAtPosition(i - 1));
+            graph.getNodeAtPosition(i - 1).position = Offset(x, y);
+          });
+        },
+        onPanEnd: (details) {
+          builder.setFocusedNode(null);
+        },
         child: Container(
             padding: EdgeInsets.all(16),
             decoration: BoxDecoration(
@@ -98,7 +121,8 @@ class _DevicesGraphState extends State<DevicesGraph> {
               ],
             ),
             child: WebsafeSvg.asset(allClipArts[3],
-                semanticsLabel: 'phone', height: 25, width: 25)), //
+                semanticsLabel: 'phone', height: 25, width: 25)),
+        //
         onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
@@ -108,6 +132,30 @@ class _DevicesGraphState extends State<DevicesGraph> {
       );
     } else {
       return GestureDetector(
+          onLongPressStart: (details) {
+            var x = details.globalPosition.dx;
+            var y = details.globalPosition.dy;
+            Offset(x, y);
+          },
+          onPanStart: (details) {
+            var x = details.globalPosition.dx;
+            var y = details.globalPosition.dy;
+            setState(() {
+              builder.setFocusedNode(graph.getNodeAtPosition(i - 1));
+              graph.getNodeAtPosition(i - 1).position = Offset(x, y);
+            });
+          },
+          onPanUpdate: (details) {
+            var x = details.globalPosition.dx;
+            var y = details.globalPosition.dy;
+            setState(() {
+              builder.setFocusedNode(graph.getNodeAtPosition(i - 1));
+              graph.getNodeAtPosition(i - 1).position = Offset(x, y);
+            });
+          },
+          onPanEnd: (details) {
+            builder.setFocusedNode(null);
+          },
           child: Container(
               padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
@@ -124,36 +172,65 @@ class _DevicesGraphState extends State<DevicesGraph> {
   final Graph graph = Graph();
   Layout builder;
 
-
-
   @override
-  void initStat() {
-    List<Device> devices = getDevices() as List<Device>;
+  void initState() {
+    super.initState();
+    int i = 1;
+    final router = Node(getNodeText(i, null, "Router"));
+    final test = Node(getNodeText(2, null, "Test"));
+    final deviceTest = Node(getNodeText(3, widget.devices[0]));
+    i++;
+    graph.addEdge(router, test);
+    graph.addEdge(test, deviceTest);
+   //List<String> rooms = new List();
+   //List<Node> roomNodes = new List();
 
-    final router = Node(getNodeText(null, "Router"));
+   //widget.devices.forEach((element) {
+   //  if (!rooms.contains(element.room)) rooms.add(element.room);
+   //});
 
-    List<String> rooms = new List();
-    List<Node> roomNodes = new List();
+   //rooms.forEach((element) {
+   //  final Node room = new Node(getNodeText(i, null, element));
+   //  i++;
+   //  room.name = element;
+   //  graph.addEdge(router, room, paint: Paint()..color = Colors.orange);
+   //  roomNodes.add(room);
+   //});
+   //widget.devices.forEach((elementDevice) {
+   //  Node device = new Node(getNodeText(i, elementDevice));
+   //  i++;
+   //  roomNodes.forEach((elementRoom) {
+   //    if (elementRoom.name == elementDevice.room) {
+   //      graph.addEdge(elementRoom, device,
+   //          paint: Paint()..color = Colors.orange);
+   //    }
+   //  });
+   //});
 
-    devices.forEach((element) {
-      if (!rooms.contains(element.room)) rooms.add(element.room);
-    });
-
-    // rooms.forEach((element) {
-    //   Node room = new Node(getNodeText(null, element));
-    //   room.name = element;
-    //   graph.addEdge(router, room, paint: Paint()..color = Colors.orange);
-    //   roomNodes.add(room);
-    // });
-    //
-    // devices.forEach((elementDevice) {
-    //   Node device = new Node(getNodeText(elementDevice));
-    //   roomNodes.forEach((elementRoom) {
-    //     if(elementRoom.name == elementDevice.room){
-    //       graph.addEdge(elementRoom, device, paint: Paint()..color = Colors.orange);
-    //     }
-    //   });
-    // });
+    //int _deviceCount = widget.devices.length;
+    //for(int j = 0; j < _deviceCount; j++){
+    //  if(!rooms.contains(widget.devices[j])){
+    //    rooms.add(widget.devices[j].room);
+    //  }
+    //}
+    //int _roomCount = rooms.length;
+    //for(int j = 0; j < _roomCount; j++){
+    //  Node room = new Node(getNodeText(i, null, rooms[j]));
+    //  i++;
+    //  room.name = rooms[j];
+    //  graph.addEdge(router, room);
+    //  roomNodes.add(room);
+    //}
+    //int _roomNodes = roomNodes.length;
+    //for(int j = 0; j < _deviceCount; j++){
+    //  Node device = new Node(getNodeText(i, widget.devices[j]));
+    //  i++;
+    //  for(int k = 0; k < _roomNodes; k++){
+    //    if (roomNodes[k].name == widget.devices[j].room){
+    //      graph.addEdge(roomNodes[k], device);
+    //    }
+    //  }
+    //}
 
     builder = FruchtermanReingoldAlgorithm(iterations: 10000);
   }
