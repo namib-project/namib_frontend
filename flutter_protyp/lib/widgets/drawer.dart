@@ -48,6 +48,13 @@ class _MainDrawerState extends State<MainDrawer> {
                   {Navigator.pushReplacementNamed(context, "/deviceOverview")},
             ),
             CustomListTile(
+              icon: Icons.device_hub, // or maybe: ad_units
+              text: 'Unverwaltete Geräte'.tr().toString(),
+              onTap: () => {
+                Navigator.pushReplacementNamed(context, "/newDeviceOverview")
+              },
+            ),
+            CustomListTile(
               icon: Icons.person_add,
               text: "signup".tr().toString(),
               onTap: () =>
@@ -75,6 +82,12 @@ class _MainDrawerState extends State<MainDrawer> {
               text: "ChooseRoom",
               onTap: () =>
                   {Navigator.pushReplacementNamed(context, "/chooseRoom")},
+            ),
+            CustomListTile(
+              icon: Icons.feedback,
+              text: "OpenCoapClient",
+              onTap: () =>
+                  {Navigator.pushReplacementNamed(context, "/ownUser")},
             ),
           ],
         ),

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_protyp/data/device_mud/device.dart';
 import 'package:flutter_protyp/dataForPresentation/device.dart';
 import 'package:flutter_protyp/pages/devicesTable.dart';
+import 'package:flutter_protyp/pages/newDevicesTable.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import "package:flutter_protyp/widgets/drawer.dart";
@@ -15,24 +16,17 @@ import 'package:http/http.dart' as http;
 import 'devicesGraph.dart';
 
 /// returns deviceOverview site
-class DeviceOverview extends StatefulWidget {
-  _DeviceOverviewState createState() => _DeviceOverviewState();
+class NewDeviceOverview extends StatefulWidget {
+  _NewDeviceOverviewState createState() => _NewDeviceOverviewState();
 }
 
-class _DeviceOverviewState extends State<DeviceOverview> {
-  bool view = true;
+class _NewDeviceOverviewState extends State<NewDeviceOverview> {
+  //bool view = true;
 
   var response;
 
   /// A List to safe all devices
   Future<List<Device>> devices;
-
-  void changeView() {
-    setState(() {
-      view = !view;
-      pressed = true;
-    });
-  }
 
   bool pressed = false;
 
@@ -44,61 +38,21 @@ class _DeviceOverviewState extends State<DeviceOverview> {
 
   @override
   Widget build(BuildContext context) {
-    // Query if device mobile, if not, the graph view will be shown
-    if (!pressed) {
-      if (!mobileDevice) {
-        view = true;
-      } else {
-        view = false;
-      }
-      pressed = false;
-    }
     return Scaffold(
         appBar: MainAppbar(),
         drawer: MainDrawer(),
         body: Center(
             child: Column(children: [
-          // Button to change view between table and graph view
-          FlatButton(
-            onPressed: () {
-              changeView();
-            },
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
-            ),
-            child: Container(
-              width: 200,
-              height: 60,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Icon(Icons.visibility),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Text("changeView".tr().toString())
-                ],
-              ),
-            ),
-          ),
-
           // This future builder element put in the different devices after these will be loaded
           // The future builder element a delayed sending of context
           FutureBuilder<List<Device>>(
             future: devices,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                if (view) {
-                  return Expanded(
-                      child: DevicesGraph(
-                    devices: snapshot.data,
-                  ));
-                } else {
-                  return Expanded(
-                      child: DevicesTable(
-                    devices: snapshot.data,
-                  ));
-                }
+                return Expanded(
+                    child: NewDevicesTable(
+                  devices: snapshot.data,
+                ));
               } else if (snapshot.hasError) {
                 // If the process failed this message returns
                 print(snapshot.error);

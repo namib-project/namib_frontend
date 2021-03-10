@@ -389,6 +389,10 @@ class _ChooseRoomState extends State<ChooseRoom> {
                                   fontSize: 18,
                                 ),
                               ),
+                              onPressed: () => {
+                                Navigator.pushReplacementNamed(
+                                    context, "/deviceOverview")
+                              },
                             ),
                           ],
                         ),

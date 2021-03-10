@@ -7,8 +7,8 @@ import 'package:flutter_protyp/data/device_mud/device.dart';
 import 'package:flutter_protyp/pages/deviceDetails.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 
-class TableTest extends StatefulWidget {
-  const TableTest({
+class DevicesTable extends StatefulWidget {
+  const DevicesTable({
     Key key,
     @required this.devices,
   }) : super(key: key);
@@ -16,11 +16,11 @@ class TableTest extends StatefulWidget {
   /// List which stores all given devices
   final List<Device> devices;
 
-  _TableTestState createState() => _TableTestState();
+  _DevicesTableState createState() => _DevicesTableState();
 }
 
 //Class for user registration, will only be used at the first usage
-class _TableTestState extends State<TableTest> {
+class _DevicesTableState extends State<DevicesTable> {
   bool sortFirstRow = false;
 
   Widget build(BuildContext context) {
