@@ -112,7 +112,7 @@ class _DevicesTableState extends State<DevicesTable> {
                   onPressed: () {
                     //Navigator.pushNamed(
                     //    context, "/deviceDetails");
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (context) => DeviceDetails(

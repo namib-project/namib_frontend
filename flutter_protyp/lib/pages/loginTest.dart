@@ -315,7 +315,7 @@ class _LoginTestState extends State<LoginTest> {
                                   print(brightness),
 
                                   /// just for testing
-                                  Navigator.push(
+                                  Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => ThemingService(
@@ -414,7 +414,7 @@ class _LoginTestState extends State<LoginTest> {
           print(jwtToken); //TODO richtige List übergeben
           errorMessage401 = false;
           errorMessage400 = false;
-          Navigator.push(
+          Navigator.pushReplacement(
             context,
             MaterialPageRoute(
               builder: (context) => ThemingService(
