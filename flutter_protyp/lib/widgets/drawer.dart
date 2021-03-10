@@ -71,18 +71,18 @@ class _MainDrawerState extends State<MainDrawer> {
               text: "About",
               onTap: () => {Navigator.pushReplacementNamed(context, "/about")},
             ),
-            CustomListTile(
-              icon: Icons.feedback,
-              text: "NewDevice",
-              onTap: () =>
-                  {Navigator.pushReplacementNamed(context, "/newDevice")},
-            ),
-            CustomListTile(
-              icon: Icons.feedback,
-              text: "ChooseRoom",
-              onTap: () =>
-                  {Navigator.pushReplacementNamed(context, "/chooseRoom")},
-            ),
+            //CustomListTile(
+            //  icon: Icons.feedback,
+            //  text: "NewDevice",
+            //  onTap: () =>
+            //      {Navigator.pushReplacementNamed(context, "/newDevice")},
+            //),
+            //CustomListTile(
+            //  icon: Icons.feedback,
+            //  text: "ChooseRoom",
+            //  onTap: () =>
+            //      {Navigator.pushReplacementNamed(context, "/chooseRoom")},
+            //),
             CustomListTile(
               icon: Icons.feedback,
               text: "OpenCoapClient",

@@ -84,7 +84,7 @@ class _UserManagementState extends State<UserManagement> {
                 return DataTable(
                   columns: [
                     DataColumn(
-                      label: SelectableText("username".tr().toString()),
+                      label: SelectableText("name".tr().toString()),
                     ),
                     DataColumn(
                       label: SelectableText("edit".tr().toString()),
@@ -186,7 +186,6 @@ class _UserManagementState extends State<UserManagement> {
                         ),
                       ],
                     ),
-
                   ],
                 ),
               ),

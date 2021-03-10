@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_protyp/pages/chooseRoom.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import "package:flutter_protyp/widgets/drawer.dart";
 import 'package:flutter_protyp/widgets/constant.dart';
@@ -18,8 +19,17 @@ class _NewDeviceState extends State<NewDevice> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MainAppbar(),
-      drawer: MainDrawer(),
+      appBar: AppBar(
+        title: SelectableText("Details"),
+        actions: <Widget>[
+          Padding(
+            padding: mobileDevice
+                ? EdgeInsets.fromLTRB(12, 5, 12, 12)
+                : EdgeInsets.fromLTRB(0, 5, 12, 12),
+            child: SettingsPopup(),
+          ),
+        ],
+      ),
       body: Center(
         child: Container(
           height: double.infinity,
@@ -286,7 +296,7 @@ class _NewDeviceState extends State<NewDevice> {
                           cursorColor: Colors.grey,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(),
-                              labelText: "Raumname"),
+                              labelText: "Gerätename"),
                         ),
                       ),
                       Container(
@@ -303,6 +313,10 @@ class _NewDeviceState extends State<NewDevice> {
                                   fontSize: 18,
                                 ),
                               ),
+                              onPressed: () => {
+                                Navigator.pushReplacementNamed(
+                                    context, "/deviceOverview")
+                              },
                             ),
                             FlatButton(
                               child: Text(
@@ -313,8 +327,12 @@ class _NewDeviceState extends State<NewDevice> {
                                 ),
                               ),
                               onPressed: () => {
-                                Navigator.pushReplacementNamed(
-                                    context, "/chooseRoom")
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ChooseRoom(),
+                                  ),
+                                )
                               },
                             ),
                           ],

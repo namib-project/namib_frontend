@@ -74,6 +74,7 @@
   "explanationDNSNames": "In dieser Liste sind alle Dienste aufgeführt, auf die Ihr Gerät zugriff hat.",
   "attention": "Achtung!",
   "reset": "Zurücksetzen",
+  "name": "Name",
   "resetDisclaimer": "Wenn Sie den Zustand Ihres Gerätes zurücksetzen, werden alle Einstellungen die Sie vorgenommen haben rückgängig gemacht.",
   "deleteDNSNameDisclaimer": "Sind Sie sich sicher das Sie diesen Eintrag löschen wollen? Ihr Gerät kann dann nicht mehr auf den Dienst der Website zugreifen.",
   "deleteUserDisclaimer": "Sind Sie sicher das Sie diesen Benutzer löschen wollen? Dieser Vorgang kann nicht Rückgängig gemacht werden."

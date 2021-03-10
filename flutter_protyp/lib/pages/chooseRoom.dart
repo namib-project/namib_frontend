@@ -137,8 +137,17 @@ class _ChooseRoomState extends State<ChooseRoom> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MainAppbar(),
-      drawer: MainDrawer(),
+      appBar: AppBar(
+        title: SelectableText("Details"),
+        actions: <Widget>[
+          Padding(
+            padding: mobileDevice
+                ? EdgeInsets.fromLTRB(12, 5, 12, 12)
+                : EdgeInsets.fromLTRB(0, 5, 12, 12),
+            child: SettingsPopup(),
+          ),
+        ],
+      ),
       body: Center(
         child: Container(
           height: double.infinity,
@@ -380,6 +389,10 @@ class _ChooseRoomState extends State<ChooseRoom> {
                                   fontSize: 18,
                                 ),
                               ),
+                              onPressed: () => {
+                                Navigator.pushReplacementNamed(
+                                    context, "/deviceOverview")
+                              },
                             ),
                             FlatButton(
                               child: Text(

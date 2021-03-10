@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_protyp/data/device_mud/device.dart';
-import 'package:flutter_protyp/pages/deviceDetails.dart';
+import 'package:flutter_protyp/pages/newDevice.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 
 class NewDevicesTable extends StatefulWidget {
@@ -95,6 +95,10 @@ class _NewDevicesTableState extends State<NewDevicesTable> {
                                 fontSize: 18,
                               ),
                             ),
+                            onPressed: () => {
+                              Navigator.pushReplacementNamed(
+                                  context, "/deviceOverview")
+                            },
                           ),
                           FlatButton(
                             child: Text(
@@ -105,8 +109,12 @@ class _NewDevicesTableState extends State<NewDevicesTable> {
                               ),
                             ),
                             onPressed: () => {
-                              Navigator.pushReplacementNamed(
-                                  context, "/newDevice")
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => NewDevice(),
+                                ),
+                              )
                             },
                           ),
                         ],
