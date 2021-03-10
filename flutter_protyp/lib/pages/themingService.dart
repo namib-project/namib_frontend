@@ -60,33 +60,32 @@ class _ThemingServiceState extends State<ThemingService> {
 
   // Function try to fetch data for setting dark mode from controller
   Future<bool> _getDarkModeUserConfig() async {
-    String urlExtension = "users/configs/darkMode";
-
-    try {
-      var response = await http.get(url + urlExtension, headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer $jwtToken"
-      });
-
-      // If request is successful theme gets alter if necessary, if request is
-      // not successful setTheme() set theme color like OS properties
-      if (response.statusCode == 200) {
-        if (jsonDecode(response.body)["value"] == "true") {
-          darkMode = false;
-          themeChangeHandler.changeDarkMode(context);
-        }
-      } else {
-        setTheme();
-      }
-    } on Exception {
-      setTheme();
-    }
+    // String urlExtension = "users/configs/darkMode";
+    //
+    // try {
+    //   var response = await http.get(url + urlExtension, headers: {
+    //     "Content-Type": "application/json",
+    //     "Authorization": "Bearer $jwtToken"
+    //   });
+    //
+    //   // If request is successful theme gets alter if necessary, if request is
+    //   // not successful setTheme() set theme color like OS properties
+    //   if (response.statusCode == 200) {
+    //     if (jsonDecode(response.body)["value"] == "true") {
+    //       darkMode = false;
+    //       themeChangeHandler.changeDarkMode(context);
+    //     }
+    //   } else {
+    //     setTheme();
+    //   }
+    // } on Exception {
+    //   setTheme();
+    // }
     return darkMode;
   }
 
   // This method sets the brightness-theme for the app from properties of the operating system
   void setTheme() {
-    print(widget.brightness.toString());
     if (widget.brightness.toString() != "Brightness.light") {
       setState(() {
         themeChangeHandler.changeDarkMode(context);
@@ -96,52 +95,54 @@ class _ThemingServiceState extends State<ThemingService> {
 
   // Function try to fetch data for setting the language from controller
   Future<String> _getLanguageUsersConfig() async {
-    String urlExtension = "users/configs/language";
-    try {
-      var response = await http.get(url + urlExtension, headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer $jwtToken"
-      });
-
-      // If request is successful language gets alter if necessary, if request is
-      // not successful nothing happens because app language is already like OS language
-      if (response.statusCode == 200) {
-        if (jsonDecode(response.body)["value"] != language &&
-            language == "en") {
-          themeChangeHandler.setLanguage(1, context);
-        } else if (jsonDecode(response.body)["value"] != language &&
-            language == "de") {
-          themeChangeHandler.setLanguage(0, context);
-        }
-        return response.body;
-      } else {
-        return language;
-      }
-    } on Exception {
-      return language;
-    }
+    // String urlExtension = "users/configs/language";
+    // try {
+    //   var response = await http.get(url + urlExtension, headers: {
+    //     "Content-Type": "application/json",
+    //     "Authorization": "Bearer $jwtToken"
+    //   });
+    //
+    //   // If request is successful language gets alter if necessary, if request is
+    //   // not successful nothing happens because app language is already like OS language
+    //   if (response.statusCode == 200) {
+    //     if (jsonDecode(response.body)["value"] != language &&
+    //         language == "en") {
+    //       themeChangeHandler.setLanguage(1, context);
+    //     } else if (jsonDecode(response.body)["value"] != language &&
+    //         language == "de") {
+    //       themeChangeHandler.setLanguage(0, context);
+    //     }
+    //     return response.body;
+    //   } else {
+    //     return language;
+    //   }
+    // } on Exception {
+    //   return language;
+    // }
+    return language;
   }
 
   // Function try to fetch data for setting the expert mode from controller
   Future<bool> _getExpertModeUsersConfig() async {
-    String urlExtension = "users/config/expertMode";
-    try {
-      // If request is successful expert mode gets alter if necessary, if request is
-      // not successful nothing happens because expert mode is off by default
-      var response = await http.get(url + urlExtension, headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer $jwtToken"
-      });
-      if (response.statusCode == 200) {
-        if (jsonDecode(response.body)["value"] == "true") {
-          themeChangeHandler.changeExpertMode(true, context);
-        }
-        return true;
-      } else {
-        return expertMode;
-      }
-    } on Exception {
-      return expertMode;
-    }
+    // String urlExtension = "users/config/expertMode";
+    // try {
+    //   // If request is successful expert mode gets alter if necessary, if request is
+    //   // not successful nothing happens because expert mode is off by default
+    //   var response = await http.get(url + urlExtension, headers: {
+    //     "Content-Type": "application/json",
+    //     "Authorization": "Bearer $jwtToken"
+    //   });
+    //   if (response.statusCode == 200) {
+    //     if (jsonDecode(response.body)["value"] == "true") {
+    //       themeChangeHandler.changeExpertMode(true, context);
+    //     }
+    //     return true;
+    //   } else {
+    //     return expertMode;
+    //   }
+    // } on Exception {
+    //   return expertMode;
+    // }
+    return expertMode;
   }
 }
