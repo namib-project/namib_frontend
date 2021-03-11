@@ -85,7 +85,7 @@ class _DevicesGraphState extends State<DevicesGraph> {
     //TODO bei release auf http request umstellen
   }
 
-  Widget getNodeText(int i, [Device device, String name]) {
+  Widget getNodeText(int i, [Device device, String name, int j]) {
     if (device != null) {
       return GestureDetector(
         onLongPressStart: (details) {
@@ -130,7 +130,46 @@ class _DevicesGraphState extends State<DevicesGraph> {
           ),
         ), //("Node $i")),
       );
-    } else {
+    } else if(j == 13){
+      return GestureDetector(
+        onLongPressStart: (details) {
+          var x = details.globalPosition.dx;
+          var y = details.globalPosition.dy;
+          Offset(x, y);
+        },
+        onPanStart: (details) {
+          var x = details.globalPosition.dx;
+          var y = details.globalPosition.dy;
+          setState(() {
+            builder.setFocusedNode(graph.getNodeAtPosition(i - 1));
+            graph.getNodeAtPosition(i - 1).position = Offset(x, y);
+          });
+        },
+        onPanUpdate: (details) {
+          var x = details.globalPosition.dx;
+          var y = details.globalPosition.dy;
+          setState(() {
+            builder.setFocusedNode(graph.getNodeAtPosition(i - 1));
+            graph.getNodeAtPosition(i - 1).position = Offset(x, y);
+          });
+        },
+        onPanEnd: (details) {
+          builder.setFocusedNode(null);
+        },
+        child: Container(
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(48),
+              boxShadow: [
+                BoxShadow(color: Colors.orange, spreadRadius: 1),
+              ],
+            ),
+            child: WebsafeSvg.asset(allClipArts[j],
+                semanticsLabel: 'phone', height: 25, width: 25)),
+        //
+      );
+    }
+    else {
       return GestureDetector(
           onLongPressStart: (details) {
             var x = details.globalPosition.dx;
@@ -159,9 +198,9 @@ class _DevicesGraphState extends State<DevicesGraph> {
           child: Container(
               padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4),
+                borderRadius: BorderRadius.circular(48),
                 boxShadow: [
-                  BoxShadow(color: Colors.blue[100], spreadRadius: 1),
+                  BoxShadow(color: Colors.orange, spreadRadius: 1),
                 ],
               ),
               child: Text(name)) //("Node $i")),
@@ -176,12 +215,18 @@ class _DevicesGraphState extends State<DevicesGraph> {
   void initState() {
     super.initState();
     int i = 1;
-    final router = Node(getNodeText(i, null, "Router"));
-    final test = Node(getNodeText(2, null, "Test"));
+    final router = Node(getNodeText(i, null, "Router", 13));
+    final test = Node(getNodeText(2, null, "Beispiel Raum"));
     final deviceTest = Node(getNodeText(3, widget.devices[0]));
+    final deviceTest2 = Node(getNodeText(4, widget.devices[1]));
+    final exampleRoom = Node(getNodeText(5, null, "Küche"));
+    final exampleRoom2 = Node(getNodeText(6, null, "Badezimmer"));
     i++;
-    graph.addEdge(router, test);
-    graph.addEdge(test, deviceTest);
+    graph.addEdge(router, test, paint: Paint()..color = Colors.black);
+    graph.addEdge(test, deviceTest, paint: Paint()..color = Colors.black);
+    graph.addEdge(test, deviceTest2, paint: Paint()..color = Colors.black);
+    graph.addEdge(router, exampleRoom, paint: Paint()..color = Colors.black);
+    graph.addEdge(router, exampleRoom2, paint: Paint()..color = Colors.black);
    //List<String> rooms = new List();
    //List<Node> roomNodes = new List();
 
