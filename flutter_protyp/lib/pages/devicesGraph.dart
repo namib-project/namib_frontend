@@ -159,7 +159,7 @@ class _DevicesGraphState extends State<DevicesGraph> {
         child: Container(
             padding: EdgeInsets.all(16),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(48),
+              borderRadius: BorderRadius.circular(4),
               boxShadow: [
                 BoxShadow(color: Colors.orange, spreadRadius: 1),
               ],
@@ -198,7 +198,7 @@ class _DevicesGraphState extends State<DevicesGraph> {
           child: Container(
               padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(48),
+                borderRadius: BorderRadius.circular(4),
                 boxShadow: [
                   BoxShadow(color: Colors.orange, spreadRadius: 1),
                 ],
