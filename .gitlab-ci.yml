@@ -18,6 +18,7 @@ android:release:
   script:
     - flutter doctor --android-licenses
     - flutter build apk --release
+    - flutter build web --release
   artifacts:
     paths:
       - "**/**/**/**/**/**/*.apk"
