@@ -30,7 +30,8 @@ String url = "http://172.26.128.1:8000/";
 List<dynamic> permissions = ["read_permission", "write_permission"];
 
 ///Variables for permissions
-bool adminAccess = false;
+/// TODO adminAccess has to be false
+bool adminAccess = true;
 bool userAccess = false;
 
 List<String> allowedDNSRequests = [
@@ -135,5 +136,4 @@ class Constant {
   bool get getExpertMode {
     return expertMode;
   }
-
 }

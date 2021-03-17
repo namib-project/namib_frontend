@@ -35,7 +35,8 @@ class ThemeChangeHandler {
   // Function that changes the darkMode variable so dark mode turns on
   // Here theme changer is used who uses the context of the widget who calls the changer
   void changeDarkMode(BuildContext context) {
-    ThemeChanger themeChanger = Provider.of<ThemeChanger>(context);
+    ThemeChanger themeChanger =
+        Provider.of<ThemeChanger>(context, listen: false);
     darkMode
         ? themeChanger.setTheme(ThemeData.light().copyWith(
             primaryColor: primaryColor,
@@ -54,7 +55,8 @@ class ThemeChangeHandler {
   // If true all Visibility widget depending on this expert mode variable are shown
   void changeExpertMode(bool value, BuildContext context) {
     expertMode = value;
-    ThemeChanger themeChanger = Provider.of<ThemeChanger>(context);
+    ThemeChanger themeChanger =
+        Provider.of<ThemeChanger>(context, listen: false);
     !darkMode
         ? themeChanger.setTheme(ThemeData.light().copyWith(
             primaryColor: primaryColor,
