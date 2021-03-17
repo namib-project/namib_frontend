@@ -315,14 +315,14 @@ class _LoginTestState extends State<LoginTest> {
                                   print(brightness),
 
                                   /// just for testing
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ThemingService(
-                                        brightness: brightness,
-                                      ),
-                                    ),
-                                  ),
+                               //   Navigator.pushReplacement(
+                               //     context,
+                               //     MaterialPageRoute(
+                               //       builder: (context) => ThemingService(
+                               //         brightness: brightness,
+                               //       ),
+                               //     ),
+                               //   ),
 
                                   {print(_username)},
                                   {print(_password)},
@@ -332,7 +332,7 @@ class _LoginTestState extends State<LoginTest> {
                                       .post(url + loginExtension,
                                           headers: {
                                             "Content-Type": "application/json",
-                                            'Charset': 'utf-8'
+                                           // 'Charset': 'utf-8'
                                           },
                                           body: json.encode({
                                             'password': _password,
@@ -342,11 +342,11 @@ class _LoginTestState extends State<LoginTest> {
                                           onTimeout: () {
                                     return _handleTimeOut();
                                   }),
-
                                   _checkResponse(response.statusCode),
-                                  // decodeToken()
+                                   decodeToken(),
 
-                                  testPermissions()
+                                  testPermissions(),
+
                                 },
                                 child: Text(
                                   "Login",
@@ -477,26 +477,27 @@ class _LoginTestState extends State<LoginTest> {
     //payloadMap = resp;
 
     permissions = jsonDecode(resp)["permissions"];
-    // print(permissions);
+      print(permissions);
 
-    // print(resp);
+      print(resp);
   }
 
   // Function for set the access permission for the application
   Future testPermissions() async {
+
     Function eq = const ListEquality().equals;
 
-    List<dynamic> user = ["read_permission"];
-    List<dynamic> admin = ["read_permission", "write_permission"];
+    List<dynamic> user = [];
+    List<dynamic> admin = ["asd"];
 
     if (eq(admin, permissions) == true) {
       print("babo");
       adminAccess = true;
-      userAccess = false;
     } else if (eq(user, permissions) == true) {
       print("lappen");
       userAccess = true;
       adminAccess = false;
     }
+    return adminAccess;
   }
 }

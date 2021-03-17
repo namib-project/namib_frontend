@@ -25,6 +25,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
   bool sortFirstRow = false;
   bool sortFirstRow1 = false;
   bool editColumn = false;
+  bool resetButton = false;
 
   /// A string that safes the selected clipart from the clipart-list
   String selectedClipArt = allClipArts[0];
@@ -63,12 +64,28 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                 SizedBox(
                   height: 20,
                 ),
-                RaisedButton(
-                  onPressed: () {
-                    _resetDialog();
-                  },
-                  child: Text("reset".tr().toString()),
+
+                Visibility(
+                  //The error message shows, if networkError is true
+                  visible: adminAccess,
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 60,
+                    child:RaisedButton(
+                      onPressed: () {
+                        _resetDialog();
+                      },
+                      child: Text("reset".tr().toString()),
+                    ),
+                  ),
                 ),
+
+               // RaisedButton(
+               //   onPressed: () {
+               //     _resetDialog();
+               //   },
+               //   child: Text("reset".tr().toString()),
+               // ),
                 SizedBox(
                   height: 20,
                 ),
@@ -91,12 +108,23 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                 SizedBox(
                   height: 20,
                 ),
-                RaisedButton(
-                  child: Text("Clipart ändern"),
-                  onPressed: () {
-                    _chooseClipartDialog(context);
-                  },
+
+                Visibility(
+                  //The error message shows, if networkError is true
+                  visible: adminAccess,
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 60,
+                    child:RaisedButton(
+                      child: Text("Clipart ändern"),
+                      onPressed: () {
+                        _chooseClipartDialog(context);
+                      },
+                    ),
+                  ),
                 ),
+
+
                 // Here are some text fields and boxes to display all pertinent information about the device
                 SizedBox(
                   height: 20,
@@ -114,30 +142,33 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                         children: <Widget>[
                           SelectableText(
                             'allowedDNSRequests'.tr().toString(),
-                            style: TextStyle(fontSize: 22),
+                            style: TextStyle(fontSize: 20),
                           ),
-                          Visibility(
-                            visible: !editColumn,
-                            child: RaisedButton(
-                                onPressed: () {
-                                  setState(() {
-                                    editColumn = !editColumn;
-                                  });
-                                },
-                                child: Text("edit".tr().toString())),
-                          ),
-                          Visibility(
-                            visible: editColumn,
-                            child: RaisedButton(
-                                onPressed: () {
-                                  setState(() {
-                                    editColumn = !editColumn;
-                                  });
-                                  _transmitData();
-                                },
-                                child: Text("save".tr().toString())),
-                          ),
+
                         ]),
+
+                    Visibility(
+                      visible: adminAccess,
+                      child: RaisedButton(
+                          onPressed: () {
+                            setState(() {
+                              editColumn = !editColumn;
+                            });
+                          },
+                          child: Text("edit".tr().toString())),
+                    ),
+                    Visibility(
+                      visible: editColumn,
+                      child: RaisedButton(
+                          onPressed: () {
+                            setState(() {
+                              editColumn = !editColumn;
+                            });
+                            _transmitData();
+                          },
+                          child: Text("save".tr().toString())),
+                    ),
+
                     _expertModeText(context),
                   ],
                 ),
@@ -731,4 +762,8 @@ class _DeviceDetailsState extends State<DeviceDetails> {
           );
         });
   }
-}
+
+
+  }
+
+
