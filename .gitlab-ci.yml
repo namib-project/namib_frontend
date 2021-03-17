@@ -17,7 +17,7 @@ web:release:
     - flutter build web --release
   artifacts:
     paths:
-      - "**/**/**/**/**/**/"
+      - "**/web/"
     expire_in: 7 days
 
 
