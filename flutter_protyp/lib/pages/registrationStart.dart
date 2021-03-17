@@ -126,7 +126,7 @@ class _RegistrationState extends State<RegistrationStart> {
                                     ),
                                     onPressed: () => {
                                       Navigator.pushReplacementNamed(
-                                          context, "/loginTest")
+                                          context, "/login")
                                     },
                                     child: Padding(
                                       padding: EdgeInsets.all(0),
@@ -508,6 +508,6 @@ class _RegistrationState extends State<RegistrationStart> {
   }
 
   void _forward() {
-    Navigator.pushReplacementNamed(context, "/loginTest");
+    Navigator.pushReplacementNamed(context, "/login");
   }
 }

@@ -264,7 +264,7 @@ class _SettingsPopupState extends State<SettingsPopup> {
                   child: InkWell(
                     splashColor: buttonColor,
                     onTap: () {
-                      Navigator.pushReplacementNamed(context, "/loginTest");
+                      Navigator.pushReplacementNamed(context, "/login");
                       print(permissions);
                       jwtToken = "";
                     },

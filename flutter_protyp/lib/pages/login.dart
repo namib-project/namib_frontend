@@ -23,12 +23,12 @@ var resultObjjs = jsonDecode(allMudServicesStr)['results'] as List;
 List<MUDData> mudServObjs =
     resultObjjs.map((tagJson) => MUDData.fromJson(tagJson)).toList();
 
-class LoginTest extends StatefulWidget {
+class Login extends StatefulWidget {
   @override
-  _LoginTestState createState() => _LoginTestState();
+  _LoginState createState() => _LoginState();
 }
 
-class _LoginTestState extends State<LoginTest> {
+class _LoginState extends State<Login> {
   bool seePassword = false;
   Icon iconSee = Icon(
     FontAwesomeIcons.eyeSlash,

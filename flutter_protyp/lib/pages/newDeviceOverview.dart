@@ -50,25 +50,31 @@ class _NewDeviceOverviewState extends State<NewDeviceOverview> {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return Expanded(
-                    child: NewDevicesTable(
-                  devices: snapshot.data,
-                ));
+                  child: NewDevicesTable(
+                    devices: snapshot.data,
+                  ),
+                );
               } else if (snapshot.hasError) {
                 // If the process failed this message returns
                 print(snapshot.error);
                 return Container(
                   width: 600,
                   child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        SelectableText("wentWrongError".tr().toString()),
-                        RaisedButton(
-                            child: Text("reload".tr().toString()),
-                            onPressed: () {
-                              Navigator.pushReplacementNamed(
-                                  context, "/deviceOverview");
-                            })
-                      ]),
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      SelectableText(
+                        "wentWrongError".tr().toString(),
+                      ),
+                      RaisedButton(
+                          child: Text(
+                            "reload".tr().toString(),
+                          ),
+                          onPressed: () {
+                            Navigator.pushReplacementNamed(
+                                context, "/newDeviceOverview");
+                          })
+                    ],
+                  ),
                 );
               }
               // By default, show a loading spinner.
@@ -96,7 +102,8 @@ Future<List<Device>> getDevices() async {
   // });
 
   String test =
-      '[{"hostname": "string","id": 0,"ip_addr": "string","last_interaction": "2021-02-12T07:41:54.362Z","mac_addr": "string","mud_data": {"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","destination_port": {"range": [0],"single": 0},"direction_initiated": "FromDevice","dnsname": "string","protocol": {"name": "TCP","num": 0},"source_port": {"range": [0],"single": 0}},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-02-12T07:41:54.362Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "string","url": "string"},"mud_url": "string","vendor_class": "string","room":"Bath room"}, {"hostname": "string","id": 0,"ip_addr": "string","last_interaction": "2021-02-12T07:41:54.362Z","mac_addr": "string","mud_data": {"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","destination_port": {"range": [0],"single": 0},"direction_initiated": "FromDevice","dnsname": "string","protocol": {"name": "TCP","num": 0},"source_port": {"range": [0],"single": 0}},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-02-12T07:41:54.362Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "string","url": "string"},"mud_url": "string","vendor_class": "string", "room":"Living Room"}]';
+      '[{"hostname": "string","id": 0,"ip_addr": "string","last_interaction": "2021-02-12T07:41:54.362Z","mac_addr": "string","mud_data": {"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","destination_port": {"range": [0],"single": 0},"direction_initiated": "FromDevice","dnsname": "string","protocol": {"name": "TCP","num": 0},"source_port": {"range": [0],"single": 0}},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-02-12T07:41:54.362Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "adevice123","url": "string"},"mud_url": "string","vendor_class": "string","room":"Bath room"}, {"hostname": "string","id": 0,"ip_addr": "string","last_interaction": "2021-02-12T07:41:54.362Z","mac_addr": "string","mud_data": {"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","destination_port": {"range": [0],"single": 0},"direction_initiated": "FromDevice","dnsname": "string","protocol": {"name": "TCP","num": 0},"source_port": {"range": [0],"single": 0}},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-02-12T07:41:54.362Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "bdevice456","url": "string"},"mud_url": "string","vendor_class": "string", "room":"Living Room"}]';
+
   //print("Response code: " + response.statusCode.toString());
   //print(response.body);
 

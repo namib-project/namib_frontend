@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_protyp/data/device_mud/device.dart';
 import 'package:flutter_protyp/pages/newDevice.dart';
+import 'package:flutter_protyp/pages/deviceDetails.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class NewDevicesTable extends StatefulWidget {
-  const NewDevicesTable({
+  NewDevicesTable({
     Key key,
     @required this.devices,
   }) : super(key: key);
@@ -21,7 +23,24 @@ class NewDevicesTable extends StatefulWidget {
 
 //Class for user registration, will only be used at the first usage
 class _NewDevicesTableState extends State<NewDevicesTable> {
-  bool sortFirstRow = false;
+  List<Device> _devicesForDisplay = List<Device>();
+  bool _sortAscending = true;
+  Icon _arrowUp = Icon(
+    FontAwesomeIcons.arrowUp,
+    size: 17,
+  );
+  Icon _arrowDown = Icon(
+    FontAwesomeIcons.arrowDown,
+    size: 17,
+  );
+
+  @override
+  void initState() {
+    setState(() {
+      _devicesForDisplay = widget.devices;
+      _sortDevicesForDisplay();
+    });
+  }
 
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -31,8 +50,11 @@ class _NewDevicesTableState extends State<NewDevicesTable> {
           child: Container(
             child: Column(
               children: [
+                SizedBox(
+                  height: 50,
+                ),
                 Container(
-                  height: 70,
+                  height: 50,
                   child: SelectableText(
                     'Unverwaltete Geräte'.tr().toString(),
                     style: TextStyle(
@@ -53,29 +75,6 @@ class _NewDevicesTableState extends State<NewDevicesTable> {
                     ),
                   ),
                 ),
-
-                // This row table is to display the given devices and their MUD-Profiles
-                // you can edit the Profiles at the edit button
-                Row(
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: Container(),
-                    ),
-                    Expanded(
-                        flex: 16,
-                        child: widget.devices != null
-                            ? _tableForData(context)
-                            : _tableNoEntries()),
-                    Expanded(
-                      flex: 1,
-                      child: Container(),
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: 20,
-                ),
                 Row(
                   children: [
                     Expanded(
@@ -84,48 +83,34 @@ class _NewDevicesTableState extends State<NewDevicesTable> {
                     ),
                     Expanded(
                       flex: 16,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          FlatButton(
-                            child: Text(
-                              "Abbrechen",
-                              style: TextStyle(
-                                color: buttonColor,
-                                fontSize: 18,
-                              ),
-                            ),
-                            onPressed: () => {
-                              Navigator.pushReplacementNamed(
-                                  context, "/deviceOverview")
-                            },
-                          ),
-
-
-                          Visibility(
-                            visible: adminAccess,
-                            child:  FlatButton(
-                              child: Text(
-                                "Hinzufügen",
-                                style: TextStyle(
-                                  color: buttonColor,
-                                  fontSize: 18,
-                                ),
-                              ),
-                              onPressed: () => {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => NewDevice(),
-                                  ),
+                      child:
+                          (widget.devices != null && widget.devices.length != 0)
+                              ? Column(
+                                  children: <Widget>[
+                                    _searchBar(),
+                                    _listHeader(),
+                                    Container(
+                                      height: 250,
+                                      child: _listForDevices(context),
+                                    )
+                                  ],
                                 )
-                              },
-                            ),
-                          ),
-
-
-                        ],
-                      ),
+                              : Container(
+                                  height: 80,
+                                  child: Card(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 16, right: 16),
+                                      child: SelectableText(
+                                        "noEntries".tr().toString(),
+                                        style: TextStyle(
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
                     ),
                     Expanded(
                       flex: 1,
@@ -141,54 +126,140 @@ class _NewDevicesTableState extends State<NewDevicesTable> {
     );
   }
 
-  DataTable _tableNoEntries() {
-    return DataTable(
-      columns: <DataColumn>[
-        DataColumn(
-          label: SelectableText("device".tr().toString()),
+  _listHeader() {
+    return Container(
+      height: 80,
+      child: InkWell(
+        customBorder: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
         ),
-      ],
-      rows: [
-        DataRow(cells: [
-          DataCell(SelectableText("noEntries".tr().toString())),
-        ])
-      ],
+        onTap: () {
+          _sortAscending = !_sortAscending;
+          _sortDevicesForDisplay();
+        },
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 0, right: 16),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(0),
+                  child: Container(
+                    width: 200,
+                    child: Row(
+                      children: [
+                        IconButton(
+                          icon: _sortAscending ? _arrowUp : _arrowDown,
+                        ),
+                        Text(
+                          "Name",
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Text(
+                  "Auswählen",
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 
-  DataTable _tableForData(BuildContext context) {
-    return DataTable(
-      onSelectAll: (b) {},
-      sortColumnIndex: 0,
-      sortAscending: sortFirstRow,
-      columns: <DataColumn>[
-        DataColumn(
-            label: SelectableText("device".tr().toString()),
-            numeric: false,
-            onSort: (i, b) {
-              setState(() {
-                devicesForPresentation
-                    .sort((a, b) => a.systeminfo.compareTo(b.systeminfo));
-                sortFirstRow = !sortFirstRow;
-              });
-            }),
-        DataColumn(
-          label: SelectableText(
-            "select".tr().toString(),
+  _searchBar() {
+    return Padding(
+      padding: EdgeInsets.all(8),
+      child: TextField(
+        cursorColor: Colors.grey,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(),
+          labelText: "Suche...",
+          suffixIcon: Icon(
+            FontAwesomeIcons.search,
           ),
         ),
-      ],
-      rows: widget.devices
-          .map((device) => DataRow(cells: [
-                DataCell(SelectableText(device.mud_data.systeminfo)),
-                DataCell(
-                  Checkbox(
-                      activeColor: buttonColor,
-                      value: false,
-                      onChanged: (bool value) {}),
-                ),
-              ]))
-          .toList(),
+        onChanged: (text) {
+          text = text.toLowerCase();
+          setState(() {
+            _devicesForDisplay = widget.devices.where((device) {
+              var deviceName = device.mud_data.systeminfo;
+              return deviceName.contains(text);
+            }).toList();
+          });
+          _sortDevicesForDisplay();
+        },
+      ),
     );
+  }
+
+  ListView _listForDevices(BuildContext context) {
+    return ListView.builder(
+      itemCount: _devicesForDisplay.length,
+      itemBuilder: (context, index) {
+        return Container(
+          height: 80,
+          child: InkWell(
+            customBorder: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            onTap: () {
+              if (adminAccess) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => NewDevice(),
+                    ));
+              }
+            },
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 16, right: 16),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      _devicesForDisplay[index].mud_data.systeminfo,
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                    IconButton(
+                      icon: Icon(
+                        FontAwesomeIcons.arrowRight,
+                        size: 17,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  _sortDevicesForDisplay() {
+    setState(() {
+      if (_sortAscending) {
+        _devicesForDisplay.sort(
+            (a, b) => a.mud_data.systeminfo.compareTo(b.mud_data.systeminfo));
+      } else {
+        _devicesForDisplay.sort(
+            (a, b) => b.mud_data.systeminfo.compareTo(a.mud_data.systeminfo));
+      }
+    });
   }
 }

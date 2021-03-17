@@ -7,6 +7,8 @@ import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:flutter_protyp/widgets/drawer.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_protyp/pages/usersTable.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 
 class UserManagement extends StatefulWidget {
@@ -17,25 +19,10 @@ class UserManagement extends StatefulWidget {
 class _UserManagementState extends State<UserManagement> {
   Future<List<User>> users;
 
-  Future<List<User>> fetchUsers() async {
-    //String usersExtension = "users";
-    //response = await http.get(url + usersExtension, headers: {
-    //  "Content-Type": "application/json",
-    //  "Authorization": "Bearer $jwtToken"
-    //});
-    //return response.body;
-    String test =
-        '[{"username":"manfred", "admin":true, "user": true},{"username":"gertrud", "admin":false, "user":true}]';
-    var jdecode = jsonDecode(test) as List;
-    List<User> mudServObjs =
-        jdecode.map((tagJson) => User.fromJson(tagJson)).toList();
-    return mudServObjs;
-  }
-
   @override
   void initState() {
     super.initState();
-    users = fetchUsers();
+    users = getUsers();
   }
 
   @override
@@ -46,274 +33,41 @@ class _UserManagementState extends State<UserManagement> {
       body: Center(
         child: Column(
           children: <Widget>[
-            SizedBox(
-              height: 80,
-            ),
-            Container(
-              height: 70,
-              alignment: Alignment.center,
-              child: SelectableText(
-                'userManagement'.tr().toString(),
-                style: TextStyle(
-                  fontFamily: "OpenSans",
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-
-            // This table row displays all users who have an account at the controller
-            Row(children: [
-              Expanded(flex: 1, child: Container()),
-              _userTable(),
-              Expanded(flex: 1, child: Container())
-            ])
+            FutureBuilder<List<User>>(
+                future: users,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Expanded(
+                      child: UsersTable(users: snapshot.data),
+                    );
+                  } else if (snapshot.hasError) {
+                    print(snapshot.error);
+                    return Container(
+                      width: 600,
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            SelectableText("wentWrongError".tr().toString()),
+                            RaisedButton(
+                                child: Text("reload".tr().toString()),
+                                onPressed: () {
+                                  Navigator.pushReplacementNamed(
+                                      context, "/userManagement");
+                                })
+                          ]),
+                    );
+                  } else {
+                    return SizedBox(
+                      width: 30,
+                      height: 30,
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                })
           ],
         ),
       ),
     );
-  }
-
-  Expanded _userTable() {
-    return Expanded(
-        flex: 16,
-        child: FutureBuilder<List<User>>(
-            future: users,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return DataTable(
-                  columns: [
-                    DataColumn(
-                      label: SelectableText("name".tr().toString()),
-                    ),
-                    DataColumn(
-                      label: SelectableText("edit".tr().toString()),
-                    ),
-                    DataColumn(
-                      label: SelectableText("delete".tr().toString()),
-                    ),
-                  ],
-                  rows: snapshot.data
-                      .map((user) => DataRow(cells: [
-                            DataCell(SelectableText(user.username)),
-                            DataCell(IconButton(
-                              icon: Icon(Icons.settings),
-                              onPressed: () {
-                                _editUserRoleDialog(context, user);
-                              },
-                            )),
-                            DataCell(IconButton(
-                              onPressed: () {
-                                _deleteUserDialog(user, snapshot);
-                              },
-                              icon: Icon(Icons.delete),
-                            ))
-                          ]))
-                      .toList(),
-                );
-              } else if (snapshot.hasError) {
-                return Column(
-                  children: [
-                    SelectableText("wentWrongError".tr().toString()),
-                    FlatButton(
-                        color: primaryColor,
-                        onPressed: () {
-                          forwarding();
-                        },
-                        child: Text("reload".tr().toString()))
-                  ],
-                );
-              }
-              return SizedBox(
-                  width: 30, height: 30, child: CircularProgressIndicator());
-            }));
-  }
-
-  void _deleteUserDialog(User user, AsyncSnapshot<List<User>> snapshot) {
-    showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext context) {
-          return Theme(
-            data: ThemeData(
-              brightness: darkMode ? Brightness.dark : Brightness.light,
-              primaryColor: primaryColor,
-              accentColor: primaryColor,
-              hintColor: Colors.grey,
-            ),
-            child: AlertDialog(
-              scrollable: true,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18.0),
-              ),
-              title: SelectableText("attention".tr().toString()),
-              content: Container(
-                height: 175,
-                width: 300,
-                child: Column(
-                  children: [
-                    SelectableText("deleteUserDisclaimer".tr().toString()),
-                    SizedBox(
-                      height: 40,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        // Buttons to accept or dismiss the changes like described above
-                        FlatButton(
-                          child: Text(
-                            "Abbrechen",
-                            style: TextStyle(
-                              color: buttonColor,
-                            ),
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).pop(); // dismiss dialog
-                          },
-                        ),
-                        FlatButton(
-                          child: Text(
-                            "confirmation".tr().toString(),
-                            style: TextStyle(
-                              color: buttonColor,
-                            ),
-                          ),
-                          onPressed: () {
-                            deleteUser(user);
-                            snapshot.data.remove(user);
-                            Navigator.of(context).pop(); // dismiss dialog
-                          },
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        });
-  }
-
-  void _editUserRoleDialog(BuildContext context, User user) {
-    showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext context) {
-          // Here are displayed all cliparts to put devices in different classes
-          // At the end there ist a pop-up dialog to save or dismiss the changes
-          return StatefulBuilder(builder: (context, setState) {
-            return Center(
-              child: Theme(
-                data: ThemeData(
-                  brightness: darkMode ? Brightness.dark : Brightness.light,
-                  primaryColor: primaryColor,
-                  accentColor: primaryColor,
-                  hintColor: Colors.grey,
-                ),
-                child: AlertDialog(
-                  scrollable: true,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18.0),
-                  ),
-                  content: Container(
-                    width: 300,
-                    height: 227,
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          height: 50,
-                          alignment: Alignment.center,
-                          child: SelectableText(
-                            'edit'.tr().toString(),
-                            style: TextStyle(
-                              fontFamily: "OpenSans",
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        SelectableText(user.username,
-                            style: TextStyle(fontSize: 25)),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            SelectableText("roles".tr().toString() + ":"),
-                            Row(
-                              children: [
-                                SelectableText("Admin"),
-                                Checkbox(
-                                  activeColor: buttonColor,
-                                  value: user.admin,
-                                  onChanged: (bool value) {
-                                    setState(() {
-                                      user.admin = value;
-                                    });
-                                  },
-                                )
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                SelectableText("user".tr().toString()),
-                                Checkbox(
-                                    activeColor: buttonColor,
-                                    value: user.user,
-                                    onChanged: (bool value) {
-                                      setState(() {
-                                        user.user = value;
-                                      }); //TODO erst übernehmen wenn save drücken
-                                    })
-                              ],
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 22,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            // Buttons to accept or dismiss the changes like described above
-                            FlatButton(
-                              child: Text(
-                                "cancel".tr().toString(),
-                                style: TextStyle(
-                                  color: buttonColor,
-                                ),
-                              ),
-                              onPressed: () {
-                                Navigator.of(context).pop(); // dismiss dialog
-                              },
-                            ),
-                            FlatButton(
-                              child: Text(
-                                "save".tr().toString(),
-                                style: TextStyle(
-                                  color: buttonColor,
-                                ),
-                              ),
-                              onPressed: () {
-                                //TODO http request to update roles of user
-                                Navigator.of(context).pop(); // dismiss dialog
-                                saveChanges();
-                              },
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            );
-          });
-        });
   }
 
   void saveChanges() {
@@ -327,4 +81,19 @@ class _UserManagementState extends State<UserManagement> {
   void deleteUser(User user) {
     Navigator.pushReplacementNamed(context, "/userManagement");
   }
+}
+
+Future<List<User>> getUsers() async {
+  //String usersExtension = "users";
+  //response = await http.get(url + usersExtension, headers: {
+  //  "Content-Type": "application/json",
+  //  "Authorization": "Bearer $jwtToken"
+  //});
+  //return response.body;
+  String test =
+      '[{"username":"manfred", "admin":true, "user": true},{"username":"gertrud", "admin":false, "user":true}]';
+  var jdecode = jsonDecode(test) as List;
+  List<User> mudServObjs =
+      jdecode.map((tagJson) => User.fromJson(tagJson)).toList();
+  return mudServObjs;
 }
