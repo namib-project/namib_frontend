@@ -60,12 +60,18 @@ class _MainDrawerState extends State<MainDrawer> {
               onTap: () =>
                   {Navigator.pushReplacementNamed(context, "/registration")},
             ),
-            CustomListTile(
-              icon: Icons.group,
-              text: "userManagement".tr().toString(),
-              onTap: () =>
-                  {Navigator.pushReplacementNamed(context, "/userManagement")},
+
+            Visibility(
+              visible: adminAccess,
+              child:  CustomListTile(
+                icon: Icons.group,
+                text: "userManagement".tr().toString(),
+                onTap: () =>
+                {Navigator.pushReplacementNamed(context, "/userManagement")},
+              ),
             ),
+
+
             CustomListTile(
               icon: Icons.feedback,
               text: "About",

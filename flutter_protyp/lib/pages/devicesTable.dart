@@ -85,7 +85,10 @@ class _DevicesTableState extends State<DevicesTable> {
   }
 
   DataTable _tableForData(BuildContext context) {
+
     return DataTable(
+
+
       onSelectAll: (b) {},
       sortColumnIndex: 0,
       sortAscending: sortFirstRow,
@@ -107,7 +110,8 @@ class _DevicesTableState extends State<DevicesTable> {
           .map((device) => DataRow(cells: [
                 DataCell(SelectableText(device.mud_data.systeminfo)),
                 DataCell(SelectableText(device.mud_url)),
-                DataCell(IconButton(
+                DataCell(
+                    IconButton(
                   icon: Icon(Icons.settings),
                   onPressed: () {
                     //Navigator.pushNamed(

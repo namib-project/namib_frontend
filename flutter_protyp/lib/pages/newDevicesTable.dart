@@ -100,23 +100,30 @@ class _NewDevicesTableState extends State<NewDevicesTable> {
                                   context, "/deviceOverview")
                             },
                           ),
-                          FlatButton(
-                            child: Text(
-                              "Hinzufügen",
-                              style: TextStyle(
-                                color: buttonColor,
-                                fontSize: 18,
-                              ),
-                            ),
-                            onPressed: () => {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => NewDevice(),
+
+
+                          Visibility(
+                            visible: adminAccess,
+                            child:  FlatButton(
+                              child: Text(
+                                "Hinzufügen",
+                                style: TextStyle(
+                                  color: buttonColor,
+                                  fontSize: 18,
                                 ),
-                              )
-                            },
+                              ),
+                              onPressed: () => {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => NewDevice(),
+                                  ),
+                                )
+                              },
+                            ),
                           ),
+
+
                         ],
                       ),
                     ),

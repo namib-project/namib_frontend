@@ -487,8 +487,8 @@ class _LoginTestState extends State<LoginTest> {
 
     Function eq = const ListEquality().equals;
 
-    List<dynamic> user = [];
-    List<dynamic> admin = ["asd"];
+    List<dynamic> user = ["asdf"];
+    List<dynamic> admin = [];
 
     if (eq(admin, permissions) == true) {
       print("babo");
