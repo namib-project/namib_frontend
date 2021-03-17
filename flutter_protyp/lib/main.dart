@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         supportedLocales: context.supportedLocales,
         locale: context.locale,
         home: ChangeNotifierProvider<ThemeChanger>(
-          builder: (_) => ThemeChanger(ThemeData.light().copyWith(
+          create: (_) => ThemeChanger(ThemeData.light().copyWith(
             primaryColor: primaryColor,
             accentColor: primaryColor,
             hintColor: Colors.grey,
