@@ -27,7 +27,8 @@ String url = "http://192.168.178.51:8000/";
 List<dynamic> permissions = ["read_permission", "write_permission"];
 
 ///Variables for permissions
-bool adminAccess = false;
+/// TODO adminAccess has to be false
+bool adminAccess = true;
 bool userAccess = false;
 
 /// this is for all the clipart pictures
@@ -58,5 +59,4 @@ class Constant {
   bool get getExpertMode {
     return expertMode;
   }
-
 }

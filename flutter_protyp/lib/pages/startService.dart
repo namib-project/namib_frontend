@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_protyp/pages/loginTest.dart';
+import 'package:flutter_protyp/pages/login.dart';
 import 'package:flutter_protyp/pages/registrationStart.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:http/http.dart' as http;
@@ -81,10 +81,10 @@ class _StartServiceState extends State<StartService> {
           if (required_setup) {
             return RegistrationStart();
           } else {
-            return LoginTest();
+            return Login();
           }
         } else if (snapshot.hasError) {
-          return LoginTest();
+          return Login();
         }
         // By default, show a loading spinner.
         return SizedBox(

@@ -23,12 +23,12 @@ var resultObjjs = jsonDecode(allMudServicesStr)['results'] as List;
 List<MUDData> mudServObjs =
     resultObjjs.map((tagJson) => MUDData.fromJson(tagJson)).toList();
 
-class LoginTest extends StatefulWidget {
+class Login extends StatefulWidget {
   @override
-  _LoginTestState createState() => _LoginTestState();
+  _LoginState createState() => _LoginState();
 }
 
-class _LoginTestState extends State<LoginTest> {
+class _LoginState extends State<Login> {
   bool seePassword = false;
   Icon iconSee = Icon(
     FontAwesomeIcons.eyeSlash,
@@ -315,14 +315,14 @@ class _LoginTestState extends State<LoginTest> {
                                   print(brightness),
 
                                   /// just for testing
-                                 Navigator.pushReplacement(
-                                   context,
-                                   MaterialPageRoute(
-                                     builder: (context) => ThemingService(
-                                       brightness: brightness,
-                                     ),
-                                   ),
-                                 ),
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ThemingService(
+                                        brightness: brightness,
+                                      ),
+                                    ),
+                                  ),
 
                                   {print(_username)},
                                   {print(_password)},
@@ -332,7 +332,7 @@ class _LoginTestState extends State<LoginTest> {
                                       .post(url + loginExtension,
                                           headers: {
                                             "Content-Type": "application/json",
-                                           // 'Charset': 'utf-8'
+                                            // 'Charset': 'utf-8'
                                           },
                                           body: json.encode({
                                             'password': _password,
@@ -343,10 +343,10 @@ class _LoginTestState extends State<LoginTest> {
                                     return _handleTimeOut();
                                   }),
                                   _checkResponse(response.statusCode),
-                                   decodeToken(),
+                                  decodeToken(),
 
-                                  testPermissions(),
-
+                                  /// TODO: permissions have to be set
+                                  //testPermissions(),
                                 },
                                 child: Text(
                                   "Login",
@@ -477,14 +477,13 @@ class _LoginTestState extends State<LoginTest> {
     //payloadMap = resp;
 
     permissions = jsonDecode(resp)["permissions"];
-      print(permissions);
+    print(permissions);
 
-      print(resp);
+    print(resp);
   }
 
   // Function for set the access permission for the application
   Future testPermissions() async {
-
     Function eq = const ListEquality().equals;
 
     List<dynamic> user = ["asdf"];

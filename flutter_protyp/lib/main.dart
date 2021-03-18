@@ -13,7 +13,7 @@ import 'package:flutter_protyp/widgets/theme.dart';
 import 'package:provider/provider.dart';
 import "package:flutter_protyp/widgets/constant.dart";
 
-import "package:flutter_protyp/pages/loginTest.dart";
+import "package:flutter_protyp/pages/login.dart";
 import 'package:flutter_protyp/pages/registrationStart.dart';
 
 /// Runs at start of application
@@ -60,7 +60,7 @@ class MaterialAppWithTheme extends StatelessWidget {
         initialRoute: "/startService",
         routes: {
           "/startService": (context) => StartService(),
-          "/loginTest": (context) => LoginTest(),
+          "/login": (context) => Login(),
           "/deviceOverview": (context) => DeviceOverview(),
           "/registration": (context) => Registration(),
           "/manageUser": (context) => ManageUser(),
