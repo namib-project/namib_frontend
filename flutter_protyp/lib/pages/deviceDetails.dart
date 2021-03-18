@@ -71,7 +71,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                   child: Container(
                     alignment: Alignment.center,
                     height: 60,
-                    child:RaisedButton(
+                    child: RaisedButton(
                       onPressed: () {
                         _resetDialog();
                       },
@@ -80,12 +80,12 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                   ),
                 ),
 
-               // RaisedButton(
-               //   onPressed: () {
-               //     _resetDialog();
-               //   },
-               //   child: Text("reset".tr().toString()),
-               // ),
+                // RaisedButton(
+                //   onPressed: () {
+                //     _resetDialog();
+                //   },
+                //   child: Text("reset".tr().toString()),
+                // ),
                 SizedBox(
                   height: 20,
                 ),
@@ -115,7 +115,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                   child: Container(
                     alignment: Alignment.center,
                     height: 60,
-                    child:RaisedButton(
+                    child: RaisedButton(
                       child: Text("Clipart ändern"),
                       onPressed: () {
                         _chooseClipartDialog(context);
@@ -123,7 +123,6 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                     ),
                   ),
                 ),
-
 
                 // Here are some text fields and boxes to display all pertinent information about the device
                 SizedBox(
@@ -144,9 +143,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                             'allowedDNSRequests'.tr().toString(),
                             style: TextStyle(fontSize: 20),
                           ),
-
                         ]),
-
                     Visibility(
                       visible: adminAccess,
                       child: RaisedButton(
@@ -168,7 +165,6 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                           },
                           child: Text("save".tr().toString())),
                     ),
-
                     _expertModeText(context),
                   ],
                 ),
@@ -322,14 +318,9 @@ class _DeviceDetailsState extends State<DeviceDetails> {
         sortAscending: sortFirstRow,
         columns: <DataColumn>[
           DataColumn(
-              label: SelectableText("address".tr().toString()),
-              numeric: false,
-              onSort: (i, b) {
-                setState(() {
-                  services.sort((a, b) => a.name.compareTo(b.name));
-                  sortFirstRow = !sortFirstRow;
-                });
-              }),
+            label: SelectableText("address".tr().toString()),
+            numeric: false,
+          ),
           DataColumn(
               label: Visibility(
                   visible: editColumn,
@@ -762,8 +753,4 @@ class _DeviceDetailsState extends State<DeviceDetails> {
           );
         });
   }
-
-
-  }
-
-
+}

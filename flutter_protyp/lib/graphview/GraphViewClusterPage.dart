@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_protyp/dataForPresentation/device.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/drawer.dart';
 import 'package:graphview/GraphView.dart';
@@ -88,11 +87,11 @@ class _GraphClusterViewPageState extends State<GraphClusterViewPage> {
 
   @override
   void initState() {
-    List<DeviceForPresentation> devices = new List<DeviceForPresentation>();
-    devices.add(testDevice1);
-    devices.add(testDevice2);
-    devices.add(testDevice3);
-    devices.add(testDevice4);
+    // List<DeviceForPresentation> devices = new List<DeviceForPresentation>();
+    // devices.add(testDevice1);
+    // devices.add(testDevice2);
+    // devices.add(testDevice3);
+    // devices.add(testDevice4);
 //
     //List<String> deviceNames = new List<String>();
 //
@@ -103,15 +102,15 @@ class _GraphClusterViewPageState extends State<GraphClusterViewPage> {
 
     final router = Node(getNodeText(10, "Router"));
 
-    final a = Node(getNodeText(1, devices[0].systeminfo));
-    final b = Node(getNodeText(2, devices[1].systeminfo));
-    final c = Node(getNodeText(3, devices[2].systeminfo));
-    final d = Node(getNodeText(4, devices[3].systeminfo));
+    // final a = Node(getNodeText(1, devices[0].systeminfo));
+    // final b = Node(getNodeText(2, devices[1].systeminfo));
+    // final c = Node(getNodeText(3, devices[2].systeminfo));
+    // final d = Node(getNodeText(4, devices[3].systeminfo));
 
-    graph.addEdge(router, a, paint: Paint()..color = Colors.orange);
-    graph.addEdge(router, b, paint: Paint()..color = Colors.orange);
-    graph.addEdge(router, c, paint: Paint()..color = Colors.orange);
-    graph.addEdge(router, d, paint: Paint()..color = Colors.orange);
+    // graph.addEdge(router, a, paint: Paint()..color = Colors.orange);
+    // graph.addEdge(router, b, paint: Paint()..color = Colors.orange);
+    // graph.addEdge(router, c, paint: Paint()..color = Colors.orange);
+    // graph.addEdge(router, d, paint: Paint()..color = Colors.orange);
     builder = FruchtermanReingoldAlgorithm(iterations: 1000);
   }
 }

@@ -3,17 +3,13 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_protyp/data/device_mud/device.dart';
-import 'package:flutter_protyp/dataForPresentation/device.dart';
-import 'package:flutter_protyp/pages/devicesTable.dart';
 import 'package:flutter_protyp/pages/newDevicesTable.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import "package:flutter_protyp/widgets/drawer.dart";
 import 'package:easy_localization/easy_localization.dart';
-import 'package:graphview/GraphView.dart';
 import 'package:http/http.dart' as http;
 
-import 'devicesGraph.dart';
 
 /// returns deviceOverview site
 class NewDeviceOverview extends StatefulWidget {
@@ -21,7 +17,6 @@ class NewDeviceOverview extends StatefulWidget {
 }
 
 class _NewDeviceOverviewState extends State<NewDeviceOverview> {
-  //bool view = true;
 
   var response;
 

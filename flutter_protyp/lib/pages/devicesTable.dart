@@ -85,24 +85,15 @@ class _DevicesTableState extends State<DevicesTable> {
   }
 
   DataTable _tableForData(BuildContext context) {
-
     return DataTable(
-
-
       onSelectAll: (b) {},
       sortColumnIndex: 0,
       sortAscending: sortFirstRow,
       columns: <DataColumn>[
         DataColumn(
-            label: SelectableText("device".tr().toString()),
-            numeric: false,
-            onSort: (i, b) {
-              setState(() {
-                devicesForPresentation
-                    .sort((a, b) => a.systeminfo.compareTo(b.systeminfo));
-                sortFirstRow = !sortFirstRow;
-              });
-            }),
+          label: SelectableText("device".tr().toString()),
+          numeric: false,
+        ),
         DataColumn(label: SelectableText("MUD")),
         DataColumn(label: SelectableText("edit".tr().toString()))
       ],
@@ -110,8 +101,7 @@ class _DevicesTableState extends State<DevicesTable> {
           .map((device) => DataRow(cells: [
                 DataCell(SelectableText(device.mud_data.systeminfo)),
                 DataCell(SelectableText(device.mud_url)),
-                DataCell(
-                    IconButton(
+                DataCell(IconButton(
                   icon: Icon(Icons.settings),
                   onPressed: () {
                     //Navigator.pushNamed(

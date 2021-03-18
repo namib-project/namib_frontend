@@ -315,14 +315,14 @@ class _LoginTestState extends State<LoginTest> {
                                   print(brightness),
 
                                   /// just for testing
-                               //   Navigator.pushReplacement(
-                               //     context,
-                               //     MaterialPageRoute(
-                               //       builder: (context) => ThemingService(
-                               //         brightness: brightness,
-                               //       ),
-                               //     ),
-                               //   ),
+                                 Navigator.pushReplacement(
+                                   context,
+                                   MaterialPageRoute(
+                                     builder: (context) => ThemingService(
+                                       brightness: brightness,
+                                     ),
+                                   ),
+                                 ),
 
                                   {print(_username)},
                                   {print(_password)},

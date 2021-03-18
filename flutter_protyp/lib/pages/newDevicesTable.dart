@@ -100,11 +100,9 @@ class _NewDevicesTableState extends State<NewDevicesTable> {
                                   context, "/deviceOverview")
                             },
                           ),
-
-
                           Visibility(
                             visible: adminAccess,
-                            child:  FlatButton(
+                            child: FlatButton(
                               child: Text(
                                 "Hinzufügen",
                                 style: TextStyle(
@@ -122,8 +120,6 @@ class _NewDevicesTableState extends State<NewDevicesTable> {
                               },
                             ),
                           ),
-
-
                         ],
                       ),
                     ),
@@ -163,15 +159,9 @@ class _NewDevicesTableState extends State<NewDevicesTable> {
       sortAscending: sortFirstRow,
       columns: <DataColumn>[
         DataColumn(
-            label: SelectableText("device".tr().toString()),
-            numeric: false,
-            onSort: (i, b) {
-              setState(() {
-                devicesForPresentation
-                    .sort((a, b) => a.systeminfo.compareTo(b.systeminfo));
-                sortFirstRow = !sortFirstRow;
-              });
-            }),
+          label: SelectableText("device".tr().toString()),
+          numeric: false,
+        ),
         DataColumn(
           label: SelectableText(
             "select".tr().toString(),
