@@ -7,7 +7,9 @@ part 'mudData.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class MUDData {
-  List<ACLElement> acllist;//Access Control list mit Access Control entries
+  List<ACLElement> acllist; //Access Control list mit Access Control entries
+  List<ACLElement>
+      acl_override; //Access Control list mit Access Control entries
   String documentation,
       last_update,
       masa_url,
@@ -19,6 +21,7 @@ class MUDData {
 
   MUDData(
       this.acllist,
+      this.acl_override,
       this.documentation,
       this.last_update,
       this.masa_url,
@@ -26,7 +29,7 @@ class MUDData {
       this.model_name,
       this.systeminfo,
       this.url,
-      this.expiration); //TODO check if dart DATE type equals format from json
+      this.expiration);
 
   factory MUDData.fromJson(Map<String, dynamic> data) =>
       _$MUDDataFromJson(data);

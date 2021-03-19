@@ -12,6 +12,10 @@ MUDData _$MUDDataFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : ACLElement.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    (json['acl_override'] as List)
+        ?.map((e) =>
+            e == null ? null : ACLElement.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     json['documentation'] as String,
     json['last_update'] as String,
     json['masa_url'] as String,
@@ -25,6 +29,7 @@ MUDData _$MUDDataFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$MUDDataToJson(MUDData instance) => <String, dynamic>{
       'acllist': instance.acllist?.map((e) => e?.toJson())?.toList(),
+      'acl_override': instance.acl_override?.map((e) => e?.toJson())?.toList(),
       'documentation': instance.documentation,
       'last_update': instance.last_update,
       'masa_url': instance.masa_url,

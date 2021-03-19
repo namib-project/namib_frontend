@@ -15,6 +15,7 @@ Device _$DeviceFromJson(Map<String, dynamic> json) {
     json['mud_url'] as String,
     json['vendor_class'] as String,
     json['room'] as String,
+    json['clipart'] as String,
     json['id'] as int,
     json['mud_data'] == null
         ? null
@@ -30,6 +31,7 @@ Map<String, dynamic> _$DeviceToJson(Device instance) => <String, dynamic>{
       'mud_url': instance.mud_url,
       'vendor_class': instance.vendor_class,
       'room': instance.room,
+      'clipart': instance.clipart,
       'id': instance.id,
       'mud_data': instance.mud_data?.toJson(),
     };
