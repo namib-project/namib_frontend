@@ -188,7 +188,7 @@ class UsersTableState extends State<UsersTable> {
           text = text.toLowerCase();
           setState(() {
             _usersForDisplay = widget.users.where((user) {
-              var userName = user.username;
+              var userName = user.username.toLowerCase();
               return userName.contains(text);
             }).toList();
           });

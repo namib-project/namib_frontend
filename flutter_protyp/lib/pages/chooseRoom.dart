@@ -1,137 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_protyp/pages/roomTable.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import "package:flutter_protyp/widgets/drawer.dart";
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
-
+import 'package:flutter_protyp/data/room.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+import 'dart:convert';
+import 'dart:math';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
 class ChooseRoom extends StatefulWidget {
-  @override
   _ChooseRoomState createState() => _ChooseRoomState();
 }
 
 class _ChooseRoomState extends State<ChooseRoom> {
-  // for sorting the roomTable
-  bool sortFirstRow = false;
-  // the chosen color
-  Color currentColor = Colors.red;
+  Future<List<Room>> rooms;
 
-  // Define some custom colors for the custom picker segment.
-  // The 'guide' color values are from
-  // https://material.io/design/color/the-color-system.html#color-theme-creation
-  static const Color guidePrimary = Color(0xFF6200EE);
-  static const Color guidePrimaryVariant = Color(0xFF3700B3);
-  static const Color guideSecondary = Color(0xFF03DAC6);
-  static const Color guideSecondaryVariant = Color(0xFF018786);
-  static const Color guideError = Color(0xFFB00020);
-  static const Color guideErrorDark = Color(0xFFCF6679);
-  static const Color blueBlues = Color(0xFF174378);
-
-  // Make a custom ColorSwatch to name map from the above custom colors.
-  final Map<ColorSwatch<Object>, String> colorsNameMap =
-      <ColorSwatch<Object>, String>{
-    ColorTools.createPrimarySwatch(guidePrimary): 'Guide Purple',
-    ColorTools.createPrimarySwatch(guidePrimaryVariant): 'Guide Purple Variant',
-    ColorTools.createAccentSwatch(guideSecondary): 'Guide Teal',
-    ColorTools.createAccentSwatch(guideSecondaryVariant): 'Guide Teal Variant',
-    ColorTools.createPrimarySwatch(guideError): 'Guide Error',
-    ColorTools.createPrimarySwatch(guideErrorDark): 'Guide Error Dark',
-    ColorTools.createPrimarySwatch(blueBlues): 'Blue blues',
-  };
-
-  void changeColor(Color color) {
-    setState(() {
-      currentColor = color;
-    });
-  }
-
-  // Gives the colorPicker AlertDialog with the colors above
-  showAlertDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return Center(
-          child: Theme(
-            data: ThemeData(
-              brightness: darkMode ? Brightness.dark : Brightness.light,
-              primaryColor: primaryColor,
-              accentColor: primaryColor,
-              hintColor: Colors.grey,
-            ),
-            child: AlertDialog(
-              scrollable: true,
-              contentPadding: EdgeInsets.all(0),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18.0),
-              ),
-              content: Container(
-                width: 300,
-                height: 470,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(0),
-                      child: Card(
-                        elevation: 0,
-                        child: ColorPicker(
-                          color: currentColor,
-                          onColorChanged: (Color color) =>
-                              setState(() => currentColor = color),
-                          width: 50,
-                          height: 50,
-                          elevation: 0,
-                          borderRadius: 4,
-                          padding: EdgeInsets.fromLTRB(6, 10, 6, 0),
-                          heading: Text(
-                            "selectColor".tr().toString(),
-                            style: TextStyle(
-                              fontSize: 22,
-                              color: darkMode ? Colors.white : Colors.black,
-                            ),
-                          ),
-                          subheading: Text(
-                            "selectShade".tr().toString(),
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: darkMode ? Colors.white : Colors.black,
-                            ),
-                          ),
-                          pickersEnabled: const <ColorPickerType, bool>{
-                            ColorPickerType.primary: true,
-                            ColorPickerType.accent: false,
-                          },
-                        ),
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 15),
-                          child: FlatButton(
-                            child: Text(
-                              "Ok",
-                              style: TextStyle(
-                                color: buttonColor,
-                                fontSize: 18,
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        );
-      },
-    );
+  @override
+  void initState() {
+    super.initState();
+    rooms = getRooms();
   }
 
   @override
@@ -149,275 +40,78 @@ class _ChooseRoomState extends State<ChooseRoom> {
         ],
       ),
       body: Center(
-        child: Container(
-          height: double.infinity,
-          child: SingleChildScrollView(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  width: 350,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      SizedBox(
-                        height: 60,
-                      ),
-                      Container(
-                        height: 40,
-                        alignment: Alignment.center,
-                        child: SelectableText(
-                          "Raumwahl",
-                          style: TextStyle(
-                            fontFamily: "OpenSans",
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 70,
-                        alignment: Alignment.center,
-                        child: SelectableText(
-                          "Wählen Sie einen Raum",
-                          style: TextStyle(
-                            fontFamily: "OpenSans",
-                            fontSize: 20,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 250,
-                        width: 350,
-                        child: SingleChildScrollView(
-                          // TODO: show only when rooms exists; sort has to be implemented; Fill with real information and delete examples
-
-                          child: DataTable(
-                            sortColumnIndex: 0,
-                            sortAscending: sortFirstRow,
-                            columns: <DataColumn>[
-                              DataColumn(
-                                label: SelectableText("Raum"),
-                                numeric: false,
-                                onSort: (i, b) {},
-                              ),
-                              DataColumn(
-                                label: SelectableText(
-                                  "Farbe",
-                                ),
-                              ),
-                              DataColumn(
-                                label: SelectableText(
-                                  "Wahl",
-                                ),
-                              ),
-                            ],
-
-                            /// just exampleData
-                            rows: [
-                              DataRow(
-                                cells: [
-                                  DataCell(
-                                    SelectableText("Küche"),
-                                  ),
-                                  DataCell(
-                                    Container(
-                                      height: 35,
-                                      width: 35,
-                                      decoration: BoxDecoration(
-                                        color: Colors.red,
-                                        borderRadius: BorderRadius.circular(4),
-                                      ),
-                                    ),
-                                  ),
-                                  DataCell(
-                                    Checkbox(
-                                        activeColor: buttonColor,
-                                        value: true,
-                                        onChanged: (bool value) {}),
-                                  ),
-                                ],
-                              ),
-                              DataRow(
-                                cells: [
-                                  DataCell(
-                                    SelectableText("Badezimmer"),
-                                  ),
-                                  DataCell(
-                                    Container(
-                                      height: 35,
-                                      width: 35,
-                                      decoration: BoxDecoration(
-                                        color: Colors.blue,
-                                        borderRadius: BorderRadius.circular(4),
-                                      ),
-                                    ),
-                                  ),
-                                  DataCell(Checkbox(
-                                      activeColor: buttonColor,
-                                      value: false,
-                                      onChanged: (bool value) {})),
-                                ],
-                              ),
-                              DataRow(
-                                cells: [
-                                  DataCell(
-                                    SelectableText("Wohnzimmer"),
-                                  ),
-                                  DataCell(
-                                    Container(
-                                      height: 35,
-                                      width: 35,
-                                      decoration: BoxDecoration(
-                                        color: Colors.orange,
-                                        borderRadius: BorderRadius.circular(4),
-                                      ),
-                                    ),
-                                  ),
-                                  DataCell(Checkbox(
-                                      activeColor: buttonColor,
-                                      value: false,
-                                      onChanged: (bool value) {})),
-                                ],
-                              ),
-                              DataRow(
-                                cells: [
-                                  DataCell(
-                                    SelectableText("Schlafzimmer"),
-                                  ),
-                                  DataCell(
-                                    Container(
-                                      height: 35,
-                                      width: 35,
-                                      decoration: BoxDecoration(
-                                        color: Colors.yellow,
-                                        borderRadius: BorderRadius.circular(4),
-                                      ),
-                                    ),
-                                  ),
-                                  DataCell(Checkbox(
-                                      activeColor: buttonColor,
-                                      value: false,
-                                      onChanged: (bool value) {})),
-                                ],
-                              ),
-                              DataRow(
-                                cells: [
-                                  DataCell(
-                                    SelectableText("Flur"),
-                                  ),
-                                  DataCell(
-                                    Container(
-                                      height: 35,
-                                      width: 35,
-                                      decoration: BoxDecoration(
-                                        color: Colors.green,
-                                        borderRadius: BorderRadius.circular(4),
-                                      ),
-                                    ),
-                                  ),
-                                  DataCell(Checkbox(
-                                      activeColor: buttonColor,
-                                      value: false,
-                                      onChanged: (bool value) {})),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 70,
-                        alignment: Alignment.center,
-                        child: SelectableText(
-                          "Oder erstellen Sie einen neuen",
-                          style: TextStyle(
-                            fontFamily: "OpenSans",
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 70,
-                        alignment: Alignment.center,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          //crossAxisAlignment: CrossAxisAlignment.baseline,
-                          children: [
-                            Container(
-                              height: 50,
-                              width: 280,
-                              child: TextField(
-                                obscureText: false,
-                                cursorColor: Colors.grey,
-                                decoration: InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    labelText: "Raumname"),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                showAlertDialog(context);
-                              },
-                              child: Container(
-                                height: 50,
-                                width: 50,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(4),
-                                  color: currentColor,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        height: 70,
-                        alignment: Alignment.center,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            FlatButton(
-                              child: Text(
-                                "Abbrechen",
-                                style: TextStyle(
-                                  color: buttonColor,
-                                  fontSize: 18,
-                                ),
-                              ),
-                              onPressed: () => {
+        child: Column(
+          children: [
+            // This future builder element put in the different devices after these will be loaded
+            // The future builder element a delayed sending of context
+            FutureBuilder<List<Room>>(
+              future: rooms,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Expanded(
+                      child: RoomTable(
+                    rooms: snapshot.data,
+                  ));
+                } else if (snapshot.hasError) {
+                  // If the process failed this message returns
+                  print(snapshot.error);
+                  return Container(
+                    width: 600,
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          SelectableText("wentWrongError".tr().toString()),
+                          RaisedButton(
+                              child: Text("reload".tr().toString()),
+                              onPressed: () {
                                 Navigator.pushReplacementNamed(
-                                    context, "/deviceOverview")
-                              },
-                            ),
-                            FlatButton(
-                              child: Text(
-                                "Bestätigen",
-                                style: TextStyle(
-                                  color: buttonColor,
-                                  fontSize: 18,
-                                ),
-                              ),
-                              onPressed: () => {
-                                Navigator.pushReplacementNamed(
-                                    context, "/deviceOverview")
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+                                    context, "/chooseRoom");
+                              })
+                        ]),
+                  );
+                }
+                // By default, show a loading spinner.
+                else {
+                  return SizedBox(
+                    width: 30,
+                    height: 30,
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
             ),
-          ),
+          ],
         ),
       ),
     );
   }
+}
+
+///TODO: make this future wich gets all the rooms from the devicesList
+Future<List<Room>> getRooms() async {
+  // String devicesExtension = 'devices';
+  // response = await http.get(url + devicesExtension, headers: {
+  //   "Content-Type": "application/json",
+  //   "Authorization": "Bearer $jwtToken"
+  // }).timeout(const Duration(seconds: 5), onTimeout: () {
+  //   return _handleTimeOut();
+  // });
+
+  String test =
+      '[{"roomname": "Küche", "roomcolor": "0xFF6200EE", "clipart": "resources/clipart/cloud.svg","hostname": "string","id": 0,"ip_addr": "string","last_interaction": "2021-03-19T08:50:26.205Z","mac_addr": "string","mud_data": {"acl_override": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","destination_port": {"range": [0],"single": 0},"direction_initiated": "FromDevice","dnsname": "string","protocol": {"name": "TCP","num": 0},"source_port": {"range": [0],"single": 0}},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","destination_port": {"range": [0],"single": 0},"direction_initiated": "FromDevice","dnsname": "www.google.de","protocol": {"name": "TCP","num": 0},"source_port": {"range": [0],"single": 0}},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-03-19T08:50:26.205Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "adevice123","url": "string"},"mud_url": "string","vendor_class": "string"},{"roomname": "Bad", "roomcolor": "0xFF6200EE", "clipart": "resources/clipart/desktop_windows.svg","hostname": "string","id": 0,"ip_addr": "string","last_interaction": "2021-03-19T08:50:26.205Z","mac_addr": "string","mud_data": {"acl_override": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","destination_port": {"range": [0],"single": 0},"direction_initiated": "FromDevice","dnsname": "string","protocol": {"name": "TCP","num": 0},"source_port": {"range": [0],"single": 0}},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","destination_port": {"range": [0],"single": 0},"direction_initiated": "FromDevice","dnsname": "www.facebook.com","protocol": {"name": "TCP","num": 0},"source_port": {"range": [0],"single": 0}},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-03-19T08:50:26.205Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "bdevice345","url": "string"},"mud_url": "string","vendor_class": "string"}]';
+
+  //print("Response code: " + response.statusCode.toString());
+  //print(response.body);
+
+  //if (response.statusCode == 200) {
+
+  var jsonRooms = jsonDecode(test) as List;
+  List<Room> roomsTest =
+      jsonRooms.map((tagJson) => Room.fromJson(tagJson)).toList();
+  return roomsTest;
+
+  //} else {
+  //throw Exception("Failed to get Data");
+  //}
+  //TODO bei release auf http request umstellen
 }

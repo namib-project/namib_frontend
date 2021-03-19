@@ -267,7 +267,7 @@ class _DevicesTableState extends State<DevicesTable> {
           text = text.toLowerCase();
           setState(() {
             _devicesForDisplay = widget.devices.where((device) {
-              var deviceName = device.mud_data.systeminfo;
+              var deviceName = device.mud_data.systeminfo.toLowerCase();
               return deviceName.contains(text);
             }).toList();
           });
