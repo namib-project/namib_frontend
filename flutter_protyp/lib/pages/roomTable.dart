@@ -25,7 +25,11 @@ class RoomTable extends StatefulWidget {
 //Class for user registration, will only be used at the first usage
 class _RoomTableState extends State<RoomTable> {
   List<Room> _roomsForDisplay;
-  Color currentColor = Colors.red;
+  Room chosenRoom;
+  String newRoomName;
+
+  /// to get the value to create a room with color use: currentColor.value.toString()
+  Color currentColor = Color(4289724448);
 
   bool _sortAscending = true;
   Icon _arrowUp = Icon(
@@ -121,7 +125,19 @@ class _RoomTableState extends State<RoomTable> {
                                   height: 250,
                                   child: _listForRooms(context),
                                 ),
+                                Container(
+                                  height: 70,
+                                  alignment: Alignment.center,
+                                  child: SelectableText(
+                                    "Oder erstellen Sie einen neuen",
+                                    style: TextStyle(
+                                      fontFamily: "OpenSans",
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
                                 _newRoomDialog(),
+                                _bottomButtons(),
                               ],
                             )
                           : Container(
@@ -171,6 +187,11 @@ class _RoomTableState extends State<RoomTable> {
               cursorColor: Colors.grey,
               decoration: InputDecoration(
                   border: OutlineInputBorder(), labelText: "Raumname"),
+              onChanged: (text) {
+                setState(() {
+                  chosenRoom = null;
+                });
+              },
             ),
           ),
           SizedBox(
@@ -287,7 +308,13 @@ class _RoomTableState extends State<RoomTable> {
             customBorder: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-            onTap: () {},
+            onTap: () {
+              setState(() {
+                chosenRoom == _roomsForDisplay[index]
+                    ? chosenRoom = null
+                    : chosenRoom = _roomsForDisplay[index];
+              });
+            },
             child: Card(
               child: Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16),
@@ -306,12 +333,13 @@ class _RoomTableState extends State<RoomTable> {
                       width: 40,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(4),
-                        color: Colors.red,
+                        color:
+                            Color(int.parse(_roomsForDisplay[index].roomcolor)),
                       ),
                     ),
                     Checkbox(
                         activeColor: buttonColor,
-                        value: false,
+                        value: chosenRoom == _roomsForDisplay[index],
                         onChanged: (bool value) {}),
                   ],
                 ),
@@ -320,6 +348,40 @@ class _RoomTableState extends State<RoomTable> {
           ),
         );
       },
+    );
+  }
+
+  _bottomButtons() {
+    return Container(
+      height: 70,
+      alignment: Alignment.center,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          FlatButton(
+            child: Text(
+              "Abbrechen",
+              style: TextStyle(
+                color: buttonColor,
+                fontSize: 18,
+              ),
+            ),
+            onPressed: () =>
+                {Navigator.pushReplacementNamed(context, "/deviceOverview")},
+          ),
+          FlatButton(
+            child: Text(
+              "Bestätigen",
+              style: TextStyle(
+                color: buttonColor,
+                fontSize: 18,
+              ),
+            ),
+            onPressed: () =>
+                {Navigator.pushReplacementNamed(context, "/deviceOverview")},
+          ),
+        ],
+      ),
     );
   }
 
