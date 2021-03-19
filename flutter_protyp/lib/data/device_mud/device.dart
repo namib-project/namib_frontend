@@ -16,8 +16,10 @@ class Device {
       mac_addr,
       mud_url,
       vendor_class,
-      room,
+      roomname,
+      roomcolor,
       clipart;
+
   int id;
   MUDData mud_data;
 
@@ -28,7 +30,8 @@ class Device {
       this.mac_addr,
       this.mud_url,
       this.vendor_class,
-      this.room,
+      this.roomname,
+      this.roomcolor,
       this.clipart,
       this.id,
       this.mud_data);

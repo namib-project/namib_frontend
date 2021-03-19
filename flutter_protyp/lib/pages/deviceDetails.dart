@@ -7,7 +7,8 @@ import 'package:flutter_protyp/data/device_mud/device.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:websafe_svg/websafe_svg.dart';
+
+import 'package:flutter_svg/flutter_svg.dart';
 
 class DeviceDetails extends StatefulWidget {
   const DeviceDetails({
@@ -97,8 +98,15 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                         child: Container(
                           height: 200,
                           width: 200,
-                          child: WebsafeSvg.asset(allClipArts[0],
-                              semanticsLabel: 'phone', height: 200, width: 200),
+                          child: SvgPicture.asset(
+                            widget.device.clipart,
+                            semanticsLabel: 'phone',
+                            height: 200,
+                            width: 200,
+                            color: Color(
+                              int.parse(widget.device.roomcolor),
+                            ),
+                          ),
                         ),
                         onTap: () {},
                       ),
@@ -226,9 +234,10 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                             Container(
                               height: 200,
                               width: 200,
-                              child: WebsafeSvg.asset(
+                              child: SvgPicture.asset(
                                 selectedClipArt,
-                                color: Colors.blue,
+                                color:
+                                    Color(int.parse(widget.device.roomcolor)),
                                 height: 200,
                                 width: 200,
                               ),
@@ -252,7 +261,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                               var clipArt = allClipArts[index];
                               return GestureDetector(
                                 child: Container(
-                                  child: WebsafeSvg.asset(
+                                  child: SvgPicture.asset(
                                     clipArt,
                                     semanticsLabel: 'phone',
                                     height: 80,

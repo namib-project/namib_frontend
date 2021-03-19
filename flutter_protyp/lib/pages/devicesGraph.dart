@@ -5,7 +5,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_protyp/data/device_mud/device.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:graphview/GraphView.dart';
-import 'package:websafe_svg/websafe_svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'deviceDetails.dart';
@@ -119,7 +119,7 @@ class _DevicesGraphState extends State<DevicesGraph> {
                 BoxShadow(color: Colors.blue[100], spreadRadius: 1),
               ],
             ),
-            child: WebsafeSvg.asset(allClipArts[3],
+            child: SvgPicture.asset(allClipArts[3],
                 semanticsLabel: 'phone', height: 25, width: 25)),
         //
         onTap: () => Navigator.push(
@@ -163,7 +163,7 @@ class _DevicesGraphState extends State<DevicesGraph> {
                 BoxShadow(color: Colors.orange, spreadRadius: 1),
               ],
             ),
-            child: WebsafeSvg.asset(allClipArts[j],
+            child: SvgPicture.asset(allClipArts[j],
                 semanticsLabel: 'phone', height: 25, width: 25)),
         //
       );
