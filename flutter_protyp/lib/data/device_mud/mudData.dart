@@ -9,7 +9,7 @@ part 'mudData.g.dart';
 class MUDData {
   List<ACLElement> acllist; //Access Control list mit Access Control entries
   List<ACLElement>
-      acl_override; //Access Control list mit Access Control entries
+      acl_override; //Access Control list mit Access Control overrides
   String documentation,
       last_update,
       masa_url,

@@ -48,17 +48,17 @@ class _StartServiceState extends State<StartService> {
   // Future string type to build at runtime
   // Get request for the controller version to display it for the user
   Future<String> fetchSetup() async {
-    // try {
-    //   String statusExtension = "status";
-    //   var response = await http.get(url + statusExtension);
-    //   if (response.statusCode == 200) {
-    //     return response.body;
-    //   }else{
-    //     return "";
-    //   }
-    // } on Exception {
-      return '{"setup_required":false,"version":""}'; //TODO real exception catch by release
-    //}
+    try {
+      String statusExtension = "status";
+      var response = await http.get(url + statusExtension);
+      if (response.statusCode == 200) {
+        return response.body;
+      }else{
+        return '{"setup_required":false,"version":""}';
+      }
+    } on Exception {
+      return '{"setup_required":false,"version":""}';
+    }
   }
 
   @override
