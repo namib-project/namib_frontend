@@ -412,7 +412,6 @@ class _LoginState extends State<Login> {
       userAccess = true;
       adminAccess = false;
     }
-    return adminAccess;
   }
 
   //This function refreshes the JWT token for authorization
@@ -422,9 +421,7 @@ class _LoginState extends State<Login> {
       "Authorization": "Bearer $jwtToken"
       // 'Charset': 'utf-8'
     });
-
     newToken = json.decode(test.body)['token'];
-
     jwtToken = newToken;
   }
 }
