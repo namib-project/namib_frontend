@@ -1,10 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_protyp/data/device_mud/device.dart';
-import 'package:flutter_protyp/data/device_mud/mudData.dart';
-import 'package:flutter_protyp/pages/handlers/ThemeHandler.dart';
 import 'package:flutter_protyp/pages/themingService.dart';
-import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:universal_io/io.dart' as osDetect;
 import 'package:http/http.dart' as http;
@@ -16,13 +12,6 @@ import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 
-/// This is a test to get a List of Services from All Services which are known as json
-/// Should be Deleted when ready
-String allMudServicesStr =
-    '{ "count": 3, "next": null, "previous": null, "results": [{ "name": "Foo Service","product": null,"method": null},{"name": "DNS Service","product": null,"method": null},{"name": "NTP Service","product": null,"method": null}]}';
-var resultObjjs = jsonDecode(allMudServicesStr)['results'] as List;
-List<MUDData> mudServObjs =
-    resultObjjs.map((tagJson) => MUDData.fromJson(tagJson)).toList();
 
 class Login extends StatefulWidget {
   @override
@@ -59,7 +48,8 @@ class _LoginState extends State<Login> {
   /// Stores the response from the controller
   var response;
   var newToken;
-  static const oneSec = const Duration(seconds:840);
+  static const oneSec = const Duration(seconds: 840);
+
   // This method scans the operating system and starts if its true the mobile device version
   void onlineOs() {
     String android = "android";
@@ -76,7 +66,6 @@ class _LoginState extends State<Login> {
   void initState() {
     onlineOs();
     super.initState();
-
   }
 
   // This method sets the brightness for the hole app
@@ -250,21 +239,6 @@ class _LoginState extends State<Login> {
                           ),
                         ),
                       ),
-
-                      // Padding(
-                      //   padding: const EdgeInsets.fromLTRB(0, 0, 20, 5),
-                      //   child: Container(
-                      //     alignment: Alignment.centerRight,
-                      //     child: FlatButton(
-                      //       child: Text(
-                      //         'forgotPassword'.tr().toString(),
-                      //         style: TextStyle(
-                      //           color: primaryColor,
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
                       SizedBox(
                         height: 15,
                       ),
@@ -272,7 +246,7 @@ class _LoginState extends State<Login> {
                         padding: const EdgeInsets.fromLTRB(0, 0, 20, 20),
                         child: Container(
                           alignment: Alignment.centerRight,
-                          child: FlatButton(
+                          child: TextButton(
                             onPressed: () => {
                               Navigator.pushReplacementNamed(
                                   context, "/registrationStart")
@@ -316,20 +290,6 @@ class _LoginState extends State<Login> {
                                 ),
                                 onPressed: () async => {
                                   setSystemPreferences(),
-                                  print(brightness),
-
-                                  /// just for testing
-                                //  Navigator.pushReplacement(
-                                //    context,
-                                //    MaterialPageRoute(
-                                //      builder: (context) => ThemingService(
-                                //        brightness: brightness,
-                                //      ),
-                                //    ),
-                                //  ),
-
-                                  {print(_username)},
-                                  {print(_password)},
 
                                   //Sends Http Request
                                   response = await http
@@ -348,8 +308,7 @@ class _LoginState extends State<Login> {
                                   }),
                                   _checkResponse(response.statusCode),
                                   decodeToken(),
-                                testPermissions(),
-
+                                  testPermissions(),
                                 },
                                 child: Text(
                                   "Login",
@@ -410,11 +369,7 @@ class _LoginState extends State<Login> {
           new Timer.periodic(oneSec, (Timer t) => _refreshToken());
           _password = "";
           _username = "";
-          //_getDevices();
           jwtToken = json.decode(response.body)['token'];
-          //jwtToken = jwtToken.substring(
-          //    9, jwtToken.length),
-          print(jwtToken); //TODO richtige List übergeben
           errorMessage401 = false;
           errorMessage400 = false;
 
@@ -434,51 +389,15 @@ class _LoginState extends State<Login> {
     } on NoSuchMethodError {}
   }
 
-  // Function getting the list of devices in network from controller
-  Future _getDevices() async {
-    String urlDevices = 'http://172.31.160.1:8000/devices/';
-    var responseDevices;
-    responseDevices = await http.get(urlDevices);
-    var jsonDevices = jsonDecode(responseDevices) as List;
-    List<Device> devicesTest =
-        jsonDevices.map((tagJson) => Device.fromJson(tagJson)).toList();
-    return devicesTest;
-  }
-
-  //For tests
-  List<Device> deviceTest() {
-    String test =
-        '[{"hostname": "string","id": 0,"ip_addr": "string","last_interaction": "string","mac_addr": "string","mud_data": {"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","direction_initiated": "FromDevice","dnsname": "ntp.org"},"name": "string"},{"action": "Accept","matches": {"address_mask": "string","direction_initiated": "FromDevice","dnsname": "weather.com"},"name": "string"},{"action": "Accept","matches": {"address_mask": "string","direction_initiated": "FromDevice", "dnsname": "xyz.media"},"name": "string"},{"action": "Accept","matches": {"address_mask": "string","direction_initiated": "FromDevice","dnsname": "storage.de"},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-01-23T10:35:17.609Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "string","url": "string"},"mud_url": "string","vendor_class": "string"}, {"hostname": "string","id": 0,"ip_addr": "string","last_interaction": "string","mac_addr": "string","mud_data": {"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","direction_initiated": "FromDevice","dnsname": "string"},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-01-17T21:05:00.692Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "string","url": "string"},"mud_url": "string","vendor_class": "string"}]';
-    var jsonDevices = jsonDecode(test) as List;
-    List<Device> devices =
-        jsonDevices.map((tagJson) => Device.fromJson(tagJson)).toList();
-    return devices;
-  }
-
-  //for tests
-  String mudTest() {
-    String mud =
-        '{"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","direction_initiated": "FromDevice","dnsname": "string"},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-01-17T21:04:22.265Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "string","url": "string"}';
-    var jsonMud = jsonDecode(mud);
-    MUDData mudData = MUDData.fromJson(jsonMud);
-    return mudData.acllist[0].ace[0].matches.dnsname;
-  }
-
-  // Funtion to get the permission from the JWT-Token
+  // Function to get the permission from the JWT-Token
   void decodeToken() {
-//    String myJson;
-    //  Map clearJson;
     String _token;
-    //var payloadMap;
 
     _token = jwtToken;
-    //clearJson = jsonDecode(myJson);
-    //token = clearJson["token"];
     var parts = _token.split('.');
     var payload = parts[1];
     var normalized = base64Url.normalize(payload);
     var resp = utf8.decode(base64Url.decode(normalized));
-    //payloadMap = resp;
 
     permissions = jsonDecode(resp)["permissions"];
     print(permissions);
@@ -490,9 +409,7 @@ class _LoginState extends State<Login> {
   Future testPermissions() async {
     Function eq = const ListEquality().equals;
 
-
-    List<dynamic> user = ["**/list",
-      "**/read"];
+    List<dynamic> user = ["**/list", "**/read"];
     List<dynamic> admin = ["**"];
 
     if (eq(admin, permissions) == true) {
@@ -506,23 +423,17 @@ class _LoginState extends State<Login> {
     return adminAccess;
   }
 
-  //This function refreshs the JWT token for authorization
-  Future  _refreshToken() async {
-   var test = await http
-        .get(url + tokenExtension,
-        headers: {
-        "Content-Type": "application/json",
-          "Authorization": "Bearer $jwtToken"
-        // 'Charset': 'utf-8'
-        });
+  //This function refreshes the JWT token for authorization
+  Future _refreshToken() async {
+    var test = await http.get(url + tokenExtension, headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $jwtToken"
+      // 'Charset': 'utf-8'
+    });
 
     newToken = json.decode(test.body)['token'];
-   // print(newToken);
-   // print(jwtToken);
 
     jwtToken = newToken;
     print(jwtToken);
-
   }
-
 }
