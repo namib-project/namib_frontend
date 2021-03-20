@@ -77,12 +77,12 @@ class _MainDrawerState extends State<MainDrawer> {
               text: "About",
               onTap: () => {Navigator.pushReplacementNamed(context, "/about")},
             ),
-            //CustomListTile(
-            //  icon: Icons.feedback,
-            //  text: "NewDevice",
-            //  onTap: () =>
-            //      {Navigator.pushReplacementNamed(context, "/newDevice")},
-            //),
+           // CustomListTile(
+           //   icon: Icons.feedback,
+           //   text: "dummie",
+           //   onTap: () =>
+           //       {Navigator.pushReplacementNamed(context, "/dummie")},
+           // ),
             //CustomListTile(
             //  icon: Icons.feedback,
             //  text: "ChooseRoom",
