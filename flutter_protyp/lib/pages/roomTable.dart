@@ -345,9 +345,16 @@ class _RoomTableState extends State<RoomTable> {
                       ),
                     ),
                     Checkbox(
-                        activeColor: buttonColor,
-                        value: chosenRoom == _roomsForDisplay[index],
-                        onChanged: (bool value) {}),
+                      activeColor: buttonColor,
+                      value: chosenRoom == _roomsForDisplay[index],
+                      onChanged: (bool value) {
+                        setState(() {
+                          chosenRoom == _roomsForDisplay[index]
+                              ? chosenRoom = null
+                              : chosenRoom = _roomsForDisplay[index];
+                        });
+                      },
+                    ),
                   ],
                 ),
               ),

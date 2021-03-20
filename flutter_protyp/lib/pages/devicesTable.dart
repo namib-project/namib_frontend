@@ -179,6 +179,7 @@ class _DevicesTableState extends State<DevicesTable> {
                     : _selectedRooms.add(_uniqueRooms[index]);
                 _searchWithSearchWord();
                 _filterDevicesWithRoom();
+                _sortDevicesForDisplay();
               });
             },
             child: Padding(
@@ -190,7 +191,16 @@ class _DevicesTableState extends State<DevicesTable> {
                   Checkbox(
                     activeColor: buttonColor,
                     value: _selectedRooms.contains(_uniqueRooms[index]),
-                    onChanged: (bool value) {},
+                    onChanged: (bool value) {
+                      setState(() {
+                        _selectedRooms.contains(_uniqueRooms[index])
+                            ? _selectedRooms.remove(_uniqueRooms[index])
+                            : _selectedRooms.add(_uniqueRooms[index]);
+                        _searchWithSearchWord();
+                        _filterDevicesWithRoom();
+                        _sortDevicesForDisplay();
+                      });
+                    },
                   ),
                   Text(
                     _uniqueRooms[index].roomname,
@@ -342,8 +352,16 @@ class _DevicesTableState extends State<DevicesTable> {
   }
 
   _filterDevicesWithRoom() {
-    for (Room r in _selectedRooms) {
-      _devicesForDisplay.retainWhere((device) => device.roomname == r.roomname);
+    if (_selectedRooms.isNotEmpty && _selectedRooms != null) {
+      List<Device> _devicesList = [];
+      for (Room r in _selectedRooms) {
+        for (Device d in _devicesForDisplay) {
+          if (d.roomname == r.roomname) {
+            _devicesList.add(d);
+          }
+        }
+      }
+      _devicesForDisplay = _devicesList;
     }
   }
 
