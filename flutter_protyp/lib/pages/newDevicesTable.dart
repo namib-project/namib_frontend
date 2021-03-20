@@ -90,7 +90,7 @@ class _NewDevicesTableState extends State<NewDevicesTable> {
                                     _searchBar(),
                                     _listHeader(),
                                     Container(
-                                      height: 250,
+                                      height: 500,
                                       child: _listForDevices(context),
                                     )
                                   ],
@@ -163,12 +163,15 @@ class _NewDevicesTableState extends State<NewDevicesTable> {
                     ),
                   ),
                 ),
-                Text(
-                  "Auswählen",
-                  style: TextStyle(
-                    fontSize: 20,
+                Visibility(
+                  visible: adminAccess,
+                  child: Text(
+                    "Auswählen",
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
                   ),
-                ),
+                )
               ],
             ),
           ),
@@ -235,12 +238,15 @@ class _NewDevicesTableState extends State<NewDevicesTable> {
                         fontSize: 20,
                       ),
                     ),
-                    IconButton(
-                      icon: Icon(
-                        FontAwesomeIcons.arrowRight,
-                        size: 17,
+                    Visibility(
+                      visible: adminAccess,
+                      child: IconButton(
+                        icon: Icon(
+                          FontAwesomeIcons.arrowRight,
+                          size: 17,
+                        ),
                       ),
-                    ),
+                    )
                   ],
                 ),
               ),
