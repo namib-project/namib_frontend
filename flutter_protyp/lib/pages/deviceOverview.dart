@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_protyp/data/device_mud/device.dart';
@@ -143,7 +142,6 @@ class _DeviceOverviewState extends State<DeviceOverview> {
     } else {
       throw Exception("Failed to get Data");
     }
-    //TODO bei release auf http request umstellen
   }
 
   dynamic _handleTimeOut() {}
