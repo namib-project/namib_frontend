@@ -12,7 +12,6 @@ import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 
-
 class Login extends StatefulWidget {
   @override
   _LoginState createState() => _LoginState();
@@ -48,7 +47,8 @@ class _LoginState extends State<Login> {
   /// Stores the response from the controller
   var response;
   var newToken;
-  static const oneSec = const Duration(seconds:840);
+  static const oneSec = const Duration(seconds: 840);
+
   // This method scans the operating system and starts if its true the mobile device version
   void onlineOs() {
     String android = "android";
@@ -279,42 +279,45 @@ class _LoginState extends State<Login> {
                           padding: const EdgeInsets.all(0),
                           child: Container(
                             alignment: Alignment.center,
-                            child: ButtonTheme(
-                              minWidth: 300,
-                              height: 100,
-                              child: FlatButton(
-                                color: Color(0x00000000),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50),
-                                ),
-                                onPressed: () async => {
-                                  setSystemPreferences(),
+                            child: TextButton(
+                              style: ButtonStyle(
+                                minimumSize: MaterialStateProperty.all(Size(300, 100)),
+                                  backgroundColor: MaterialStateProperty.all(
+                                      Color(0x00000000)),
+                                  shape: MaterialStateProperty.all(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(50),
+                                    ),
+                                  )),
+                              onPressed: loginButton
+                                  ? () async => {
+                                        setSystemPreferences(),
 
-                                  //Sends Http Request
-                                  response = await http
-                                      .post(url + loginExtension,
-                                          headers: {
-                                            "Content-Type": "application/json",
-                                            // 'Charset': 'utf-8'
-                                          },
-                                          body: json.encode({
-                                            'password': _password,
-                                            'username': _username
-                                          }))
-                                      .timeout(const Duration(seconds: 7),
-                                          onTimeout: () {
-                                    return _handleTimeOut();
-                                  }),
-                                  _checkResponse(response.statusCode),
-
-                                },
-                                child: Text(
-                                  "Login",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                        //Sends Http Request
+                                        response = await http
+                                            .post(url + loginExtension,
+                                                headers: {
+                                                  "Content-Type":
+                                                      "application/json",
+                                                  // 'Charset': 'utf-8'
+                                                },
+                                                body: json.encode({
+                                                  'password': _password,
+                                                  'username': _username
+                                                }))
+                                            .timeout(const Duration(seconds: 7),
+                                                onTimeout: () {
+                                          return _handleTimeOut();
+                                        }),
+                                        _checkResponse(response.statusCode),
+                                      }
+                                  : null,
+                              child: Text(
+                                "Login",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),

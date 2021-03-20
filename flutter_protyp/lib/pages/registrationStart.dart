@@ -120,10 +120,12 @@ class _RegistrationState extends State<RegistrationStart> {
                                 child: ButtonTheme(
                                   minWidth: 10,
                                   height: 50,
-                                  child: FlatButton(
-                                    shape: RoundedRectangleBorder(
+                                  child: TextButton(
+                                    style: ButtonStyle(
+                                        shape: MaterialStateProperty.all(
+                                            RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(50),
-                                    ),
+                                    ))),
                                     onPressed: () => {
                                       Navigator.pushReplacementNamed(
                                           context, "/login")

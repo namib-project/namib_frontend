@@ -253,24 +253,28 @@ class _RegistrationState extends State<Registration> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
-                            RaisedButton(
+                            ElevatedButton(
+                              style: ButtonStyle(
+                                minimumSize: MaterialStateProperty.all(Size(140.0, 50.0)),
+                                padding: MaterialStateProperty.all(EdgeInsets.all(10))
+                              ),
                               //Button is enabled if regisButton is true
                               onPressed: regisButton
                                   ? () async => {
-                                        // response = await http
-                                        //     .post(url + signupExtension,
-                                        //         headers: {
-                                        //           "Content-Type":
-                                        //               "application/json"
-                                        //         },
-                                        //         body: json.encode({
-                                        //           "password": _password,
-                                        //           "username": _username
-                                        //         }))
-                                        //     .timeout(const Duration(seconds: 3),
-                                        //         onTimeout: () {
-                                        //   return catchTimeout();
-                                        // }),
+                                        response = await http
+                                            .post(url + signupExtension,
+                                                headers: {
+                                                  "Content-Type":
+                                                      "application/json"
+                                                },
+                                                body: json.encode({
+                                                  "password": _password,
+                                                  "username": _username
+                                                }))
+                                            .timeout(const Duration(seconds: 3),
+                                                onTimeout: () {
+                                          return catchTimeout();
+                                        }),
                                         _username = "",
                                         _password = "",
                                         _secPassword = "",
@@ -282,7 +286,6 @@ class _RegistrationState extends State<Registration> {
                                 "signup".tr().toString(),
                                 style: TextStyle(fontSize: 20),
                               ),
-                              padding: EdgeInsets.all(15),
                             ),
                           ],
                         ),
@@ -354,7 +357,7 @@ class _RegistrationState extends State<Registration> {
                       Container(
                         height: 70,
                         alignment: Alignment.center,
-                        child: FlatButton(
+                        child: TextButton(
                           onPressed: () {
                             Navigator.of(context).pop();
                             _forwarding();

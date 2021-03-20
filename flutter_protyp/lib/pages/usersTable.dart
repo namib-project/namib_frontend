@@ -279,7 +279,7 @@ class UsersTableState extends State<UsersTable> {
               ),
               title: SelectableText("attention".tr().toString()),
               content: Container(
-                height: 175,
+                height: 130,
                 width: 300,
                 child: Column(
                   children: [
@@ -291,7 +291,7 @@ class UsersTableState extends State<UsersTable> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         // Buttons to accept or dismiss the changes like described above
-                        FlatButton(
+                        TextButton(
                           child: Text(
                             "Abbrechen",
                             style: TextStyle(
@@ -302,7 +302,7 @@ class UsersTableState extends State<UsersTable> {
                             Navigator.of(context).pop(); // dismiss dialog
                           },
                         ),
-                        FlatButton(
+                        TextButton(
                           child: Text(
                             "confirmation".tr().toString(),
                             style: TextStyle(
@@ -349,7 +349,7 @@ class UsersTableState extends State<UsersTable> {
                   ),
                   content: Container(
                     width: 300,
-                    height: 227,
+                    height: 220,
                     child: Column(
                       children: <Widget>[
                         Container(
@@ -412,7 +412,7 @@ class UsersTableState extends State<UsersTable> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             // Buttons to accept or dismiss the changes like described above
-                            FlatButton(
+                            TextButton(
                               child: Text(
                                 "cancel".tr().toString(),
                                 style: TextStyle(
@@ -423,7 +423,7 @@ class UsersTableState extends State<UsersTable> {
                                 Navigator.of(context).pop(); // dismiss dialog
                               },
                             ),
-                            FlatButton(
+                            TextButton(
                               child: Text(
                                 "save".tr().toString(),
                                 style: TextStyle(

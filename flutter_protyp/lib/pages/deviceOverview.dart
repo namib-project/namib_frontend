@@ -99,7 +99,7 @@ class _DeviceOverviewState extends State<DeviceOverview> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
                         SelectableText("wentWrongError".tr().toString()),
-                        RaisedButton(
+                        ElevatedButton(
                             child: Text("reload".tr().toString()),
                             onPressed: () {
                               Navigator.pushReplacementNamed(

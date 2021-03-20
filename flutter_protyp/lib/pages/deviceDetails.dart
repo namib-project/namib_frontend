@@ -509,7 +509,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     Map<String, dynamic> data = {
       "acl_override": widget.device.mud_data.acl_override
     };
-    var response = await http.put(url + _updateMUDExtension + widget.device.mud_url,
+    await http.put(url + _updateMUDExtension + widget.device.mud_url,
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Bearer $jwtToken"
@@ -778,7 +778,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       // Buttons to accept or dismiss the changes like described above
-                      FlatButton(
+                      TextButton(
                         child: Text(
                           "cancel".tr().toString(),
                           style: TextStyle(
