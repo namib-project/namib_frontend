@@ -370,7 +370,6 @@ class _LoginState extends State<Login> {
           jwtToken = json.decode(response.body)['token'];
           decodeToken();
           testPermissions();
-          print(jwtToken); //TODO richtige List übergeben
           errorMessage401 = false;
           errorMessage400 = false;
           Navigator.pushReplacement(
@@ -392,17 +391,12 @@ class _LoginState extends State<Login> {
   // Function to get the permission from the JWT-Token
   void decodeToken() {
     String _token;
-
     _token = jwtToken;
     var parts = _token.split('.');
     var payload = parts[1];
     var normalized = base64Url.normalize(payload);
     var resp = utf8.decode(base64Url.decode(normalized));
-
     permissions = jsonDecode(resp)["permissions"];
-    print(permissions);
-
-    print(resp);
   }
 
   // Function for set the access permission for the application
@@ -413,10 +407,8 @@ class _LoginState extends State<Login> {
     List<dynamic> admin = ["**"];
 
     if (eq(admin, permissions) == true) {
-      print("babo");
       adminAccess = true;
     } else if (eq(user, permissions) == true) {
-      print("lappen");
       userAccess = true;
       adminAccess = false;
     }
@@ -434,6 +426,5 @@ class _LoginState extends State<Login> {
     newToken = json.decode(test.body)['token'];
 
     jwtToken = newToken;
-    print(jwtToken);
   }
 }

@@ -76,5 +76,6 @@
   "name": "Name",
   "resetDisclaimer": "When you reset the state of your device, all the settings you have made will be undone.",
   "deleteDNSNameDisclaimer": "Are you sure you want to delete this entry? Your device will no longer be able to access the website service.",
-  "deleteUserDisclaimer": "Are you sure you want to delete this user? This operation cannot be undone."
+  "deleteUserDisclaimer": "Are you sure you want to delete this user? This operation cannot be undone.",
+  "dummieUser": "You don't have any rights on this network, please ask your admin!"
 }

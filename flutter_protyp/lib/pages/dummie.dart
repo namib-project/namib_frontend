@@ -38,8 +38,9 @@ class _DummieState extends State<Dummie> {
                     height: 50,
                   ),
                   Container(
+
                     child: SelectableText(
-                      "Du bist ein dummie und kannst nichts",
+                      "dummieUser".tr().toString(),
                       style: TextStyle(
                         fontFamily: "OpenSans",
                         fontSize: 30,

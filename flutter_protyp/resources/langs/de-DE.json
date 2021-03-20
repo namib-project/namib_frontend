@@ -77,5 +77,6 @@
   "name": "Name",
   "resetDisclaimer": "Wenn Sie den Zustand Ihres Gerätes zurücksetzen, werden alle Einstellungen die Sie vorgenommen haben rückgängig gemacht.",
   "deleteDNSNameDisclaimer": "Sind Sie sich sicher das Sie diesen Eintrag löschen wollen? Ihr Gerät kann dann nicht mehr auf den Dienst der Website zugreifen.",
-  "deleteUserDisclaimer": "Sind Sie sicher das Sie diesen Benutzer löschen wollen? Dieser Vorgang kann nicht Rückgängig gemacht werden."
+  "deleteUserDisclaimer": "Sind Sie sicher das Sie diesen Benutzer löschen wollen? Dieser Vorgang kann nicht Rückgängig gemacht werden.",
+  "dummieUser": "Sie haben keine Rechte für dieses Netzwerk, wenden sie sich an den Administrator!"
 }
