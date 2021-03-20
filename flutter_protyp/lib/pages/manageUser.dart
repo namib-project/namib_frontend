@@ -18,17 +18,12 @@ class ManageUser extends StatefulWidget {
 //Class for user management
 class _ManageUserState extends State<ManageUser> {
   /// Strings for handle the user information
-  String _username = "mustermann";
-  String _password = "asdfasdf";
   String _newUsername = "";
   String _newPassword = "";
   String _confirmPassword = "";
 
   String nameExtension = 'users/me';
   String passwordExtension = 'users/password';
-
-  /// Var for saving the brightness state of the device
-  var response;
 
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -59,17 +54,16 @@ class _ManageUserState extends State<ManageUser> {
                 Container(
                   height: 70,
                   alignment: Alignment.center,
-                  child: ButtonTheme(
-                    minWidth: 200,
-                    height: 50,
-                    child: RaisedButton(
-                      onPressed: () {
-                        _changeUsernameDialog(context);
-                      },
-                      child: Text(
-                        "changeUsername".tr().toString(),
-                        style: TextStyle(fontSize: 20),
-                      ),
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      minimumSize: MaterialStateProperty.all(Size(120, 50)),
+                    ),
+                    onPressed: () {
+                      _changeUsernameDialog();
+                    },
+                    child: Text(
+                      "changeUsername".tr().toString(),
+                      style: TextStyle(fontSize: 20),
                     ),
                   ),
                 ),
@@ -78,17 +72,16 @@ class _ManageUserState extends State<ManageUser> {
                 Container(
                   height: 70,
                   alignment: Alignment.center,
-                  child: ButtonTheme(
-                    minWidth: 150,
-                    height: 50,
-                    child: RaisedButton(
-                      onPressed: () {
-                        _changePasswordDialog(context);
-                      },
-                      child: Text(
-                        "changePassword".tr().toString(),
-                        style: TextStyle(fontSize: 20),
-                      ),
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      minimumSize: MaterialStateProperty.all(Size(120, 50)),
+                    ),
+                    onPressed: () {
+                      _changePasswordDialog();
+                    },
+                    child: Text(
+                      "changePassword".tr().toString(),
+                      style: TextStyle(fontSize: 20),
                     ),
                   ),
                 ),
@@ -98,7 +91,7 @@ class _ManageUserState extends State<ManageUser> {
         ));
   }
 
-  _changeUsernameDialog(BuildContext context) async {
+  _changeUsernameDialog() async {
     showDialog(
         context: context,
         builder: (context) => SimpleDialog(
@@ -130,43 +123,47 @@ class _ManageUserState extends State<ManageUser> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      ButtonTheme(
-                        minWidth: 100,
-                        height: 50,
-                        child: RaisedButton(
-                          onPressed: () async {
-                            Navigator.of(context).pop();
-                            print(jwtToken);
-                            response = await http.post(url + nameExtension,
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          minimumSize: MaterialStateProperty.all(Size(120, 50)),
+                        ),
+                        onPressed: () async {
+                          Navigator.of(context).pop();
+                          try {
+                            var _response = await http.post(url + nameExtension,
                                 headers: {
                                   "Content-Type": "application/json",
                                   "Authorization": "Bearer $jwtToken"
                                 },
                                 body: json.encode({'username': _newUsername}));
-
-                            print(response.body);
-                            print(response.statusCode);
-                          },
-                          child: Text(
-                            "change".tr().toString(),
-                            style: TextStyle(
-                              fontSize: 20,
-                            ),
+                            if (_response.statusCode == 200) {
+                              _forward();
+                            } else {
+                              _errorDialog();
+                            }
+                          } on Exception {
+                            _errorDialog();
+                          }
+                        },
+                        child: Text(
+                          "change".tr().toString(),
+                          style: TextStyle(
+                            fontSize: 20,
                           ),
                         ),
                       ),
-                      ButtonTheme(
-                        minWidth: 130,
-                        height: 50,
-                        child: RaisedButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: Text(
-                              "cancel".tr().toString(),
-                              style: TextStyle(fontSize: 20),
-                            )),
-                      ),
+                      ElevatedButton(
+                          style: ButtonStyle(
+                            minimumSize:
+                                MaterialStateProperty.all(Size(120, 50)),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text(
+                            "cancel".tr().toString(),
+                            style: TextStyle(fontSize: 20),
+                          )),
                     ],
                   ),
                 ),
@@ -174,7 +171,7 @@ class _ManageUserState extends State<ManageUser> {
             ));
   }
 
-  _changePasswordDialog(BuildContext context) async {
+  _changePasswordDialog() async {
     showDialog(
         context: context,
         builder: (context) => SimpleDialog(
@@ -195,15 +192,6 @@ class _ManageUserState extends State<ManageUser> {
                         _newPassword = value;
                       });
                     },
-                  ),
-                ),
-                Container(
-                  height: mobileDevice ? 45 : 60,
-                  width: 100,
-                  alignment: Alignment.center,
-                  child: SelectableText(
-                    "minCharacters".tr().toString(),
-                    style: TextStyle(color: Colors.red[700], fontSize: 20),
                   ),
                 ),
                 Container(
@@ -228,43 +216,46 @@ class _ManageUserState extends State<ManageUser> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      ButtonTheme(
-                        minWidth: 100,
-                        height: 50,
-                        child: RaisedButton(
-                          onPressed: () async {
-                            response = await http.post(url + passwordExtension,
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          minimumSize: MaterialStateProperty.all(Size(120, 50)),
+                        ),
+                        onPressed: () async {
+                          Navigator.of(context).pop();
+                          try {
+                            var _response = await http.post(url + passwordExtension,
                                 headers: {
                                   "Content-Type": "application/json",
                                   "Authorization": "Bearer $jwtToken"
                                 },
                                 body: json.encode({
-                                  'old_password': _password,
-                                  'new_password': _newPassword
+                                  'new_password': _newPassword,
+                                  'old_password': _confirmPassword
                                 }));
-
-                            print(response.body);
-                            print(response.statusCode);
-
-                            Navigator.of(context).pop();
-                          },
-                          child: Text(
-                            "change".tr().toString(),
-                            style: TextStyle(fontSize: 20),
-                          ),
+                            if (_response.statusCode == 200) {
+                              _forward();
+                            } else {
+                              _errorDialog();
+                            }
+                          } on Exception {
+                            _errorDialog();
+                          }
+                        },
+                        child: Text(
+                          "change".tr().toString(),
+                          style: TextStyle(fontSize: 20),
                         ),
                       ),
-                      ButtonTheme(
-                        minWidth: 130,
-                        height: 50,
-                        child: RaisedButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text(
-                            "cancel".tr().toString(),
-                            style: TextStyle(fontSize: 20),
-                          ),
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          minimumSize: MaterialStateProperty.all(Size(120, 50)),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          "cancel".tr().toString(),
+                          style: TextStyle(fontSize: 20),
                         ),
                       ),
                     ],
@@ -272,5 +263,64 @@ class _ManageUserState extends State<ManageUser> {
                 ),
               ],
             ));
+  }
+
+  void _forward() {
+    Navigator.pushReplacementNamed(context, "/login");
+    permissions = [];
+    jwtToken = "";
+    adminAccess = false;
+    userAccess = false;
+  }
+
+  void _errorDialog() {
+    showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          // Here are displayed all cliparts to put devices in different classes
+          // At the end there ist a pop-up dialog to save or dismiss the changes
+          return StatefulBuilder(builder: (context, setState) {
+            return Center(
+              child: Theme(
+                data: ThemeData(
+                  brightness: darkMode ? Brightness.dark : Brightness.light,
+                  primaryColor: primaryColor,
+                  accentColor: primaryColor,
+                  hintColor: Colors.grey,
+                ),
+                child: AlertDialog(
+                  scrollable: true,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                  ),
+                  content: Container(
+                    width: 300,
+                    height: 140,
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          height: 100,
+                          alignment: Alignment.center,
+                          child: SelectableText(
+                            'wentWrongError'.tr().toString(),
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                        TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text("Ok"))
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            );
+          });
+        });
   }
 }

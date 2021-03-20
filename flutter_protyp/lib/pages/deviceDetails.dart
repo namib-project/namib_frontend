@@ -798,7 +798,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                         ),
                         onPressed: () async {
                           Map<String, dynamic> data = {"acl_override": null};
-                          var response = await http.put(
+                          await http.put(
                               url + _updateMUDExtension + widget.device.mud_url,
                               headers: {
                                 "Content-Type": "application/json",

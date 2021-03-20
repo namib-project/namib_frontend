@@ -41,7 +41,6 @@ class _MainAppbarState extends State<MainAppbar> {
   @override
   Widget build(BuildContext context) {
     ThemeChanger themeChanger = Provider.of<ThemeChanger>(context);
-    //getUserName();
 
     return SizedBox(
       child: AppBar(
@@ -58,7 +57,7 @@ class _MainAppbarState extends State<MainAppbar> {
           },
         ),
 
-        // Textfield for displaying the username
+        // Text field for displaying the username
         title: SelectableText("hello".tr().toString() + " " + getUserName()),
         actions: <Widget>[
           Padding(
@@ -77,25 +76,15 @@ class _MainAppbarState extends State<MainAppbar> {
     ///TODO delete if for release
     if (jwtToken.length > 1) {
       myJson = jwtToken;
-      //clearJson = jsonDecode(myJson);
-      //token = clearJson["token"];
       parts = myJson.split('.');
       payload = parts[1];
       normalized = base64Url.normalize(payload);
       resp = utf8.decode(base64Url.decode(normalized));
       payloadMap = json.decode(resp);
-      //  print(payloadMap["id"]);
-      //  print(payloadMap["username"]);
       username = payloadMap["username"];
     } else {
-      username = "test";
+      username = "";
     }
-    //response = await http.get(url, headers: {
-    //  "Content-Type": "application/json",
-    //  "Authorization": "Bearer $jwtToken"
-    //});
-
-    //username = response.body;
     return username;
   }
 }
