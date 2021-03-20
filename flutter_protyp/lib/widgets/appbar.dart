@@ -73,7 +73,6 @@ class _MainAppbarState extends State<MainAppbar> {
 
   // This method parses the string with username from controller
   String getUserName() {
-    ///TODO delete if for release
     if (jwtToken.length > 1) {
       myJson = jwtToken;
       parts = myJson.split('.');
