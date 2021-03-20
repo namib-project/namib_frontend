@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_protyp/pages/about.dart';
 import "package:flutter_protyp/pages/deviceOverview.dart";
 import "package:flutter_protyp/pages/chooseRoom.dart";
-import "package:flutter_protyp/pages/createDevice.dart";
+import "package:flutter_protyp/pages/chooseMudData.dart";
 import "package:flutter_protyp/pages/newDeviceOverview.dart";
 import 'package:flutter_protyp/pages/registration.dart';
 import 'package:flutter_protyp/pages/startService.dart';
@@ -68,7 +68,7 @@ class MaterialAppWithTheme extends StatelessWidget {
           "/about": (context) => About(),
           "/userManagement": (context) => UserManagement(),
           "/chooseRoom": (context) => ChooseRoom(),
-          "/newDevice": (context) => NewDevice(),
+          "/chooseMudData": (context) => ChooseMudData(),
           "/newDeviceOverview": (context) => NewDeviceOverview(),
         });
   }
