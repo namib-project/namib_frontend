@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -8,6 +10,7 @@ import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:websafe_svg/websafe_svg.dart';
+import 'package:http/http.dart' as http;
 
 class DeviceDetails extends StatefulWidget {
   const DeviceDetails({
@@ -29,6 +32,9 @@ class _DeviceDetailsState extends State<DeviceDetails> {
 
   /// A string that safes the selected clipart from the clipart-list
   String selectedClipArt = allClipArts[0];
+
+  /// url extension
+  String _updateMUDExtension = "mud/";
 
   @override
   void initState() {
@@ -71,21 +77,20 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                   child: Container(
                     alignment: Alignment.center,
                     height: 60,
-                    child: RaisedButton(
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        minimumSize: MaterialStateProperty.all(Size(120, 50)),
+                      ),
                       onPressed: () {
                         _resetDialog();
                       },
-                      child: Text("reset".tr().toString()),
+                      child: Text(
+                        "reset".tr().toString(),
+                        style: TextStyle(fontSize: 20),
+                      ),
                     ),
                   ),
                 ),
-
-                // RaisedButton(
-                //   onPressed: () {
-                //     _resetDialog();
-                //   },
-                //   child: Text("reset".tr().toString()),
-                // ),
                 SizedBox(
                   height: 20,
                 ),
@@ -115,8 +120,14 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                   child: Container(
                     alignment: Alignment.center,
                     height: 60,
-                    child: RaisedButton(
-                      child: Text("Clipart ändern"),
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        minimumSize: MaterialStateProperty.all(Size(120, 50)),
+                      ),
+                      child: Text(
+                        "Clipart ändern",
+                        style: TextStyle(fontSize: 20),
+                      ),
                       onPressed: () {
                         _chooseClipartDialog(context);
                       },
@@ -145,25 +156,39 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                           ),
                         ]),
                     Visibility(
-                      visible: adminAccess,
-                      child: RaisedButton(
+                      visible: adminAccess && !editColumn,
+                      child: ElevatedButton(
+                          style: ButtonStyle(
+                            minimumSize:
+                                MaterialStateProperty.all(Size(120, 50)),
+                          ),
                           onPressed: () {
                             setState(() {
                               editColumn = !editColumn;
                             });
                           },
-                          child: Text("edit".tr().toString())),
+                          child: Text(
+                            "edit".tr().toString(),
+                            style: TextStyle(fontSize: 20),
+                          )),
                     ),
                     Visibility(
                       visible: editColumn,
-                      child: RaisedButton(
+                      child: ElevatedButton(
+                          style: ButtonStyle(
+                            minimumSize:
+                                MaterialStateProperty.all(Size(120, 50)),
+                          ),
                           onPressed: () {
                             setState(() {
                               editColumn = !editColumn;
                             });
                             _transmitData();
                           },
-                          child: Text("save".tr().toString())),
+                          child: Text(
+                            "save".tr().toString(),
+                            style: TextStyle(fontSize: 20),
+                          )),
                     ),
                     _expertModeText(context),
                   ],
@@ -275,7 +300,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             // Buttons to accept or dismiss the changes like described above
-                            FlatButton(
+                            TextButton(
                               child: Text(
                                 "Abbrechen",
                                 style: TextStyle(
@@ -286,7 +311,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                 Navigator.of(context).pop(); // dismiss dialog
                               },
                             ),
-                            FlatButton(
+                            TextButton(
                               child: Text(
                                 "Übernehmen",
                                 style: TextStyle(
@@ -326,22 +351,39 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                   visible: editColumn,
                   child: SelectableText("edit".tr().toString())))
         ],
-        rows: widget.device.mud_data.acllist
-            .map((accessControlEntry) => DataRow(cells: [
-                  DataCell(Text(accessControlEntry.ace[0].matches.dnsname)),
-                  DataCell(
-                    Visibility(
-                      visible: editColumn,
-                      child: IconButton(
-                        icon: Icon(Icons.delete),
-                        onPressed: () {
-                          _deleteDNSName(accessControlEntry);
-                        },
-                      ),
-                    ),
-                  )
-                ]))
-            .toList(),
+        rows: widget.device.mud_data.acl_override == null
+            ? widget.device.mud_data.acllist
+                .map((accessControlEntry) => DataRow(cells: [
+                      DataCell(Text(accessControlEntry.ace[0].matches.dnsname)),
+                      DataCell(
+                        Visibility(
+                          visible: editColumn,
+                          child: IconButton(
+                            icon: Icon(Icons.delete),
+                            onPressed: () {
+                              _deleteDNSName(accessControlEntry);
+                            },
+                          ),
+                        ),
+                      )
+                    ]))
+                .toList()
+            : widget.device.mud_data.acl_override
+                .map((accessControlEntry) => DataRow(cells: [
+                      DataCell(Text(accessControlEntry.ace[0].matches.dnsname)),
+                      DataCell(
+                        Visibility(
+                          visible: editColumn,
+                          child: IconButton(
+                            icon: Icon(Icons.delete),
+                            onPressed: () {
+                              _deleteDNSName(accessControlEntry);
+                            },
+                          ),
+                        ),
+                      )
+                    ]))
+                .toList(),
       ),
     );
   }
@@ -369,7 +411,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       // Buttons to accept or dismiss the changes like described above
-                      FlatButton(
+                      TextButton(
                         child: Text(
                           "cancel".tr().toString(),
                           style: TextStyle(
@@ -380,7 +422,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                           Navigator.of(context).pop(); // dismiss dialog
                         },
                       ),
-                      FlatButton(
+                      TextButton(
                         child: Text(
                           "delete".tr().toString(),
                           style: TextStyle(
@@ -389,7 +431,9 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                         ),
                         onPressed: () {
                           setState(() {
-                            widget.device.mud_data.acllist
+                            widget.device.mud_data.acl_override =
+                                List.from(widget.device.mud_data.acllist);
+                            widget.device.mud_data.acl_override
                                 .remove(accessControlEntry);
                           });
                           Navigator.of(context).pop(); // dismiss dialog
@@ -422,7 +466,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                             content:
                                 Text("explanationDNSNames".tr().toString()),
                             actions: [
-                              FlatButton(
+                              TextButton(
                                 child: Text("Ok!"),
                                 onPressed: () {
                                   Navigator.of(context).pop(); // dismiss dialog
@@ -461,7 +505,18 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     }
   }
 
-  Future _transmitData() async {}
+  Future _transmitData() async {
+    Map<String, dynamic> data = {
+      "acl_override": widget.device.mud_data.acl_override
+    };
+    var response = await http.put(url + _updateMUDExtension + widget.device.mud_url,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $jwtToken"
+        },
+        body: jsonEncode(data));
+
+  }
 
   ///True if mouse is in the MouseRegion widget, else false
   bool inRegion = false;
@@ -734,15 +789,23 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                           Navigator.of(context).pop(); // dismiss dialog
                         },
                       ),
-                      FlatButton(
+                      TextButton(
                         child: Text(
                           "reset".tr().toString(),
                           style: TextStyle(
                             color: buttonColor,
                           ),
                         ),
-                        onPressed: () {
-                          //TODO call reset route
+                        onPressed: () async {
+                          Map<String, dynamic> data = {"acl_override": null};
+                          var response = await http.put(
+                              url + _updateMUDExtension + widget.device.mud_url,
+                              headers: {
+                                "Content-Type": "application/json",
+                                "Authorization": "Bearer $jwtToken"
+                              },
+                              body: jsonEncode(data));
+                          Navigator.of(context).pop(); // dismiss dialog
                         },
                       ),
                     ],
