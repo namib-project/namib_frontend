@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_protyp/data/device_mud/device.dart';
 import 'package:flutter_protyp/data/device_mud/mudData.dart';
@@ -53,10 +55,12 @@ class _LoginState extends State<Login> {
   String brightness;
 
   String loginExtension = 'users/login';
+  String tokenExtension = 'users/refresh_token';
 
   /// Stores the response from the controller
   var response;
-
+  var newToken;
+  static const oneSec = const Duration(seconds:840);
   // This method scans the operating system and starts if its true the mobile device version
   void onlineOs() {
     String android = "android";
@@ -73,6 +77,7 @@ class _LoginState extends State<Login> {
   void initState() {
     onlineOs();
     super.initState();
+
   }
 
   // This method sets the brightness for the hole app
@@ -315,14 +320,14 @@ class _LoginState extends State<Login> {
                                   print(brightness),
 
                                   /// just for testing
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ThemingService(
-                                        brightness: brightness,
-                                      ),
-                                    ),
-                                  ),
+                                //  Navigator.pushReplacement(
+                                //    context,
+                                //    MaterialPageRoute(
+                                //      builder: (context) => ThemingService(
+                                //        brightness: brightness,
+                                //      ),
+                                //    ),
+                                //  ),
 
                                   {print(_username)},
                                   {print(_password)},
@@ -344,9 +349,8 @@ class _LoginState extends State<Login> {
                                   }),
                                   _checkResponse(response.statusCode),
                                   decodeToken(),
+                                testPermissions(),
 
-                                  /// TODO: permissions have to be set
-                                  //testPermissions(),
                                 },
                                 child: Text(
                                   "Login",
@@ -404,16 +408,17 @@ class _LoginState extends State<Login> {
           errorMessage401 = true;
           errorMessage400 = false;
         } else if (statusCode == 200) {
+          new Timer.periodic(oneSec, (Timer t) => _refreshToken());
           _password = "";
           _username = "";
           //_getDevices();
           jwtToken = json.decode(response.body)['token'];
           //jwtToken = jwtToken.substring(
           //    9, jwtToken.length),
-          //TODO request für Benutzerrollen
           print(jwtToken); //TODO richtige List übergeben
           errorMessage401 = false;
           errorMessage400 = false;
+
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -486,8 +491,10 @@ class _LoginState extends State<Login> {
   Future testPermissions() async {
     Function eq = const ListEquality().equals;
 
-    List<dynamic> user = ["asdf"];
-    List<dynamic> admin = [];
+
+    List<dynamic> user = ["**/list",
+      "**/read"];
+    List<dynamic> admin = ["**"];
 
     if (eq(admin, permissions) == true) {
       print("babo");
@@ -499,4 +506,24 @@ class _LoginState extends State<Login> {
     }
     return adminAccess;
   }
+
+  //This function refreshs the JWT token for authorization
+  Future  _refreshToken() async {
+   var test = await http
+        .get(url + tokenExtension,
+        headers: {
+        "Content-Type": "application/json",
+          "Authorization": "Bearer $jwtToken"
+        // 'Charset': 'utf-8'
+        });
+
+    newToken = json.decode(test.body)['token'];
+   // print(newToken);
+   // print(jwtToken);
+
+    jwtToken = newToken;
+    print(jwtToken);
+
+  }
+
 }
