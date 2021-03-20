@@ -20,17 +20,16 @@ class _AboutState extends State<About> {
   // Future string type to build at runtime
   // Get request for the controller version to display it for the user
   Future<String> fetchVersion() async {
-    //try {
+    try {
     String statusExtension = "status";
-    //var response = await http.get(url + statusExtension);
-    //if (response.statusCode == 200) {
-    //  var statusResponse = jsonDecode(response.body);
-    //  return statusResponse["version"];
-    //  return response.body;
-    // }
-    //} on Exception {
-    return '{"setup_required":false,"version":"master_238571de23"}'; //TODO real exception catch by release
-    //}
+    var response = await http.get(url + statusExtension);
+    if (response.statusCode == 200) {
+     var statusResponse = jsonDecode(response.body);
+     return statusResponse["version"];
+    }
+    } on Exception {
+    return 'Error';
+    }
   }
 
   @override
@@ -74,14 +73,12 @@ class _AboutState extends State<About> {
                   ),
                   Container(
                       // FutureBuilder element, that will be build but context will be shown after get request above
-                      // Here will be presentet the current controller version
+                      // Here will be presented the current controller version
                       child: FutureBuilder<String>(
                     future: version,
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        Map<String, dynamic> data = jsonDecode(snapshot.data);
-                        String version = data["version"];
-                        return SelectableText(version);
+                        return SelectableText(snapshot.data);
                       } else if (snapshot.hasError) {
                         return Text("${snapshot.error}");
                       }
