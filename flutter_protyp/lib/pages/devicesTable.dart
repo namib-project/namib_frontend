@@ -237,12 +237,6 @@ class _DevicesTableState extends State<DevicesTable> {
                     fontSize: 20,
                   ),
                 ),
-                Text(
-                  "Edit",
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
-                ),
               ],
             ),
           ),
@@ -314,12 +308,6 @@ class _DevicesTableState extends State<DevicesTable> {
                       _devicesForDisplay[index].mud_url,
                       style: TextStyle(
                         fontSize: 20,
-                      ),
-                    ),
-                    IconButton(
-                      icon: Icon(
-                        FontAwesomeIcons.cog,
-                        size: 20,
                       ),
                     ),
                   ],

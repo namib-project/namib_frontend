@@ -24,6 +24,7 @@ class RoomTable extends StatefulWidget {
 
 //Class for user registration, will only be used at the first usage
 class _RoomTableState extends State<RoomTable> {
+  List<Room> _uniqueRooms = [];
   List<Room> _roomsForDisplay;
   Room chosenRoom;
   String newRoomName;
@@ -73,7 +74,13 @@ class _RoomTableState extends State<RoomTable> {
   @override
   void initState() {
     setState(() {
-      _roomsForDisplay = widget.rooms;
+      _uniqueRooms = widget.rooms;
+
+      /// to remove all the duplicates to get all rooms only once
+      final allRoomNames = _uniqueRooms.map((e) => e.roomname).toSet();
+      _uniqueRooms.retainWhere((x) => allRoomNames.remove(x.roomname));
+
+      _roomsForDisplay = _uniqueRooms;
       _sortRoomsForDisplay();
     });
   }
@@ -116,7 +123,7 @@ class _RoomTableState extends State<RoomTable> {
                     ),
                     Expanded(
                       flex: 16,
-                      child: (widget.rooms != null && widget.rooms.length != 0)
+                      child: (_uniqueRooms != null && _uniqueRooms.length != 0)
                           ? Column(
                               children: <Widget>[
                                 _searchBar(),
@@ -287,7 +294,7 @@ class _RoomTableState extends State<RoomTable> {
         onChanged: (text) {
           text = text.toLowerCase();
           setState(() {
-            _roomsForDisplay = widget.rooms.where((room) {
+            _roomsForDisplay = _uniqueRooms.where((room) {
               var roomName = room.roomname.toLowerCase();
               return roomName.contains(text);
             }).toList();
