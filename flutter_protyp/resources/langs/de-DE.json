@@ -39,7 +39,7 @@
   "positivPsw": "Das Passwort ist lang genug und stimmt überein",
   "userNameTaken": "Der Benutzername ist bereits vergeben, bitte wähle einen anderen",
   "backLogin": "Zurück zum Login",
-  "error400": "Ihre Logindaten sind inkorrekt!",
+  "error401": "Ihre Logindaten sind inkorrekt!",
   "error": "Ein unbekannter Fehler ist aufgetreten!",
   "editDevice": "Gerät bearbeiten",
   "save": "Speichern",

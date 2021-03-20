@@ -6,6 +6,7 @@ import 'package:flutter_protyp/pages/deviceOverview.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:http/http.dart' as http;
 
+import 'dummie.dart';
 import 'handlers/ThemeHandler.dart';
 
 // Class that gets the config variables after successful login,
@@ -42,7 +43,11 @@ class _ThemingServiceState extends State<ThemingService> {
         future: configLanguage,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return DeviceOverview();
+            if(adminAccess == false && userAccess == false){
+              return Dummie();
+            }else{
+              return DeviceOverview();
+            }
           } else if (snapshot.hasError) {
             return DeviceOverview();
           } else {

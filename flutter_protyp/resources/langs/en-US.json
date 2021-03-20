@@ -38,7 +38,7 @@
   "positivPsw": "The password is long enough and matches",
   "userNameTaken": "The username is already taken, please choose another one",
   "backLogin": "Back to login",
-  "error400": "Your login was incorrect!",
+  "error401": "Your login was incorrect!",
   "error": "An unknown error occurred!",
   "editDevice": "Edit Device",
   "save": "Save",

@@ -48,8 +48,7 @@ class _LoginState extends State<Login> {
   /// Stores the response from the controller
   var response;
   var newToken;
-  static const oneSec = const Duration(seconds: 840);
-
+  static const oneSec = const Duration(seconds:840);
   // This method scans the operating system and starts if its true the mobile device version
   void onlineOs() {
     String android = "android";
@@ -203,12 +202,12 @@ class _LoginState extends State<Login> {
                       /// Here the ErrorMessages have to be added!!!
 
                       Visibility(
-                        visible: errorMessage400,
+                        visible: errorMessage401,
                         child: Container(
                           alignment: Alignment.center,
                           height: 30,
                           child: Text(
-                            'error400'.tr().toString(),
+                            'error401'.tr().toString(),
                             style:
                                 TextStyle(color: Colors.red[700], fontSize: 20),
                           ),
@@ -307,8 +306,7 @@ class _LoginState extends State<Login> {
                                     return _handleTimeOut();
                                   }),
                                   _checkResponse(response.statusCode),
-                                  decodeToken(),
-                                  testPermissions(),
+
                                 },
                                 child: Text(
                                   "Login",
@@ -370,9 +368,11 @@ class _LoginState extends State<Login> {
           _password = "";
           _username = "";
           jwtToken = json.decode(response.body)['token'];
+          decodeToken();
+          testPermissions();
+          print(jwtToken); //TODO richtige List übergeben
           errorMessage401 = false;
           errorMessage400 = false;
-
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(

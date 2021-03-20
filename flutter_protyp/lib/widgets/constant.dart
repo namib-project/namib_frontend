@@ -23,12 +23,12 @@ bool darkMode = false;
 bool mobileDevice = false;
 String language = "en";
 String jwtToken = "";
-String url = "http://192.168.178.51:8000/";
+String url = "http://172.26.128.1:8000/";
 List<dynamic> permissions = ["read_permission", "write_permission"];
 
 ///Variables for permissions
 /// TODO adminAccess has to be false
-bool adminAccess = true;
+bool adminAccess = false;
 bool userAccess = false;
 
 /// this is for all the clipart pictures
