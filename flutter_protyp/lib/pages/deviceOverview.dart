@@ -45,7 +45,7 @@ class _DeviceOverviewState extends State<DeviceOverview> {
     // Query if device mobile, if not, the graph view will be shown
     if (!pressed) {
       if (!mobileDevice) {
-        view = true;
+        view = false; //TODO change to true, if graph works
       } else {
         view = false;
       }
@@ -57,26 +57,20 @@ class _DeviceOverviewState extends State<DeviceOverview> {
         body: Center(
             child: Column(children: [
           // Button to change view between table and graph view
-          FlatButton(
+          TextButton.icon(
+            icon: Icon(
+              Icons.visibility,
+              color: buttonColor,
+            ),
+            label: Text("changeView".tr().toString(),
+                style: TextStyle(color: buttonColor)),
             onPressed: () {
               changeView();
             },
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
-            ),
-            child: Container(
-              width: 200,
-              height: 60,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Icon(Icons.visibility),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Text("changeView".tr().toString())
-                ],
-              ),
+            style: ButtonStyle(
+              minimumSize: MaterialStateProperty.all(Size(160, 80)),
+              shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50.0))),
             ),
           ),
 
@@ -127,33 +121,30 @@ class _DeviceOverviewState extends State<DeviceOverview> {
           ),
         ])));
   }
-}
 
 // Function getting the list of devices in network from controller
-Future<List<Device>> getDevices() async {
-  // String devicesExtension = 'devices';
-  // response = await http.get(url + devicesExtension, headers: {
-  //   "Content-Type": "application/json",
-  //   "Authorization": "Bearer $jwtToken"
-  // }).timeout(const Duration(seconds: 5), onTimeout: () {
-  //   return _handleTimeOut();
-  // });
+  Future<List<Device>> getDevices() async {
+    String devicesExtension = 'devices';
+    response = await http.get(url + devicesExtension, headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $jwtToken"
+    }).timeout(const Duration(seconds: 5), onTimeout: () {
+      return _handleTimeOut();
+    });
 
-  String test =
-      '[{"hostname": "string","id": 0,"ip_addr": "string","last_interaction": "2021-02-12T07:41:54.362Z","mac_addr": "string","mud_data": {"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","destination_port": {"range": [0],"single": 0},"direction_initiated": "FromDevice","dnsname": "string","protocol": {"name": "TCP","num": 0},"source_port": {"range": [0],"single": 0}},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-02-12T07:41:54.362Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "adevice123","url": "string"},"mud_url": "string","vendor_class": "string","room":"Bath room"}, {"hostname": "string","id": 0,"ip_addr": "string","last_interaction": "2021-02-12T07:41:54.362Z","mac_addr": "string","mud_data": {"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","destination_port": {"range": [0],"single": 0},"direction_initiated": "FromDevice","dnsname": "string","protocol": {"name": "TCP","num": 0},"source_port": {"range": [0],"single": 0}},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-02-12T07:41:54.362Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "bdevice456","url": "string"},"mud_url": "string","vendor_class": "string", "room":"Living Room"}]';
+    String test =
+        '[{"clipart": "string","hostname": "string","id": 0,"ip_addr": "string","last_interaction": "2021-03-19T12:42:43.660Z","mac_addr": "string","mud_data": {"acl_override": null,"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","destination_port": {"range": [0],"single": 0},"direction_initiated": "FromDevice","dnsname": "softwareupdates.amazon.com","protocol": {"name": "TCP","num": 0},"source_port": {"range": [0],"single": 0}},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"},{"ace": [{"action": "Accept","matches": {"address_mask": "string","destination_port": {"range": [0],"single": 0},"direction_initiated": "FromDevice","dnsname": "3.north-america.pool.ntp.org","protocol": {"name": "TCP","num": 0},"source_port": {"range": [0],"single": 0}},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"},{"ace": [{"action": "Accept","matches": {"address_mask": "string","destination_port": {"range": [0],"single": 0},"direction_initiated": "FromDevice","dnsname": "224.0.0.22/32","protocol": {"name": "TCP","num": 0},"source_port": {"range": [0],"single": 0}},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"},{"ace": [{"action": "Accept","matches": {"address_mask": "string","destination_port": {"range": [0],"single": 0},"direction_initiated": "FromDevice","dnsname": "dcape-na.amazon.com","protocol": {"name": "TCP","num": 0},"source_port": {"range": [0],"single": 0}},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-03-19T12:42:43.660Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "adevice123","url": "string"},"mud_url": "string","vendor_class": "string"}]';
 
-  //print("Response code: " + response.statusCode.toString());
-  //print(response.body);
+    if (response.statusCode == 200) {
+      var jsonDevices = jsonDecode(response.body) as List;
+      List<Device> devicesTest =
+          jsonDevices.map((tagJson) => Device.fromJson(tagJson)).toList();
+      return devicesTest;
+    } else {
+      throw Exception("Failed to get Data");
+    }
+    //TODO bei release auf http request umstellen
+  }
 
-  //if (response.statusCode == 200) {
-  var jsonDevices = jsonDecode(test) as List;
-  List<Device> devicesTest =
-      jsonDevices.map((tagJson) => Device.fromJson(tagJson)).toList();
-  return devicesTest;
-  //} else {
-  //throw Exception("Failed to get Data");
-  //}
-  //TODO bei release auf http request umstellen
+  dynamic _handleTimeOut() {}
 }
-
-dynamic _handleTimeOut() {}
