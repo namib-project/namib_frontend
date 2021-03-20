@@ -28,6 +28,7 @@ class _DevicesTableState extends State<DevicesTable> {
   List<Device> _devicesForDisplay = [];
   List<Room> _uniqueRooms = [];
   List<Room> _selectedRooms = [];
+  String _searchWord = "";
   bool _sortAscending = true;
   Icon _arrowUp = Icon(
     FontAwesomeIcons.arrowUp,
@@ -37,10 +38,6 @@ class _DevicesTableState extends State<DevicesTable> {
     FontAwesomeIcons.arrowDown,
     size: 17,
   );
-
-  /// TODO: existing Rooms have to go in this list or make Room Objects
-  //List<String> _roomNames = ["Küche", "Wohnzimmer", "Flur", "Badezimmer"];
-  //List<String> _selectedRooms = [];
 
   @override
   void initState() {
@@ -180,6 +177,8 @@ class _DevicesTableState extends State<DevicesTable> {
                 _selectedRooms.contains(_uniqueRooms[index])
                     ? _selectedRooms.remove(_uniqueRooms[index])
                     : _selectedRooms.add(_uniqueRooms[index]);
+                _searchWithSearchWord();
+                _filterDevicesWithRoom();
               });
             },
             child: Padding(
@@ -278,13 +277,9 @@ class _DevicesTableState extends State<DevicesTable> {
           ),
         ),
         onChanged: (text) {
-          text = text.toLowerCase();
-          setState(() {
-            _devicesForDisplay = widget.devices.where((device) {
-              var deviceName = device.mud_data.systeminfo.toLowerCase();
-              return deviceName.contains(text);
-            }).toList();
-          });
+          _searchWord = text;
+          _searchWithSearchWord();
+          _filterDevicesWithRoom();
           _sortDevicesForDisplay();
         },
       ),
@@ -346,6 +341,22 @@ class _DevicesTableState extends State<DevicesTable> {
     );
   }
 
+  _filterDevicesWithRoom() {
+    for (Room r in _selectedRooms) {
+      _devicesForDisplay.retainWhere((device) => device.roomname == r.roomname);
+    }
+  }
+
+  _searchWithSearchWord() {
+    _searchWord = _searchWord.toLowerCase();
+    setState(() {
+      _devicesForDisplay = widget.devices.where((device) {
+        var deviceName = device.mud_data.systeminfo.toLowerCase();
+        return deviceName.contains(_searchWord);
+      }).toList();
+    });
+  }
+
   _sortDevicesForDisplay() {
     setState(() {
       if (_sortAscending) {
@@ -359,8 +370,10 @@ class _DevicesTableState extends State<DevicesTable> {
   }
 
   _sortUniqueRooms() {
-    _uniqueRooms.sort((a, b) {
-      return a.roomname.toLowerCase().compareTo(b.roomname.toLowerCase());
+    setState(() {
+      _uniqueRooms.sort((a, b) {
+        return a.roomname.toLowerCase().compareTo(b.roomname.toLowerCase());
+      });
     });
   }
 }
