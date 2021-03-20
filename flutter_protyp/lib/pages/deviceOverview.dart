@@ -8,6 +8,7 @@ import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import "package:flutter_protyp/widgets/drawer.dart";
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_protyp/data/room.dart';
 import 'package:http/http.dart' as http;
 
 import 'devicesGraph.dart';

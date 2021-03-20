@@ -7,6 +7,7 @@ import 'package:flutter_protyp/data/device_mud/device.dart';
 import 'package:flutter_protyp/pages/deviceDetails.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_protyp/data/room.dart';
 
 class DevicesTable extends StatefulWidget {
   const DevicesTable({
@@ -17,12 +18,16 @@ class DevicesTable extends StatefulWidget {
   /// List which stores all given devices
   final List<Device> devices;
 
+  /// TODO: Maybe add final List<Room> rooms
+
   _DevicesTableState createState() => _DevicesTableState();
 }
 
 //Class for user registration, will only be used at the first usage
 class _DevicesTableState extends State<DevicesTable> {
-  List<Device> _devicesForDisplay = List<Device>();
+  List<Device> _devicesForDisplay = [];
+  List<Room> _uniqueRooms = [];
+  List<Room> _selectedRooms = [];
   bool _sortAscending = true;
   Icon _arrowUp = Icon(
     FontAwesomeIcons.arrowUp,
@@ -34,15 +39,24 @@ class _DevicesTableState extends State<DevicesTable> {
   );
 
   /// TODO: existing Rooms have to go in this list or make Room Objects
-  List<String> _roomNames = ["Küche", "Wohnzimmer", "Flur", "Badezimmer"];
-  List<String> _selectedRooms = [];
+  //List<String> _roomNames = ["Küche", "Wohnzimmer", "Flur", "Badezimmer"];
+  //List<String> _selectedRooms = [];
 
   @override
   void initState() {
     setState(() {
       _devicesForDisplay = widget.devices;
       _sortDevicesForDisplay();
-      _sortRoomNames();
+
+      /// to remove all the duplicates to get all rooms only once
+      for (Device d in _devicesForDisplay) {
+        Room room = new Room(d.roomname, d.roomcolor);
+        _uniqueRooms.add(room);
+      }
+      final _allRooms = _uniqueRooms.map((e) => e.roomname).toSet();
+      _uniqueRooms.retainWhere((x) => _allRooms.remove(x.roomname));
+
+      _sortUniqueRooms();
     });
   }
 
@@ -125,11 +139,11 @@ class _DevicesTableState extends State<DevicesTable> {
             fontSize: 20,
           )),
       children: <Widget>[
-        (_roomNames != null && _roomNames.length != 0)
+        (_uniqueRooms != null && _uniqueRooms.length != 0)
             ? Column(
                 children: <Widget>[
                   Container(
-                    height: _roomNames.length * 50.0,
+                    height: _uniqueRooms.length * 50.0,
                     child: _listForRoomNames(),
                   )
                 ],
@@ -153,7 +167,7 @@ class _DevicesTableState extends State<DevicesTable> {
 
   _listForRoomNames() {
     return ListView.builder(
-      itemCount: _roomNames.length,
+      itemCount: _uniqueRooms.length,
       itemBuilder: (context, index) {
         return Container(
           height: 50,
@@ -163,9 +177,9 @@ class _DevicesTableState extends State<DevicesTable> {
             ),
             onTap: () {
               setState(() {
-                _selectedRooms.contains(_roomNames[index])
-                    ? _selectedRooms.remove(_roomNames[index])
-                    : _selectedRooms.add(_roomNames[index]);
+                _selectedRooms.contains(_uniqueRooms[index])
+                    ? _selectedRooms.remove(_uniqueRooms[index])
+                    : _selectedRooms.add(_uniqueRooms[index]);
               });
             },
             child: Padding(
@@ -176,11 +190,11 @@ class _DevicesTableState extends State<DevicesTable> {
                 children: <Widget>[
                   Checkbox(
                     activeColor: buttonColor,
-                    value: _selectedRooms.contains(_roomNames[index]),
+                    value: _selectedRooms.contains(_uniqueRooms[index]),
                     onChanged: (bool value) {},
                   ),
                   Text(
-                    _roomNames[index],
+                    _uniqueRooms[index].roomname,
                     style: TextStyle(
                       fontSize: 16,
                     ),
@@ -233,6 +247,12 @@ class _DevicesTableState extends State<DevicesTable> {
                 ),
                 Text(
                   "MUD",
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+                Text(
+                  "Raum",
                   style: TextStyle(
                     fontSize: 20,
                   ),
@@ -310,6 +330,12 @@ class _DevicesTableState extends State<DevicesTable> {
                         fontSize: 20,
                       ),
                     ),
+                    Text(
+                      _devicesForDisplay[index].roomname,
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -332,9 +358,9 @@ class _DevicesTableState extends State<DevicesTable> {
     });
   }
 
-  _sortRoomNames() {
-    _roomNames.sort((a, b) {
-      return a.toLowerCase().compareTo(b.toLowerCase());
+  _sortUniqueRooms() {
+    _uniqueRooms.sort((a, b) {
+      return a.roomname.toLowerCase().compareTo(b.roomname.toLowerCase());
     });
   }
 }

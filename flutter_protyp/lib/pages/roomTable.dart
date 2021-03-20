@@ -77,8 +77,8 @@ class _RoomTableState extends State<RoomTable> {
       _uniqueRooms = widget.rooms;
 
       /// to remove all the duplicates to get all rooms only once
-      final allRoomNames = _uniqueRooms.map((e) => e.roomname).toSet();
-      _uniqueRooms.retainWhere((x) => allRoomNames.remove(x.roomname));
+      final _allRooms = _uniqueRooms.map((e) => e.roomname).toSet();
+      _uniqueRooms.retainWhere((x) => _allRooms.remove(x.roomname));
 
       _roomsForDisplay = _uniqueRooms;
       _sortRoomsForDisplay();

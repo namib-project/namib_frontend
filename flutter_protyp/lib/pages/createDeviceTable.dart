@@ -9,8 +9,8 @@ import 'package:flutter_protyp/pages/deviceDetails.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class NewDevicesTable extends StatefulWidget {
-  NewDevicesTable({
+class CreateDevicesTable extends StatefulWidget {
+  CreateDevicesTable({
     Key key,
     @required this.devices,
   }) : super(key: key);
@@ -18,11 +18,12 @@ class NewDevicesTable extends StatefulWidget {
   /// List which stores all given devices
   final List<Device> devices;
 
-  _NewDevicesTableState createState() => _NewDevicesTableState();
+  _CreateDevicesTableState createState() => _CreateDevicesTableState();
 }
 
 //Class for user registration, will only be used at the first usage
-class _NewDevicesTableState extends State<NewDevicesTable> {
+class _CreateDevicesTableState extends State<CreateDevicesTable> {
+  /// TODO all has to be changed To MudData
   List<Device> _devicesForDisplay = List<Device>();
   bool _sortAscending = true;
   Icon _arrowUp = Icon(

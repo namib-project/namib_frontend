@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_protyp/pages/about.dart';
 import "package:flutter_protyp/pages/deviceOverview.dart";
 import "package:flutter_protyp/pages/chooseRoom.dart";
-import "package:flutter_protyp/pages/newDevice.dart";
+import "package:flutter_protyp/pages/createDevice.dart";
 import "package:flutter_protyp/pages/newDeviceOverview.dart";
 import 'package:flutter_protyp/pages/registration.dart';
 import 'package:flutter_protyp/pages/startService.dart';
