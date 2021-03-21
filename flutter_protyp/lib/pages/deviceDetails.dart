@@ -431,8 +431,10 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                         ),
                         onPressed: () {
                           setState(() {
-                            widget.device.mud_data.acl_override =
-                                List.from(widget.device.mud_data.acllist);
+                            if (widget.device.mud_data.acl_override == null) {
+                              widget.device.mud_data.acl_override =
+                                  List.from(widget.device.mud_data.acllist);
+                            }
                             widget.device.mud_data.acl_override
                                 .remove(accessControlEntry);
                           });
@@ -515,7 +517,6 @@ class _DeviceDetailsState extends State<DeviceDetails> {
           "Authorization": "Bearer $jwtToken"
         },
         body: jsonEncode(data));
-
   }
 
   ///True if mouse is in the MouseRegion widget, else false
