@@ -23,7 +23,7 @@ bool darkMode = false;
 bool mobileDevice = false;
 String language = "en";
 String jwtToken = "";
-String url = "http://172.28.144.1:8000/";
+String url = "/";
 List<dynamic> permissions = ["read_permission", "write_permission"];
 
 ///Variables for permissions
