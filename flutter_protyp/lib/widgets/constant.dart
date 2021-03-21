@@ -24,7 +24,7 @@ bool mobileDevice = false;
 String language = "en";
 String jwtToken = "";
 String url = "/";
-List<dynamic> permissions = ["read_permission", "write_permission"];
+List<dynamic> permissions = [];
 
 ///Variables for permissions
 bool adminAccess = false;
