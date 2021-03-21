@@ -47,13 +47,13 @@ class _MainDrawerState extends State<MainDrawer> {
               onTap: () =>
                   {Navigator.pushReplacementNamed(context, "/deviceOverview")},
             ),
-            CustomListTile(
-              icon: Icons.device_hub, // or maybe: ad_units
-              text: 'Unverwaltete Geräte'.tr().toString(),
-              onTap: () => {
-                Navigator.pushReplacementNamed(context, "/newDeviceOverview")
-              },
-            ),
+            // CustomListTile(
+            //   icon: Icons.device_hub, // or maybe: ad_units
+            //   text: 'Unverwaltete Geräte'.tr().toString(),
+            //   onTap: () => {
+            //     Navigator.pushReplacementNamed(context, "/newDeviceOverview")
+            //   },
+            // ),
             CustomListTile(
               icon: Icons.person_add,
               text: "signup".tr().toString(),
@@ -61,34 +61,22 @@ class _MainDrawerState extends State<MainDrawer> {
                   {Navigator.pushReplacementNamed(context, "/registration")},
             ),
 
-            Visibility(
-              visible: adminAccess,
-              child:  CustomListTile(
-                icon: Icons.group,
-                text: "userManagement".tr().toString(),
-                onTap: () =>
-                {Navigator.pushReplacementNamed(context, "/userManagement")},
-              ),
-            ),
-
+            // Visibility(
+            //   visible: adminAccess,
+            //   child:  CustomListTile(
+            //     icon: Icons.group,
+            //     text: "userManagement".tr().toString(),
+            //     onTap: () =>
+            //     {Navigator.pushReplacementNamed(context, "/userManagement")},
+            //   ),
+            // ),
+            //
 
             CustomListTile(
               icon: Icons.feedback,
               text: "About",
               onTap: () => {Navigator.pushReplacementNamed(context, "/about")},
             ),
-           // CustomListTile(
-           //   icon: Icons.feedback,
-           //   text: "dummie",
-           //   onTap: () =>
-           //       {Navigator.pushReplacementNamed(context, "/dummie")},
-           // ),
-            //CustomListTile(
-            //  icon: Icons.feedback,
-            //  text: "ChooseRoom",
-            //  onTap: () =>
-            //      {Navigator.pushReplacementNamed(context, "/chooseRoom")},
-            //),
           ],
         ),
       ),
