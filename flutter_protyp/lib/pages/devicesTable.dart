@@ -292,7 +292,7 @@ class _DevicesTableState extends State<DevicesTable> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => DeviceDetails(
-                    device: _devicesForDisplay[index],
+                    ipAddress: _devicesForDisplay[index].ip_addr,
                   ),
                 ),
               );

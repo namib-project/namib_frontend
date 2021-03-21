@@ -15,9 +15,9 @@ import 'package:http/http.dart' as http;
 class DeviceDetails extends StatefulWidget {
   const DeviceDetails({
     Key key,
-    @required this.device,
+    @required this.ipAddress,
   }) : super(key: key);
-  final Device device;
+  final String ipAddress;
 
   _DeviceDetailsState createState() => _DeviceDetailsState();
 }
@@ -36,9 +36,13 @@ class _DeviceDetailsState extends State<DeviceDetails> {
   /// url extension
   String _updateMUDExtension = "mud/";
 
+  Future<Device> deviceFuture;
+  Device device;
+
   @override
   void initState() {
     super.initState();
+    deviceFuture = fetchDevice();
   }
 
   Widget build(BuildContext context) {
@@ -54,167 +58,197 @@ class _DeviceDetailsState extends State<DeviceDetails> {
           ),
         ],
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Container(
-            child: Column(
-              children: <Widget>[
-                SizedBox(
-                  height: 30,
-                ),
-                SelectableText(
-                  widget.device.mud_data.systeminfo,
-                  style: TextStyle(fontSize: 25),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-
-                Visibility(
-                  //The error message shows, if networkError is true
-                  visible: adminAccess,
+      body: FutureBuilder(
+        future: deviceFuture,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            device = snapshot.data;
+            return
+              Center(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
                   child: Container(
-                    alignment: Alignment.center,
-                    height: 60,
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        minimumSize: MaterialStateProperty.all(Size(120, 50)),
-                      ),
-                      onPressed: () {
-                        _resetDialog();
-                      },
-                      child: Text(
-                        "reset".tr().toString(),
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Column(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(30),
-                      child: GestureDetector(
-                        child: Container(
-                          height: 200,
-                          width: 200,
-                          child: WebsafeSvg.asset(allClipArts[0],
-                              semanticsLabel: 'phone', height: 200, width: 200),
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(
+                          height: 30,
                         ),
-                        onTap: () {},
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 20,
-                ),
+                        SelectableText(
+                          device.mud_data.systeminfo,
+                          style: TextStyle(fontSize: 25),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
 
-                Visibility(
-                  //The error message shows, if networkError is true
-                  visible: adminAccess,
-                  child: Container(
-                    alignment: Alignment.center,
-                    height: 60,
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        minimumSize: MaterialStateProperty.all(Size(120, 50)),
-                      ),
-                      child: Text(
-                        "Clipart ändern",
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      onPressed: () {
-                        _chooseClipartDialog(context);
-                      },
+                        Visibility(
+                          //The error message shows, if networkError is true
+                          visible: adminAccess,
+                          child: Container(
+                            alignment: Alignment.center,
+                            height: 60,
+                            child: ElevatedButton(
+                              style: ButtonStyle(
+                                minimumSize: MaterialStateProperty.all(
+                                    Size(120, 50)),
+                              ),
+                              onPressed: () {
+                                _resetDialog();
+                              },
+                              child: Text(
+                                "reset".tr().toString(),
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Column(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(30),
+                              child: GestureDetector(
+                                child: Container(
+                                  height: 200,
+                                  width: 200,
+                                  child: WebsafeSvg.asset(allClipArts[0],
+                                      semanticsLabel: 'phone',
+                                      height: 200,
+                                      width: 200),
+                                ),
+                                onTap: () {},
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+
+                        Visibility(
+                          //The error message shows, if networkError is true
+                          visible: adminAccess,
+                          child: Container(
+                            alignment: Alignment.center,
+                            height: 60,
+                            child: ElevatedButton(
+                              style: ButtonStyle(
+                                minimumSize: MaterialStateProperty.all(
+                                    Size(120, 50)),
+                              ),
+                              child: Text(
+                                "Clipart ändern",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              onPressed: () {
+                                _chooseClipartDialog(context);
+                              },
+                            ),
+                          ),
+                        ),
+
+                        // Here are some text fields and boxes to display all pertinent information about the device
+                        SizedBox(
+                          height: 20,
+                        ),
+                        // Column(children: mobileDevice
+                        //     ? _mobileView()
+                        //     : _desktopView()),
+                        Column(
+                          children:
+                            _mobileView()
+                        ),
+                        SizedBox(
+                          height: 40,
+                        ),
+                        // Table row to display and edit the different DNS-Requests
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  SelectableText(
+                                    'allowedDNSRequests'.tr().toString(),
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                ]),
+                            Visibility(
+                              visible: adminAccess && !editColumn,
+                              child: ElevatedButton(
+                                  style: ButtonStyle(
+                                    minimumSize:
+                                    MaterialStateProperty.all(Size(120, 50)),
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      editColumn = !editColumn;
+                                    });
+                                  },
+                                  child: Text(
+                                    "edit".tr().toString(),
+                                    style: TextStyle(fontSize: 20),
+                                  )),
+                            ),
+                            Visibility(
+                              visible: editColumn,
+                              child: ElevatedButton(
+                                  style: ButtonStyle(
+                                    minimumSize:
+                                    MaterialStateProperty.all(Size(120, 50)),
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      editColumn = !editColumn;
+                                    });
+                                    _transmitData();
+                                  },
+                                  child: Text(
+                                    "save".tr().toString(),
+                                    style: TextStyle(fontSize: 20),
+                                  )),
+                            ),
+                            _expertModeText(context),
+                          ],
+                        ),
+                        // This table displays the HTTP-addresses which are allowed
+                        Row(
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: Container(),
+                            ),
+                            _tableDNSNames(),
+                            Expanded(
+                              flex: 1,
+                              child: Container(),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 30,
+                        ),
+                      ],
                     ),
                   ),
                 ),
-
-                // Here are some text fields and boxes to display all pertinent information about the device
-                SizedBox(
-                  height: 20,
-                ),
-                Column(children: mobileDevice ? _mobileView() : _desktopView()),
-                SizedBox(
-                  height: 40,
-                ),
-                // Table row to display and edit the different DNS-Requests
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          SelectableText(
-                            'allowedDNSRequests'.tr().toString(),
-                            style: TextStyle(fontSize: 20),
-                          ),
-                        ]),
-                    Visibility(
-                      visible: adminAccess && !editColumn,
-                      child: ElevatedButton(
-                          style: ButtonStyle(
-                            minimumSize:
-                                MaterialStateProperty.all(Size(120, 50)),
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              editColumn = !editColumn;
-                            });
-                          },
-                          child: Text(
-                            "edit".tr().toString(),
-                            style: TextStyle(fontSize: 20),
-                          )),
-                    ),
-                    Visibility(
-                      visible: editColumn,
-                      child: ElevatedButton(
-                          style: ButtonStyle(
-                            minimumSize:
-                                MaterialStateProperty.all(Size(120, 50)),
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              editColumn = !editColumn;
-                            });
-                            _transmitData();
-                          },
-                          child: Text(
-                            "save".tr().toString(),
-                            style: TextStyle(fontSize: 20),
-                          )),
-                    ),
-                    _expertModeText(context),
-                  ],
-                ),
-                // This table displays the HTTP-addresses which are allowed
-                Row(
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: Container(),
-                    ),
-                    _tableDNSNames(),
-                    Expanded(
-                      flex: 1,
-                      child: Container(),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
+              );
+          }
+          else if (snapshot.hasError) {
+            return Container();
+          }
+          else {
+            return Center(
+              child: SizedBox(
+                width: 100,
+                height: 100,
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+        },),
     );
   }
 
@@ -268,7 +302,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                           child: GridView.builder(
                             itemCount: allClipArts.length,
                             gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
+                            SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 3,
                               crossAxisSpacing: 4,
                               mainAxisSpacing: 4,
@@ -351,39 +385,41 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                   visible: editColumn,
                   child: SelectableText("edit".tr().toString())))
         ],
-        rows: widget.device.mud_data.acl_override == null
-            ? widget.device.mud_data.acllist
-                .map((accessControlEntry) => DataRow(cells: [
-                      DataCell(Text(accessControlEntry.ace[0].matches.dnsname)),
-                      DataCell(
-                        Visibility(
-                          visible: editColumn,
-                          child: IconButton(
-                            icon: Icon(Icons.delete),
-                            onPressed: () {
-                              _deleteDNSName(accessControlEntry);
-                            },
-                          ),
-                        ),
-                      )
-                    ]))
-                .toList()
-            : widget.device.mud_data.acl_override
-                .map((accessControlEntry) => DataRow(cells: [
-                      DataCell(Text(accessControlEntry.ace[0].matches.dnsname)),
-                      DataCell(
-                        Visibility(
-                          visible: editColumn,
-                          child: IconButton(
-                            icon: Icon(Icons.delete),
-                            onPressed: () {
-                              _deleteDNSName(accessControlEntry);
-                            },
-                          ),
-                        ),
-                      )
-                    ]))
-                .toList(),
+        rows: device.mud_data.acl_override == null
+            ? device.mud_data.acllist
+            .map((accessControlEntry) =>
+            DataRow(cells: [
+              DataCell(Text(accessControlEntry.ace[0].matches.dnsname)),
+              DataCell(
+                Visibility(
+                  visible: editColumn,
+                  child: IconButton(
+                    icon: Icon(Icons.delete),
+                    onPressed: () {
+                      _deleteDNSName(accessControlEntry);
+                    },
+                  ),
+                ),
+              )
+            ]))
+            .toList()
+            : device.mud_data.acl_override
+            .map((accessControlEntry) =>
+            DataRow(cells: [
+              DataCell(Text(accessControlEntry.ace[0].matches.dnsname)),
+              DataCell(
+                Visibility(
+                  visible: editColumn,
+                  child: IconButton(
+                    icon: Icon(Icons.delete),
+                    onPressed: () {
+                      _deleteDNSName(accessControlEntry);
+                    },
+                  ),
+                ),
+              )
+            ]))
+            .toList(),
       ),
     );
   }
@@ -431,11 +467,11 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                         ),
                         onPressed: () {
                           setState(() {
-                            if (widget.device.mud_data.acl_override == null) {
-                              widget.device.mud_data.acl_override =
-                                  List.from(widget.device.mud_data.acllist);
+                            if (device.mud_data.acl_override == null) {
+                              device.mud_data.acl_override =
+                                  List.from(device.mud_data.acllist);
                             }
-                            widget.device.mud_data.acl_override
+                            device.mud_data.acl_override
                                 .remove(accessControlEntry);
                           });
                           Navigator.of(context).pop(); // dismiss dialog
@@ -454,45 +490,45 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     return Visibility(
       visible: !expertMode,
       child:
-          mobileDevice //if mobile device, then icon button with dialog, else icon with hover effect
-              ? IconButton(
-                  icon: Icon(Icons.help_center),
-                  iconSize: 30,
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        barrierDismissible: true,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text("explanation".tr().toString()),
-                            content:
-                                Text("explanationDNSNames".tr().toString()),
-                            actions: [
-                              TextButton(
-                                child: Text("Ok!"),
-                                onPressed: () {
-                                  Navigator.of(context).pop(); // dismiss dialog
-                                },
-                              )
-                            ],
-                          );
-                        });
-                  },
-                )
-              : MouseRegion(
-                  //MouseRegion for the hover element
-                  onEnter: _enterInRegion,
-                  onExit: _exitInRegion,
-                  child: Icon(Icons.help_center),
-                ),
+      mobileDevice //if mobile device, then icon button with dialog, else icon with hover effect
+          ? IconButton(
+        icon: Icon(Icons.help_center),
+        iconSize: 30,
+        onPressed: () {
+          showDialog(
+              context: context,
+              barrierDismissible: true,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text("explanation".tr().toString()),
+                  content:
+                  Text("explanationDNSNames".tr().toString()),
+                  actions: [
+                    TextButton(
+                      child: Text("Ok!"),
+                      onPressed: () {
+                        Navigator.of(context).pop(); // dismiss dialog
+                      },
+                    )
+                  ],
+                );
+              });
+        },
+      )
+          : MouseRegion(
+        //MouseRegion for the hover element
+        onEnter: _enterInRegion,
+        onExit: _exitInRegion,
+        child: Icon(Icons.help_center),
+      ),
     );
   }
 
   // This method launchs the MUDURL to the device, these URLs are the profils for the devices that are added to the app
   // if it not possible it will be thrown an error
   _launchMUDURL() async {
-    if (await canLaunch(widget.device.mud_url)) {
-      await launch(widget.device.mud_url);
+    if (await canLaunch(device.mud_url)) {
+      await launch(device.mud_url);
     } else {
       throw 'Could not launch test';
     }
@@ -500,8 +536,8 @@ class _DeviceDetailsState extends State<DeviceDetails> {
 
   // This method launch the data to the profils, if it is not possible there will be thrown an error
   _launchDocumentation() async {
-    if (await canLaunch(widget.device.mud_data.documentation)) {
-      await launch(widget.device.mud_data.documentation);
+    if (await canLaunch(device.mud_data.documentation)) {
+      await launch(device.mud_data.documentation);
     } else {
       throw 'Could not launch test';
     }
@@ -509,9 +545,9 @@ class _DeviceDetailsState extends State<DeviceDetails> {
 
   Future _transmitData() async {
     Map<String, dynamic> data = {
-      "acl_override": widget.device.mud_data.acl_override
+      "acl_override": device.mud_data.acl_override
     };
-    await http.put(url + _updateMUDExtension + widget.device.mud_url,
+    await http.put(url + _updateMUDExtension + device.mud_url,
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Bearer $jwtToken"
@@ -524,7 +560,8 @@ class _DeviceDetailsState extends State<DeviceDetails> {
 
   //Creating the overlay element just an example for expert mode
   OverlayEntry overlayEntry = OverlayEntry(
-      builder: (context) => Center(
+      builder: (context) =>
+          Center(
             child: Container(
               width: 400,
               height: 200,
@@ -602,7 +639,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
               style: TextStyle(fontSize: 20),
             ),
             SelectableText(
-              widget.device.ip_addr,
+              device.ip_addr,
               style: TextStyle(fontSize: 18),
             ),
           ],
@@ -618,7 +655,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
               style: TextStyle(fontSize: 20),
             ),
             SelectableText(
-              widget.device.mud_url,
+              device.mud_url,
               style: TextStyle(fontSize: 18),
               onTap: () {
                 _launchMUDURL();
@@ -640,7 +677,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
               style: TextStyle(fontSize: 20),
             ),
             SelectableText(
-              widget.device.last_interaction,
+              device.last_interaction,
               style: TextStyle(fontSize: 18),
             ),
           ],
@@ -656,7 +693,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
               style: TextStyle(fontSize: 20),
             ),
             SelectableText(
-              widget.device.mud_data.documentation,
+              device.mud_data.documentation,
               style: TextStyle(fontSize: 18),
               onTap: () {
                 _launchDocumentation();
@@ -696,7 +733,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
       style: TextStyle(fontSize: 20),
     );
     var selectableText2 = SelectableText(
-      widget.device.ip_addr,
+      device.ip_addr,
       style: TextStyle(fontSize: 18),
     );
     var sizedBox1 = SizedBox(
@@ -707,7 +744,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
       style: TextStyle(fontSize: 20),
     );
     var selectableText4 = SelectableText(
-      widget.device.last_interaction,
+      device.last_interaction,
       style: TextStyle(fontSize: 18),
     );
     var sizedBox2 = SizedBox(
@@ -718,7 +755,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
       style: TextStyle(fontSize: 20),
     );
     var selectableText6 = SelectableText(
-      widget.device.mud_url,
+      device.mud_url,
       style: TextStyle(fontSize: 18),
       onTap: () {
         _launchMUDURL();
@@ -732,7 +769,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
       style: TextStyle(fontSize: 20),
     );
     var selectableText8 = SelectableText(
-      widget.device.mud_data.documentation,
+      device.mud_data.documentation,
       style: TextStyle(fontSize: 18),
       onTap: () {
         _launchDocumentation();
@@ -800,7 +837,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                         onPressed: () async {
                           Map<String, dynamic> data = {"acl_override": null};
                           await http.put(
-                              url + _updateMUDExtension + widget.device.mud_url,
+                              url + _updateMUDExtension + device.mud_url,
                               headers: {
                                 "Content-Type": "application/json",
                                 "Authorization": "Bearer $jwtToken"
@@ -816,5 +853,23 @@ class _DeviceDetailsState extends State<DeviceDetails> {
             ),
           );
         });
+  }
+
+  Future<Device> fetchDevice() async {
+    String deviceExtension = "devices/";
+
+    var _response = await http.get(url + deviceExtension + widget.ipAddress,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $jwtToken"
+        });
+    if(_response.statusCode == 200){
+      Device deviceFormController = Device.fromJson(jsonDecode(_response.body));
+      return deviceFormController;
+    }else{
+      Future.delayed(const Duration(seconds: 10));
+      return Device.fromJson(jsonDecode('{"clipart": "string","hostname": "string","id": 0,"ip_addr": "1.1.1.1","last_interaction": "2021-03-19T12:42:43.660Z","mac_addr": "string","mud_data": {"acl_override": null,"acllist": [{"ace": [{ "action": "Accept","matches": {"address_mask": "string","destination_port": {"range": [0],"single": 0},"direction_initiated": "FromDevice","dnsname": "softwareupdates.amazon.com","protocol": {"name": "TCP","num": 0},"source_port": {"range": [0],"single": 0}},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"},{"ace": [{"action": "Accept","matches": {"address_mask": "string","destination_port": {"range": [0],"single": 0},"direction_initiated": "FromDevice","dnsname": "3.north-america.pool.ntp.org","protocol": {"name": "TCP","num": 0},"source_port": {"range": [0],"single": 0}},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"},{"ace": [{"action": "Accept","matches": {"address_mask": "string","destination_port": {"range": [0],"single": 0},"direction_initiated": "FromDevice","dnsname": "224.0.0.22/32","protocol": {"name": "TCP","num": 0},"source_port": {"range": [0],"single": 0}},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"},{"ace": [{"action": "Accept","matches": {"address_mask": "string","destination_port": {"range": [0],"single": 0},"direction_initiated": "FromDevice","dnsname": "dcape-na.amazon.com","protocol": {"name": "TCP","num": 0},"source_port": {"range": [0],"single": 0}},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "www.documentation.com","expiration": "2021-03-19T12:42:43.660Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "adevice123","url": "https://iotanalytics.unsw.edu.au/mud/amazonEchoMud.json"},"mud_url": "https://iotanalytics.unsw.edu.au/mud/amazonEchoMud.json","vendor_class": "string"}'));
+    }
+
   }
 }

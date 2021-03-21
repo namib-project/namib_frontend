@@ -125,7 +125,7 @@ class _DevicesGraphState extends State<DevicesGraph> {
         onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => DeviceDetails(device: device),
+            builder: (context) => DeviceDetails(ipAddress: device.ip_addr,),
           ),
         ), //("Node $i")),
       );
