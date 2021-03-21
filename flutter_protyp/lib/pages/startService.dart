@@ -53,7 +53,7 @@ class _StartServiceState extends State<StartService> {
       var response = await http.get(url + statusExtension);
       if (response.statusCode == 200) {
         return response.body;
-      }else{
+      } else {
         return '{"setup_required":false,"version":""}';
       }
     } on Exception {
@@ -72,24 +72,27 @@ class _StartServiceState extends State<StartService> {
     setLanguage();
     // FutureBuilder widget, that will be build but context will be shown after get request above
     // Here will be presented the current controller version
-    return FutureBuilder<String>(
+    return new Scaffold(
+        body: Center(
+          child: FutureBuilder<String>(
       future: setupData,
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          Map<String, dynamic> data = jsonDecode(snapshot.data);
-          bool required_setup = data["setup_required"];
-          if (required_setup) {
-            return RegistrationStart();
-          } else {
+          if (snapshot.hasData) {
+            Map<String, dynamic> data = jsonDecode(snapshot.data);
+            bool required_setup = data["setup_required"];
+            if (required_setup) {
+              return RegistrationStart();
+            } else {
+              return Login();
+            }
+          } else if (snapshot.hasError) {
             return Login();
           }
-        } else if (snapshot.hasError) {
-          return Login();
-        }
-        // By default, show a loading spinner.
-        return SizedBox(
-            width: 30, height: 30, child: CircularProgressIndicator());
+          // By default, show a loading spinner.
+          return SizedBox(
+              width: 200, height: 200, child: CircularProgressIndicator());
       },
-    );
+    ),
+        ));
   }
 }
