@@ -299,7 +299,6 @@ class _LoginState extends State<Login> {
                                                 headers: {
                                                   "Content-Type":
                                                       "application/json",
-                                                  // 'Charset': 'utf-8'
                                                 },
                                                 body: json.encode({
                                                   'password': _password,

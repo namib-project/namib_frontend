@@ -9,6 +9,7 @@ class User{
   String username;
   bool admin;
   bool user;
+  // TODO UserID hinzufügen zum sichten der User
 
 
   User(this.username, this.admin, this.user);
