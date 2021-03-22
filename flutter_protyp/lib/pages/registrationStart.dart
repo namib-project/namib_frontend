@@ -41,7 +41,7 @@ class _RegistrationState extends State<RegistrationStart> {
   bool networkMessage = false;
 
   ///Test for http client
-  String signupExtension = "http://172.26.224.1:8000/users/signup";
+  String signupExtension = "users/signup";
 
   /// Stores the response from the controller
   var response;
