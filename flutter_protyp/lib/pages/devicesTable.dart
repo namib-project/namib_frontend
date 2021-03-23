@@ -9,6 +9,8 @@ import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_protyp/data/room.dart';
 
+import 'package:flutter_svg/flutter_svg.dart';
+
 class DevicesTable extends StatefulWidget {
   const DevicesTable({
     Key key,
@@ -375,10 +377,32 @@ class _DevicesTableState extends State<DevicesTable> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text(
-                      d.mud_data.systeminfo,
-                      style: TextStyle(
-                        fontSize: 20,
+                    Padding(
+                      padding: const EdgeInsets.all(0),
+                      child: Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SvgPicture.asset(
+                              d.clipart,
+                              semanticsLabel: 'phone',
+                              height: 50,
+                              width: 50,
+                              color: Color(
+                                int.parse(d.roomcolor),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              d.mud_data.systeminfo,
+                              style: TextStyle(
+                                fontSize: 20,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     Text(
