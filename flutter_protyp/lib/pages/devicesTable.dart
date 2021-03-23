@@ -23,11 +23,13 @@ class DevicesTable extends StatefulWidget {
   _DevicesTableState createState() => _DevicesTableState();
 }
 
-//Class for user registration, will only be used at the first usage
 class _DevicesTableState extends State<DevicesTable> {
-  List<Device> _devicesForDisplay = [];
+  List<Device> _devicesCopy = [];
+  List<List<Device>> _devicesForDisplay = [];
+
   List<Room> _uniqueRooms = [];
   List<Room> _selectedRooms = [];
+
   String _searchWord = "";
   bool _sortAscending = true;
   Icon _arrowUp = Icon(
@@ -42,11 +44,10 @@ class _DevicesTableState extends State<DevicesTable> {
   @override
   void initState() {
     setState(() {
-      _devicesForDisplay = widget.devices;
-      _sortDevicesForDisplay();
+      _devicesCopy = widget.devices;
 
       /// to remove all the duplicates to get all rooms only once
-      for (Device d in _devicesForDisplay) {
+      for (Device d in _devicesCopy) {
         Room room = new Room(d.roomname, d.roomcolor);
         _uniqueRooms.add(room);
       }
@@ -54,6 +55,7 @@ class _DevicesTableState extends State<DevicesTable> {
       _uniqueRooms.retainWhere((x) => _allRooms.remove(x.roomname));
 
       _sortUniqueRooms();
+      _sortDevicesForDisplay();
     });
   }
 
@@ -93,7 +95,7 @@ class _DevicesTableState extends State<DevicesTable> {
                                     _listHeader(),
                                     Container(
                                       height: 500,
-                                      child: _listForDevices(context),
+                                      child: _listForDevicesRooms(context),
                                     )
                                   ],
                                 )
@@ -128,13 +130,53 @@ class _DevicesTableState extends State<DevicesTable> {
     );
   }
 
+  _listForDevicesRooms(BuildContext context) {
+    return ListView.builder(
+      itemCount: _devicesForDisplay.length,
+      itemBuilder: (context, index) {
+        try {
+          return Theme(
+            data: ThemeData(
+              primaryColor:
+                  Color(int.parse(_devicesForDisplay[index][0].roomcolor)),
+              accentColor:
+                  Color(int.parse(_devicesForDisplay[index][0].roomcolor)),
+              hintColor:
+                  Color(int.parse(_devicesForDisplay[index][0].roomcolor)),
+            ),
+            child: ExpansionTile(
+              initiallyExpanded: true,
+              title: Text(
+                _devicesForDisplay[index][0].roomname,
+                style: TextStyle(
+                  color:
+                      Color(int.parse(_devicesForDisplay[index][0].roomcolor)),
+                  fontSize: 20,
+                ),
+              ),
+              children: <Widget>[
+                Column(
+                  children: _listForDevices(context, index),
+                ),
+              ],
+            ),
+          );
+        } catch (exception) {
+          return Container();
+        }
+      },
+    );
+  }
+
   _roomFilter() {
     return ExpansionTile(
-      title: Text("Raumfilter",
-          style: TextStyle(
-            color: primaryColor,
-            fontSize: 20,
-          )),
+      title: Text(
+        "Raumfilter",
+        style: TextStyle(
+          color: primaryColor,
+          fontSize: 20,
+        ),
+      ),
       children: <Widget>[
         (_uniqueRooms != null && _uniqueRooms.length != 0)
             ? Column(
@@ -177,9 +219,9 @@ class _DevicesTableState extends State<DevicesTable> {
                 _selectedRooms.contains(_uniqueRooms[index])
                     ? _selectedRooms.remove(_uniqueRooms[index])
                     : _selectedRooms.add(_uniqueRooms[index]);
+                _sortDevicesForDisplay();
                 _searchWithSearchWord();
                 _filterDevicesWithRoom();
-                _sortDevicesForDisplay();
               });
             },
             child: Padding(
@@ -196,9 +238,9 @@ class _DevicesTableState extends State<DevicesTable> {
                         _selectedRooms.contains(_uniqueRooms[index])
                             ? _selectedRooms.remove(_uniqueRooms[index])
                             : _selectedRooms.add(_uniqueRooms[index]);
+                        _sortDevicesForDisplay();
                         _searchWithSearchWord();
                         _filterDevicesWithRoom();
-                        _sortDevicesForDisplay();
                       });
                     },
                   ),
@@ -296,27 +338,37 @@ class _DevicesTableState extends State<DevicesTable> {
     );
   }
 
-  ListView _listForDevices(BuildContext context) {
-    return ListView.builder(
-      itemCount: _devicesForDisplay.length,
-      itemBuilder: (context, index) {
-        return Container(
+  List<Widget> _listForDevices(BuildContext context, int index0) {
+    List<Widget> _columnContent = [];
+
+    for (Device d in _devicesForDisplay[index0]) {
+      _columnContent.add(ListTile(
+        title: Container(
           height: 80,
           child: InkWell(
+            hoverColor: Color(int.parse(d.roomcolor)),
             customBorder: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(7),
             ),
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => DeviceDetails(
-                    device: _devicesForDisplay[index],
+                    device: d,
                   ),
                 ),
               );
             },
             child: Card(
+              shape: RoundedRectangleBorder(
+                side: BorderSide(
+                  color: Color(
+                    int.parse(d.roomcolor),
+                  ),
+                ),
+                borderRadius: BorderRadius.circular(4),
+              ),
               child: Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16),
                 child: Row(
@@ -324,19 +376,19 @@ class _DevicesTableState extends State<DevicesTable> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
-                      _devicesForDisplay[index].mud_data.systeminfo,
+                      d.mud_data.systeminfo,
                       style: TextStyle(
                         fontSize: 20,
                       ),
                     ),
                     Text(
-                      _devicesForDisplay[index].mud_url,
+                      d.mud_url,
                       style: TextStyle(
                         fontSize: 20,
                       ),
                     ),
                     Text(
-                      _devicesForDisplay[index].roomname,
+                      d.roomname,
                       style: TextStyle(
                         fontSize: 20,
                       ),
@@ -346,44 +398,50 @@ class _DevicesTableState extends State<DevicesTable> {
               ),
             ),
           ),
-        );
-      },
-    );
+        ),
+      ));
+    }
+    return _columnContent;
   }
 
   _filterDevicesWithRoom() {
     if (_selectedRooms.isNotEmpty && _selectedRooms != null) {
       List<Device> _devicesList = [];
       for (Room r in _selectedRooms) {
-        for (Device d in _devicesForDisplay) {
+        for (Device d in _devicesCopy) {
           if (d.roomname == r.roomname) {
             _devicesList.add(d);
           }
         }
       }
-      _devicesForDisplay = _devicesList;
+      _devicesCopy = _devicesList;
     }
+    setState(() {
+      _createDevicesForDisplay();
+    });
   }
 
   _searchWithSearchWord() {
     _searchWord = _searchWord.toLowerCase();
     setState(() {
-      _devicesForDisplay = widget.devices.where((device) {
+      _devicesCopy = widget.devices.where((device) {
         var deviceName = device.mud_data.systeminfo.toLowerCase();
         return deviceName.contains(_searchWord);
       }).toList();
+      _createDevicesForDisplay();
     });
   }
 
   _sortDevicesForDisplay() {
     setState(() {
       if (_sortAscending) {
-        _devicesForDisplay.sort(
+        _devicesCopy.sort(
             (a, b) => a.mud_data.systeminfo.compareTo(b.mud_data.systeminfo));
       } else {
-        _devicesForDisplay.sort(
+        _devicesCopy.sort(
             (a, b) => b.mud_data.systeminfo.compareTo(a.mud_data.systeminfo));
       }
+      _createDevicesForDisplay();
     });
   }
 
@@ -393,5 +451,19 @@ class _DevicesTableState extends State<DevicesTable> {
         return a.roomname.toLowerCase().compareTo(b.roomname.toLowerCase());
       });
     });
+  }
+
+  _createDevicesForDisplay() {
+    _devicesForDisplay = [];
+
+    for (Room r in _uniqueRooms) {
+      List<Device> _devicesWithRoom = [];
+      for (Device d in _devicesCopy) {
+        if (d.roomname == r.roomname) {
+          _devicesWithRoom.add(d);
+        }
+      }
+      _devicesForDisplay.add(_devicesWithRoom);
+    }
   }
 }
