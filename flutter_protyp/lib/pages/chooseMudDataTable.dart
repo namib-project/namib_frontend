@@ -6,6 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_protyp/data/device_mud/device.dart';
 import 'package:flutter_protyp/data/device_mud/mudData.dart';
 import 'package:flutter_protyp/pages/chooseMudData.dart';
+import 'package:flutter_protyp/pages/chooseMudDataDetails.dart';
 import 'package:flutter_protyp/pages/deviceDetails.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -26,6 +27,9 @@ class ChooseMudDataTable extends StatefulWidget {
 //Class for user registration, will only be used at the first usage
 class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
   List<MUDData> _mudDataListForDisplay;
+
+  var txt = TextEditingController();
+
   MUDData _chosenMudData;
   bool _sortAscending = true;
   Icon _arrowUp = Icon(
@@ -112,6 +116,7 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
                                   width: 350,
                                   alignment: Alignment.center,
                                   child: TextField(
+                                    controller: txt,
                                     obscureText: false,
                                     cursorColor: Colors.grey,
                                     decoration: InputDecoration(
@@ -304,6 +309,15 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
                         FontAwesomeIcons.search,
                         size: 17,
                       ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ChooseMudDataDetails(
+                                mudData: _mudDataListForDisplay[index]),
+                          ),
+                        );
+                      },
                     ),
                     Checkbox(
                       activeColor: buttonColor,
@@ -313,6 +327,7 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
                           _chosenMudData == _mudDataListForDisplay[index]
                               ? _chosenMudData = null
                               : _chosenMudData = _mudDataListForDisplay[index];
+                          txt.text = _mudDataListForDisplay[index].systeminfo;
                         });
                       },
                     ),

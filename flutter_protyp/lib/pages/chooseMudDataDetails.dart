@@ -1,0 +1,539 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_protyp/data/device_mud/aclElement.dart';
+import 'package:flutter_protyp/data/device_mud/device.dart';
+import 'package:flutter_protyp/data/device_mud/mudData.dart';
+import 'package:flutter_protyp/widgets/appbar.dart';
+import 'package:flutter_protyp/widgets/constant.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import 'package:flutter_svg/flutter_svg.dart';
+
+class ChooseMudDataDetails extends StatefulWidget {
+  const ChooseMudDataDetails({
+    Key key,
+    @required this.mudData,
+  }) : super(key: key);
+  final MUDData mudData;
+
+  _ChooseMudDataDetailsState createState() => _ChooseMudDataDetailsState();
+}
+
+class _ChooseMudDataDetailsState extends State<ChooseMudDataDetails> {
+  /// Simple list to safe the ACL from controller
+  List<DataRow> list = [];
+  bool sortFirstRow = false;
+  bool sortFirstRow1 = false;
+  bool editColumn = false;
+  bool resetButton = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: AppBar(
+        title: SelectableText("Details"),
+        actions: <Widget>[
+          Padding(
+            padding: mobileDevice
+                ? EdgeInsets.fromLTRB(12, 5, 12, 12)
+                : EdgeInsets.fromLTRB(0, 5, 12, 12),
+            child: SettingsPopup(),
+          ),
+        ],
+      ),
+      body: Center(
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Container(
+            child: Column(
+              children: <Widget>[
+                SizedBox(
+                  height: 30,
+                ),
+                SelectableText(
+                  widget.mudData.systeminfo,
+                  style: TextStyle(fontSize: 25),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+
+                Visibility(
+                  //The error message shows, if networkError is true
+                  visible: adminAccess,
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 60,
+                    child: RaisedButton(
+                      onPressed: () {
+                        _resetDialog();
+                      },
+                      child: Text("reset".tr().toString()),
+                    ),
+                  ),
+                ),
+
+                // RaisedButton(
+                //   onPressed: () {
+                //     _resetDialog();
+                //   },
+                //   child: Text("reset".tr().toString()),
+                // ),
+                SizedBox(
+                  height: 20,
+                ),
+
+                SizedBox(
+                  height: 20,
+                ),
+
+                // Here are some text fields and boxes to display all pertinent information about the device
+                SizedBox(
+                  height: 20,
+                ),
+                Column(children: mobileDevice ? _mobileView() : _desktopView()),
+                SizedBox(
+                  height: 40,
+                ),
+                // Table row to display and edit the different DNS-Requests
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          SelectableText(
+                            'allowedDNSRequests'.tr().toString(),
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ]),
+                    Visibility(
+                      visible: adminAccess,
+                      child: RaisedButton(
+                          onPressed: () {
+                            setState(() {
+                              editColumn = !editColumn;
+                            });
+                          },
+                          child: Text("edit".tr().toString())),
+                    ),
+                    Visibility(
+                      visible: editColumn,
+                      child: RaisedButton(
+                          onPressed: () {
+                            setState(() {
+                              editColumn = !editColumn;
+                            });
+                            _transmitData();
+                          },
+                          child: Text("save".tr().toString())),
+                    ),
+                    _expertModeText(context),
+                  ],
+                ),
+                // This table displays the HTTP-addresses which are allowed
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Container(),
+                    ),
+                    _tableDNSNames(),
+                    Expanded(
+                      flex: 1,
+                      child: Container(),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Expanded _tableDNSNames() {
+    return Expanded(
+      flex: 16,
+      child: DataTable(
+        onSelectAll: (b) {},
+        sortColumnIndex: 0,
+        sortAscending: sortFirstRow,
+        columns: <DataColumn>[
+          DataColumn(
+            label: SelectableText("address".tr().toString()),
+            numeric: false,
+          ),
+          DataColumn(
+              label: Visibility(
+                  visible: editColumn,
+                  child: SelectableText("edit".tr().toString())))
+        ],
+        rows: widget.mudData.acllist
+            .map((accessControlEntry) => DataRow(cells: [
+                  DataCell(Text(accessControlEntry.ace[0].matches.dnsname)),
+                  DataCell(
+                    Visibility(
+                      visible: editColumn,
+                      child: IconButton(
+                        icon: Icon(Icons.delete),
+                        onPressed: () {
+                          _deleteDNSName(accessControlEntry);
+                        },
+                      ),
+                    ),
+                  )
+                ]))
+            .toList(),
+      ),
+    );
+  }
+
+  void _deleteDNSName(ACLElement accessControlEntry) {
+    showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18.0),
+            ),
+            title: SelectableText("attention".tr().toString()),
+            content: Container(
+              width: 300,
+              height: 175,
+              child: Column(
+                children: [
+                  SelectableText("deleteDNSNameDisclaimer".tr().toString()),
+                  SizedBox(
+                    height: 40,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Buttons to accept or dismiss the changes like described above
+                      FlatButton(
+                        child: Text(
+                          "cancel".tr().toString(),
+                          style: TextStyle(
+                            color: buttonColor,
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop(); // dismiss dialog
+                        },
+                      ),
+                      FlatButton(
+                        child: Text(
+                          "delete".tr().toString(),
+                          style: TextStyle(
+                            color: buttonColor,
+                          ),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            widget.mudData.acllist.remove(accessControlEntry);
+                          });
+                          Navigator.of(context).pop(); // dismiss dialog
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  Visibility _expertModeText(BuildContext context) {
+    return Visibility(
+      visible: !expertMode,
+      child:
+          mobileDevice //if mobile device, then icon button with dialog, else icon with hover effect
+              ? IconButton(
+                  icon: Icon(Icons.help_center),
+                  iconSize: 30,
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        barrierDismissible: true,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("explanation".tr().toString()),
+                            content:
+                                Text("explanationDNSNames".tr().toString()),
+                            actions: [
+                              FlatButton(
+                                child: Text("Ok!"),
+                                onPressed: () {
+                                  Navigator.of(context).pop(); // dismiss dialog
+                                },
+                              )
+                            ],
+                          );
+                        });
+                  },
+                )
+              : MouseRegion(
+                  //MouseRegion for the hover element
+                  onEnter: _enterInRegion,
+                  onExit: _exitInRegion,
+                  child: Icon(Icons.help_center),
+                ),
+    );
+  }
+
+  // This method launchs the MUDURL to the device, these URLs are the profils for the devices that are added to the app
+  // if it not possible it will be thrown an error
+  // _launchMUDURL() async {
+  //   if (await canLaunch(widget.mudData.mud_url)) {
+  //     await launch(widget.mudData.mud_url);
+  //   } else {
+  //     throw 'Could not launch test';
+  //   }
+  // }
+//
+  // // This method launch the data to the profils, if it is not possible there will be thrown an error
+  // _launchDocumentation() async {
+  //   if (await canLaunch(widget.device.mud_data.documentation)) {
+  //     await launch(widget.device.mud_data.documentation);
+  //   } else {
+  //     throw 'Could not launch test';
+  //   }
+  // }
+
+  Future _transmitData() async {}
+
+  ///True if mouse is in the MouseRegion widget, else false
+  bool inRegion = false;
+
+  //Creating the overlay element just an example for expert mode
+  OverlayEntry overlayEntry = OverlayEntry(
+      builder: (context) => Center(
+            child: Container(
+              width: 400,
+              height: 200,
+              padding: EdgeInsets.all(20),
+              alignment: Alignment(0, 0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                color: darkMode
+                    ? Colors.black.withOpacity(0.9)
+                    : Colors.grey.withOpacity(0.9),
+              ),
+              child: Column(
+                children: [
+                  SelectableText(
+                    "explanation".tr().toString(),
+                    style: TextStyle(
+                        fontFamily: "OpenSans",
+                        fontSize: 35,
+                        color: darkMode ? Colors.white : Colors.black,
+                        decoration: TextDecoration.none),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  SelectableText(
+                    "explanationDNSNames".tr().toString(),
+                    style: TextStyle(
+                        fontFamily: "OpenSans",
+                        fontSize: 20,
+                        color: darkMode ? Colors.white : Colors.black,
+                        decoration: TextDecoration.none),
+                  ),
+                ],
+              ),
+            ),
+          ));
+
+  //Function that shows the overlay element
+  showOverlay(BuildContext context) {
+    OverlayState overlayState = Overlay.of(context);
+    overlayState.insert(overlayEntry);
+  }
+
+  //Function for closing the overlay element
+
+  closeOverlay() {
+    overlayEntry.remove();
+  }
+
+  //Function called from MouseRegion widget below, opens the overlay on mouse enter
+  void _enterInRegion(PointerEvent details) {
+    setState(() {
+      inRegion = true;
+    });
+    showOverlay(context);
+  }
+
+  //Function called from MouseRegion widget below, closes the overlay on mouse exit
+  void _exitInRegion(PointerEvent details) {
+    setState(() {
+      inRegion = false;
+    });
+    closeOverlay();
+  }
+
+  List<Widget> _desktopView() {
+    var column1 = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[],
+    );
+
+    var column2 = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        SizedBox(
+          height: 50,
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SelectableText(
+              'documentation'.tr().toString() + ": ",
+              style: TextStyle(fontSize: 20),
+            ),
+            SelectableText(
+              widget.mudData.documentation,
+              style: TextStyle(fontSize: 18),
+              onTap: () {
+                // _launchDocumentation();
+              },
+            ),
+          ],
+        )
+      ],
+    );
+
+    var row = Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        column1,
+        SizedBox(
+          width: 200,
+        ),
+        column2
+      ],
+    );
+
+    List<Widget> list = [
+      SizedBox(
+        height: 40,
+      ),
+      row,
+      SizedBox(
+        height: 30,
+      )
+    ];
+    return list;
+  }
+
+  List<Widget> _mobileView() {
+    var selectableText1 = SelectableText(
+      "ipaddress".tr().toString(),
+      style: TextStyle(fontSize: 20),
+    );
+
+    var sizedBox1 = SizedBox(
+      height: 20,
+    );
+    var selectableText3 = SelectableText(
+      "lastinteraction".tr().toString(),
+      style: TextStyle(fontSize: 20),
+    );
+
+    var sizedBox2 = SizedBox(
+      height: 20,
+    );
+    var selectableText5 = SelectableText(
+      "MUD URL: ",
+      style: TextStyle(fontSize: 20),
+    );
+
+    var sizedBox3 = SizedBox(
+      height: 20,
+    );
+    var selectableText7 = SelectableText(
+      'documentation'.tr().toString(),
+      style: TextStyle(fontSize: 20),
+    );
+
+    List<Widget> list = [
+      selectableText1,
+      sizedBox1,
+      selectableText3,
+      sizedBox2,
+      selectableText5,
+      sizedBox3,
+      selectableText7,
+    ];
+
+    return list;
+  }
+
+  void _resetDialog() {
+    showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18.0),
+            ),
+            title: SelectableText("attention".tr().toString()),
+            content: Container(
+              width: 300,
+              height: 175,
+              child: Column(
+                children: [
+                  SelectableText("resetDisclaimer".tr().toString()),
+                  SizedBox(
+                    height: 40,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Buttons to accept or dismiss the changes like described above
+                      FlatButton(
+                        child: Text(
+                          "cancel".tr().toString(),
+                          style: TextStyle(
+                            color: buttonColor,
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop(); // dismiss dialog
+                        },
+                      ),
+                      FlatButton(
+                        child: Text(
+                          "reset".tr().toString(),
+                          style: TextStyle(
+                            color: buttonColor,
+                          ),
+                        ),
+                        onPressed: () {
+                          //TODO call reset route
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+}

@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_protyp/pages/about.dart';
+import 'package:flutter_protyp/pages/chooseClipart.dart';
 import "package:flutter_protyp/pages/deviceOverview.dart";
 import "package:flutter_protyp/pages/chooseRoom.dart";
 import "package:flutter_protyp/pages/chooseMudData.dart";
@@ -68,6 +69,7 @@ class MaterialAppWithTheme extends StatelessWidget {
           "/about": (context) => About(),
           "/userManagement": (context) => UserManagement(),
           "/chooseRoom": (context) => ChooseRoom(),
+          "/chooseClipart": (context) => ChooseClipart(),
           "/chooseMudData": (context) => ChooseMudData(),
           "/newDeviceOverview": (context) => NewDeviceOverview(),
         });

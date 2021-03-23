@@ -392,7 +392,7 @@ class _RoomTableState extends State<RoomTable> {
               ),
             ),
             onPressed: () =>
-                {Navigator.pushReplacementNamed(context, "/deviceOverview")},
+                {Navigator.pushReplacementNamed(context, "/chooseClipart")},
           ),
         ],
       ),
