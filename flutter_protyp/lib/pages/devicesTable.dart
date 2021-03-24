@@ -445,7 +445,6 @@ class _DevicesTableState extends State<DevicesTable> {
       }
       _devicesCopy = _devicesList;
     }
-    setState(() {});
   }
 
   _searchWithSearchWord() {
