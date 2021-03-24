@@ -37,25 +37,28 @@ class _ThemingServiceState extends State<ThemingService> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<String>(
-        future: configLanguage,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            if(adminAccess == false && userAccess == false){
-              return Dummie();
-            }else{
+    return new Scaffold(
+        body: Center(
+      child: FutureBuilder<String>(
+          future: configLanguage,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              if (adminAccess == false && userAccess == false) {
+                return Dummie();
+              } else {
+                return DeviceOverview();
+              }
+            } else if (snapshot.hasError) {
               return DeviceOverview();
+            } else {
+              return SizedBox(
+                width: 200,
+                height: 200,
+                child: CircularProgressIndicator(),
+              );
             }
-          } else if (snapshot.hasError) {
-            return DeviceOverview();
-          } else {
-            return SizedBox(
-              width: 30,
-              height: 30,
-              child: CircularProgressIndicator(),
-            );
-          }
-        });
+          }),
+    ));
   }
 
   /// ThemeChangeHandler offers functions for changing theme
