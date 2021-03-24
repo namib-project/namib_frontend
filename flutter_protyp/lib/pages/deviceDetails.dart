@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -11,6 +10,9 @@ import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 import 'package:http/http.dart' as http;
+
+// This class is a page to see the details of the choosen device
+// You also can configure the (MUD)-Device-Profile or reset
 
 class DeviceDetails extends StatefulWidget {
   const DeviceDetails({
@@ -543,6 +545,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     }
   }
 
+  // This mehtod sends the MUD-Profil-Data to the controller
   Future _transmitData() async {
     Map<String, dynamic> data = {
       "acl_override": device.mud_data.acl_override
@@ -606,7 +609,6 @@ class _DeviceDetailsState extends State<DeviceDetails> {
   }
 
   //Function for closing the overlay element
-
   closeOverlay() {
     overlayEntry.remove();
   }
@@ -626,6 +628,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     });
     closeOverlay();
   }
+
 
   List<Widget> _desktopView() {
     var column1 = Column(
@@ -793,6 +796,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     return list;
   }
 
+  // This dialog opens up if the reset-button is clicked
   void _resetDialog() {
     showDialog(
         context: context,
@@ -855,6 +859,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
         });
   }
 
+  // This function gets the device-details from the controller
   Future<Device> fetchDevice() async {
     String deviceExtension = "devices/";
 

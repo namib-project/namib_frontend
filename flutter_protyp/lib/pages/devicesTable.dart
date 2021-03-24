@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -7,6 +6,8 @@ import 'package:flutter_protyp/data/device_mud/device.dart';
 import 'package:flutter_protyp/pages/deviceDetails.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+// This class implements the functions to generate the tableview for the devices
 
 class DevicesTable extends StatefulWidget {
   const DevicesTable({
@@ -117,6 +118,7 @@ class _DevicesTableState extends State<DevicesTable> {
     );
   }
 
+  // This funtions implements a field to search for a existing room
   _roomFilter() {
     return ExpansionTile(
       title: Text("Raumfilter",
@@ -151,6 +153,7 @@ class _DevicesTableState extends State<DevicesTable> {
     );
   }
 
+ // This function creates a list of the created rooms
   _listForRoomNames() {
     return ListView.builder(
       itemCount: _roomNames.length,
@@ -194,6 +197,7 @@ class _DevicesTableState extends State<DevicesTable> {
     );
   }
 
+  // This function sorts the devices-table on button hit
   _listHeader() {
     return Container(
       height: 80,
@@ -251,6 +255,7 @@ class _DevicesTableState extends State<DevicesTable> {
     );
   }
 
+  // Here is a searchbar to search for devices
   _searchBar() {
     return Padding(
       padding: EdgeInsets.all(8),
@@ -277,6 +282,7 @@ class _DevicesTableState extends State<DevicesTable> {
     );
   }
 
+  // Here is the display-method for the devices-table
   ListView _listForDevices(BuildContext context) {
     return ListView.builder(
       itemCount: _devicesForDisplay.length,
@@ -332,6 +338,7 @@ class _DevicesTableState extends State<DevicesTable> {
     );
   }
 
+  // This function sorts the devices-table by mud-data
   _sortDevicesForDisplay() {
     setState(() {
       if (_sortAscending) {
@@ -344,6 +351,7 @@ class _DevicesTableState extends State<DevicesTable> {
     });
   }
 
+  // This function sorts the devices-table by room-name
   _sortRoomNames() {
     _roomNames.sort((a, b) {
       return a.toLowerCase().compareTo(b.toLowerCase());

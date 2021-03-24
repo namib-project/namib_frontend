@@ -1,22 +1,21 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:flutter_protyp/widgets/drawer.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+
+// This method is for the system-administrator to create a user
 
 class Registration extends StatefulWidget {
   @override
   _RegistrationState createState() => _RegistrationState();
 }
 
-//Class for user registration, will only be used at the first usage
 class _RegistrationState extends State<Registration> {
   /// Variables for seeing the password
   bool seePassword1 = false;
@@ -379,6 +378,7 @@ class _RegistrationState extends State<Registration> {
     } on NoSuchMethodError {}
    }
 
+  // Is called after creating the user
   void _forwarding() {
     Navigator.pushReplacementNamed(context, "/userManagement");
   }

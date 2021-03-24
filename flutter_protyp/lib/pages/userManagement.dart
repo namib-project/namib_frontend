@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_protyp/data/user.dart';
@@ -8,8 +7,9 @@ import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:flutter_protyp/widgets/drawer.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_protyp/pages/usersTable.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
+
+// This class is for the administrator to delete or put a role to a user
 
 class UserManagement extends StatefulWidget {
   @override
@@ -17,6 +17,7 @@ class UserManagement extends StatefulWidget {
 }
 
 class _UserManagementState extends State<UserManagement> {
+  /// List with all registered users
   Future<List<User>> users;
 
   @override
@@ -70,6 +71,7 @@ class _UserManagementState extends State<UserManagement> {
     );
   }
 
+  // This method reopens the side after editing changes
   void saveChanges() {
     Navigator.pushReplacementNamed(context, "/userManagement");
   }
@@ -83,13 +85,14 @@ class _UserManagementState extends State<UserManagement> {
   }
 }
 
+// Function to get the users-list from controller
 Future<List<User>> getUsers() async {
-  //String usersExtension = "users";
-  //response = await http.get(url + usersExtension, headers: {
-  //  "Content-Type": "application/json",
-  //  "Authorization": "Bearer $jwtToken"
-  //});
-  //return response.body;
+  String usersExtension = "users";
+  var response = await http.get(url + usersExtension, headers: {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer $jwtToken"
+  });
+ // return response.body;
   String test =
       '[{"username":"manfred", "admin":true, "user": true},{"username":"gertrud", "admin":false, "user":true}]';
   var jdecode = jsonDecode(test) as List;

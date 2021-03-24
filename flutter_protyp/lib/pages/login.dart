@@ -8,9 +8,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'dart:convert';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:collection/collection.dart';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
+
+// This class contains the hole login-functions and permission handling
 
 class Login extends StatefulWidget {
   @override
@@ -28,6 +29,7 @@ class _LoginState extends State<Login> {
     size: 17,
   );
 
+  /// User vars
   String _username = "";
   String _password = "";
 
@@ -41,12 +43,15 @@ class _LoginState extends State<Login> {
   /// Var for saving the brightness state of the device
   String brightness;
 
+  /// URL extensions
   String loginExtension = 'users/login';
   String tokenExtension = 'users/refresh_token';
 
   /// Stores the response from the controller
   var response;
   var newToken;
+
+  /// Creates a time-area for the refresh-token-functions
   static const oneSec = const Duration(seconds: 840);
 
   // This method scans the operating system and starts if its true the mobile device version
@@ -198,9 +203,6 @@ class _LoginState extends State<Login> {
                           ),
                         ),
                       ),
-
-                      /// Here the ErrorMessages have to be added!!!
-
                       Visibility(
                         visible: errorMessage401,
                         child: Container(
@@ -257,8 +259,6 @@ class _LoginState extends State<Login> {
                           ),
                         ),
                       ),
-
-                      /// New hoverable Button added
                       // This container contains the login-button which handles the login-functions
                       // also with the http-request
                       Container(

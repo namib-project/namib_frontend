@@ -1,14 +1,14 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:flutter_protyp/widgets/drawer.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:easy_localization/easy_localization.dart';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+
+// This class contains the functions to edit the user-profile
 
 class ManageUser extends StatefulWidget {
   @override
@@ -22,6 +22,7 @@ class _ManageUserState extends State<ManageUser> {
   String _newPassword = "";
   String _confirmPassword = "";
 
+  /// URL extensions
   String nameExtension = 'users/me';
   String passwordExtension = 'users/password';
 
@@ -91,6 +92,7 @@ class _ManageUserState extends State<ManageUser> {
         ));
   }
 
+  // This dialog pops up if you clicked on change username
   _changeUsernameDialog() async {
     showDialog(
         context: context,
@@ -171,6 +173,7 @@ class _ManageUserState extends State<ManageUser> {
             ));
   }
 
+  // This dialog pops up if you clicked on change password
   _changePasswordDialog() async {
     showDialog(
         context: context,
@@ -265,6 +268,7 @@ class _ManageUserState extends State<ManageUser> {
             ));
   }
 
+  // This functions is called if you press save after editing user information
   void _forward() {
     Navigator.pushReplacementNamed(context, "/login");
     permissions = [];

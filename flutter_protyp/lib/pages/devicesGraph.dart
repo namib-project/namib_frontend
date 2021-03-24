@@ -7,8 +7,9 @@ import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:graphview/GraphView.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 import 'package:easy_localization/easy_localization.dart';
-
 import 'deviceDetails.dart';
+
+// This class implements the functions to generate the devices-graph
 
 class DevicesGraph extends StatefulWidget {
   const DevicesGraph({

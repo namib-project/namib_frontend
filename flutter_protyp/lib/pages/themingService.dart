@@ -1,11 +1,9 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_protyp/pages/deviceOverview.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:http/http.dart' as http;
-
 import 'dummie.dart';
 import 'handlers/ThemeHandler.dart';
 

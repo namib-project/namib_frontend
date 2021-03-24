@@ -1,14 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_protyp/data/device_mud/device.dart';
 import 'package:flutter_protyp/data/user.dart';
-import 'package:flutter_protyp/pages/newDevice.dart';
-import 'package:flutter_protyp/pages/deviceDetails.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+// This class builds the users-table to edit
 
 class UsersTable extends StatefulWidget {
   UsersTable({
@@ -22,7 +20,6 @@ class UsersTable extends StatefulWidget {
   UsersTableState createState() => UsersTableState();
 }
 
-//Class for user registration, will only be used at the first usage
 class UsersTableState extends State<UsersTable> {
   List<User> _usersForDisplay = List<User>();
   bool _sortAscending = true;
@@ -115,6 +112,7 @@ class UsersTableState extends State<UsersTable> {
     );
   }
 
+  // This function sorts the users-table on button hit
   _listHeader() {
     return Container(
       height: 80,
@@ -172,6 +170,7 @@ class UsersTableState extends State<UsersTable> {
     );
   }
 
+  // Here is a searchbar to search for users
   _searchBar() {
     return Padding(
       padding: EdgeInsets.all(8),
@@ -198,6 +197,7 @@ class UsersTableState extends State<UsersTable> {
     );
   }
 
+  // Here is the display-method for the users-table
   ListView _listForUsers(BuildContext context) {
     return ListView.builder(
       itemCount: _usersForDisplay.length,
@@ -250,6 +250,7 @@ class UsersTableState extends State<UsersTable> {
     );
   }
 
+  // This function sorts the devices-table by username
   _sortUsersForDisplay() {
     setState(() {
       if (_sortAscending) {
@@ -260,6 +261,7 @@ class UsersTableState extends State<UsersTable> {
     });
   }
 
+  // This dialog will appear, if you need to delete a user
   void _deleteUserDialog(BuildContext context, User user) {
     showDialog(
         context: context,
@@ -326,6 +328,7 @@ class UsersTableState extends State<UsersTable> {
         });
   }
 
+  // This dialog will appear, if you need to edit a user-role
   void _editUserRoleDialog(BuildContext context, User user) {
     showDialog(
         context: context,
@@ -448,10 +451,12 @@ class UsersTableState extends State<UsersTable> {
         });
   }
 
+  // This method is called after the changes are made
   void _saveChanges() {
     Navigator.pushReplacementNamed(context, "/userManagement");
   }
 
+  // This method is called after the user was deleted
   void _deleteUser(User user) {
     Navigator.pushReplacementNamed(context, "/userManagement");
   }

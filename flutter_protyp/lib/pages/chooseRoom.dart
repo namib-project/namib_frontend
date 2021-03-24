@@ -3,8 +3,9 @@ import 'package:flutter_protyp/widgets/appbar.dart';
 import "package:flutter_protyp/widgets/drawer.dart";
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
-
 import 'package:easy_localization/easy_localization.dart';
+
+// This class implements the functions to setup a room with attributes like color or name
 
 class ChooseRoom extends StatefulWidget {
   @override

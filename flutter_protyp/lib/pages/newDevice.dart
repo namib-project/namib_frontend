@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_protyp/pages/chooseRoom.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
-import "package:flutter_protyp/widgets/drawer.dart";
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'package:easy_localization/easy_localization.dart';
+// This class implements functions to create a new device in your network
 
 class NewDevice extends StatefulWidget {
   @override

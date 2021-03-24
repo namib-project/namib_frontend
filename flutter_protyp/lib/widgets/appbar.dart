@@ -1,16 +1,15 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_protyp/pages/handlers/ThemeHandler.dart';
 import "package:flutter_protyp/widgets/constant.dart";
 import 'package:provider/provider.dart';
 import 'package:flutter_protyp/widgets/theme.dart';
-import 'package:http/http.dart' as http;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-/// Gives an AppBar with logoutButton
-/// Can be coloured with primaryColor in constant.dart
+// Gives an AppBar with logoutButton
+// Can be coloured with primaryColor in constant.dart
+
 class MainAppbar extends StatefulWidget implements PreferredSizeWidget {
   @override
   _MainAppbarState createState() => _MainAppbarState();
@@ -31,11 +30,6 @@ var payload = null;
 var normalized;
 var resp;
 var payloadMap;
-
-//String url = 'http://172.25.32.1:8000/users/me';
-
-/// Stores the response from the controller
-//var response;
 
 class _MainAppbarState extends State<MainAppbar> {
   @override

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import "package:flutter_protyp/widgets/constant.dart";
-
 import 'package:easy_localization/easy_localization.dart';
 
-/// Gives a Drawer in which the different sites are linked
-/// Can be coloured with primaryColor and secondaryColor in constant.dart
+// Gives a Drawer in which the different sites are linked
+// Can be coloured with primaryColor and secondaryColor in constant.dart
+
 class MainDrawer extends StatefulWidget {
   @override
   _MainDrawerState createState() => _MainDrawerState();

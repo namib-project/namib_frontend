@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_protyp/pages/login.dart';
@@ -7,8 +6,9 @@ import 'package:flutter_protyp/pages/registrationStart.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
 import 'handlers/ThemeHandler.dart';
+
+// This class get the important information for building the application before the login appears
 
 class StartService extends StatefulWidget {
   @override
