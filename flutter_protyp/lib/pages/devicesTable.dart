@@ -58,6 +58,7 @@ class _DevicesTableState extends State<DevicesTable> {
 
       _sortUniqueRooms();
       _sortDevicesForDisplay();
+      _createDevicesForDisplay();
     });
   }
 
@@ -224,6 +225,7 @@ class _DevicesTableState extends State<DevicesTable> {
                 _sortDevicesForDisplay();
                 _searchWithSearchWord();
                 _filterDevicesWithRoom();
+                _createDevicesForDisplay();
               });
             },
             child: Padding(
@@ -243,6 +245,7 @@ class _DevicesTableState extends State<DevicesTable> {
                         _sortDevicesForDisplay();
                         _searchWithSearchWord();
                         _filterDevicesWithRoom();
+                        _createDevicesForDisplay();
                       });
                     },
                   ),
@@ -271,6 +274,7 @@ class _DevicesTableState extends State<DevicesTable> {
         onTap: () {
           _sortAscending = !_sortAscending;
           _sortDevicesForDisplay();
+          _createDevicesForDisplay();
         },
         child: Card(
           child: Padding(
@@ -335,6 +339,7 @@ class _DevicesTableState extends State<DevicesTable> {
           _searchWithSearchWord();
           _filterDevicesWithRoom();
           _sortDevicesForDisplay();
+          _createDevicesForDisplay();
         },
       ),
     );
@@ -440,9 +445,7 @@ class _DevicesTableState extends State<DevicesTable> {
       }
       _devicesCopy = _devicesList;
     }
-    setState(() {
-      _createDevicesForDisplay();
-    });
+    setState(() {});
   }
 
   _searchWithSearchWord() {
@@ -452,7 +455,6 @@ class _DevicesTableState extends State<DevicesTable> {
         var deviceName = device.mud_data.systeminfo.toLowerCase();
         return deviceName.contains(_searchWord);
       }).toList();
-      _createDevicesForDisplay();
     });
   }
 
@@ -465,7 +467,6 @@ class _DevicesTableState extends State<DevicesTable> {
         _devicesCopy.sort(
             (a, b) => b.mud_data.systeminfo.compareTo(a.mud_data.systeminfo));
       }
-      _createDevicesForDisplay();
     });
   }
 
