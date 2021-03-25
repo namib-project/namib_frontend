@@ -8,6 +8,7 @@ import 'package:flutter_protyp/data/device_mud/mudData.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -22,16 +23,23 @@ class ChooseMudDataDetails extends StatefulWidget {
 }
 
 class _ChooseMudDataDetailsState extends State<ChooseMudDataDetails> {
-  /// Simple list to safe the ACL from controller
-  List<DataRow> list = [];
-  bool sortFirstRow = false;
-  bool sortFirstRow1 = false;
-  bool editColumn = false;
-  bool resetButton = false;
+  List<ACLElement> _aclListForDisplay = [];
+
+  bool _sortAscending = true;
+  Icon _arrowUp = Icon(
+    FontAwesomeIcons.arrowUp,
+    size: 17,
+  );
+  Icon _arrowDown = Icon(
+    FontAwesomeIcons.arrowDown,
+    size: 17,
+  );
 
   @override
   void initState() {
     super.initState();
+
+    _aclListForDisplay = widget.mudData.acllist;
   }
 
   Widget build(BuildContext context) {
@@ -64,44 +72,11 @@ class _ChooseMudDataDetailsState extends State<ChooseMudDataDetails> {
                   height: 20,
                 ),
 
-                Visibility(
-                  //The error message shows, if networkError is true
-                  visible: adminAccess,
-                  child: Container(
-                    alignment: Alignment.center,
-                    height: 60,
-                    child: RaisedButton(
-                      onPressed: () {
-                        _resetDialog();
-                      },
-                      child: Text("reset".tr().toString()),
-                    ),
-                  ),
-                ),
-
-                // RaisedButton(
-                //   onPressed: () {
-                //     _resetDialog();
-                //   },
-                //   child: Text("reset".tr().toString()),
-                // ),
-                SizedBox(
-                  height: 20,
-                ),
-
-                SizedBox(
-                  height: 20,
-                ),
-
-                // Here are some text fields and boxes to display all pertinent information about the device
-                SizedBox(
-                  height: 20,
-                ),
                 Column(children: mobileDevice ? _mobileView() : _desktopView()),
                 SizedBox(
                   height: 40,
                 ),
-                // Table row to display and edit the different DNS-Requests
+
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -113,27 +88,6 @@ class _ChooseMudDataDetailsState extends State<ChooseMudDataDetails> {
                             style: TextStyle(fontSize: 20),
                           ),
                         ]),
-                    Visibility(
-                      visible: adminAccess,
-                      child: RaisedButton(
-                          onPressed: () {
-                            setState(() {
-                              editColumn = !editColumn;
-                            });
-                          },
-                          child: Text("edit".tr().toString())),
-                    ),
-                    Visibility(
-                      visible: editColumn,
-                      child: RaisedButton(
-                          onPressed: () {
-                            setState(() {
-                              editColumn = !editColumn;
-                            });
-                            _transmitData();
-                          },
-                          child: Text("save".tr().toString())),
-                    ),
                     _expertModeText(context),
                   ],
                 ),
@@ -144,7 +98,37 @@ class _ChooseMudDataDetailsState extends State<ChooseMudDataDetails> {
                       flex: 1,
                       child: Container(),
                     ),
-                    _tableDNSNames(),
+                    Expanded(
+                      flex: 16,
+                      child: (widget.mudData.acllist != null &&
+                              widget.mudData.acllist.length != 0)
+                          ? Column(
+                              children: <Widget>[
+                                _searchBar(),
+                                _listHeader(),
+                                Container(
+                                  height: 500,
+                                  child: _listForAcl(context),
+                                )
+                              ],
+                            )
+                          : Container(
+                              height: 80,
+                              child: Card(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 16, right: 16),
+                                  child: SelectableText(
+                                    "noEntries".tr().toString(),
+                                    style: TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                    ),
                     Expanded(
                       flex: 1,
                       child: Container(),
@@ -162,98 +146,141 @@ class _ChooseMudDataDetailsState extends State<ChooseMudDataDetails> {
     );
   }
 
+  _listHeader() {
+    return Container(
+      height: 80,
+      child: InkWell(
+        customBorder: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        onTap: () {
+          _sortAscending = !_sortAscending;
+          _sortAclListForDisplay();
+        },
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 0, right: 16),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(0),
+                  child: Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        IconButton(
+                          icon: _sortAscending ? _arrowUp : _arrowDown,
+                        ),
+                        Text(
+                          "Addresse",
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  _searchBar() {
+    return Padding(
+      padding: EdgeInsets.all(8),
+      child: TextField(
+        cursorColor: Colors.grey,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(),
+          labelText: "Suche...",
+          suffixIcon: Icon(
+            FontAwesomeIcons.search,
+          ),
+        ),
+        onChanged: (text) {
+          text = text.toLowerCase();
+          setState(() {
+            _aclListForDisplay = widget.mudData.acllist.where((aclElement) {
+              var aclName = aclElement.name.toLowerCase();
+              return aclName.contains(text);
+            }).toList();
+          });
+          _sortAclListForDisplay();
+        },
+      ),
+    );
+  }
+
+  ListView _listForAcl(BuildContext context) {
+    return ListView.builder(
+      itemCount: _aclListForDisplay.length,
+      itemBuilder: (context, index) {
+        return Container(
+          height: 80,
+          child: InkWell(
+            customBorder: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            onTap: () {},
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 16, right: 16),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      _aclListForDisplay[index].name,
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  _sortAclListForDisplay() {
+    setState(() {
+      if (_sortAscending) {
+        _aclListForDisplay.sort((a, b) => a.name.compareTo(b.name));
+      } else {
+        _aclListForDisplay.sort((a, b) => b.name.compareTo(a.name));
+      }
+    });
+  }
+
   Expanded _tableDNSNames() {
     return Expanded(
       flex: 16,
       child: DataTable(
         onSelectAll: (b) {},
         sortColumnIndex: 0,
-        sortAscending: sortFirstRow,
+        sortAscending: true,
         columns: <DataColumn>[
           DataColumn(
             label: SelectableText("address".tr().toString()),
             numeric: false,
           ),
-          DataColumn(
-              label: Visibility(
-                  visible: editColumn,
-                  child: SelectableText("edit".tr().toString())))
         ],
         rows: widget.mudData.acllist
             .map((accessControlEntry) => DataRow(cells: [
                   DataCell(Text(accessControlEntry.ace[0].matches.dnsname)),
-                  DataCell(
-                    Visibility(
-                      visible: editColumn,
-                      child: IconButton(
-                        icon: Icon(Icons.delete),
-                        onPressed: () {
-                          _deleteDNSName(accessControlEntry);
-                        },
-                      ),
-                    ),
-                  )
                 ]))
             .toList(),
       ),
     );
-  }
-
-  void _deleteDNSName(ACLElement accessControlEntry) {
-    showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18.0),
-            ),
-            title: SelectableText("attention".tr().toString()),
-            content: Container(
-              width: 300,
-              height: 175,
-              child: Column(
-                children: [
-                  SelectableText("deleteDNSNameDisclaimer".tr().toString()),
-                  SizedBox(
-                    height: 40,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      // Buttons to accept or dismiss the changes like described above
-                      FlatButton(
-                        child: Text(
-                          "cancel".tr().toString(),
-                          style: TextStyle(
-                            color: buttonColor,
-                          ),
-                        ),
-                        onPressed: () {
-                          Navigator.of(context).pop(); // dismiss dialog
-                        },
-                      ),
-                      FlatButton(
-                        child: Text(
-                          "delete".tr().toString(),
-                          style: TextStyle(
-                            color: buttonColor,
-                          ),
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            widget.mudData.acllist.remove(accessControlEntry);
-                          });
-                          Navigator.of(context).pop(); // dismiss dialog
-                        },
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
   }
 
   Visibility _expertModeText(BuildContext context) {
@@ -293,27 +320,6 @@ class _ChooseMudDataDetailsState extends State<ChooseMudDataDetails> {
                 ),
     );
   }
-
-  // This method launchs the MUDURL to the device, these URLs are the profils for the devices that are added to the app
-  // if it not possible it will be thrown an error
-  // _launchMUDURL() async {
-  //   if (await canLaunch(widget.mudData.mud_url)) {
-  //     await launch(widget.mudData.mud_url);
-  //   } else {
-  //     throw 'Could not launch test';
-  //   }
-  // }
-//
-  // // This method launch the data to the profils, if it is not possible there will be thrown an error
-  // _launchDocumentation() async {
-  //   if (await canLaunch(widget.device.mud_data.documentation)) {
-  //     await launch(widget.device.mud_data.documentation);
-  //   } else {
-  //     throw 'Could not launch test';
-  //   }
-  // }
-
-  Future _transmitData() async {}
 
   ///True if mouse is in the MouseRegion widget, else false
   bool inRegion = false;
@@ -481,59 +487,5 @@ class _ChooseMudDataDetailsState extends State<ChooseMudDataDetails> {
     ];
 
     return list;
-  }
-
-  void _resetDialog() {
-    showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18.0),
-            ),
-            title: SelectableText("attention".tr().toString()),
-            content: Container(
-              width: 300,
-              height: 175,
-              child: Column(
-                children: [
-                  SelectableText("resetDisclaimer".tr().toString()),
-                  SizedBox(
-                    height: 40,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      // Buttons to accept or dismiss the changes like described above
-                      FlatButton(
-                        child: Text(
-                          "cancel".tr().toString(),
-                          style: TextStyle(
-                            color: buttonColor,
-                          ),
-                        ),
-                        onPressed: () {
-                          Navigator.of(context).pop(); // dismiss dialog
-                        },
-                      ),
-                      FlatButton(
-                        child: Text(
-                          "reset".tr().toString(),
-                          style: TextStyle(
-                            color: buttonColor,
-                          ),
-                        ),
-                        onPressed: () {
-                          //TODO call reset route
-                        },
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
   }
 }
