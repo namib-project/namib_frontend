@@ -8,6 +8,7 @@ import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter_protyp/data/room.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_protyp/data/device_mud/device.dart';
 
 import 'dart:convert';
 import 'dart:math';
@@ -15,6 +16,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ChooseMudData extends StatefulWidget {
+  ChooseMudData({
+    Key key,
+    @required this.device,
+  }) : super(key: key);
+
+  final Device device;
+
   _ChooseMudDataState createState() => _ChooseMudDataState();
 }
 
@@ -53,6 +61,7 @@ class _ChooseMudDataState extends State<ChooseMudData> {
                   return Expanded(
                       child: ChooseMudDataTable(
                     mudDataList: snapshot.data,
+                    device: widget.device,
                   ));
                 } else if (snapshot.hasError) {
                   // If the process failed this message returns
@@ -111,8 +120,6 @@ Future<List<MUDData>> getMudDataList() async {
   List<MUDData> mudDataListTest =
       jsonMudData.map((tagJson) => MUDData.fromJson(tagJson)).toList();
 
-  print("kleiner Test");
-  print(mudDataListTest);
   return mudDataListTest;
 
   //} else {

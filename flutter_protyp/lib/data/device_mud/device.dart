@@ -18,6 +18,7 @@ class Device {
       vendor_class,
       roomname,
       roomcolor,
+      type,
       clipart;
 
   int id;

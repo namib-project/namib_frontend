@@ -21,7 +21,7 @@ Device _$DeviceFromJson(Map<String, dynamic> json) {
     json['mud_data'] == null
         ? null
         : MUDData.fromJson(json['mud_data'] as Map<String, dynamic>),
-  );
+  )..type = json['type'] as String;
 }
 
 Map<String, dynamic> _$DeviceToJson(Device instance) => <String, dynamic>{
@@ -33,6 +33,7 @@ Map<String, dynamic> _$DeviceToJson(Device instance) => <String, dynamic>{
       'vendor_class': instance.vendor_class,
       'roomname': instance.roomname,
       'roomcolor': instance.roomcolor,
+      'type': instance.type,
       'clipart': instance.clipart,
       'id': instance.id,
       'mud_data': instance.mud_data?.toJson(),

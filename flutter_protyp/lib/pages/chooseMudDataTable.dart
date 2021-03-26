@@ -17,9 +17,11 @@ class ChooseMudDataTable extends StatefulWidget {
   ChooseMudDataTable({
     Key key,
     @required this.mudDataList,
+    @required this.device,
   }) : super(key: key);
 
   final List<MUDData> mudDataList;
+  final Device device;
 
   _ChooseMudDataTableState createState() => _ChooseMudDataTableState();
 }
@@ -188,7 +190,9 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ChooseRoom(),
+                  builder: (context) => ChooseRoom(
+                    device: widget.device,
+                  ),
                 ),
               )
             },

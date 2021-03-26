@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:easy_localization/easy_localization.dart';
 
 import 'package:flutter/cupertino.dart';
@@ -13,6 +15,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ChooseClipart extends StatefulWidget {
+  ChooseClipart({
+    Key key,
+    @required this.device,
+  }) : super(key: key);
+
+  final Device device;
+
   _ChooseClipartState createState() => _ChooseClipartState();
 }
 

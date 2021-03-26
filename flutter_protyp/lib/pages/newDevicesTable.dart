@@ -221,7 +221,9 @@ class _NewDevicesTableState extends State<NewDevicesTable> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ChooseMudData(),
+                      builder: (context) => ChooseMudData(
+                        device: _devicesForDisplay[index],
+                      ),
                     ));
               }
             },
