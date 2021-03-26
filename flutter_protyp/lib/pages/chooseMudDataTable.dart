@@ -226,41 +226,59 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(0),
-                  child: Container(
-                    width: 200,
-                    child: Row(
-                      children: [
-                        IconButton(
-                          icon: _sortAscending ? _arrowUp : _arrowDown,
-                        ),
-                        Text(
-                          "Name",
-                          style: TextStyle(
-                            fontSize: 20,
+                Expanded(
+                  flex: 3,
+                  child: Padding(
+                    padding: const EdgeInsets.all(0),
+                    child: Container(
+                      width: 200,
+                      child: Row(
+                        children: [
+                          IconButton(
+                            icon: _sortAscending ? _arrowUp : _arrowDown,
                           ),
-                        ),
-                      ],
+                          Text(
+                            "Name",
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-                Text(
-                  "Hersteller",
-                  style: TextStyle(
-                    fontSize: 20,
+                Expanded(
+                  flex: 3,
+                  child: Text(
+                    "Hersteller",
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
                   ),
                 ),
-                Text(
-                  "Details",
-                  style: TextStyle(
-                    fontSize: 20,
+                Expanded(
+                  flex: 1,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      "Details",
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
                   ),
                 ),
-                Text(
-                  "Wahl",
-                  style: TextStyle(
-                    fontSize: 20,
+                Expanded(
+                  flex: 1,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      "Wahl",
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -327,58 +345,78 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text(
-                      _mudGuessListForDisplay[index].model_name,
-                      style: TextStyle(
-                        fontSize: 20,
+                    Expanded(
+                      flex: 3,
+                      child: Text(
+                        _mudGuessListForDisplay[index].model_name,
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
                       ),
                     ),
-                    Text(
-                      _mudGuessListForDisplay[index].manufacturer_name,
-                      style: TextStyle(
-                        fontSize: 20,
+                    Expanded(
+                      flex: 3,
+                      child: Text(
+                        _mudGuessListForDisplay[index].manufacturer_name,
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
                       ),
                     ),
-                    IconButton(
-                      icon: Icon(
-                        FontAwesomeIcons.search,
-                        size: 17,
-                      ),
-                      onPressed: () {
-                        /// TODO: redirect to detailSite with real MudData
-
-                        _mudData = getMudData();
-
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                ChooseMudDataDetails(mudData: _mudData),
+                    Expanded(
+                      flex: 1,
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: IconButton(
+                          icon: Icon(
+                            FontAwesomeIcons.search,
+                            size: 17,
                           ),
-                        );
+                          onPressed: () {
+                            /// TODO: redirect to detailSite with real MudData
 
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => ChooseMudDataDetails(
-                        //         mudData: _mudGuessListForDisplay[index]),
-                        //   ),
-                        // );
-                      },
+                            _mudData = getMudData();
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ChooseMudDataDetails(mudData: _mudData),
+                              ),
+                            );
+
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => ChooseMudDataDetails(
+                            //         mudData: _mudGuessListForDisplay[index]),
+                            //   ),
+                            // );
+                          },
+                        ),
+                      ),
                     ),
-                    Checkbox(
-                      activeColor: buttonColor,
-                      value: _chosenMudGuess == _mudGuessListForDisplay[index],
-                      onChanged: (bool value) {
-                        ///
-                        setState(() {
-                          _chosenMudGuess == _mudGuessListForDisplay[index]
-                              ? _chosenMudGuess = null
-                              : _chosenMudGuess =
-                                  _mudGuessListForDisplay[index];
-                          txt.text = _mudGuessListForDisplay[index].model_name;
-                        });
-                      },
+                    Expanded(
+                      flex: 1,
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Checkbox(
+                          activeColor: buttonColor,
+                          value:
+                              _chosenMudGuess == _mudGuessListForDisplay[index],
+                          onChanged: (bool value) {
+                            ///
+                            setState(() {
+                              _chosenMudGuess == _mudGuessListForDisplay[index]
+                                  ? _chosenMudGuess = null
+                                  : _chosenMudGuess =
+                                      _mudGuessListForDisplay[index];
+                              txt.text =
+                                  _mudGuessListForDisplay[index].model_name;
+                            });
+                          },
+                        ),
+                      ),
                     ),
                   ],
                 ),

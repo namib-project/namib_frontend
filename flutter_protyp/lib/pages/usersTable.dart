@@ -216,28 +216,40 @@ class UsersTableState extends State<UsersTable> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text(
-                      _usersForDisplay[index].username,
-                      style: TextStyle(
-                        fontSize: 20,
+                    Expanded(
+                      flex: 1,
+                      child: Text(
+                        _usersForDisplay[index].username,
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
                       ),
                     ),
-                    IconButton(
-                      onPressed: () {
-                        _editUserRoleDialog(context, _usersForDisplay[index]);
-                      },
-                      icon: Icon(
-                        FontAwesomeIcons.edit,
-                        size: 17,
+                    Expanded(
+                      flex: 1,
+                      child: IconButton(
+                        onPressed: () {
+                          _editUserRoleDialog(context, _usersForDisplay[index]);
+                        },
+                        icon: Icon(
+                          FontAwesomeIcons.edit,
+                          size: 17,
+                        ),
                       ),
                     ),
-                    IconButton(
-                      onPressed: () {
-                        _deleteUserDialog(context, _usersForDisplay[index]);
-                      },
-                      icon: Icon(
-                        FontAwesomeIcons.trash,
-                        size: 17,
+                    Expanded(
+                      flex: 1,
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: IconButton(
+                          onPressed: () {
+                            _deleteUserDialog(context, _usersForDisplay[index]);
+                          },
+                          icon: Icon(
+                            FontAwesomeIcons.trash,
+                            size: 17,
+                          ),
+                        ),
                       ),
                     ),
                   ],

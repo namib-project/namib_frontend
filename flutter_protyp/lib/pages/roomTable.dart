@@ -332,31 +332,47 @@ class _RoomTableState extends State<RoomTable> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text(
-                      _roomsForDisplay[index].roomname,
-                      style: TextStyle(
-                        fontSize: 20,
+                    Expanded(
+                      flex: 1,
+                      child: Text(
+                        _roomsForDisplay[index].roomname,
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
                       ),
                     ),
-                    Container(
-                      height: 40,
-                      width: 40,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(4),
-                        color:
-                            Color(int.parse(_roomsForDisplay[index].roomcolor)),
-                      ),
+                    Expanded(
+                      flex: 1,
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: 40,
+                              width: 40,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4),
+                                color: Color(int.parse(
+                                    _roomsForDisplay[index].roomcolor)),
+                              ),
+                            ),
+                          ]),
                     ),
-                    Checkbox(
-                      activeColor: buttonColor,
-                      value: chosenRoom == _roomsForDisplay[index],
-                      onChanged: (bool value) {
-                        setState(() {
-                          chosenRoom == _roomsForDisplay[index]
-                              ? chosenRoom = null
-                              : chosenRoom = _roomsForDisplay[index];
-                        });
-                      },
+                    Expanded(
+                      flex: 1,
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Checkbox(
+                          activeColor: buttonColor,
+                          value: chosenRoom == _roomsForDisplay[index],
+                          onChanged: (bool value) {
+                            setState(() {
+                              chosenRoom == _roomsForDisplay[index]
+                                  ? chosenRoom = null
+                                  : chosenRoom = _roomsForDisplay[index];
+                            });
+                          },
+                        ),
+                      ),
                     ),
                   ],
                 ),
