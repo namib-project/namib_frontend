@@ -97,7 +97,6 @@ class _DeviceOverviewState extends State<DeviceOverview> {
                     return Expanded(
                         child: DevicesTable(
                       devices: snapshot.data,
-                      device: snapshot.data[0],
                     ));
                   }
                 } else if (snapshot.hasError) {

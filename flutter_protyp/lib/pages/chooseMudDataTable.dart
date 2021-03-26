@@ -295,6 +295,14 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
             customBorder: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
+            onTap: () {
+              setState(() {
+                _chosenMudData == _mudDataListForDisplay[index]
+                    ? _chosenMudData = null
+                    : _chosenMudData = _mudDataListForDisplay[index];
+                txt.text = _mudDataListForDisplay[index].systeminfo;
+              });
+            },
             child: Card(
               child: Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16),

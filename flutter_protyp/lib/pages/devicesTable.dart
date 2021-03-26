@@ -15,12 +15,10 @@ class DevicesTable extends StatefulWidget {
   const DevicesTable({
     Key key,
     @required this.devices,
-    @required this.device,
   }) : super(key: key);
 
   /// List which stores all given devices
   final List<Device> devices;
-  final Device device;
 
   /// TODO: Maybe add final List<Room> rooms
 
