@@ -447,6 +447,7 @@ class _DevicesTableState extends State<DevicesTable> {
     }
   }
 
+  /// TODO: maybe search not only through name -> see chooseMudData.dart
   _searchWithSearchWord() {
     _searchWord = _searchWord.toLowerCase();
     setState(() {

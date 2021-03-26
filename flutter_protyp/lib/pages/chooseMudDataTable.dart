@@ -8,19 +8,23 @@ import 'package:flutter_protyp/data/device_mud/mudData.dart';
 import 'package:flutter_protyp/pages/chooseMudData.dart';
 import 'package:flutter_protyp/pages/chooseMudDataDetails.dart';
 import 'package:flutter_protyp/pages/deviceDetails.dart';
+import 'package:flutter_protyp/data/device_mud/mudData.dart';
+import 'dart:convert';
+
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_protyp/data/device_mud/mudGuess.dart';
 
 import 'chooseRoom.dart';
 
 class ChooseMudDataTable extends StatefulWidget {
   ChooseMudDataTable({
     Key key,
-    @required this.mudDataList,
+    @required this.mudGuessList,
     @required this.device,
   }) : super(key: key);
 
-  final List<MUDData> mudDataList;
+  final List<MudGuess> mudGuessList;
   final Device device;
 
   _ChooseMudDataTableState createState() => _ChooseMudDataTableState();
@@ -28,11 +32,13 @@ class ChooseMudDataTable extends StatefulWidget {
 
 //Class for user registration, will only be used at the first usage
 class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
-  List<MUDData> _mudDataListForDisplay;
+  List<MudGuess> _mudGuessListForDisplay;
+
+  MUDData _mudData;
 
   var txt = TextEditingController();
 
-  MUDData _chosenMudData;
+  MudGuess _chosenMudGuess;
   bool _sortAscending = true;
   Icon _arrowUp = Icon(
     FontAwesomeIcons.arrowUp,
@@ -46,8 +52,8 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
   @override
   void initState() {
     setState(() {
-      _mudDataListForDisplay = widget.mudDataList;
-      _sortMudDataListForDisplay();
+      _mudGuessListForDisplay = widget.mudGuessList;
+      _sortMudGuessListForDisplay();
     });
   }
 
@@ -92,8 +98,8 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
                     ),
                     Expanded(
                       flex: 16,
-                      child: (widget.mudDataList != null &&
-                              widget.mudDataList.length != 0)
+                      child: (widget.mudGuessList != null &&
+                              widget.mudGuessList.length != 0)
                           ? Column(
                               children: <Widget>[
                                 _searchBar(),
@@ -211,7 +217,7 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
         ),
         onTap: () {
           _sortAscending = !_sortAscending;
-          _sortMudDataListForDisplay();
+          _sortMudGuessListForDisplay();
         },
         child: Card(
           child: Padding(
@@ -237,6 +243,12 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
                         ),
                       ],
                     ),
+                  ),
+                ),
+                Text(
+                  "Hersteller",
+                  style: TextStyle(
+                    fontSize: 20,
                   ),
                 ),
                 Text(
@@ -274,12 +286,17 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
         onChanged: (text) {
           text = text.toLowerCase();
           setState(() {
-            _mudDataListForDisplay = widget.mudDataList.where((mudData) {
-              var mudDataName = mudData.systeminfo.toLowerCase();
-              return mudDataName.contains(text);
+            _mudGuessListForDisplay = widget.mudGuessList.where((mudGuess) {
+              var mudGuessName = mudGuess.model_name.toLowerCase();
+              var mudGuessManName = mudGuess.manufacturer_name.toLowerCase();
+
+              return (mudGuessName.contains(text) ||
+                  mudGuessManName.contains(text));
+
+              // return mudGuessName.contains(text);
             }).toList();
           });
-          _sortMudDataListForDisplay();
+          _sortMudGuessListForDisplay();
         },
       ),
     );
@@ -287,7 +304,7 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
 
   ListView _listForMudData(BuildContext context) {
     return ListView.builder(
-      itemCount: _mudDataListForDisplay.length,
+      itemCount: _mudGuessListForDisplay.length,
       itemBuilder: (context, index) {
         return Container(
           height: 80,
@@ -297,10 +314,10 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
             ),
             onTap: () {
               setState(() {
-                _chosenMudData == _mudDataListForDisplay[index]
-                    ? _chosenMudData = null
-                    : _chosenMudData = _mudDataListForDisplay[index];
-                txt.text = _mudDataListForDisplay[index].systeminfo;
+                _chosenMudGuess == _mudGuessListForDisplay[index]
+                    ? _chosenMudGuess = null
+                    : _chosenMudGuess = _mudGuessListForDisplay[index];
+                txt.text = _mudGuessListForDisplay[index].model_name;
               });
             },
             child: Card(
@@ -311,7 +328,13 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
-                      _mudDataListForDisplay[index].systeminfo,
+                      _mudGuessListForDisplay[index].model_name,
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                    Text(
+                      _mudGuessListForDisplay[index].manufacturer_name,
                       style: TextStyle(
                         fontSize: 20,
                       ),
@@ -322,24 +345,38 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
                         size: 17,
                       ),
                       onPressed: () {
+                        /// TODO: redirect to detailSite with real MudData
+
+                        _mudData = getMudData();
+
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ChooseMudDataDetails(
-                                mudData: _mudDataListForDisplay[index]),
+                            builder: (context) =>
+                                ChooseMudDataDetails(mudData: _mudData),
                           ),
                         );
+
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => ChooseMudDataDetails(
+                        //         mudData: _mudGuessListForDisplay[index]),
+                        //   ),
+                        // );
                       },
                     ),
                     Checkbox(
                       activeColor: buttonColor,
-                      value: _chosenMudData == _mudDataListForDisplay[index],
+                      value: _chosenMudGuess == _mudGuessListForDisplay[index],
                       onChanged: (bool value) {
+                        ///
                         setState(() {
-                          _chosenMudData == _mudDataListForDisplay[index]
-                              ? _chosenMudData = null
-                              : _chosenMudData = _mudDataListForDisplay[index];
-                          txt.text = _mudDataListForDisplay[index].systeminfo;
+                          _chosenMudGuess == _mudGuessListForDisplay[index]
+                              ? _chosenMudGuess = null
+                              : _chosenMudGuess =
+                                  _mudGuessListForDisplay[index];
+                          txt.text = _mudGuessListForDisplay[index].model_name;
                         });
                       },
                     ),
@@ -353,15 +390,48 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
     );
   }
 
-  _sortMudDataListForDisplay() {
+  _sortMudGuessListForDisplay() {
     setState(() {
       if (_sortAscending) {
-        _mudDataListForDisplay
-            .sort((a, b) => a.systeminfo.compareTo(b.systeminfo));
+        _mudGuessListForDisplay
+            .sort((a, b) => a.model_name.compareTo(b.model_name));
       } else {
-        _mudDataListForDisplay
-            .sort((a, b) => b.systeminfo.compareTo(a.systeminfo));
+        _mudGuessListForDisplay
+            .sort((a, b) => b.model_name.compareTo(a.model_name));
       }
     });
+  }
+
+  /// TODO: decode not as list but as one object !
+  MUDData getMudData() {
+    // String devicesExtension = 'devices';
+    // response = await http.get(url + devicesExtension, headers: {
+    //   "Content-Type": "application/json",
+    //   "Authorization": "Bearer $jwtToken"
+    // }).timeout(const Duration(seconds: 5), onTimeout: () {
+    //   return _handleTimeOut();
+    // });
+
+    /// In reality this is not a List !!
+    String test =
+        '[{"acl_override": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","destination_port": {"range": [0],"single": 0},"direction_initiated": "FromDevice","dnsname": "string","protocol": {"name": "TCP","num": 0},"source_port": {"range": [0],"single": 0}},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","destination_port": {"range": [0],"single": 0},"direction_initiated": "FromDevice","dnsname": "string","protocol": {"name": "TCP","num": 0},"source_port": {"range": [0],"single": 0}},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-03-26T20:51:27.099Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "string","url": "string"}]';
+
+    //print("Response code: " + response.statusCode.toString());
+    //print(response.body);
+
+    //if (response.statusCode == 200) {
+
+    var jsonMudData = jsonDecode(test) as List;
+    List<MUDData> mudDataTest =
+        jsonMudData.map((tagJson) => MUDData.fromJson(tagJson)).toList();
+
+    //jsonMudData.map((tagJson) => MudData.fromJson(tagJson)).toList();
+
+    return mudDataTest[0];
+
+    //} else {
+    //throw Exception("Failed to get Data");
+    //}
+    //TODO bei release auf http request umstellen
   }
 }

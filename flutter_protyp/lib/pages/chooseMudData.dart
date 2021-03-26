@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_protyp/data/device_mud/mudData.dart';
+import 'package:flutter_protyp/data/device_mud/mudGuess.dart';
 import 'package:flutter_protyp/pages/chooseMudDataTable.dart';
 import 'package:flutter_protyp/pages/roomTable.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
@@ -27,12 +28,12 @@ class ChooseMudData extends StatefulWidget {
 }
 
 class _ChooseMudDataState extends State<ChooseMudData> {
-  Future<List<MUDData>> mudDataList;
+  Future<List<MudGuess>> mudGuessList;
 
   @override
   void initState() {
     super.initState();
-    mudDataList = getMudDataList();
+    mudGuessList = getMudGuessList();
   }
 
   @override
@@ -54,13 +55,13 @@ class _ChooseMudDataState extends State<ChooseMudData> {
           children: [
             // This future builder element put in the different devices after these will be loaded
             // The future builder element a delayed sending of context
-            FutureBuilder<List<MUDData>>(
-              future: mudDataList,
+            FutureBuilder<List<MudGuess>>(
+              future: mudGuessList,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return Expanded(
                       child: ChooseMudDataTable(
-                    mudDataList: snapshot.data,
+                    mudGuessList: snapshot.data,
                     device: widget.device,
                   ));
                 } else if (snapshot.hasError) {
@@ -99,7 +100,7 @@ class _ChooseMudDataState extends State<ChooseMudData> {
 }
 
 ///TODO: make this future wich gets all the rooms from the devicesList
-Future<List<MUDData>> getMudDataList() async {
+Future<List<MudGuess>> getMudGuessList() async {
   // String devicesExtension = 'devices';
   // response = await http.get(url + devicesExtension, headers: {
   //   "Content-Type": "application/json",
@@ -109,18 +110,17 @@ Future<List<MUDData>> getMudDataList() async {
   // });
 
   String test =
-      '[{"acl_override": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","destination_port": {"range": [0],"single": 0},"direction_initiated": "FromDevice","dnsname": "string","protocol": {"name": "TCP","num": 0},"source_port": {"range": [0],"single": 0}},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","destination_port": {"range": [0],"single": 0},"direction_initiated": "FromDevice","dnsname": "string","protocol": {"name": "TCP","num": 0},"source_port": {"range": [0],"single": 0}},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-03-23T18:49:40.185Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "cMudName897","url": "string"}, {"acl_override": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","destination_port": {"range": [0],"single": 0},"direction_initiated": "FromDevice","dnsname": "string","protocol": {"name": "TCP","num": 0},"source_port": {"range": [0],"single": 0}},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","destination_port": {"range": [0],"single": 0},"direction_initiated": "FromDevice","dnsname": "string","protocol": {"name": "TCP","num": 0},"source_port": {"range": [0],"single": 0}},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-03-23T18:49:40.185Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "bMudName543","url": "string"}]';
-
+      '[{"manufacturer_name": "ManName1","model_name": "ModelName1","mud_url": "url1"}, {"manufacturer_name": "ManName2","model_name": "ModelName2","mud_url": "url2"}, {"manufacturer_name": "ManName3","model_name": "ModelName3","mud_url": "url3"}]';
   //print("Response code: " + response.statusCode.toString());
   //print(response.body);
 
   //if (response.statusCode == 200) {
 
-  var jsonMudData = jsonDecode(test) as List;
-  List<MUDData> mudDataListTest =
-      jsonMudData.map((tagJson) => MUDData.fromJson(tagJson)).toList();
+  var jsonMudGuess = jsonDecode(test) as List;
+  List<MudGuess> mudGuessListTest =
+      jsonMudGuess.map((tagJson) => MudGuess.fromJson(tagJson)).toList();
 
-  return mudDataListTest;
+  return mudGuessListTest;
 
   //} else {
   //throw Exception("Failed to get Data");
