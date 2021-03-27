@@ -76,7 +76,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                           height: 30,
                         ),
                         SelectableText(
-                          device.mud_data.systeminfo,
+                          device.hostname,
                           style: TextStyle(fontSize: 25),
                         ),
                         SizedBox(
@@ -688,21 +688,24 @@ class _DeviceDetailsState extends State<DeviceDetails> {
         SizedBox(
           height: 50,
         ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SelectableText(
-              'documentation'.tr().toString() + ": ",
-              style: TextStyle(fontSize: 20),
-            ),
-            SelectableText(
-              device.mud_data.documentation,
-              style: TextStyle(fontSize: 18),
-              onTap: () {
-                _launchDocumentation();
-              },
-            ),
-          ],
+        Visibility(
+          visible: device.mud_data.documentation != null,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SelectableText(
+                'documentation'.tr().toString() + ": ",
+                style: TextStyle(fontSize: 20),
+              ),
+              SelectableText(
+                device.mud_data.documentation,
+                style: TextStyle(fontSize: 18),
+                onTap: () {
+                  _launchDocumentation();
+                },
+              ),
+            ],
+          )
         )
       ],
     );
@@ -767,17 +770,6 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     var sizedBox3 = SizedBox(
       height: 20,
     );
-    var selectableText7 = SelectableText(
-      'documentation'.tr().toString(),
-      style: TextStyle(fontSize: 20),
-    );
-    var selectableText8 = SelectableText(
-      device.mud_data.documentation,
-      style: TextStyle(fontSize: 18),
-      onTap: () {
-        _launchDocumentation();
-      },
-    );
 
     List<Widget> list = [
       selectableText1,
@@ -789,9 +781,23 @@ class _DeviceDetailsState extends State<DeviceDetails> {
       selectableText5,
       selectableText6,
       sizedBox3,
-      selectableText7,
-      selectableText8
     ];
+
+    if (device.mud_data.documentation != null) {
+      var selectableText7 = SelectableText(
+        'documentation'.tr().toString(),
+        style: TextStyle(fontSize: 20),
+      );
+      var selectableText8 = SelectableText(
+        device.mud_data.documentation,
+        style: TextStyle(fontSize: 18),
+        onTap: () {
+          _launchDocumentation();
+        },
+      );
+      list.add(selectableText7);
+      list.add(selectableText8);
+    }
 
     return list;
   }

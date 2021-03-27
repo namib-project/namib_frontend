@@ -9,6 +9,7 @@ part of 'device.dart';
 Device _$DeviceFromJson(Map<String, dynamic> json) {
   return Device(
     json['hostname'] as String,
+    json['type'] as String,
     json['ip_addr'] as String,
     json['last_interaction'] as String,
     json['mac_addr'] as String,

@@ -107,7 +107,7 @@ class _DeviceOverviewState extends State<DeviceOverview> {
                 } else {
                   return Expanded(
                       child: DevicesTable(
-                    devices: snapshot.data,
+                    devices: snapshot.data.where((e) => e.type == "managed").toList(),
                   ));
                 }
               } else if (snapshot.hasError) {

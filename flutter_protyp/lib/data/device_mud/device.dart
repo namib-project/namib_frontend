@@ -11,6 +11,7 @@ part 'device.g.dart';
 class Device {
   ///systeminfo = Gerätename, name = MUD-Name, software_rev = Software Version,
   String hostname,
+      type,
       ip_addr,
       last_interaction,
       mac_addr,
@@ -23,6 +24,7 @@ class Device {
 
   Device(
       this.hostname,
+      this.type,
       this.ip_addr,
       this.last_interaction,
       this.mac_addr,
