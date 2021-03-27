@@ -195,7 +195,7 @@ class _NewDevicesTableState extends State<NewDevicesTable> {
           text = text.toLowerCase();
           setState(() {
             _devicesForDisplay = widget.devices.where((device) {
-              var deviceName = device.mud_data.systeminfo;
+              var deviceName = device.hostname;
               return deviceName.contains(text);
             }).toList();
           });
@@ -233,7 +233,7 @@ class _NewDevicesTableState extends State<NewDevicesTable> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
-                      _devicesForDisplay[index].mud_data.systeminfo,
+                      _devicesForDisplay[index].hostname,
                       style: TextStyle(
                         fontSize: 20,
                       ),
@@ -259,10 +259,10 @@ class _NewDevicesTableState extends State<NewDevicesTable> {
     setState(() {
       if (_sortAscending) {
         _devicesForDisplay.sort(
-            (a, b) => a.mud_data.systeminfo.compareTo(b.mud_data.systeminfo));
+            (a, b) => a.hostname.compareTo(b.hostname));
       } else {
         _devicesForDisplay.sort(
-            (a, b) => b.mud_data.systeminfo.compareTo(a.mud_data.systeminfo));
+            (a, b) => b.hostname.compareTo(a.hostname));
       }
     });
   }
