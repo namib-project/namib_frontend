@@ -133,7 +133,7 @@ class _ManageUserState extends State<ManageUser> {
                   ),
                   content: Container(
                       width: 300,
-                      height: _checkHeight(),
+                      height: 220,
                       child: Column(
                         children: <Widget>[
                           Container(
@@ -170,6 +170,8 @@ class _ManageUserState extends State<ManageUser> {
                               }
                             ),
                           ),
+
+
                           Container(
                             height: 70,
                             alignment: Alignment.center,
@@ -221,7 +223,8 @@ class _ManageUserState extends State<ManageUser> {
                             ),
                           ),
                         ],
-                      )),
+                      )
+                  ),
                 ),
               ),
             );
