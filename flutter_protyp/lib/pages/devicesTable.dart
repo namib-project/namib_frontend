@@ -82,7 +82,7 @@ class _DevicesTableState extends State<DevicesTable> {
                                     _searchBar(),
                                     _listHeader(),
                                     Container(
-                                      height: 250,
+                                      height: (_devicesForDisplay.length * 80).toDouble(),
                                       child: _listForDevices(context),
                                     )
                                   ],

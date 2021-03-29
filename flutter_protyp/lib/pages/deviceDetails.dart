@@ -387,7 +387,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                   visible: editColumn,
                   child: SelectableText("edit".tr().toString())))
         ],
-        rows: device.mud_data.acl_override == null
+        rows: device.mud_data.acl_override == []
             ? device.mud_data.acllist
             .map((accessControlEntry) =>
             DataRow(cells: [
@@ -469,7 +469,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                         ),
                         onPressed: () {
                           setState(() {
-                            if (device.mud_data.acl_override == null) {
+                            if (device.mud_data.acl_override == []) {
                               device.mud_data.acl_override =
                                   List.from(device.mud_data.acllist);
                             }
@@ -642,7 +642,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
               style: TextStyle(fontSize: 20),
             ),
             SelectableText(
-              device.ip_addr,
+              device.ipv4_addr == null ? device.ipv6_addr : device.ipv4_addr,
               style: TextStyle(fontSize: 18),
             ),
           ],
@@ -739,7 +739,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
       style: TextStyle(fontSize: 20),
     );
     var selectableText2 = SelectableText(
-      device.ip_addr,
+      device.ipv4_addr == null ? device.ipv6_addr : device.ipv4_addr,
       style: TextStyle(fontSize: 18),
     );
     var sizedBox1 = SizedBox(
