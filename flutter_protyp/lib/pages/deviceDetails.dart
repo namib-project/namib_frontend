@@ -17,9 +17,9 @@ import 'package:http/http.dart' as http;
 class DeviceDetails extends StatefulWidget {
   const DeviceDetails({
     Key key,
-    @required this.ipAddress,
+    @required this.id,
   }) : super(key: key);
-  final String ipAddress;
+  final int id;
 
   _DeviceDetailsState createState() => _DeviceDetailsState();
 }
@@ -869,7 +869,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
   Future<Device> fetchDevice() async {
     String deviceExtension = "devices/";
 
-    var _response = await http.get(url + deviceExtension + widget.ipAddress,
+    var _response = await http.get(url + deviceExtension + widget.id.toString(),
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Bearer $jwtToken"
