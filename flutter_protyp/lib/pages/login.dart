@@ -399,20 +399,22 @@ class _LoginState extends State<Login> {
     var normalized = base64Url.normalize(payload);
     var resp = utf8.decode(base64Url.decode(normalized));
     permissions = jsonDecode(resp)["permissions"];
+    userID = jsonDecode(resp)["sub"];
   }
 
   // Function for set the access permission for the application
   Future testPermissions() async {
     Function eq = const ListEquality().equals;
-
     List<dynamic> user = ["**/list", "**/read"];
     List<dynamic> admin = ["**"];
-
     if (eq(admin, permissions) == true) {
       adminAccess = true;
+      userAccess = false;
+      roleID = 0;
     } else if (eq(user, permissions) == true) {
       userAccess = true;
       adminAccess = false;
+      roleID = 1;
     }
   }
 

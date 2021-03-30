@@ -20,6 +20,10 @@ class _UserManagementState extends State<UserManagement> {
   /// List with all registered users
   Future<List<User>> users;
 
+  String newPassword = "";
+  String newUsername = "";
+  List<dynamic> roleIds = [];
+
   @override
   void initState() {
     super.initState();
@@ -83,20 +87,42 @@ class _UserManagementState extends State<UserManagement> {
   void deleteUser(User user) {
     Navigator.pushReplacementNamed(context, "/userManagement");
   }
-}
+
 
 // Function to get the users-list from controller
-Future<List<User>> getUsers() async {
-  String usersExtension = "users";
-  var response = await http.get(url + usersExtension, headers: {
-    "Content-Type": "application/json",
-    "Authorization": "Bearer $jwtToken"
-  });
- // return response.body;
-  String test =
-      '[{"username":"manfred", "admin":true, "user": true},{"username":"gertrud", "admin":false, "user":true}]';
-  var jdecode = jsonDecode(test) as List;
-  List<User> mudServObjs =
-      jdecode.map((tagJson) => User.fromJson(tagJson)).toList();
-  return mudServObjs;
+  Future<List<User>> getUsers() async {
+    String usersExtension = 'management/users';
+    var _response = await http.get(url + usersExtension,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $jwtToken"
+        });
+
+    print(json.decode(_response.body));
+
+
+    String test =
+        '[{"username":"manfred", "admin":true, "user": true},{"username":"gertrud", "admin":false, "user":true}]';
+
+    var jdecode = jsonDecode(test) as List;
+    List<User> mudServObjs =
+    jdecode.map((tagJson) => User.fromJson(tagJson)).toList();
+    return mudServObjs;
+  }
+
+  void createUser() async {
+    String createusersExtension = 'management/users';
+    var _responseCreate = await http.post(url + createusersExtension,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $jwtToken"
+        },
+        body: json.encode({
+          'password': newPassword,
+          'roles_ids': roleIds,
+          'username': newUsername
+        }
+        )
+    );
+  }
 }

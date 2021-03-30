@@ -25,6 +25,8 @@ String language = "en";
 String jwtToken = "";
 String url = "/";
 List<dynamic> permissions = [];
+int userID ;
+int roleID;
 
 ///Variables for permissions
 bool adminAccess = false;
