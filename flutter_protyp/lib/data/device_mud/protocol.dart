@@ -5,7 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'protocol.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Protocol{
 
   String name;

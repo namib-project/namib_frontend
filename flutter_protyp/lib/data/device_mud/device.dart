@@ -24,7 +24,6 @@ class Device {
   Room room;
   MUDData mud_data;
 
-
   Device(
       this.hostname,
       this.type,

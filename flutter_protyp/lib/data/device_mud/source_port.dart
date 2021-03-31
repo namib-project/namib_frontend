@@ -5,7 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'source_port.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class SourcePort{
 
   int single;

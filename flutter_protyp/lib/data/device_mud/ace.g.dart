@@ -9,10 +9,11 @@ part of 'ace.dart';
 ACE _$ACEFromJson(Map<String, dynamic> json) {
   return ACE(
     json['name'] as String,
+    json['action'] as String,
     json['matches'] == null
         ? null
         : Matches.fromJson(json['matches'] as Map<String, dynamic>),
-  )..action = json['action'] as String;
+  );
 }
 
 Map<String, dynamic> _$ACEToJson(ACE instance) => <String, dynamic>{

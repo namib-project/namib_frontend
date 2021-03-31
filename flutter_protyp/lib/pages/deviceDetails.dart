@@ -5,10 +5,12 @@ import 'package:flutter/rendering.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_protyp/data/device_mud/aclElement.dart';
 import 'package:flutter_protyp/data/device_mud/device.dart';
+import 'package:flutter_protyp/pages/deviceDetailsTable.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:websafe_svg/websafe_svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 
 // This class is a page to see the details of the choosen device
@@ -27,13 +29,22 @@ class DeviceDetails extends StatefulWidget {
 class _DeviceDetailsState extends State<DeviceDetails> {
   /// Simple list to safe the ACL from controller
   List<DataRow> list = [];
-  bool sortFirstRow = false;
-  bool sortFirstRow1 = false;
+
   bool editColumn = false;
   bool resetButton = false;
 
-  /// A string that safes the selected clipart from the clipart-list
-  String selectedClipArt = allClipArts[0];
+  List<String> _aclListForDisplay = [];
+  List<String> _aclListCopy = [];
+
+  bool _sortAscending = true;
+  Icon _arrowUp = Icon(
+    FontAwesomeIcons.arrowUp,
+    size: 17,
+  );
+  Icon _arrowDown = Icon(
+    FontAwesomeIcons.arrowDown,
+    size: 17,
+  );
 
   /// url extension
   String _updateMUDExtension = "mud/";
@@ -49,384 +60,265 @@ class _DeviceDetailsState extends State<DeviceDetails> {
 
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: AppBar(
-        title: SelectableText("Details"),
-        actions: <Widget>[
-          Padding(
-            padding: mobileDevice
-                ? EdgeInsets.fromLTRB(12, 5, 12, 12)
-                : EdgeInsets.fromLTRB(0, 5, 12, 12),
-            child: SettingsPopup(),
-          ),
-        ],
-      ),
-      body: FutureBuilder(
+      body: FutureBuilder<Device>(
         future: deviceFuture,
         builder: (context, snapshot) {
+          /// TODO: fix this shit
           if (snapshot.hasData) {
-            device = snapshot.data;
-            return
-              Center(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: Container(
-                    child: Column(
-                      children: <Widget>[
-                        SizedBox(
-                          height: 30,
-                        ),
-                        SelectableText(
-                          device.hostname,
-                          style: TextStyle(fontSize: 25),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
 
-                        Visibility(
-                          //The error message shows, if networkError is true
-                          visible: adminAccess,
-                          child: Container(
-                            alignment: Alignment.center,
-                            height: 60,
-                            child: ElevatedButton(
-                              style: ButtonStyle(
-                                minimumSize: MaterialStateProperty.all(
-                                    Size(120, 50)),
-                              ),
-                              onPressed: () {
-                                _resetDialog();
-                              },
-                              child: Text(
-                                "reset".tr().toString(),
-                                style: TextStyle(fontSize: 20),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Column(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(30),
-                              child: GestureDetector(
-                                child: Container(
-                                  height: 200,
-                                  width: 200,
-                                  child: WebsafeSvg.asset(allClipArts[0],
-                                      semanticsLabel: 'phone',
-                                      height: 200,
-                                      width: 200),
-                                ),
-                                onTap: () {},
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-
-                        Visibility(
-                          //The error message shows, if networkError is true
-                          visible: adminAccess,
-                          child: Container(
-                            alignment: Alignment.center,
-                            height: 60,
-                            child: ElevatedButton(
-                              style: ButtonStyle(
-                                minimumSize: MaterialStateProperty.all(
-                                    Size(120, 50)),
-                              ),
-                              child: Text(
-                                "Clipart ändern",
-                                style: TextStyle(fontSize: 20),
-                              ),
-                              onPressed: () {
-                                _chooseClipartDialog(context);
-                              },
-                            ),
-                          ),
-                        ),
-
-                        // Here are some text fields and boxes to display all pertinent information about the device
-                        SizedBox(
-                          height: 20,
-                        ),
-                        // Column(children: mobileDevice
-                        //     ? _mobileView()
-                        //     : _desktopView()),
-                        Column(
-                          children:
-                            _mobileView()
-                        ),
-                        SizedBox(
-                          height: 40,
-                        ),
-                        // Table row to display and edit the different DNS-Requests
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  SelectableText(
-                                    'allowedDNSRequests'.tr().toString(),
-                                    style: TextStyle(fontSize: 20),
-                                  ),
-                                ]),
-                            Visibility(
-                              visible: adminAccess && !editColumn,
-                              child: ElevatedButton(
-                                  style: ButtonStyle(
-                                    minimumSize:
-                                    MaterialStateProperty.all(Size(120, 50)),
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      editColumn = !editColumn;
-                                    });
-                                  },
-                                  child: Text(
-                                    "edit".tr().toString(),
-                                    style: TextStyle(fontSize: 20),
-                                  )),
-                            ),
-                            Visibility(
-                              visible: editColumn,
-                              child: ElevatedButton(
-                                  style: ButtonStyle(
-                                    minimumSize:
-                                    MaterialStateProperty.all(Size(120, 50)),
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      editColumn = !editColumn;
-                                    });
-                                    _transmitData();
-                                  },
-                                  child: Text(
-                                    "save".tr().toString(),
-                                    style: TextStyle(fontSize: 20),
-                                  )),
-                            ),
-                            _expertModeText(context),
-                          ],
-                        ),
-                        // This table displays the HTTP-addresses which are allowed
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: Container(),
-                            ),
-                            _tableDNSNames(),
-                            Expanded(
-                              flex: 1,
-                              child: Container(),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 30,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              );
-          }
-          else if (snapshot.hasError) {
-            return Container();
-          }
-          else {
-            return Center(
-              child: SizedBox(
-                width: 100,
-                height: 100,
-                child: CircularProgressIndicator(),
-              ),
+            return DeviceDetailsTable(device: snapshot.data);
+          } else if (snapshot.hasError) {
+            // If the process failed this message returns
+            print(snapshot.error);
+            return Container(
+              width: 600,
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    SelectableText("wentWrongError".tr().toString()),
+                    ElevatedButton(
+                        child: Text("reload".tr().toString()),
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(
+                              context, "/deviceOverview");
+                        })
+                  ]),
             );
           }
-        },),
+          // By default, show a loading spinner.
+          else {
+            return SizedBox(
+              width: 30,
+              height: 30,
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
     );
   }
 
-  Future _chooseClipartDialog(BuildContext context) {
-    return showDialog(
+  void _resetDialog() {
+    showDialog(
         context: context,
         barrierDismissible: true,
         builder: (BuildContext context) {
-          // Here are displayed all cliparts to put devices in different classes
-          // At the end there ist a pop-up dialog to save or dismiss the changes
-          return StatefulBuilder(builder: (context, setState) {
-            return Center(
-              child: Theme(
-                data: ThemeData(
-                  brightness: darkMode ? Brightness.dark : Brightness.light,
-                  primaryColor: primaryColor,
-                  accentColor: primaryColor,
-                  hintColor: Colors.grey,
-                ),
-                child: AlertDialog(
-                  scrollable: true,
-                  contentPadding: EdgeInsets.all(15),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18.0),
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18.0),
+            ),
+            title: SelectableText("attention".tr().toString()),
+            content: Container(
+              width: 300,
+              height: 175,
+              child: Column(
+                children: [
+                  SelectableText("resetDisclaimer".tr().toString()),
+                  SizedBox(
+                    height: 40,
                   ),
-                  content: Container(
-                    width: 300,
-                    height: 490,
-                    child: Column(
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Container(
-                              height: 200,
-                              width: 200,
-                              child: WebsafeSvg.asset(
-                                selectedClipArt,
-                                color: Colors.blue,
-                                height: 200,
-                                width: 200,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Divider(
-                          height: 20,
-                        ),
-                        Container(
-                          height: 200,
-                          child: GridView.builder(
-                            itemCount: allClipArts.length,
-                            gridDelegate:
-                            SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3,
-                              crossAxisSpacing: 4,
-                              mainAxisSpacing: 4,
-                            ),
-                            itemBuilder: (context, index) {
-                              var clipArt = allClipArts[index];
-                              return GestureDetector(
-                                child: Container(
-                                  child: WebsafeSvg.asset(
-                                    clipArt,
-                                    semanticsLabel: 'phone',
-                                    height: 80,
-                                    width: 80,
-                                  ),
-                                ),
-                                onTap: () {
-                                  setState(() {
-                                    selectedClipArt = clipArt;
-                                  });
-                                },
-                              );
-                            },
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Buttons to accept or dismiss the changes like described above
+                      TextButton(
+                        child: Text(
+                          "cancel".tr().toString(),
+                          style: TextStyle(
+                            color: buttonColor,
                           ),
                         ),
-                        SizedBox(
-                          height: 22,
+                        onPressed: () {
+                          Navigator.of(context).pop(); // dismiss dialog
+                        },
+                      ),
+                      TextButton(
+                        child: Text(
+                          "reset".tr().toString(),
+                          style: TextStyle(
+                            color: buttonColor,
+                          ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            // Buttons to accept or dismiss the changes like described above
-                            TextButton(
-                              child: Text(
-                                "Abbrechen",
-                                style: TextStyle(
-                                  color: buttonColor,
-                                ),
-                              ),
-                              onPressed: () {
-                                Navigator.of(context).pop(); // dismiss dialog
+                        onPressed: () async {
+                          Map<String, dynamic> data = {"acl_override": null};
+                          await http.put(
+                              url + _updateMUDExtension + device.mud_url,
+                              headers: {
+                                "Content-Type": "application/json",
+                                "Authorization": "Bearer $jwtToken"
                               },
-                            ),
-                            TextButton(
-                              child: Text(
-                                "Übernehmen",
-                                style: TextStyle(
-                                  color: buttonColor,
-                                ),
-                              ),
-                              onPressed: () {
-                                Navigator.of(context).pop(); // dismiss dialog
-                              },
-                            ),
-                          ],
+                              body: jsonEncode(data));
+                          Navigator.of(context).pop(); // dismiss dialog
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  _listHeader() {
+    return Container(
+      height: 80,
+      child: InkWell(
+        customBorder: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        onTap: () {
+          _sortAscending = !_sortAscending;
+          _sortAclListForDisplay();
+        },
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 0, right: 16),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(0),
+                  child: Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        IconButton(
+                          icon: _sortAscending ? _arrowUp : _arrowDown,
+                        ),
+                        Text(
+                          'address'.tr().toString(),
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
                         ),
                       ],
                     ),
                   ),
                 ),
-              ),
-            );
-          });
-        });
-  }
-
-  Expanded _tableDNSNames() {
-    return Expanded(
-      flex: 16,
-      child: DataTable(
-        onSelectAll: (b) {},
-        sortColumnIndex: 0,
-        sortAscending: sortFirstRow,
-        columns: <DataColumn>[
-          DataColumn(
-            label: SelectableText("address".tr().toString()),
-            numeric: false,
+                Visibility(
+                  visible: editColumn,
+                  child: Text(
+                    'edit'.tr().toString(),
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
-          DataColumn(
-              label: Visibility(
-                  visible: editColumn,
-                  child: SelectableText("edit".tr().toString())))
-        ],
-        rows: device.mud_data.acl_override == []
-            ? device.mud_data.acllist
-            .map((accessControlEntry) =>
-            DataRow(cells: [
-              DataCell(Text(accessControlEntry.ace[0].matches.dnsname)),
-              DataCell(
-                Visibility(
-                  visible: editColumn,
-                  child: IconButton(
-                    icon: Icon(Icons.delete),
-                    onPressed: () {
-                      _deleteDNSName(accessControlEntry);
-                    },
-                  ),
-                ),
-              )
-            ]))
-            .toList()
-            : device.mud_data.acl_override
-            .map((accessControlEntry) =>
-            DataRow(cells: [
-              DataCell(Text(accessControlEntry.ace[0].matches.dnsname)),
-              DataCell(
-                Visibility(
-                  visible: editColumn,
-                  child: IconButton(
-                    icon: Icon(Icons.delete),
-                    onPressed: () {
-                      _deleteDNSName(accessControlEntry);
-                    },
-                  ),
-                ),
-              )
-            ]))
-            .toList(),
+        ),
       ),
     );
   }
 
-  void _deleteDNSName(ACLElement accessControlEntry) {
+  _searchBar() {
+    return Padding(
+      padding: EdgeInsets.all(8),
+      child: TextField(
+        cursorColor: Colors.grey,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(),
+          labelText: 'search'.tr().toString(),
+          suffixIcon: Icon(
+            FontAwesomeIcons.search,
+          ),
+        ),
+        onChanged: (text) {
+          text = text.toLowerCase();
+          setState(() {
+            _aclListForDisplay = _aclListCopy.where((aceElement) {
+              var aceName = aceElement.toLowerCase();
+              return aceName.contains(text);
+            }).toList();
+          });
+          _sortAclListForDisplay();
+        },
+      ),
+    );
+  }
+
+  ListView _listForAcl() {
+    return ListView.builder(
+      itemCount: _aclListForDisplay.length,
+      itemBuilder: (context, index) {
+        return Container(
+          height: 80,
+          child: InkWell(
+            customBorder: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            onTap: () {},
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 16, right: 16),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      _aclListForDisplay[index],
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                    Visibility(
+                      visible: editColumn,
+                      child: IconButton(
+                        icon: Icon(
+                          FontAwesomeIcons.edit,
+                          size: 17,
+                        ),
+                        onPressed: () {
+                          _deleteDNSName(_aclListForDisplay[index]);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  _generateDnsList() {
+    _aclListCopy = [];
+    if (device.mud_data.acl_override.isEmpty) {
+      device.mud_data.acllist.forEach((aclElement) {
+        aclElement.ace.forEach((aceElement) {
+          if (aceElement.matches.dnsname != null) {
+            _aclListCopy.add(aceElement.matches.dnsname);
+          }
+        });
+      });
+    } else {
+      device.mud_data.acl_override.forEach((aclElement) {
+        aclElement.ace.forEach((aceElement) {
+          if (aceElement.matches.dnsname != null) {
+            _aclListCopy.add(aceElement.matches.dnsname);
+          }
+        });
+      });
+    }
+    (_aclListCopy);
+  }
+
+  _sortAclListForDisplay() {
+    setState(() {
+      if (_sortAscending) {
+        _aclListForDisplay.sort((a, b) => a.compareTo(b));
+      } else {
+        _aclListForDisplay.sort((a, b) => b.compareTo(a));
+      }
+    });
+  }
+
+  void _deleteDNSName(String accessControlEntry) {
     showDialog(
         context: context,
         barrierDismissible: true,
@@ -469,12 +361,22 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                         ),
                         onPressed: () {
                           setState(() {
-                            if (device.mud_data.acl_override == []) {
+                            if (device.mud_data.acl_override == null ||
+                                device.mud_data.acl_override == []) {
                               device.mud_data.acl_override =
                                   List.from(device.mud_data.acllist);
                             }
-                            device.mud_data.acl_override
-                                .remove(accessControlEntry);
+                            device.mud_data.acl_override.forEach((aclElement) {
+                              aclElement.ace.forEach((aceElement) {
+                                if (aceElement.matches.dnsname ==
+                                    accessControlEntry) {
+                                  device.mud_data.acl_override
+                                      .remove(aceElement);
+
+                                  _aclListForDisplay.remove(aceElement);
+                                }
+                              });
+                            });
                           });
                           Navigator.of(context).pop(); // dismiss dialog
                         },
@@ -545,11 +447,9 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     }
   }
 
-  // This mehtod sends the MUD-Profil-Data to the controller
+  // This method sends the MUD-Profile-Data to the controller
   Future _transmitData() async {
-    Map<String, dynamic> data = {
-      "acl_override": device.mud_data.acl_override
-    };
+    Map<String, dynamic> data = {"acl_override": device.mud_data.acl_override};
     await http.put(url + _updateMUDExtension + device.mud_url,
         headers: {
           "Content-Type": "application/json",
@@ -563,44 +463,43 @@ class _DeviceDetailsState extends State<DeviceDetails> {
 
   //Creating the overlay element just an example for expert mode
   OverlayEntry overlayEntry = OverlayEntry(
-      builder: (context) =>
-          Center(
-            child: Container(
-              width: 400,
-              height: 200,
-              padding: EdgeInsets.all(20),
-              alignment: Alignment(0, 0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                color: darkMode
-                    ? Colors.black.withOpacity(0.9)
-                    : Colors.grey.withOpacity(0.9),
+      builder: (context) => Center(
+        child: Container(
+          width: 400,
+          height: 200,
+          padding: EdgeInsets.all(20),
+          alignment: Alignment(0, 0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+            color: darkMode
+                ? Colors.black.withOpacity(0.9)
+                : Colors.grey.withOpacity(0.9),
+          ),
+          child: Column(
+            children: [
+              SelectableText(
+                "explanation".tr().toString(),
+                style: TextStyle(
+                    fontFamily: "OpenSans",
+                    fontSize: 35,
+                    color: darkMode ? Colors.white : Colors.black,
+                    decoration: TextDecoration.none),
               ),
-              child: Column(
-                children: [
-                  SelectableText(
-                    "explanation".tr().toString(),
-                    style: TextStyle(
-                        fontFamily: "OpenSans",
-                        fontSize: 35,
-                        color: darkMode ? Colors.white : Colors.black,
-                        decoration: TextDecoration.none),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  SelectableText(
-                    "explanationDNSNames".tr().toString(),
-                    style: TextStyle(
-                        fontFamily: "OpenSans",
-                        fontSize: 20,
-                        color: darkMode ? Colors.white : Colors.black,
-                        decoration: TextDecoration.none),
-                  ),
-                ],
+              SizedBox(
+                height: 20,
               ),
-            ),
-          ));
+              SelectableText(
+                "explanationDNSNames".tr().toString(),
+                style: TextStyle(
+                    fontFamily: "OpenSans",
+                    fontSize: 20,
+                    color: darkMode ? Colors.white : Colors.black,
+                    decoration: TextDecoration.none),
+              ),
+            ],
+          ),
+        ),
+      ));
 
   //Function that shows the overlay element
   showOverlay(BuildContext context) {
@@ -628,7 +527,6 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     });
     closeOverlay();
   }
-
 
   List<Widget> _desktopView() {
     var column1 = Column(
@@ -689,24 +587,23 @@ class _DeviceDetailsState extends State<DeviceDetails> {
           height: 50,
         ),
         Visibility(
-          visible: device.mud_data.documentation != null,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SelectableText(
-                'documentation'.tr().toString() + ": ",
-                style: TextStyle(fontSize: 20),
-              ),
-              SelectableText(
-                device.mud_data.documentation,
-                style: TextStyle(fontSize: 18),
-                onTap: () {
-                  _launchDocumentation();
-                },
-              ),
-            ],
-          )
-        )
+            visible: device.mud_data.documentation != null,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SelectableText(
+                  'documentation'.tr().toString() + ": ",
+                  style: TextStyle(fontSize: 20),
+                ),
+                SelectableText(
+                  device.mud_data.documentation,
+                  style: TextStyle(fontSize: 18),
+                  onTap: () {
+                    _launchDocumentation();
+                  },
+                ),
+              ],
+            ))
       ],
     );
 
@@ -802,69 +699,6 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     return list;
   }
 
-  // This dialog opens up if the reset-button is clicked
-  void _resetDialog() {
-    showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18.0),
-            ),
-            title: SelectableText("attention".tr().toString()),
-            content: Container(
-              width: 300,
-              height: 175,
-              child: Column(
-                children: [
-                  SelectableText("resetDisclaimer".tr().toString()),
-                  SizedBox(
-                    height: 40,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      // Buttons to accept or dismiss the changes like described above
-                      TextButton(
-                        child: Text(
-                          "cancel".tr().toString(),
-                          style: TextStyle(
-                            color: buttonColor,
-                          ),
-                        ),
-                        onPressed: () {
-                          Navigator.of(context).pop(); // dismiss dialog
-                        },
-                      ),
-                      TextButton(
-                        child: Text(
-                          "reset".tr().toString(),
-                          style: TextStyle(
-                            color: buttonColor,
-                          ),
-                        ),
-                        onPressed: () async {
-                          Map<String, dynamic> data = {"acl_override": null};
-                          await http.put(
-                              url + _updateMUDExtension + device.mud_url,
-                              headers: {
-                                "Content-Type": "application/json",
-                                "Authorization": "Bearer $jwtToken"
-                              },
-                              body: jsonEncode(data));
-                          Navigator.of(context).pop(); // dismiss dialog
-                        },
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
-  }
-
   // This function gets the device-details from the controller
   Future<Device> fetchDevice() async {
     String deviceExtension = "devices/";
@@ -874,12 +708,11 @@ class _DeviceDetailsState extends State<DeviceDetails> {
           "Content-Type": "application/json",
           "Authorization": "Bearer $jwtToken"
         });
-    if(_response.statusCode == 200){
+    if (_response.statusCode == 200) {
       Device deviceFormController = Device.fromJson(jsonDecode(_response.body));
       return deviceFormController;
-    }else{
+    } else {
       return null;
     }
-
   }
 }

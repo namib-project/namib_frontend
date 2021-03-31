@@ -3,9 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_protyp/data/device_mud/device.dart';
+import 'package:flutter_protyp/data/device_mud/room.dart';
 import 'package:flutter_protyp/pages/deviceDetails.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 // This class implements the functions to generate the tableview for the devices
 
@@ -13,18 +15,28 @@ class DevicesTable extends StatefulWidget {
   const DevicesTable({
     Key key,
     @required this.devices,
+    @required this.rooms,
   }) : super(key: key);
 
   /// List which stores all given devices
   final List<Device> devices;
+  final List<Room> rooms;
 
   _DevicesTableState createState() => _DevicesTableState();
 }
 
 //Class for user registration, will only be used at the first usage
 class _DevicesTableState extends State<DevicesTable> {
-  List<Device> _devicesForDisplay = List<Device>();
+  List<Device> _devicesCopy = [];
+  List<List<Device>> _devicesForDisplay = [];
+
+  List<Room> _uniqueRooms = [];
+  List<Room> _selectedRooms = [];
+
+  String _searchWord = "";
+
   bool _sortAscending = true;
+
   Icon _arrowUp = Icon(
     FontAwesomeIcons.arrowUp,
     size: 17,
@@ -34,16 +46,14 @@ class _DevicesTableState extends State<DevicesTable> {
     size: 17,
   );
 
-  /// TODO: existing Rooms have to go in this list or make Room Objects
-  List<String> _roomNames = ["Küche", "Wohnzimmer", "Flur", "Badezimmer"];
-  List<String> _selectedRooms = [];
-
   @override
   void initState() {
     setState(() {
-      _devicesForDisplay = widget.devices;
+      _devicesCopy = widget.devices;
+      _uniqueRooms = widget.rooms;
+      _sortRooms();
       _sortDevicesForDisplay();
-      _sortRoomNames();
+      _createDevicesForDisplay();
     });
   }
 
@@ -75,34 +85,34 @@ class _DevicesTableState extends State<DevicesTable> {
                     Expanded(
                       flex: 16,
                       child:
-                          (widget.devices != null && widget.devices.length != 0)
-                              ? Column(
-                                  children: <Widget>[
-                                    _roomFilter(),
-                                    _searchBar(),
-                                    _listHeader(),
-                                    Container(
-                                      height: (_devicesForDisplay.length * 80).toDouble(),
-                                      child: _listForDevices(context),
-                                    )
-                                  ],
-                                )
-                              : Container(
-                                  height: 80,
-                                  child: Card(
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 16, right: 16),
-                                      child: SelectableText(
-                                        "noEntries".tr().toString(),
-                                        style: TextStyle(
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                      (widget.devices != null && widget.devices.length != 0)
+                          ? Column(
+                        children: <Widget>[
+                          _roomFilter(),
+                          _searchBar(),
+                          _listHeader(),
+                          Container(
+                            height: 500,
+                            child: _listForDevicesRooms(context),
+                          )
+                        ],
+                      )
+                          : Container(
+                        height: 80,
+                        child: Card(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 16, right: 16),
+                            child: SelectableText(
+                              "noEntries".tr().toString(),
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                     Expanded(
                       flex: 1,
@@ -118,45 +128,73 @@ class _DevicesTableState extends State<DevicesTable> {
     );
   }
 
-  // This funtions implements a field to search for a existing room
+  _listForDevicesRooms(BuildContext context) {
+    return ListView.builder(
+      itemCount: _devicesForDisplay.length,
+      itemBuilder: (context, index) {
+        try {
+          return ExpansionTile(
+            initiallyExpanded: true,
+            title: Text(
+              _devicesForDisplay[index][0].room.name,
+              style: TextStyle(
+                color:
+                Color(int.parse(_devicesForDisplay[index][0].room.color)),
+                fontSize: 20,
+              ),
+            ),
+            children: <Widget>[
+              Column(
+                children: _listForDevices(context, index),
+              ),
+            ],
+          );
+        } catch (exception) {
+          return Container();
+        }
+      },
+    );
+  }
+
   _roomFilter() {
     return ExpansionTile(
-      title: Text("Raumfilter",
-          style: TextStyle(
-            color: primaryColor,
-            fontSize: 20,
-          )),
+      title: Text(
+        'roomFilter'.tr().toString(),
+        style: TextStyle(
+          color: primaryColor,
+          fontSize: 20,
+        ),
+      ),
       children: <Widget>[
-        (_roomNames != null && _roomNames.length != 0)
+        (_uniqueRooms != null && _uniqueRooms.length != 0)
             ? Column(
-                children: <Widget>[
-                  Container(
-                    height: _roomNames.length * 50.0,
-                    child: _listForRoomNames(),
-                  )
-                ],
-              )
+          children: <Widget>[
+            Container(
+              height: _uniqueRooms.length * 50.0,
+              child: _listForRoomNames(),
+            )
+          ],
+        )
             : Container(
-                height: 80,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 16, right: 16),
-                  child: SelectableText(
-                    "noEntries".tr().toString(),
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
+          height: 80,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 16, right: 16),
+            child: SelectableText(
+              "noEntries".tr().toString(),
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
               ),
+            ),
+          ),
+        ),
       ],
     );
   }
 
- // This function creates a list of the created rooms
   _listForRoomNames() {
     return ListView.builder(
-      itemCount: _roomNames.length,
+      itemCount: _uniqueRooms.length,
       itemBuilder: (context, index) {
         return Container(
           height: 50,
@@ -166,9 +204,13 @@ class _DevicesTableState extends State<DevicesTable> {
             ),
             onTap: () {
               setState(() {
-                _selectedRooms.contains(_roomNames[index])
-                    ? _selectedRooms.remove(_roomNames[index])
-                    : _selectedRooms.add(_roomNames[index]);
+                _selectedRooms.contains(_uniqueRooms[index])
+                    ? _selectedRooms.remove(_uniqueRooms[index])
+                    : _selectedRooms.add(_uniqueRooms[index]);
+                _sortDevicesForDisplay();
+                _searchWithSearchWord();
+                _filterDevicesWithRoom();
+                _createDevicesForDisplay();
               });
             },
             child: Padding(
@@ -179,11 +221,21 @@ class _DevicesTableState extends State<DevicesTable> {
                 children: <Widget>[
                   Checkbox(
                     activeColor: buttonColor,
-                    value: _selectedRooms.contains(_roomNames[index]),
-                    onChanged: (bool value) {},
+                    value: _selectedRooms.contains(_uniqueRooms[index]),
+                    onChanged: (bool value) {
+                      setState(() {
+                        _selectedRooms.contains(_uniqueRooms[index])
+                            ? _selectedRooms.remove(_uniqueRooms[index])
+                            : _selectedRooms.add(_uniqueRooms[index]);
+                        _sortDevicesForDisplay();
+                        _searchWithSearchWord();
+                        _filterDevicesWithRoom();
+                        _createDevicesForDisplay();
+                      });
+                    },
                   ),
                   Text(
-                    _roomNames[index],
+                    _uniqueRooms[index].name,
                     style: TextStyle(
                       fontSize: 16,
                     ),
@@ -197,7 +249,6 @@ class _DevicesTableState extends State<DevicesTable> {
     );
   }
 
-  // This function sorts the devices-table on button hit
   _listHeader() {
     return Container(
       height: 80,
@@ -208,6 +259,7 @@ class _DevicesTableState extends State<DevicesTable> {
         onTap: () {
           _sortAscending = !_sortAscending;
           _sortDevicesForDisplay();
+          _createDevicesForDisplay();
         },
         child: Card(
           child: Padding(
@@ -226,7 +278,7 @@ class _DevicesTableState extends State<DevicesTable> {
                           icon: _sortAscending ? _arrowUp : _arrowDown,
                         ),
                         Text(
-                          "Name",
+                          'name'.tr().toString(),
                           style: TextStyle(
                             fontSize: 20,
                           ),
@@ -236,13 +288,7 @@ class _DevicesTableState extends State<DevicesTable> {
                   ),
                 ),
                 Text(
-                  "MUD",
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
-                ),
-                Text(
-                  "Edit",
+                  'mud'.tr().toString(),
                   style: TextStyle(
                     fontSize: 20,
                   ),
@@ -255,7 +301,6 @@ class _DevicesTableState extends State<DevicesTable> {
     );
   }
 
-  // Here is a searchbar to search for devices
   _searchBar() {
     return Padding(
       padding: EdgeInsets.all(8),
@@ -263,69 +308,91 @@ class _DevicesTableState extends State<DevicesTable> {
         cursorColor: Colors.grey,
         decoration: InputDecoration(
           border: OutlineInputBorder(),
-          labelText: "Suche...",
+          labelText: 'search'.tr().toString(),
           suffixIcon: Icon(
             FontAwesomeIcons.search,
           ),
         ),
         onChanged: (text) {
-          text = text.toLowerCase();
-          setState(() {
-            _devicesForDisplay = widget.devices.where((device) {
-              var deviceName = device.hostname;
-              return deviceName.contains(text);
-            }).toList();
-          });
+          _searchWord = text;
+          _searchWithSearchWord();
+          _filterDevicesWithRoom();
           _sortDevicesForDisplay();
+          _createDevicesForDisplay();
         },
       ),
     );
   }
 
-  // Here is the display-method for the devices-table
-  ListView _listForDevices(BuildContext context) {
-    return ListView.builder(
-      itemCount: _devicesForDisplay.length,
-      itemBuilder: (context, index) {
-        return Container(
+  List<Widget> _listForDevices(BuildContext context, int index0) {
+    List<Widget> _columnContent = [];
+
+    for (Device d in _devicesForDisplay[index0]) {
+      _columnContent.add(ListTile(
+        title: Container(
           height: 80,
           child: InkWell(
+            hoverColor: Color(int.parse(d.room.color)),
             customBorder: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(7),
             ),
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => DeviceDetails(
-                    id: _devicesForDisplay[index].id,
+                    id: d.id,
                   ),
                 ),
               );
             },
             child: Card(
+              shape: RoundedRectangleBorder(
+                side: BorderSide(
+                  color: Color(
+                    int.parse(d.room.color),
+                  ),
+                ),
+                borderRadius: BorderRadius.circular(4),
+              ),
               child: Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text(
-                      _devicesForDisplay[index].hostname,
-                      style: TextStyle(
-                        fontSize: 20,
+                    Padding(
+                      padding: const EdgeInsets.all(0),
+                      child: Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SvgPicture.asset(
+                              d.clipart,
+                              semanticsLabel: 'phone',
+                              height: 50,
+                              width: 50,
+                              color: Color(
+                                int.parse(d.room.color),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              d.hostname,
+                              style: TextStyle(
+                                fontSize: 20,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     Text(
-                      _devicesForDisplay[index].mud_url,
+                      d.mud_url,
                       style: TextStyle(
                         fontSize: 20,
-                      ),
-                    ),
-                    IconButton(
-                      icon: Icon(
-                        FontAwesomeIcons.cog,
-                        size: 20,
                       ),
                     ),
                   ],
@@ -333,28 +400,66 @@ class _DevicesTableState extends State<DevicesTable> {
               ),
             ),
           ),
-        );
-      },
-    );
+        ),
+      ));
+    }
+    return _columnContent;
   }
 
-  // This function sorts the devices-table by mud-data
+  _filterDevicesWithRoom() {
+    if (_selectedRooms.isNotEmpty && _selectedRooms != null) {
+      List<Device> _devicesList = [];
+      for (Room r in _selectedRooms) {
+        for (Device d in _devicesCopy) {
+          if (d.room.name == r.name) {
+            _devicesList.add(d);
+          }
+        }
+      }
+      _devicesCopy = _devicesList;
+    }
+  }
+
+  /// TODO: maybe search not only through name -> see chooseMudData.dart
+  _searchWithSearchWord() {
+    _searchWord = _searchWord.toLowerCase();
+    setState(() {
+      _devicesCopy = widget.devices.where((device) {
+        var deviceName = device.hostname.toLowerCase();
+        return deviceName.contains(_searchWord);
+      }).toList();
+    });
+  }
+
   _sortDevicesForDisplay() {
     setState(() {
       if (_sortAscending) {
-        _devicesForDisplay.sort(
-            (a, b) => a.hostname.compareTo(b.hostname));
+        _devicesCopy.sort((a, b) => a.hostname.compareTo(b.hostname));
       } else {
-        _devicesForDisplay.sort(
-            (a, b) => b.hostname.compareTo(a.hostname));
+        _devicesCopy.sort((a, b) => b.hostname.compareTo(a.hostname));
       }
     });
   }
 
-  // This function sorts the devices-table by room-name
-  _sortRoomNames() {
-    _roomNames.sort((a, b) {
-      return a.toLowerCase().compareTo(b.toLowerCase());
+  _sortRooms() {
+    setState(() {
+      _uniqueRooms.sort((a, b) {
+        return a.name.toLowerCase().compareTo(b.name.toLowerCase());
+      });
     });
+  }
+
+  _createDevicesForDisplay() {
+    _devicesForDisplay = [];
+
+    for (Room r in _uniqueRooms) {
+      List<Device> _devicesWithRoom = [];
+      for (Device d in _devicesCopy) {
+        if (d.room.name == r.name) {
+          _devicesWithRoom.add(d);
+        }
+      }
+      _devicesForDisplay.add(_devicesWithRoom);
+    }
   }
 }

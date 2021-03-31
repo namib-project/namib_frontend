@@ -28,7 +28,7 @@ dependencies:
   json_annotation: ^3.0.1
   url_launcher: ^5.7.10
   flutter_svg_provider: ^0.1.8
-
+  url_encoder: ^0.0.3
   graphview: ^0.6.1
 
   # The following adds the Cupertino Icons font to your application.

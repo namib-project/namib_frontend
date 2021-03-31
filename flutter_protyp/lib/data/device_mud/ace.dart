@@ -6,11 +6,11 @@ part 'ace.g.dart';
 // This class is a data construct for an access-control-entry
 
 @JsonSerializable(explicitToJson: true)
-class ACE{
+class ACE {
   String name, action;
   Matches matches;
 
-  ACE(this.name, this.matches);
+  ACE(this.name, this.action, this.matches);
 
   factory ACE.fromJson(Map<String, dynamic> data) => _$ACEFromJson(data);
 

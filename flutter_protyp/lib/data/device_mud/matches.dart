@@ -12,13 +12,12 @@ part 'matches.g.dart';
 class Matches{
 
   String address_mask, direction_initiated, dnsname;
-  Protocol protocol;
-  DestinationPort destination_port;
-  SourcePort source_port;
+  // Protocol protocol;
+  // DestinationPort destination_port;
+  // SourcePort source_port;
 
 
-  Matches(this.address_mask, this.direction_initiated, this.dnsname,
-      this.protocol, this.destination_port, this.source_port);
+  Matches(this.address_mask, this.direction_initiated, this.dnsname);
 
   factory Matches.fromJson(Map<String, dynamic> data) => _$MatchesFromJson(data);
 

@@ -79,5 +79,9 @@
   "deleteDNSNameDisclaimer": "Sind Sie sich sicher das Sie diesen Eintrag löschen wollen? Ihr Gerät kann dann nicht mehr auf den Dienst der Website zugreifen.",
   "deleteUserDisclaimer": "Sind Sie sicher das Sie diesen Benutzer löschen wollen? Dieser Vorgang kann nicht Rückgängig gemacht werden.",
   "dummieUser": "Sie haben keine Rechte für dieses Netzwerk, wenden sie sich an den Administrator!",
-  "pswNoMatch": "Die beiden Passwörter dürfen nicht übereinstimmen."
+  "pswNoMatch": "Die beiden Passwörter dürfen nicht übereinstimmen.",
+  "mud": "MUD",
+  "search": "Suche...",
+  "roomFilter": "Raumfilter",
+  "unmanagedDevices": "Unverwaltete Geräte"
 }
