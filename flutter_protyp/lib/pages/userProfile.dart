@@ -10,10 +10,10 @@ import 'package:http/http.dart' as http;
 
 class UserProfile extends StatefulWidget {
   @override
-  _UserProfile createState() => _UserProfile();
+  _UserProfileState createState() => _UserProfileState();
 }
 
-class _UserProfile extends State<UserProfile> {
+class _UserProfileState extends State<UserProfile> {
 
 
   @override
