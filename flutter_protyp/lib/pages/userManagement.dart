@@ -23,11 +23,14 @@ class _UserManagementState extends State<UserManagement> {
   String newPassword = "";
   String newUsername = "";
   List<dynamic> roleIds = [];
+  int userID = 1;
 
   @override
   void initState() {
     super.initState();
-    users = getUsers();
+    //getUsers();
+    getSpecificUser();
+    //users = getUsers();
   }
 
   @override
@@ -89,6 +92,7 @@ class _UserManagementState extends State<UserManagement> {
   }
 
 
+  // TODO: Embedding the userhandling
 // Function to get the users-list from controller
   Future<List<User>> getUsers() async {
     String usersExtension = 'management/users';
@@ -96,18 +100,22 @@ class _UserManagementState extends State<UserManagement> {
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Bearer $jwtToken"
-        });
+        }).timeout(const Duration(seconds: 5), onTimeout: () {
+      return _handleTimeOut();
+    });
 
-    print(json.decode(_response.body));
+    if (_response.statusCode == 200) {
+      print(json.decode(_response.body));
+      String test =
+          '[{"username":"manfred", "admin":true, "user": true},{"username":"gertrud", "admin":false, "user":true}]';
 
-
-    String test =
-        '[{"username":"manfred", "admin":true, "user": true},{"username":"gertrud", "admin":false, "user":true}]';
-
-    var jdecode = jsonDecode(test) as List;
-    List<User> mudServObjs =
-    jdecode.map((tagJson) => User.fromJson(tagJson)).toList();
-    return mudServObjs;
+      var jdecode = jsonDecode(test) as List;
+      List<User> mudServObjs =
+      jdecode.map((tagJson) => User.fromJson(tagJson)).toList();
+      return mudServObjs;
+    } else {
+      throw Exception("Failed to get Data");
+    }
   }
 
   void createUser() async {
@@ -125,4 +133,19 @@ class _UserManagementState extends State<UserManagement> {
         )
     );
   }
+  void getSpecificUser() async {
+    String specificUserEExtension = 'management/users/{$userID}';
+    var _responseSpecificUser = await http.get(url + specificUserEExtension,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $jwtToken"
+        }).timeout(const Duration(seconds: 5), onTimeout: () {
+          return _handleTimeOut();
+        },
+    );
+    print(json.decode(_responseSpecificUser.body));
+  }
+
+
+  dynamic _handleTimeOut() {}
 }
