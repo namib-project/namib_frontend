@@ -24,8 +24,10 @@ class _AboutState extends State<About> {
     try {
     String statusExtension = "status";
     var response = await http.get(url + statusExtension);
+
     if (response.statusCode == 200) {
-     var statusResponse = jsonDecode(response.body);
+      String data = utf8.decode(response.bodyBytes);
+     var statusResponse = jsonDecode(data);
      return statusResponse["version"];
     }
     } on Exception {

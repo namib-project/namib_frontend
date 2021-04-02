@@ -3,12 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_protyp/data/device_mud/aclElement.dart';
 import 'package:flutter_protyp/widgets/drawer.dart';
 import 'package:url_encoder/url_encoder.dart';
 import 'package:flutter_protyp/data/device_mud/device.dart';
 import 'package:flutter_protyp/pages/deviceDetails.dart';
-import 'package:flutter_protyp/pages/deviceDetailsTable.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -67,17 +65,6 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
     return Scaffold(
       appBar: MainAppbar(),
       drawer: MainDrawer(),
-      // AppBar(
-      //   title: SelectableText("Details"),
-      //   actions: <Widget>[
-      //     Padding(
-      //       padding: mobileDevice
-      //           ? EdgeInsets.fromLTRB(12, 5, 12, 12)
-      //           : EdgeInsets.fromLTRB(0, 5, 12, 12),
-      //       child: SettingsPopup(),
-      //     ),
-      //   ],
-      // ),
       body: Center(
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,

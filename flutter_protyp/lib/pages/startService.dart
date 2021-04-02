@@ -52,7 +52,8 @@ class _StartServiceState extends State<StartService> {
       String statusExtension = "status";
       var response = await http.get(url + statusExtension);
       if (response.statusCode == 200) {
-        return response.body;
+        String data = utf8.decode(response.bodyBytes);
+        return data;
       } else {
         return '{"setup_required":false,"version":""}';
       }

@@ -194,7 +194,8 @@ class _DeviceOverviewState extends State<DeviceOverview> {
     });
 
     if (_response.statusCode == 200) {
-      var jsonDevices = jsonDecode(_response.body) as List;
+      String data = utf8.decode(_response.bodyBytes);
+      var jsonDevices = jsonDecode(data) as List;
       List<Device> devicesTest =
       jsonDevices.map((tagJson) => Device.fromJson(tagJson)).toList();
       return devicesTest;
@@ -213,7 +214,8 @@ class _DeviceOverviewState extends State<DeviceOverview> {
     });
 
     if (_response.statusCode == 200) {
-      var jsonRooms = jsonDecode(_response.body) as List;
+      String data = utf8.decode(_response.bodyBytes);
+      var jsonRooms = jsonDecode(data) as List;
       List<Room> roomsTest =
       jsonRooms.map((tagJson) => Room.fromJson(tagJson)).toList();
       return roomsTest;
