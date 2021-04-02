@@ -7,6 +7,7 @@ import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:graphview/GraphView.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_protyp/data/room.dart';
 
 import 'deviceDetails.dart';
 
@@ -24,6 +25,10 @@ class DevicesGraph extends StatefulWidget {
 
 class _DevicesGraphState extends State<DevicesGraph> {
   Future<List<Device>> devices;
+
+  List<Device> _devices = [];
+  List<Room> _rooms = [];
+
 
   @override
   Widget build(BuildContext context) {
@@ -214,67 +219,75 @@ class _DevicesGraphState extends State<DevicesGraph> {
     super.initState();
     int i = 1;
     final router = Node(getNodeText(i, null, "Router", 13));
-    final test = Node(getNodeText(2, null, "Beispiel Raum"));
-    final deviceTest = Node(getNodeText(3, widget.devices[0]));
-    final deviceTest2 = Node(getNodeText(4, widget.devices[1]));
-    final exampleRoom = Node(getNodeText(5, null, "Küche"));
-    final exampleRoom2 = Node(getNodeText(6, null, "Badezimmer"));
-    i++;
-    graph.addEdge(router, test, paint: Paint()..color = Colors.black);
-    graph.addEdge(test, deviceTest, paint: Paint()..color = Colors.black);
-    graph.addEdge(test, deviceTest2, paint: Paint()..color = Colors.black);
-    graph.addEdge(router, exampleRoom, paint: Paint()..color = Colors.black);
-    graph.addEdge(router, exampleRoom2, paint: Paint()..color = Colors.black);
-    //List<String> rooms = new List();
-    //List<Node> roomNodes = new List();
 
-    //widget.devices.forEach((element) {
-    //  if (!rooms.contains(element.room)) rooms.add(element.room);
-    //});
+    _devices = widget.devices;
+    for(Device d in _devices){
+      Room room = new Room(d.roomname.toLowerCase(), d.roomcolor);
+      if(!_rooms.contains(room)){
+        _rooms.add(room);
+      }
+    }
 
-    //rooms.forEach((element) {
-    //  final Node room = new Node(getNodeText(i, null, element));
-    //  i++;
-    //  room.name = element;
-    //  graph.addEdge(router, room, paint: Paint()..color = Colors.orange);
-    //  roomNodes.add(room);
-    //});
-    //widget.devices.forEach((elementDevice) {
-    //  Node device = new Node(getNodeText(i, elementDevice));
-    //  i++;
-    //  roomNodes.forEach((elementRoom) {
-    //    if (elementRoom.name == elementDevice.room) {
-    //      graph.addEdge(elementRoom, device,
-    //          paint: Paint()..color = Colors.orange);
-    //    }
-    //  });
-    //});
+    _rooms.forEach((Room r) {
+      final ExtNode room = new ExtNode(getNodeText(i, null, r.roomname));
+    });
 
-    //int _deviceCount = widget.devices.length;
-    //for(int j = 0; j < _deviceCount; j++){
-    //  if(!rooms.contains(widget.devices[j])){
-    //    rooms.add(widget.devices[j].room);
-    //  }
-    //}
-    //int _roomCount = rooms.length;
-    //for(int j = 0; j < _roomCount; j++){
-    //  Node room = new Node(getNodeText(i, null, rooms[j]));
-    //  i++;
-    //  room.name = rooms[j];
-    //  graph.addEdge(router, room);
-    //  roomNodes.add(room);
-    //}
-    //int _roomNodes = roomNodes.length;
-    //for(int j = 0; j < _deviceCount; j++){
-    //  Node device = new Node(getNodeText(i, widget.devices[j]));
-    //  i++;
-    //  for(int k = 0; k < _roomNodes; k++){
-    //    if (roomNodes[k].name == widget.devices[j].room){
-    //      graph.addEdge(roomNodes[k], device);
-    //    }
-    //  }
-    //}
+    List<Node> roomNodes = new List();
+
+   rooms.forEach((element) {
+      final Node room = new Node(getNodeText(i, null, element));
+      i++;
+      room.name = element;
+      graph.addEdge(router, room, paint: Paint()..color = Colors.orange);
+      roomNodes.add(room);
+    });
+    widget.devices.forEach((elementDevice) {
+      Node device = new Node(getNodeText(i, elementDevice));
+      i++;
+      roomNodes.forEach((elementRoom) {
+        if (elementRoom.name == elementDevice.room) {
+          graph.addEdge(elementRoom, device,
+              paint: Paint()..color = Colors.orange);
+        }
+      });
+    });
+   int _deviceCount = widget.devices.length;
+    for(int j = 0; j < _deviceCount; j++){
+      if(!rooms.contains(widget.devices[j])){
+        rooms.add(widget.devices[j].room);
+      }
+    }
+    int _roomCount = rooms.length;
+    for(int j = 0; j < _roomCount; j++){
+      Node room = new Node(getNodeText(i, null, rooms[j]));
+      i++;
+      room.name = rooms[j];
+      graph.addEdge(router, room);
+      roomNodes.add(room);
+    }
+    int _roomNodes = roomNodes.length;
+    for(int j = 0; j < _deviceCount; j++){
+      Node device = new Node(getNodeText(i, widget.devices[j]));
+      i++;
+      for(int k = 0; k < _roomNodes; k++){
+        if (roomNodes[k].name == widget.devices[j].room){
+          graph.addEdge(roomNodes[k], device);
+        }
+      }
+    }
 
     builder = FruchtermanReingoldAlgorithm(iterations: 10000);
   }
+}
+
+class ExtNode extends Node{
+
+  ExtNode(Widget data) : super(data);
+
+  String get name => name;
+
+  set name (String name){
+    this.name = name;
+  }
+
 }
