@@ -11,6 +11,7 @@ import 'package:flutter_protyp/pages/startService.dart';
 import 'package:flutter_protyp/pages/manageUser.dart';
 import 'package:flutter_protyp/pages/userManagement.dart';
 import 'package:flutter_protyp/pages/userProfile.dart';
+import 'package:flutter_protyp/pages/usersTable.dart';
 import 'package:flutter_protyp/widgets/theme.dart';
 import 'package:provider/provider.dart';
 import "package:flutter_protyp/widgets/constant.dart";
@@ -74,6 +75,7 @@ class MaterialAppWithTheme extends StatelessWidget {
           "/newDeviceOverview": (context) => NewDeviceOverview(),
           "/dummie": (context) => Dummie(),
           "/userProfile": (context) => UserProfile(),
+          "/usersTable": (context) => UsersTable(),
         });
   }
 }

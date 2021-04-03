@@ -7,12 +7,14 @@ part 'user.g.dart';
 @JsonSerializable(explicitToJson: true)
 class User{
   String username;
-  bool admin;
+  int userIDs;
+  List<dynamic> roles;
+  List<dynamic> permissionsList;
   bool user;
-  // TODO UserID hinzufügen zum sichten der User
+  bool admin;
 
 
-  User(this.username, this.admin, this.user);
+  User(this.username, this.userIDs, this.roles, this.permissionsList, this.user, this.admin);
 
   factory User.fromJson(Map<String, dynamic> data) => _$UserFromJson(data);
 

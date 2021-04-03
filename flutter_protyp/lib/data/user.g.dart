@@ -9,13 +9,19 @@ part of 'user.dart';
 User _$UserFromJson(Map<String, dynamic> json) {
   return User(
     json['username'] as String,
-    json['admin'] as bool,
+    json['userIDs'] as int,
+    json['roles'] as List,
+    json['permissionsList'] as List,
     json['user'] as bool,
+    json['admin'] as bool,
   );
 }
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'username': instance.username,
-      'admin': instance.admin,
+      'userIDs': instance.userIDs,
+      'roles': instance.roles,
+      'permissionsList': instance.permissionsList,
       'user': instance.user,
+      'admin': instance.admin,
     };
