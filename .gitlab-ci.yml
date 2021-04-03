@@ -21,20 +21,6 @@ web:release:
     expire_in: 7 days
 
 
-android:release:
-  stage: archive
-  image: cirrusci/flutter
-  before_script:
-    - cd \flutter_protyp
-    - flutter packages get
-    - flutter clean
-  script:
-    - flutter doctor --android-licenses
-    - flutter build apk --release
-    - flutter build web --release
-  artifacts:
-    paths:
-      - "**/**/**/**/**/**/*.apk"
-    expire_in: 7 days
+
 
 
