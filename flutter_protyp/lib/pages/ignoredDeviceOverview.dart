@@ -2,19 +2,20 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_protyp/data/device_mud/device.dart';
-import 'package:flutter_protyp/pages/newDevicesTable.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import "package:flutter_protyp/widgets/drawer.dart";
 import 'package:easy_localization/easy_localization.dart';
 import 'package:http/http.dart' as http;
 
+import 'ignoredDevicesTable.dart';
+
 /// returns deviceOverview site
-class NewDeviceOverview extends StatefulWidget {
-  _NewDeviceOverviewState createState() => _NewDeviceOverviewState();
+class IgnoredDeviceOverview extends StatefulWidget {
+  _IgnoredDeviceOverviewState createState() => _IgnoredDeviceOverviewState();
 }
 
-class _NewDeviceOverviewState extends State<NewDeviceOverview> {
+class _IgnoredDeviceOverviewState extends State<IgnoredDeviceOverview> {
   var response;
 
   /// A List to safe all devices
@@ -42,9 +43,9 @@ class _NewDeviceOverviewState extends State<NewDeviceOverview> {
             builder: (context, snapshotDevice) {
               if (snapshotDevice.hasData) {
                 return Expanded(
-                    child: NewDevicesTable(
+                    child: IgnoredDevicesTable(
                   devices: snapshotDevice.data
-                      .where((e) => e.type == "detecting")
+                      .where((e) => e.type == "unknown")
                       .toList(),
                 ));
               } else if (snapshotDevice.hasError) {
@@ -60,7 +61,7 @@ class _NewDeviceOverviewState extends State<NewDeviceOverview> {
                             child: Text("reload".tr().toString()),
                             onPressed: () {
                               Navigator.pushReplacementNamed(
-                                  context, "/deviceOverview");
+                                  context, "/ignoredDeviceOverview");
                             })
                       ]),
                 );

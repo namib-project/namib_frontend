@@ -1,36 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_protyp/data/device_mud/device.dart';
-import 'package:flutter_protyp/pages/chooseRoomTable.dart';
-
+import 'package:flutter_protyp/data/device_mud/mudGuess.dart';
+import 'package:flutter_protyp/pages/chooseMudDataTable.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
-import 'package:flutter_protyp/data/device_mud/room.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:http/http.dart' as http;
-
+import 'package:flutter_protyp/data/device_mud/device.dart';
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 
-class ChooseRoom extends StatefulWidget {
-  ChooseRoom({
+class ChooseMudData extends StatefulWidget {
+  ChooseMudData({
     Key key,
     @required this.device,
   }) : super(key: key);
 
   final Device device;
 
-  _ChooseRoomState createState() => _ChooseRoomState();
+  _ChooseMudDataState createState() => _ChooseMudDataState();
 }
 
-class _ChooseRoomState extends State<ChooseRoom> {
-  Future<List<Room>> rooms;
+class _ChooseMudDataState extends State<ChooseMudData> {
+  Future<List<MudGuess>> mudGuessList;
 
-  var _response;
+  /// URL response to store
+  var response;
 
   @override
   void initState() {
     super.initState();
-    rooms = getRooms();
+
+    mudGuessList = getMudGuessList();
   }
 
   @override
@@ -54,13 +53,14 @@ class _ChooseRoomState extends State<ChooseRoom> {
           children: [
             // This future builder element put in the different devices after these will be loaded
             // The future builder element a delayed sending of context
-            FutureBuilder<List<Room>>(
-              future: rooms,
+
+            FutureBuilder<List<MudGuess>>(
+              future: mudGuessList,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return Expanded(
-                      child: RoomTable(
-                    rooms: snapshot.data,
+                      child: ChooseMudDataTable(
+                    mudGuessList: snapshot.data,
                     device: widget.device,
                   ));
                 } else if (snapshot.hasError) {
@@ -97,25 +97,51 @@ class _ChooseRoomState extends State<ChooseRoom> {
     );
   }
 
-  Future<List<Room>> getRooms() async {
-    String roomsExtension = 'rooms';
-    _response = await http.get(url + roomsExtension, headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer $jwtToken"
-    }).timeout(const Duration(seconds: 5), onTimeout: () {
-      return _handleTimeOut();
-    });
+  Future<List<MudGuess>> getMudGuessList() async {
+    ///  String id = widget.device.id.toString();
+    ///  String mudGuessExtension = 'devices/$id/guesses';
+    ///
+    ///  print("kleiner test1");
+    ///  print(url + mudGuessExtension);
+    ///
+    ///  response = await http.get(url + mudGuessExtension, headers: {
+    ///    "Content-Type": "application/json",
+    ///    "Authorization": "Bearer $jwtToken"
+    ///  }).timeout(const Duration(seconds: 5), onTimeout: () {
+    ///    return _handleTimeOut();
+    ///  });
+    ///
+    ///  print("kleiner test");
+    ///  print(url + mudGuessExtension);
+    ///  print(response.statusCode);
+    ///  if (response.statusCode == 200) {
+    ///    var jsonMudGuessData = jsonDecode(response.body) as List;
+    ///    List<MudGuess> mudTest = jsonMudGuessData
+    ///        .map((tagJson) => MudGuess.fromJson(tagJson))
+    ///        .toList();
+    ///    return mudTest;
+    ///  } else {
+    ///    throw Exception("Failed to get Data");
+    ///  }
+    ///}
+    ///
+    ///
+    ///
+    ///
+    ///
 
-    if (_response.statusCode == 200) {
-      String _data = utf8.decode(_response.bodyBytes);
-      var jsonRooms = jsonDecode(_data) as List;
-      List<Room> roomsTest =
-          jsonRooms.map((tagJson) => Room.fromJson(tagJson)).toList();
-      return roomsTest;
-    } else {
-      throw Exception("Failed to get Data");
-    }
+    String test =
+        '[{"manufacturer_name": "AmazonEchoManufact","model_name": "AmazonEcho","mud_url": "https://iotanalytics.unsw.edu.au/mud/amazonEchoMud.json"},{"manufacturer_name": "dorbellUnternehmen","model_name": "Dorbell","mud_url": "https://iotanalytics.unsw.edu.au/mud/augustdoorbellcamMud.json"}]';
+    //print("Response code: " + response.statusCode.toString());
+    //print(response.body);
+
+    //if (response.statusCode == 200) {
+    var jsonMudGuesses = jsonDecode(test) as List;
+    List<MudGuess> mudGuesssesTest =
+        jsonMudGuesses.map((tagJson) => MudGuess.fromJson(tagJson)).toList();
+
+    return mudGuesssesTest;
+
+    dynamic _handleTimeOut() {}
   }
-
-  dynamic _handleTimeOut() {}
 }

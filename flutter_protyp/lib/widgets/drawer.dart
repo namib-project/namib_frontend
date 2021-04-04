@@ -47,13 +47,31 @@ class _MainDrawerState extends State<MainDrawer> {
               onTap: () =>
                   {Navigator.pushReplacementNamed(context, "/deviceOverview")},
             ),
-            // CustomListTile(
-            //   icon: Icons.device_hub, // or maybe: ad_units
-            //   text: 'Unverwaltete Geräte'.tr().toString(),
-            //   onTap: () => {
-            //     Navigator.pushReplacementNamed(context, "/newDeviceOverview")
-            //   },
-            // ),
+
+            CustomListTile(
+              icon: Icons.playlist_add, // or maybe: ad_units
+              text: 'unmanagedDevices'.tr().toString(),
+              onTap: () => {
+                Navigator.pushReplacementNamed(context, "/newDeviceOverview")
+              },
+            ),
+
+            CustomListTile(
+              icon: Icons.search_off, // or maybe: ad_units
+              text: 'ignoredDevices'.tr().toString(),
+              onTap: () => {
+                Navigator.pushReplacementNamed(
+                    context, "/ignoredDeviceOverview")
+              },
+            ),
+
+            CustomListTile(
+              icon: Icons.edit, // or maybe: ad_units
+              text: 'editRoom'.tr().toString(),
+              onTap: () =>
+              {Navigator.pushReplacementNamed(context, "/editRoom")},
+            ),
+
             CustomListTile(
               icon: Icons.person_add,
               text: "signup".tr().toString(),

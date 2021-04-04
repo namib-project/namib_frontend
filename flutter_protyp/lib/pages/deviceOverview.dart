@@ -107,18 +107,18 @@ class _DeviceOverviewState extends State<DeviceOverview> {
                         if (view) {
                           return Expanded(
                               child: DevicesGraph(
-                                devices: snapshotDevice.data
-                                    .where((e) => e.type == "managed")
-                                    .toList(),
-                              ));
+                            devices: snapshotDevice.data
+                                .where((e) => e.type == "managed")
+                                .toList(),
+                          ));
                         } else {
                           return Expanded(
                               child: DevicesTable(
-                                rooms: snapshotRoom.data,
-                                devices: snapshotDevice.data
-                                    .where((e) => e.type == "managed")
-                                    .toList(),
-                              ));
+                            rooms: snapshotRoom.data,
+                            devices: snapshotDevice.data
+                                .where((e) => e.type == "managed")
+                                .toList(),
+                          ));
                         }
                       } else if (snapshotDevice.hasError) {
                         // If the process failed this message returns
@@ -197,7 +197,7 @@ class _DeviceOverviewState extends State<DeviceOverview> {
       String data = utf8.decode(_response.bodyBytes);
       var jsonDevices = jsonDecode(data) as List;
       List<Device> devicesTest =
-      jsonDevices.map((tagJson) => Device.fromJson(tagJson)).toList();
+          jsonDevices.map((tagJson) => Device.fromJson(tagJson)).toList();
       return devicesTest;
     } else {
       throw Exception("Failed to get Data");
@@ -217,7 +217,7 @@ class _DeviceOverviewState extends State<DeviceOverview> {
       String data = utf8.decode(_response.bodyBytes);
       var jsonRooms = jsonDecode(data) as List;
       List<Room> roomsTest =
-      jsonRooms.map((tagJson) => Room.fromJson(tagJson)).toList();
+          jsonRooms.map((tagJson) => Room.fromJson(tagJson)).toList();
       return roomsTest;
     } else {
       throw Exception("Failed to get Data");

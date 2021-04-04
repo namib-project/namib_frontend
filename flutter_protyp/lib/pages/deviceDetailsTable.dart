@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_protyp/widgets/drawer.dart';
+import 'package:flutter_protyp/data/device_mud/room.dart';
 import 'package:url_encoder/url_encoder.dart';
 import 'package:flutter_protyp/data/device_mud/device.dart';
 import 'package:flutter_protyp/pages/deviceDetails.dart';
@@ -18,9 +18,11 @@ class DeviceDetailsTable extends StatefulWidget {
   const DeviceDetailsTable({
     Key key,
     @required this.device,
+    @required this.rooms,
   }) : super(key: key);
 
   final Device device;
+  final List<Room> rooms;
 
   @override
   _DeviceDetailsTableState createState() => _DeviceDetailsTableState();
@@ -32,7 +34,11 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
   bool editColumn = false;
   bool resetButton = false;
 
+  List<Room> _roomsForDisplay = [];
+
   String _selectedClipart = allClipArts[0];
+
+  Room _selectedRoom;
 
   String _clipArtForDisplay = allClipArts[0];
 
@@ -40,6 +46,7 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
   List<String> _aclListCopy = [];
 
   bool _sortAscending = true;
+  bool _sortAscendingRooms = true;
   Icon _arrowUp = Icon(
     FontAwesomeIcons.arrowUp,
     size: 17,
@@ -55,6 +62,12 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
     _generateDnsList();
     _selectedClipart = widget.device.clipart;
     _clipArtForDisplay = widget.device.clipart;
+    _roomsForDisplay = widget.rooms;
+    _sortRoomsForDisplay();
+
+    if (widget.device.room != null) {
+      _selectedRoom = widget.device.room;
+    }
   }
 
   /// url extension
@@ -63,8 +76,26 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MainAppbar(),
-      drawer: MainDrawer(),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(
+            FontAwesomeIcons.arrowLeft,
+            size: 17,
+          ),
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, "/deviceOverview");
+          },
+        ),
+        title: SelectableText("Details"),
+        actions: <Widget>[
+          Padding(
+            padding: mobileDevice
+                ? EdgeInsets.fromLTRB(12, 5, 12, 12)
+                : EdgeInsets.fromLTRB(0, 5, 12, 12),
+            child: SettingsPopup(),
+          ),
+        ],
+      ),
       body: Center(
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
@@ -91,6 +122,9 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
                     child: ElevatedButton(
                       style: ButtonStyle(
                         minimumSize: MaterialStateProperty.all(Size(120, 50)),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                          buttonColor,
+                        ),
                       ),
                       onPressed: () {
                         _resetDialog();
@@ -105,6 +139,7 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
                 SizedBox(
                   height: 20,
                 ),
+
                 Column(
                   children: [
                     ClipRRect(
@@ -137,6 +172,9 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
                     child: ElevatedButton(
                       style: ButtonStyle(
                         minimumSize: MaterialStateProperty.all(Size(120, 50)),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                          buttonColor,
+                        ),
                       ),
                       child: Text(
                         "Clipart ändern",
@@ -144,6 +182,30 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
                       ),
                       onPressed: () {
                         _chooseClipartDialog(context);
+                      },
+                    ),
+                  ),
+                ),
+
+                Visibility(
+                  //The error message shows, if networkError is true
+                  visible: adminAccess,
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 60,
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        minimumSize: MaterialStateProperty.all(Size(120, 50)),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                          buttonColor,
+                        ),
+                      ),
+                      child: Text(
+                        "Raum ändern",
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      onPressed: () {
+                        _chooseRoomDialog(context);
                       },
                     ),
                   ),
@@ -180,7 +242,10 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
                       child: ElevatedButton(
                           style: ButtonStyle(
                             minimumSize:
-                            MaterialStateProperty.all(Size(120, 50)),
+                                MaterialStateProperty.all(Size(120, 50)),
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                              buttonColor,
+                            ),
                           ),
                           onPressed: () {
                             setState(() {
@@ -197,7 +262,10 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
                       child: ElevatedButton(
                           style: ButtonStyle(
                             minimumSize:
-                            MaterialStateProperty.all(Size(120, 50)),
+                                MaterialStateProperty.all(Size(120, 50)),
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                              buttonColor,
+                            ),
                           ),
                           onPressed: () {
                             setState(() {
@@ -219,7 +287,10 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
                       child: ElevatedButton(
                           style: ButtonStyle(
                             minimumSize:
-                            MaterialStateProperty.all(Size(120, 50)),
+                                MaterialStateProperty.all(Size(120, 50)),
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                              buttonColor,
+                            ),
                           ),
                           onPressed: () {
                             setState(() {
@@ -248,33 +319,33 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
                     Expanded(
                       flex: 16,
                       child: (widget.device.mud_data.acllist != null &&
-                          widget.device.mud_data.acllist.length != 0)
+                              widget.device.mud_data.acllist.length != 0)
                           ? Column(
-                        children: <Widget>[
-                          _searchBar(),
-                          _listHeader(),
-                          Container(
-                            height: 500,
-                            child: _listForAcl(),
-                          )
-                        ],
-                      )
+                              children: <Widget>[
+                                _searchBar(),
+                                _listHeader(),
+                                Container(
+                                  height: 500,
+                                  child: _listForAcl(),
+                                )
+                              ],
+                            )
                           : Container(
-                        height: 80,
-                        child: Card(
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 16, right: 16),
-                            child: SelectableText(
-                              "noEntries".tr().toString(),
-                              style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
+                              height: 80,
+                              child: Card(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 16, right: 16),
+                                  child: SelectableText(
+                                    "noEntries".tr().toString(),
+                                    style: TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
-                      ),
                     ),
                     Expanded(
                       flex: 1,
@@ -291,6 +362,16 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
         ),
       ),
     );
+  }
+
+  _sortRoomsForDisplay() {
+    setState(() {
+      if (_sortAscendingRooms) {
+        _roomsForDisplay.sort((a, b) => a.name.compareTo(b.name));
+      } else {
+        _roomsForDisplay.sort((a, b) => b.name.compareTo(a.name));
+      }
+    });
   }
 
   List<Widget> _mobileView() {
@@ -389,11 +470,10 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
 
     var test2 = test["acl_override"];
 
-    Map<String, dynamic> data = {
-      "acl_override": test2
-    };
+    Map<String, dynamic> data = {"acl_override": test2};
     String _urlExtension = "?mud_url=";
-    String _urlEncodedMudUrl = urlEncode(text: widget.device.mud_data.url).toString();
+    String _urlEncodedMudUrl =
+        urlEncode(text: widget.device.mud_data.url).toString();
     var _response = await http.put(
         url + _updateMUDExtension + _urlExtension + _urlEncodedMudUrl,
         headers: {
@@ -431,6 +511,7 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
                           "cancel".tr().toString(),
                           style: TextStyle(
                             color: buttonColor,
+                            fontSize: 18,
                           ),
                         ),
                         onPressed: () {
@@ -442,14 +523,19 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
                           "reset".tr().toString(),
                           style: TextStyle(
                             color: buttonColor,
+                            fontSize: 18,
                           ),
                         ),
                         onPressed: () async {
                           Map<String, dynamic> data = {"acl_override": []};
                           String _urlExtension = "?mud_url=";
-                          String _urlEncoded = urlEncode(text: widget.device.mud_url).toString();
+                          String _urlEncoded =
+                              urlEncode(text: widget.device.mud_url).toString();
                           var _response = await http.put(
-                              url + _updateMUDExtension + _urlExtension +_urlEncoded,
+                              url +
+                                  _updateMUDExtension +
+                                  _urlExtension +
+                                  _urlEncoded,
                               headers: {
                                 "Content-Type": "application/json",
                                 "Authorization": "Bearer $jwtToken"
@@ -457,7 +543,6 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
                               body: jsonEncode(data));
                           Navigator.of(context).pop(); // dismiss dialog
                           forwardReset();
-
                         },
                       ),
                     ],
@@ -473,8 +558,7 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (context) =>
-                DeviceDetails(id: widget.device.id)));
+            builder: (context) => DeviceDetails(id: widget.device.id)));
   }
 
   _listHeader() {
@@ -636,14 +720,279 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
     });
   }
 
+  _chooseRoomDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        // Here are displayed all cliparts to put devices in different classes
+        // At the end there ist a pop-up dialog to save or dismiss the changes
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return Center(
+              child: Theme(
+                data: ThemeData(
+                  brightness: darkMode ? Brightness.dark : Brightness.light,
+                  primaryColor: primaryColor,
+                  accentColor: primaryColor,
+                  hintColor: Colors.grey,
+                ),
+                child: AlertDialog(
+                  scrollable: true,
+                  contentPadding: EdgeInsets.all(15),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                  ),
+                  content: Container(
+                    width: 300,
+                    height: 450,
+                    child: Column(
+                      children: <Widget>[
+                        /// here is the searchBar
+                        Padding(
+                          padding: EdgeInsets.all(8),
+                          child: TextField(
+                            cursorColor: Colors.grey,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'search'.tr().toString(),
+                              suffixIcon: Icon(
+                                FontAwesomeIcons.search,
+                              ),
+                            ),
+                            onChanged: (text) {
+                              text = text.toLowerCase();
+                              setState(() {
+                                _roomsForDisplay = widget.rooms.where((room) {
+                                  var roomName = room.name.toLowerCase();
+                                  return roomName.contains(text);
+                                }).toList();
+                              });
+                              setState(() {
+                                if (_sortAscendingRooms) {
+                                  _roomsForDisplay
+                                      .sort((a, b) => a.name.compareTo(b.name));
+                                } else {
+                                  _roomsForDisplay
+                                      .sort((a, b) => b.name.compareTo(a.name));
+                                }
+                              });
+                            },
+                          ),
+                        ),
+
+                        /// Here is the ListHeader
+                        Container(
+                          height: 80,
+                          child: InkWell(
+                            customBorder: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            onTap: () {
+                              _sortAscendingRooms = !_sortAscendingRooms;
+                              setState(() {
+                                if (_sortAscendingRooms) {
+                                  _roomsForDisplay
+                                      .sort((a, b) => a.name.compareTo(b.name));
+                                } else {
+                                  _roomsForDisplay
+                                      .sort((a, b) => b.name.compareTo(a.name));
+                                }
+                              });
+                            },
+                            child: Card(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 0, right: 16),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.all(0),
+                                      child: Container(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            IconButton(
+                                              icon: _sortAscendingRooms
+                                                  ? _arrowUp
+                                                  : _arrowDown,
+                                            ),
+                                            Text(
+                                              'name'.tr().toString(),
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    Text(
+                                      'color'.tr().toString(),
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        /// Here the real List begins
+                        Container(
+                          height: 250,
+                          child: ListView.builder(
+                            itemCount: _roomsForDisplay.length,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                height: 80,
+                                child: InkWell(
+                                  customBorder: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  onTap: () {
+                                    setState(() {
+                                      _selectedRoom = _roomsForDisplay[index];
+                                    });
+                                  },
+                                  child: Card(
+                                    shape:
+                                        _selectedRoom == _roomsForDisplay[index]
+                                            ? new RoundedRectangleBorder(
+                                                side: new BorderSide(
+                                                    color: buttonColor,
+                                                    width: 2.0),
+                                                borderRadius:
+                                                    BorderRadius.circular(4.0))
+                                            : new RoundedRectangleBorder(),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 16, right: 16),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Expanded(
+                                            flex: 1,
+                                            child: Text(
+                                              _roomsForDisplay[index].name,
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 1,
+                                            child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                children: [
+                                                  Container(
+                                                    height: 40,
+                                                    width: 40,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              4),
+                                                      color: Color(int.parse(
+                                                          _roomsForDisplay[
+                                                                  index]
+                                                              .color)),
+                                                    ),
+                                                  ),
+                                                ]),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 22,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            // Buttons to accept or dismiss the changes like described above
+                            TextButton(
+                              child: Text(
+                                "Abbrechen",
+                                style: TextStyle(
+                                  color: buttonColor,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop(); // dismiss dialog
+                              },
+                            ),
+                            TextButton(
+                              child: Text(
+                                "Übernehmen",
+                                style: TextStyle(
+                                  color: buttonColor,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              onPressed: () {
+                                _changeRoom();
+                                Navigator.of(context).pop();
+
+                                forwardReset();
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  void _changeRoom() {
+    String _deviceId = widget.device.id.toString();
+    String _updateDeviceExtention = "devices/$_deviceId";
+
+    Map<String, dynamic> data = {
+      "room_id": _selectedRoom.id,
+    };
+    var response = http.put(
+      url + _updateDeviceExtention,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $jwtToken"
+      },
+      body: jsonEncode(data),
+    );
+  }
+
   Future _chooseClipartDialog(BuildContext context) {
     return showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext context) {
-          // Here are displayed all cliparts to put devices in different classes
-          // At the end there ist a pop-up dialog to save or dismiss the changes
-          return StatefulBuilder(builder: (context, setState) {
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        // Here are displayed all cliparts to put devices in different classes
+        // At the end there ist a pop-up dialog to save or dismiss the changes
+        return StatefulBuilder(
+          builder: (context, setState) {
             return Center(
               child: Theme(
                 data: ThemeData(
@@ -672,7 +1021,7 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
                               child: SvgPicture.asset(
                                 _selectedClipart,
                                 color:
-                                Color(int.parse(widget.device.room.color)),
+                                    Color(int.parse(widget.device.room.color)),
                                 height: 200,
                                 width: 200,
                               ),
@@ -687,7 +1036,7 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
                           child: GridView.builder(
                             itemCount: allClipArts.length,
                             gridDelegate:
-                            SliverGridDelegateWithFixedCrossAxisCount(
+                                SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 3,
                               crossAxisSpacing: 4,
                               mainAxisSpacing: 4,
@@ -724,6 +1073,7 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
                                 "Abbrechen",
                                 style: TextStyle(
                                   color: buttonColor,
+                                  fontSize: 18,
                                 ),
                               ),
                               onPressed: () {
@@ -735,6 +1085,7 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
                                 "Übernehmen",
                                 style: TextStyle(
                                   color: buttonColor,
+                                  fontSize: 18,
                                 ),
                               ),
                               onPressed: () {
@@ -751,8 +1102,10 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
                 ),
               ),
             );
-          });
-        });
+          },
+        );
+      },
+    );
   }
 
   void changeClipArtForDisplay() {
@@ -804,6 +1157,7 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
                           "cancel".tr().toString(),
                           style: TextStyle(
                             color: buttonColor,
+                            fontSize: 18,
                           ),
                         ),
                         onPressed: () {
@@ -815,11 +1169,11 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
                           "delete".tr().toString(),
                           style: TextStyle(
                             color: buttonColor,
+                            fontSize: 18,
                           ),
                         ),
                         onPressed: () {
                           setState(() {
-
                             // If acl_override is empty a copy of acllist gets put at acl_override
                             if (widget.device.mud_data.acl_override.isEmpty) {
                               widget.device.mud_data.acl_override =
@@ -840,15 +1194,15 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
 
                             // Part that deletes the entry of the ace which dns name is selected
                             for (int i = 0;
-                            i < widget.device.mud_data.acl_override.length;
-                            i++) {
+                                i < widget.device.mud_data.acl_override.length;
+                                i++) {
                               for (int j = 0;
-                              j <
-                                  widget.device.mud_data.acl_override[i].ace
-                                      .length;
-                              j++) {
+                                  j <
+                                      widget.device.mud_data.acl_override[i].ace
+                                          .length;
+                                  j++) {
                                 if (widget.device.mud_data.acl_override[i]
-                                    .ace[j].matches.dnsname ==
+                                        .ace[j].matches.dnsname ==
                                     accessControlEntry) {
                                   widget.device.mud_data.acl_override[i].ace
                                       .removeAt(j);
@@ -874,37 +1228,43 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
     return Visibility(
       visible: !expertMode,
       child:
-      mobileDevice //if mobile device, then icon button with dialog, else icon with hover effect
-          ? IconButton(
-        icon: Icon(Icons.help_center),
-        iconSize: 30,
-        onPressed: () {
-          showDialog(
-              context: context,
-              barrierDismissible: true,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: Text("explanation".tr().toString()),
-                  content:
-                  Text("explanationDNSNames".tr().toString()),
-                  actions: [
-                    TextButton(
-                      child: Text("Ok!"),
-                      onPressed: () {
-                        Navigator.of(context).pop(); // dismiss dialog
-                      },
-                    )
-                  ],
-                );
-              });
-        },
-      )
-          : MouseRegion(
-        //MouseRegion for the hover element
-        onEnter: _enterInRegion,
-        onExit: _exitInRegion,
-        child: Icon(Icons.help_center),
-      ),
+          mobileDevice //if mobile device, then icon button with dialog, else icon with hover effect
+              ? IconButton(
+                  icon: Icon(Icons.help_center),
+                  iconSize: 30,
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        barrierDismissible: true,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("explanation".tr().toString()),
+                            content:
+                                Text("explanationDNSNames".tr().toString()),
+                            actions: [
+                              TextButton(
+                                child: Text(
+                                  "Ok!",
+                                  style: TextStyle(
+                                    color: buttonColor,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).pop(); // dismiss dialog
+                                },
+                              )
+                            ],
+                          );
+                        });
+                  },
+                )
+              : MouseRegion(
+                  //MouseRegion for the hover element
+                  onEnter: _enterInRegion,
+                  onExit: _exitInRegion,
+                  child: Icon(Icons.help_center),
+                ),
     );
   }
 

@@ -4,6 +4,8 @@ import 'package:flutter_protyp/pages/about.dart';
 import "package:flutter_protyp/pages/deviceOverview.dart";
 import "package:flutter_protyp/pages/chooseRoom.dart";
 import 'package:flutter_protyp/pages/dummie.dart';
+import 'package:flutter_protyp/pages/editRoom.dart';
+import 'package:flutter_protyp/pages/ignoredDeviceOverview.dart';
 import "package:flutter_protyp/pages/newDevice.dart";
 import "package:flutter_protyp/pages/newDeviceOverview.dart";
 import 'package:flutter_protyp/pages/registration.dart';
@@ -73,6 +75,8 @@ class MaterialAppWithTheme extends StatelessWidget {
           "/chooseRoom": (context) => ChooseRoom(),
           "/newDevice": (context) => NewDevice(),
           "/newDeviceOverview": (context) => NewDeviceOverview(),
+          "/ignoredDeviceOverview": (context) => IgnoredDeviceOverview(),
+          "/editRoom": (context) => EditRoom(),
           "/dummie": (context) => Dummie(),
           "/userProfile": (context) => UserProfile(),
           "/usersTable": (context) => UsersTable(),

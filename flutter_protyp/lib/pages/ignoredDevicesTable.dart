@@ -4,12 +4,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_protyp/data/device_mud/device.dart';
-import 'package:flutter_protyp/pages/chooseMudData.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class NewDevicesTable extends StatefulWidget {
-  NewDevicesTable({
+class IgnoredDevicesTable extends StatefulWidget {
+  IgnoredDevicesTable({
     Key key,
     @required this.devices,
   }) : super(key: key);
@@ -17,11 +18,11 @@ class NewDevicesTable extends StatefulWidget {
   /// List which stores all given devices
   final List<Device> devices;
 
-  _NewDevicesTableState createState() => _NewDevicesTableState();
+  _IgnoredDevicesTableState createState() => _IgnoredDevicesTableState();
 }
 
 //Class for user registration, will only be used at the first usage
-class _NewDevicesTableState extends State<NewDevicesTable> {
+class _IgnoredDevicesTableState extends State<IgnoredDevicesTable> {
   List<Device> _devicesForDisplay;
   bool _sortAscending = true;
   Icon _arrowUp = Icon(
@@ -54,7 +55,7 @@ class _NewDevicesTableState extends State<NewDevicesTable> {
                 Container(
                   height: 50,
                   child: SelectableText(
-                    'unmanagedDevices'.tr().toString(),
+                    'ignoredDevices'.tr().toString(),
                     style: TextStyle(
                       fontFamily: "OpenSans",
                       fontSize: 30,
@@ -66,7 +67,7 @@ class _NewDevicesTableState extends State<NewDevicesTable> {
                   height: 70,
                   alignment: Alignment.center,
                   child: SelectableText(
-                    'chooseDeviceToAdd'.tr().toString(),
+                    'searchInformationQuestion'.tr().toString(),
                     style: TextStyle(
                       fontFamily: "OpenSans",
                       fontSize: 20,
@@ -204,6 +205,102 @@ class _NewDevicesTableState extends State<NewDevicesTable> {
     );
   }
 
+  Future _addDeviceDialog(BuildContext context, int _deviceId) {
+    return showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        // Here are displayed all cliparts to put devices in different classes
+        // At the end there ist a pop-up dialog to save or dismiss the changes
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return Center(
+              child: Theme(
+                data: ThemeData(
+                  brightness: darkMode ? Brightness.dark : Brightness.light,
+                  primaryColor: primaryColor,
+                  accentColor: primaryColor,
+                  hintColor: Colors.grey,
+                ),
+                child: AlertDialog(
+                  scrollable: true,
+                  contentPadding: EdgeInsets.all(20),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                  ),
+                  content: Container(
+                    width: 300,
+                    height: 120,
+                    child: Column(
+                      children: <Widget>[
+                        SelectableText(
+                          'searchDeviceInformation'.tr().toString(),
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 40,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            // Buttons to accept or dismiss the changes like described above
+                            TextButton(
+                              child: Text(
+                                'cancel'.tr().toString(),
+                                style: TextStyle(
+                                  color: buttonColor,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            TextButton(
+                              child: Text(
+                                'confirm'.tr().toString(),
+                                style: TextStyle(
+                                  color: buttonColor,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              onPressed: () {
+                                _updateDevice(_deviceId.toString());
+
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  _updateDevice(String _deviceId) async {
+    String _devicesExtension = "devices/$_deviceId";
+
+    Map<String, dynamic> _data = {"collect_info": true};
+
+    var _response = await http.put(url + _devicesExtension,
+        body: jsonEncode(_data),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $jwtToken"
+        });
+
+    Navigator.pushReplacementNamed(context, "/ignoredDeviceOverview");
+  }
+
   ListView _listForDevices(BuildContext context) {
     return ListView.builder(
       itemCount: _devicesForDisplay.length,
@@ -217,14 +314,7 @@ class _NewDevicesTableState extends State<NewDevicesTable> {
             onTap: () {
               /// TODO check if correct
               if (adminAccess && _devicesForDisplay[index].mud_data == null) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ChooseMudData(
-                      device: _devicesForDisplay[index],
-                    ),
-                  ),
-                );
+                _addDeviceDialog(context, _devicesForDisplay[index].id);
               }
             },
             child: Card(

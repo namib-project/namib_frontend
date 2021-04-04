@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_protyp/data/device_mud/device.dart';
-import 'package:flutter_protyp/pages/chooseRoomTable.dart';
 
 import 'package:flutter_protyp/widgets/appbar.dart';
+import "package:flutter_protyp/widgets/drawer.dart";
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:flutter_protyp/data/device_mud/room.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -11,21 +10,16 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 
-class ChooseRoom extends StatefulWidget {
-  ChooseRoom({
-    Key key,
-    @required this.device,
-  }) : super(key: key);
+import 'editRoomTable.dart';
 
-  final Device device;
-
-  _ChooseRoomState createState() => _ChooseRoomState();
+class EditRoom extends StatefulWidget {
+  _EditRoomState createState() => _EditRoomState();
 }
 
-class _ChooseRoomState extends State<ChooseRoom> {
+class _EditRoomState extends State<EditRoom> {
   Future<List<Room>> rooms;
 
-  var _response;
+  var response;
 
   @override
   void initState() {
@@ -36,19 +30,8 @@ class _ChooseRoomState extends State<ChooseRoom> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: SelectableText(
-          'details'.tr().toString(),
-        ),
-        actions: <Widget>[
-          Padding(
-            padding: mobileDevice
-                ? EdgeInsets.fromLTRB(12, 5, 12, 12)
-                : EdgeInsets.fromLTRB(0, 5, 12, 12),
-            child: SettingsPopup(),
-          ),
-        ],
-      ),
+      appBar: MainAppbar(),
+      drawer: MainDrawer(),
       body: Center(
         child: Column(
           children: [
@@ -59,9 +42,8 @@ class _ChooseRoomState extends State<ChooseRoom> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return Expanded(
-                      child: RoomTable(
+                      child: EditRoomTable(
                     rooms: snapshot.data,
-                    device: widget.device,
                   ));
                 } else if (snapshot.hasError) {
                   // If the process failed this message returns
@@ -76,7 +58,7 @@ class _ChooseRoomState extends State<ChooseRoom> {
                               child: Text("reload".tr().toString()),
                               onPressed: () {
                                 Navigator.pushReplacementNamed(
-                                    context, "/chooseRoom");
+                                    context, "/editRoom");
                               })
                         ]),
                   );
@@ -99,16 +81,16 @@ class _ChooseRoomState extends State<ChooseRoom> {
 
   Future<List<Room>> getRooms() async {
     String roomsExtension = 'rooms';
-    _response = await http.get(url + roomsExtension, headers: {
+    response = await http.get(url + roomsExtension, headers: {
       "Content-Type": "application/json",
       "Authorization": "Bearer $jwtToken"
     }).timeout(const Duration(seconds: 5), onTimeout: () {
       return _handleTimeOut();
     });
 
-    if (_response.statusCode == 200) {
-      String _data = utf8.decode(_response.bodyBytes);
-      var jsonRooms = jsonDecode(_data) as List;
+    if (response.statusCode == 200) {
+      String data = utf8.decode(response.bodyBytes);
+      var jsonRooms = jsonDecode(data) as List;
       List<Room> roomsTest =
           jsonRooms.map((tagJson) => Room.fromJson(tagJson)).toList();
       return roomsTest;

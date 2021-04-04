@@ -48,13 +48,12 @@ class _DevicesTableState extends State<DevicesTable> {
 
   @override
   void initState() {
-    setState(() {
-      _devicesCopy = widget.devices;
-      _uniqueRooms = widget.rooms;
-      _sortRooms();
-      _sortDevicesForDisplay();
-      _createDevicesForDisplay();
-    });
+    super.initState();
+    _devicesCopy = widget.devices;
+    _uniqueRooms = widget.rooms;
+    _sortRooms();
+    _sortDevicesForDisplay();
+    _createDevicesForDisplay();
   }
 
   Widget build(BuildContext context) {
@@ -85,34 +84,34 @@ class _DevicesTableState extends State<DevicesTable> {
                     Expanded(
                       flex: 16,
                       child:
-                      (widget.devices != null && widget.devices.length != 0)
-                          ? Column(
-                        children: <Widget>[
-                          _roomFilter(),
-                          _searchBar(),
-                          _listHeader(),
-                          Container(
-                            height: 500,
-                            child: _listForDevicesRooms(context),
-                          )
-                        ],
-                      )
-                          : Container(
-                        height: 80,
-                        child: Card(
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 16, right: 16),
-                            child: SelectableText(
-                              "noEntries".tr().toString(),
-                              style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                          (widget.devices != null && widget.devices.length != 0)
+                              ? Column(
+                                  children: <Widget>[
+                                    _roomFilter(),
+                                    _searchBar(),
+                                    _listHeader(),
+                                    Container(
+                                      height: 500,
+                                      child: _listForDevicesRooms(context),
+                                    )
+                                  ],
+                                )
+                              : Container(
+                                  height: 80,
+                                  child: Card(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 16, right: 16),
+                                      child: SelectableText(
+                                        "noEntries".tr().toString(),
+                                        style: TextStyle(
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
                     ),
                     Expanded(
                       flex: 1,
@@ -135,13 +134,28 @@ class _DevicesTableState extends State<DevicesTable> {
         try {
           return ExpansionTile(
             initiallyExpanded: true,
-            title: Text(
-              _devicesForDisplay[index][0].room.name,
-              style: TextStyle(
-                color:
-                Color(int.parse(_devicesForDisplay[index][0].room.color)),
-                fontSize: 20,
-              ),
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  height: 28,
+                  width: 28,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4),
+                    color: Color(
+                        int.parse(_devicesForDisplay[index][0].room.color)),
+                  ),
+                ),
+                SizedBox(
+                  width: 15,
+                ),
+                Text(
+                  _devicesForDisplay[index][0].room.name,
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+              ],
             ),
             children: <Widget>[
               Column(
@@ -168,26 +182,26 @@ class _DevicesTableState extends State<DevicesTable> {
       children: <Widget>[
         (_uniqueRooms != null && _uniqueRooms.length != 0)
             ? Column(
-          children: <Widget>[
-            Container(
-              height: _uniqueRooms.length * 50.0,
-              child: _listForRoomNames(),
-            )
-          ],
-        )
+                children: <Widget>[
+                  Container(
+                    height: _uniqueRooms.length * 50.0,
+                    child: _listForRoomNames(),
+                  )
+                ],
+              )
             : Container(
-          height: 80,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16),
-            child: SelectableText(
-              "noEntries".tr().toString(),
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+                height: 80,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16, right: 16),
+                  child: SelectableText(
+                    "noEntries".tr().toString(),
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ),
-        ),
       ],
     );
   }
@@ -449,14 +463,37 @@ class _DevicesTableState extends State<DevicesTable> {
     });
   }
 
+  /// TODO: what if room null; also compare Id not name
   _createDevicesForDisplay() {
     _devicesForDisplay = [];
+
+    for (Device d in _devicesCopy) {
+      if (d.room == null) {
+        _uniqueRooms.add(Room.roomConstructor(
+            -1, 'notAssigned'.tr().toString(), "0xFFB00020"));
+        break;
+      }
+    }
+
+    for (Device d in _devicesCopy) {
+      if (d.clipart == null) {
+        d.clipart = allClipArts[0];
+      }
+    }
 
     for (Room r in _uniqueRooms) {
       List<Device> _devicesWithRoom = [];
       for (Device d in _devicesCopy) {
-        if (d.room.name == r.name) {
-          _devicesWithRoom.add(d);
+        if (d.room != null) {
+          if (d.room.name == r.name) {
+            _devicesWithRoom.add(d);
+          }
+        } else {
+          d.room = Room.roomConstructor(
+              -1, 'notAssigned'.tr().toString(), "0xFFB00020");
+          if ('notAssigned'.tr().toString() == r.name) {
+            _devicesWithRoom.add(d);
+          }
         }
       }
       _devicesForDisplay.add(_devicesWithRoom);

@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-// This class is a data construct for a rooms
+// This class is a data construct for a MUD-Profile
 
 part 'room.g.dart';
 
@@ -10,6 +10,12 @@ class Room {
   String name, color;
 
   Room(this.id, this.name, this.color);
+
+  Room.roomConstructor(int id, String name, String color) {
+    this.id = id;
+    this.name = name;
+    this.color = color;
+  }
 
   factory Room.fromJson(Map<String, dynamic> data) => _$RoomFromJson(data);
 
