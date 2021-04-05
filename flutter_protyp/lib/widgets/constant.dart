@@ -35,6 +35,7 @@ bool userAccess = false;
 /// this is for all the clipart pictures
 /// is used in chooseClipArt.dart
 final List<String> allClipArts = [
+  'resources/clipart/settings_suggest.svg',
   'resources/clipart/cloud.svg',
   'resources/clipart/desktop_mac.svg',
   'resources/clipart/desktop_windows.svg',
