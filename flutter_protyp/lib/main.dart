@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_protyp/pages/about.dart';
+import 'package:flutter_protyp/pages/administrativeSettings.dart';
 import "package:flutter_protyp/pages/deviceOverview.dart";
-import "package:flutter_protyp/pages/chooseRoom.dart";
 import 'package:flutter_protyp/pages/dummie.dart';
 import 'package:flutter_protyp/pages/editRoom.dart';
 import 'package:flutter_protyp/pages/ignoredDeviceOverview.dart';
@@ -13,7 +13,6 @@ import 'package:flutter_protyp/pages/startService.dart';
 import 'package:flutter_protyp/pages/manageUser.dart';
 import 'package:flutter_protyp/pages/userManagement.dart';
 import 'package:flutter_protyp/pages/userProfile.dart';
-import 'package:flutter_protyp/pages/usersTable.dart';
 import 'package:flutter_protyp/widgets/theme.dart';
 import 'package:provider/provider.dart';
 import "package:flutter_protyp/widgets/constant.dart";
@@ -62,7 +61,7 @@ class MaterialAppWithTheme extends StatelessWidget {
 
     return MaterialApp(
         theme: theme.getTheme(),
-        initialRoute: "/startService",
+        initialRoute: "/administrativeSettings",
         routes: {
           "/startService": (context) => StartService(),
           "/login": (context) => Login(),
@@ -72,14 +71,13 @@ class MaterialAppWithTheme extends StatelessWidget {
           "/registrationStart": (context) => RegistrationStart(),
           "/about": (context) => About(),
           "/userManagement": (context) => UserManagement(),
-          "/chooseRoom": (context) => ChooseRoom(),
           "/newDevice": (context) => NewDevice(),
           "/newDeviceOverview": (context) => NewDeviceOverview(),
           "/ignoredDeviceOverview": (context) => IgnoredDeviceOverview(),
           "/editRoom": (context) => EditRoom(),
           "/dummie": (context) => Dummie(),
           "/userProfile": (context) => UserProfile(),
-          "/usersTable": (context) => UsersTable(),
+          "/administrativeSettings" : (context) => AdministrativeSettings()
         });
   }
 }
