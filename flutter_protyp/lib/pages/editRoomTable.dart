@@ -142,21 +142,35 @@ class _EditRoomTableState extends State<EditRoomTable> {
                               ],
                             )
                           : Container(
-                              height: 80,
-                              child: Card(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 16, right: 16),
-                                  child: SelectableText(
-                                    "noEntries".tr().toString(),
-                                    style: TextStyle(
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.bold,
+                              height: 300,
+                              child: Column(children: [
+                                Card(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 16, right: 16),
+                                    child: SelectableText(
+                                      "noEntries".tr().toString(),
+                                      style: TextStyle(
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ),
+                                Container(
+                                  height: 70,
+                                  alignment: Alignment.center,
+                                  child: SelectableText(
+                                    'orCreateNew'.tr().toString(),
+                                    style: TextStyle(
+                                      fontFamily: "OpenSans",
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                                _newRoomDialog(),
+                                _bottomButtons()
+                              ])),
                     ),
                     Expanded(
                       flex: 1,
