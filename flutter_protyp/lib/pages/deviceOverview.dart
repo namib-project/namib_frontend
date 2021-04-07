@@ -11,7 +11,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_protyp/data/room.dart';
 import 'package:http/http.dart' as http;
 
-import 'devicesGraph.dart';
+import 'roomsGraph.dart';
 
 /// returns deviceOverview site
 class DeviceOverview extends StatefulWidget {
