@@ -90,7 +90,7 @@ class _DeviceOverviewState extends State<DeviceOverview> {
                 if (snapshot.hasData) {
                   if (view) {
                     return Expanded(
-                        child: DevicesGraph(
+                        child: RoomsGraph(
                       devices: snapshot.data,
                     ));
                   } else {
