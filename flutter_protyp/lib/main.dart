@@ -61,7 +61,7 @@ class MaterialAppWithTheme extends StatelessWidget {
 
     return MaterialApp(
         theme: theme.getTheme(),
-        initialRoute: "/administrativeSettings",
+        initialRoute: "/startService",
         routes: {
           "/startService": (context) => StartService(),
           "/login": (context) => Login(),

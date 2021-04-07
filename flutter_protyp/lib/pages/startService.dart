@@ -75,9 +75,9 @@ class _StartServiceState extends State<StartService> {
     // Here will be presented the current controller version
     return new Scaffold(
         body: Center(
-          child: FutureBuilder<String>(
-      future: setupData,
-      builder: (context, snapshot) {
+      child: FutureBuilder<String>(
+        future: setupData,
+        builder: (context, snapshot) {
           if (snapshot.hasData) {
             Map<String, dynamic> data = jsonDecode(snapshot.data);
             bool required_setup = data["setup_required"];
@@ -92,8 +92,8 @@ class _StartServiceState extends State<StartService> {
           // By default, show a loading spinner.
           return SizedBox(
               width: 200, height: 200, child: CircularProgressIndicator());
-      },
-    ),
-        ));
+        },
+      ),
+    ));
   }
 }

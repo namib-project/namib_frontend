@@ -105,8 +105,9 @@
   "administrativeSettings": "Administrative settings",
   "letsEncryptUsageText": "Do you want us to secure the communication with this application with a \\n certificate from https://letsencrypt.org/? Then you must accept the terms of use of Lets Encrypt here",
   "acceptEncryptTerms": "Accept terms of use",
-  "signupFunction": "In this setting you can disable or enable the function to create new \\n user profiles",
+  "signupFunction": "In this setting you can disable or enable the function to create new user profiles",
   "disableSignup": "Disable signup",
   "collectData": "Do you want us to collect data about the devices in your network in the background?",
-  "allowDataCollection": "Allow data collection"
+  "allowDataCollection": "Allow data collection",
+  "enableSignup": "Enable signup"
 }
