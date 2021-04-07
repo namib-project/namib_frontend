@@ -95,7 +95,7 @@ class _MainDrawerState extends State<MainDrawer> {
            //  ),
 
 
->>>>>>> flutter_protyp/lib/widgets/drawer.dart
+
             CustomListTile(
               icon: Icons.feedback,
               text: "About",
