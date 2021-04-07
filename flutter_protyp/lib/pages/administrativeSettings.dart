@@ -35,14 +35,16 @@ class _AdministrativeSettingsState extends State<AdministrativeSettings> {
               builder: (context, snapshot) {
                 bool collectData = false;
                 if (snapshot.hasData) {
-                  if(snapshot.data["CollectDeviceData"] != null){
-                      if("true".compareTo(snapshot.data["CollectDeviceData"]) == 0){
-                        collectData = true;
-                      }
+                  if (snapshot.data["CollectDeviceData"] != null) {
+                    if ("true".compareTo(snapshot.data["CollectDeviceData"]) ==
+                        0) {
+                      collectData = true;
+                    }
                   }
                   bool allowSignup;
-                  if(snapshot.data["AllowUserSignup"] != null){
-                    if("true".compareTo(snapshot.data["AllowUserSignup"]) == 0){
+                  if (snapshot.data["AllowUserSignup"] != null) {
+                    if ("true".compareTo(snapshot.data["AllowUserSignup"]) ==
+                        0) {
                       allowSignup = true;
                     }
                   }
@@ -118,14 +120,17 @@ class _AdministrativeSettingsState extends State<AdministrativeSettings> {
                                   SizedBox(
                                     height: 10,
                                   ),
-                                  Checkbox(
-                                      value: allowSignup != null
-                                          ? allowSignup
-                                          : false,
-                                      fillColor: MaterialStateProperty.all(buttonColor),
-                                      onChanged: (value) {
-                                        updateAllowSignupValue(value);
-                                      }),
+                                  Transform.scale(
+                                      scale: 1.5,
+                                      child: Checkbox(
+                                          value: allowSignup != null
+                                              ? allowSignup
+                                              : false,
+                                          fillColor: MaterialStateProperty.all(
+                                              buttonColor),
+                                          onChanged: (value) {
+                                            updateAllowSignupValue(value);
+                                          })),
                                   SizedBox(
                                     height: 15,
                                   ),
@@ -141,11 +146,15 @@ class _AdministrativeSettingsState extends State<AdministrativeSettings> {
                                   SizedBox(
                                     height: 10,
                                   ),
-                                  Checkbox(value: collectData,
-                                      fillColor: MaterialStateProperty.all(buttonColor),
-                                      onChanged: (value){
-                                    updateCollectDeviceDataValue(value);
-                                  })
+                                  Transform.scale(
+                                      scale: 1.5,
+                                      child: Checkbox(
+                                          value: collectData,
+                                          fillColor: MaterialStateProperty.all(
+                                              buttonColor),
+                                          onChanged: (value) {
+                                            updateCollectDeviceDataValue(value);
+                                          })),
                                 ],
                               ),
                             ),
