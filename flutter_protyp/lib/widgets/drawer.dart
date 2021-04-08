@@ -47,7 +47,6 @@ class _MainDrawerState extends State<MainDrawer> {
               onTap: () =>
                   {Navigator.pushReplacementNamed(context, "/deviceOverview")},
             ),
-
             CustomListTile(
               icon: Icons.playlist_add, // or maybe: ad_units
               text: 'unmanagedDevices'.tr().toString(),
@@ -55,7 +54,6 @@ class _MainDrawerState extends State<MainDrawer> {
                 Navigator.pushReplacementNamed(context, "/newDeviceOverview")
               },
             ),
-
             CustomListTile(
               icon: Icons.search_off, // or maybe: ad_units
               text: 'ignoredDevices'.tr().toString(),
@@ -64,19 +62,26 @@ class _MainDrawerState extends State<MainDrawer> {
                     context, "/ignoredDeviceOverview")
               },
             ),
-
             CustomListTile(
               icon: Icons.edit, // or maybe: ad_units
               text: 'editRoom'.tr().toString(),
               onTap: () =>
-              {Navigator.pushReplacementNamed(context, "/editRoom")},
+                  {Navigator.pushReplacementNamed(context, "/editRoom")},
             ),
-
             CustomListTile(
               icon: Icons.person_add,
               text: "signup".tr().toString(),
               onTap: () =>
                   {Navigator.pushReplacementNamed(context, "/registration")},
+            ),
+
+            CustomListTile(
+              icon: Icons.settings_applications,
+              text: "administrativeSettings".tr().toString(),
+              onTap: () => {
+                Navigator.pushReplacementNamed(
+                    context, "/administrativeSettings")
+              },
             ),
 
            //  Visibility(
@@ -88,6 +93,7 @@ class _MainDrawerState extends State<MainDrawer> {
            //      {Navigator.pushReplacementNamed(context, "/userManagement")},
            //    ),
            //  ),
+
 
 
             CustomListTile(

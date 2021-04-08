@@ -102,5 +102,13 @@
   "searchDeviceInformation": "Informationen zu diesem Gerät suchen?",
   "orCreateNew": "Oder erstellen Sie einen neuen",
   "roomName": "Raumname",
-  "create": "Erstellen"
+  "create": "Erstellen",
+  "administrativeSettings": "Administrative Einstellungen",
+  "letsEncryptUsageText": "Möchten Sie, das wir die Kommunikation mit dieser Anwendung mit einem \\n Zertifikat von https://letsencrypt.org/ absichern? Dann müssen \\n Sie die Nutzungsbedingungen von Lets Encrypt hier akzeptieren",
+  "acceptEncryptTerms": "Nutzungsbedingungen akzeptieren",
+  "signupFunction": "In dieser Einstellung können Sie die Funktion zum Anlegen neuer Benutzerprofile deaktivieren bzw. aktivieren",
+  "disableSignup": "Registrieren deaktivieren",
+  "collectData": "Möchten Sie, das wir im Hintergrund nach Daten über die Geräte in Ihrem Netzwerk sammeln?",
+  "allowDataCollection": "Datensammeln erlauben",
+  "enableSignup": "Registrieren aktivieren"
 }
