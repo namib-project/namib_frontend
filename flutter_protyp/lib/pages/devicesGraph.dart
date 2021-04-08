@@ -139,7 +139,7 @@ class _DeviceGraphState extends State<DevicesGraph> {
               color: Color(
                 int.parse(device.roomcolor),
               ),
-            ), Text(device.vendor_class)],
+            ), Text(device.hostname)],
           ) ),
       onTap: () => Navigator.push(context,
         MaterialPageRoute(
