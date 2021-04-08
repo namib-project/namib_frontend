@@ -6,7 +6,7 @@ import 'package:flutter_protyp/widgets/constant.dart';
 void themeTest() {
   /// tests the setTheme function in theme.dart
   test("Test with all possible values for set Expertmode", () {
-    Constant c = new Constant();
+    //Constant c = new Constant();
 
 
     //ThemeChanger themeChanger = new ThemeChanger(ThemeData.light());

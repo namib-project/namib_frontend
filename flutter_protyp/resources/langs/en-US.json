@@ -109,5 +109,6 @@
   "disableSignup": "Disable signup",
   "collectData": "Do you want us to collect data about the devices in your network in the background?",
   "allowDataCollection": "Allow data collection",
-  "enableSignup": "Enable signup"
+  "enableSignup": "Enable signup",
+  "noInfo": "No information"
 }

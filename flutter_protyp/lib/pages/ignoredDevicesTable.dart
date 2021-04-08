@@ -298,7 +298,7 @@ class _IgnoredDevicesTableState extends State<IgnoredDevicesTable> {
           "Authorization": "Bearer $jwtToken"
         });
 
-    Navigator.pushReplacementNamed(context, "/ignoredDeviceOverview");
+    Navigator.pushReplacementNamed(context, "/newDeviceOverview");
   }
 
   ListView _listForDevices(BuildContext context) {

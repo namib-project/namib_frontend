@@ -349,7 +349,9 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
                     Expanded(
                       flex: 3,
                       child: Text(
-                        _mudGuessListForDisplay[index].model_name,
+                        _mudGuessListForDisplay[index].model_name == null
+                            ? ""
+                            : _mudGuessListForDisplay[index].model_name,
                         style: TextStyle(
                           fontSize: 20,
                         ),
@@ -358,7 +360,9 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
                     Expanded(
                       flex: 3,
                       child: Text(
-                        _mudGuessListForDisplay[index].manufacturer_name,
+                        _mudGuessListForDisplay[index].manufacturer_name == null
+                            ? ""
+                            : _mudGuessListForDisplay[index].manufacturer_name,
                         style: TextStyle(
                           fontSize: 20,
                         ),
@@ -399,8 +403,6 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
                                   ? _chosenMudGuess = null
                                   : _chosenMudGuess =
                                       _mudGuessListForDisplay[index];
-                              txt.text =
-                                  _mudGuessListForDisplay[index].model_name;
                             });
                           },
                         ),

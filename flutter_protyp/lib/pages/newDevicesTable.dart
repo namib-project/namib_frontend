@@ -215,7 +215,6 @@ class _NewDevicesTableState extends State<NewDevicesTable> {
               borderRadius: BorderRadius.circular(10),
             ),
             onTap: () {
-              /// TODO check if correct
               if (adminAccess && _devicesForDisplay[index].mud_data == null) {
                 Navigator.push(
                   context,

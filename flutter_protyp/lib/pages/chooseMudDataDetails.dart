@@ -338,102 +338,6 @@ class _ChooseMudDataDetailsState extends State<ChooseMudDataDetails> {
     closeOverlay();
   }
 
-  List<Widget> _desktopView() {
-    var column1 = Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[],
-    );
-
-    var column2 = Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        SizedBox(
-          height: 50,
-        ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SelectableText(
-              'documentation'.tr().toString() + ": ",
-              style: TextStyle(fontSize: 20),
-            ),
-            SelectableText(
-              _mudData.documentation,
-              style: TextStyle(fontSize: 18),
-              onTap: () {
-                // _launchDocumentation();
-              },
-            ),
-          ],
-        )
-      ],
-    );
-
-    var row = Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        column1,
-        SizedBox(
-          width: 200,
-        ),
-        column2
-      ],
-    );
-
-    List<Widget> list = [
-      SizedBox(
-        height: 40,
-      ),
-      row,
-      SizedBox(
-        height: 30,
-      )
-    ];
-    return list;
-  }
-
-  List<Widget> _mobileView() {
-    var selectableText1 = SelectableText(
-      "ipaddress".tr().toString(),
-      style: TextStyle(fontSize: 20),
-    );
-
-    var sizedBox1 = SizedBox(
-      height: 20,
-    );
-    var selectableText3 = SelectableText(
-      "lastinteraction".tr().toString(),
-      style: TextStyle(fontSize: 20),
-    );
-
-    var sizedBox2 = SizedBox(
-      height: 20,
-    );
-    var selectableText5 = SelectableText(
-      "MUD URL: ",
-      style: TextStyle(fontSize: 20),
-    );
-
-    var sizedBox3 = SizedBox(
-      height: 20,
-    );
-    var selectableText7 = SelectableText(
-      'documentation'.tr().toString(),
-      style: TextStyle(fontSize: 20),
-    );
-
-    List<Widget> list = [
-      selectableText1,
-      sizedBox1,
-      selectableText3,
-      sizedBox2,
-      selectableText5,
-      sizedBox3,
-      selectableText7,
-    ];
-
-    return list;
-  }
 
   Future<List<MUDData>> _getMudDataFuture() async {
     String _mudDataExtension = 'mud/';
@@ -450,8 +354,6 @@ class _ChooseMudDataDetailsState extends State<ChooseMudDataDetails> {
       return _handleTimeOut();
     });
 
-    print("testiresponse");
-    print(response.statusCode);
 
     if (response.statusCode == 200) {
       var jsonMudData = jsonDecode(response.body) as List;

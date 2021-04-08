@@ -71,17 +71,21 @@ class _ChooseMudDataDetailsTableState extends State<ChooseMudDataDetailsTable> {
                   height: 30,
                 ),
                 SelectableText(
-                  widget.mudData.systeminfo,
+                  widget.mudData.systeminfo == null ? "" : widget.mudData.systeminfo,
                   style: TextStyle(
                     fontSize: 25,
                   ),
                 ),
-                SizedBox(
-                  height: 20,
+                SizedBox(height: 10,),
+                SelectableText(
+                widget.mudData.url,
+                  style: TextStyle(
+                    fontSize: 25,
+                  ),
                 ),
-                Column(
-                  children: mobileDevice ? _mobileView() : _desktopView(),
-                ),
+                // Column(
+                //   children: mobileDevice ? _mobileView() : _desktopView(),
+                // ),
 
                 SizedBox(
                   height: 20,

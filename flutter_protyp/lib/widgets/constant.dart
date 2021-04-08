@@ -37,17 +37,11 @@ bool userAccess = false;
 final List<String> allClipArts = [
   'resources/clipart/settings_suggest.svg',
   'resources/clipart/cloud.svg',
-  'resources/clipart/desktop_mac.svg',
   'resources/clipart/desktop_windows.svg',
   'resources/clipart/lamp.svg',
   'resources/clipart/laptop.svg',
-  'resources/clipart/laptop_chromebook.svg',
-  'resources/clipart/laptop_mac.svg',
-  'resources/clipart/laptop_windows.svg',
   'resources/clipart/lightning.svg',
-  'resources/clipart/music_note.svg',
   'resources/clipart/music_note_beamed.svg',
-  'resources/clipart/phone_android.svg',
   'resources/clipart/phone_iphone.svg',
   'resources/clipart/router.svg',
   'resources/clipart/smartphone.svg',
@@ -56,9 +50,3 @@ final List<String> allClipArts = [
   'resources/clipart/thermometer.svg',
   'resources/clipart/tv.svg'
 ];
-
-class Constant {
-  bool get getExpertMode {
-    return expertMode;
-  }
-}

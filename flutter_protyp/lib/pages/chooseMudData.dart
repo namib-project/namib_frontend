@@ -131,16 +131,25 @@ class _ChooseMudDataState extends State<ChooseMudData> {
     ///
 
     String test =
-        '[{"manufacturer_name": "AmazonEchoManufact","model_name": "AmazonEcho","mud_url": "https://iotanalytics.unsw.edu.au/mud/amazonEchoMud.json"},{"manufacturer_name": "dorbellUnternehmen","model_name": "Dorbell","mud_url": "https://iotanalytics.unsw.edu.au/mud/augustdoorbellcamMud.json"}]';
+        '[{"manufacturer_name": null,"model_name": "AmazonEcho","mud_url": "https://iotanalytics.unsw.edu.au/mud/amazonEchoMud.json"},'
+        '{"manufacturer_name": "dorbellUnternehmen","model_name": null,"mud_url": "https://iotanalytics.unsw.edu.au/mud/augustdoorbellcamMud.json"}]';
     //print("Response code: " + response.statusCode.toString());
     //print(response.body);
 
     //if (response.statusCode == 200) {
     var jsonMudGuesses = jsonDecode(test) as List;
-    List<MudGuess> mudGuesssesTest =
+    List<MudGuess> mudGuessesTest =
         jsonMudGuesses.map((tagJson) => MudGuess.fromJson(tagJson)).toList();
+    mudGuessesTest.forEach((element) {
+      if(element.manufacturer_name == null){
+        element.manufacturer_name = "noInfo".tr().toString();
+      }
+      if(element.model_name == null){
+        element.model_name = "noInfo".tr().toString();
+      }
+    });
 
-    return mudGuesssesTest;
+    return mudGuessesTest;
 
     dynamic _handleTimeOut() {}
   }

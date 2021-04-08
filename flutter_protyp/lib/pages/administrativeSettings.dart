@@ -41,7 +41,7 @@ class _AdministrativeSettingsState extends State<AdministrativeSettings> {
                       collectData = true;
                     }
                   }
-                  bool allowSignup;
+                  bool allowSignup = false;
                   if (snapshot.data["AllowUserSignup"] != null) {
                     if ("true".compareTo(snapshot.data["AllowUserSignup"]) ==
                         0) {

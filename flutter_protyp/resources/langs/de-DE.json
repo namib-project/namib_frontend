@@ -110,5 +110,6 @@
   "disableSignup": "Registrieren deaktivieren",
   "collectData": "Möchten Sie, das wir im Hintergrund nach Daten über die Geräte in Ihrem Netzwerk sammeln?",
   "allowDataCollection": "Datensammeln erlauben",
-  "enableSignup": "Registrieren aktivieren"
+  "enableSignup": "Registrieren aktivieren",
+  "noInfo": "Keine Inforation"
 }
