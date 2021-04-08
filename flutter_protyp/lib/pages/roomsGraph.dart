@@ -212,34 +212,26 @@ class _RoomsGraphState extends State<RoomsGraph> {
     }
   }
 
-  Widget getRoomText(int i, Room room){
+  Widget getRooterText(){
+    return GestureDetector(
+      child: Container(
+          padding: EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(4),
+            boxShadow: [
+              BoxShadow(color: Colors.orange),
+            ],
+          ),
+          child: SvgPicture.asset(allClipArts[13],
+              semanticsLabel: 'phone', height: 35, width: 35)),
+    );
+  }
+
+
+  Widget getRoomText(Room room, List<Device> devices){
       return GestureDetector(
-          onLongPressStart: (details) {
-            var x = details.globalPosition.dx;
-            var y = details.globalPosition.dy;
-            Offset(x, y);
-          },
-          onPanStart: (details) {
-            var x = details.globalPosition.dx;
-            var y = details.globalPosition.dy;
-            setState(() {
-              builder.setFocusedNode(graph.getNodeAtPosition(i - 1));
-              graph.getNodeAtPosition(i - 1).position = Offset(x, y);
-            });
-          },
-          onPanUpdate: (details) {
-            var x = details.globalPosition.dx;
-            var y = details.globalPosition.dy;
-            setState(() {
-              builder.setFocusedNode(graph.getNodeAtPosition(i - 1));
-              graph.getNodeAtPosition(i - 1).position = Offset(x, y);
-            });
-          },
-          onPanEnd: (details) {
-            builder.setFocusedNode(null);
-          },
           child: Container(
-              padding: EdgeInsets.all(16),
+              padding: EdgeInsets.all(24),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4),
                 boxShadow: [
@@ -249,7 +241,7 @@ class _RoomsGraphState extends State<RoomsGraph> {
               child: Text(room.roomname)),
            onTap: () => Navigator.push(context,
                MaterialPageRoute(
-               builder: (context) => DevicesGraph(room: room),
+               builder: (context) => DevicesGraph(room: room, devices: devices),
             ),
            ),//("Node $i")),
       );
@@ -261,8 +253,8 @@ class _RoomsGraphState extends State<RoomsGraph> {
   @override
   void initState() {
     super.initState();
-    int i = 1;
-    final Node router = Node(getNodeText(i, null, "Router", 13));
+    final Node router = Node(getRooterText());
+
 
     _devices = widget.devices;
     for(Device d in _devices){
@@ -273,54 +265,9 @@ class _RoomsGraphState extends State<RoomsGraph> {
     _rooms.retainWhere((x) => _allRooms.remove(x.roomname));
 
     _rooms.forEach((Room r) {
-      final ExtNode room = new ExtNode(getRoomText(i, r));
-      i++;
+      final ExtNode room = new ExtNode(getRoomText(r, _devices));
       graph.addEdge(router, room, paint: Paint()..color = Colors.orange);
     });
-
-    //List<Node> roomNodes = new List();
-
-   //rooms.forEach((element) {
-   //  final Node room = new Node(getNodeText(i, null, element));
-   //  i++;
-   //  room.name = element;
-   //  graph.addEdge(router, room, paint: Paint()..color = Colors.orange);
-   //  roomNodes.add(room);
-   //});
-   //widget.devices.forEach((elementDevice) {
-   //  Node device = new Node(getNodeText(i, elementDevice));
-   //  i++;
-   //  roomNodes.forEach((elementRoom) {
-   //    if (elementRoom.name == elementDevice.room) {
-   //      graph.addEdge(elementRoom, device,
-   //          paint: Paint()..color = Colors.orange);
-   //    }
-   //  });
-   //});
-   //nt _deviceCount = widget.devices.length;
-   //for(int j = 0; j < _deviceCount; j++){
-   //  if(!rooms.contains(widget.devices[j])){
-   //    rooms.add(widget.devices[j].room);
-   //  }
-   //}
-   //int _roomCount = rooms.length;
-   //for(int j = 0; j < _roomCount; j++){
-   //  Node room = new Node(getNodeText(i, null, rooms[j]));
-   //  i++;
-   //  room.name = rooms[j];
-   //  graph.addEdge(router, room);
-   //  roomNodes.add(room);
-   //}
-   //int _roomNodes = roomNodes.length;
-   //for(int j = 0; j < _deviceCount; j++){
-   //  Node device = new Node(getNodeText(i, widget.devices[j]));
-   //  i++;
-   //  for(int k = 0; k < _roomNodes; k++){
-   //    if (roomNodes[k].name == widget.devices[j].room){
-   //      graph.addEdge(roomNodes[k], device);
-   //    }
-   //  }
-   //}
 
     builder = FruchtermanReingoldAlgorithm(iterations: 10000);
   }
