@@ -382,9 +382,11 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
           : widget.device.ipv4_addr,
       style: TextStyle(fontSize: 18),
     );
+
     var sizedBox1 = SizedBox(
       height: 20,
     );
+
     var selectableText3 = SelectableText(
       "lastinteraction".tr().toString() + ":",
       style: TextStyle(fontSize: 20),
@@ -424,6 +426,22 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
       sizedBox3,
     ];
 
+    if (widget.device.mac_addr != null) {
+      var selectableText7 = SelectableText(
+        'macAddress'.tr().toString() + ":",
+        style: TextStyle(fontSize: 20),
+      );
+      var selectableText8 = SelectableText(
+        widget.device.mac_addr,
+        style: TextStyle(fontSize: 18),
+        onTap: () {
+          _launchDocumentation();
+        },
+      );
+      list.add(selectableText7);
+      list.add(selectableText8);
+    }
+
     if (widget.device.mud_data.documentation != null) {
       var selectableText7 = SelectableText(
         'documentation'.tr().toString() + ":",
@@ -440,8 +458,10 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
       list.add(selectableText8);
     }
 
-    if(widget.device.mud_data.expiration != null){
-      var sizedBox = SizedBox(height: 20,);
+    if (widget.device.mud_data.expiration != null) {
+      var sizedBox = SizedBox(
+        height: 20,
+      );
       var selectableText9 = SelectableText(
         'expiration'.tr().toString() + ":",
         style: TextStyle(fontSize: 20),
@@ -455,8 +475,10 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
       list.add(selectableText10);
     }
 
-    if(widget.device.mud_data.last_update != null){
-      var sizedBox = SizedBox(height: 20,);
+    if (widget.device.mud_data.last_update != null) {
+      var sizedBox = SizedBox(
+        height: 20,
+      );
       var selectableText11 = SelectableText(
         'lastUpdate'.tr().toString() + ":",
         style: TextStyle(fontSize: 20),
@@ -470,8 +492,10 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
       list.add(selectableText12);
     }
 
-    if(widget.device.mud_data.mfg_name != null){
-      var sizedBox = SizedBox(height: 20,);
+    if (widget.device.mud_data.mfg_name != null) {
+      var sizedBox = SizedBox(
+        height: 20,
+      );
       var selectableText13 = SelectableText(
         'manufacturer'.tr().toString() + ":",
         style: TextStyle(fontSize: 20),
@@ -485,8 +509,10 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
       list.add(selectableText14);
     }
 
-    if(widget.device.mud_data.model_name != null){
-      var sizedBox = SizedBox(height: 20,);
+    if (widget.device.mud_data.model_name != null) {
+      var sizedBox = SizedBox(
+        height: 20,
+      );
       var selectableText15 = SelectableText(
         'model'.tr().toString() + ":",
         style: TextStyle(fontSize: 20),
@@ -500,8 +526,10 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
       list.add(selectableText16);
     }
 
-    if(widget.device.mud_data.systeminfo != null){
-      var sizedBox = SizedBox(height: 20,);
+    if (widget.device.mud_data.systeminfo != null) {
+      var sizedBox = SizedBox(
+        height: 20,
+      );
       var selectableText17 = SelectableText(
         'systeminfo'.tr().toString() + ":",
         style: TextStyle(fontSize: 20),
@@ -621,6 +649,23 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: widget.device.mac_addr != null
+                    ? [
+                        SelectableText(
+                          "macAddress".tr().toString() + ":",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        SelectableText(
+                          widget.device.mac_addr,
+                          style: TextStyle(fontSize: 18),
+                        )
+                      ]
+                    : [Container()]),
+            SizedBox(
+              height: 50,
+            ),
             SelectableText(
               "lastinteraction".tr().toString() + ":",
               style: TextStyle(fontSize: 20),

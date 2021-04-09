@@ -116,5 +116,6 @@
   "expiration": "Expiration",
   "lastUpdate": "Last update",
   "model": "Model",
-  "systeminfo": "System info"
+  "systeminfo": "System info",
+  "macAddress": "MAC address"
 }
