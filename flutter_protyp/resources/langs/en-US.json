@@ -110,5 +110,11 @@
   "collectData": "Do you want us to collect data about the devices in your network in the background?",
   "allowDataCollection": "Allow data collection",
   "enableSignup": "Enable signup",
-  "noInfo": "No information"
+  "noInfo": "No information",
+  "changeClipart": "Change clipart",
+  "changeRoom": "Change room",
+  "expiration": "Expiration",
+  "lastUpdate": "Last update",
+  "model": "Model",
+  "systeminfo": "System info"
 }

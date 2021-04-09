@@ -30,9 +30,6 @@ class _ChooseClipartState extends State<ChooseClipart> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: AppBar(
-        title: SelectableText(
-          'details'.tr().toString(),
-        ),
         actions: <Widget>[
           Padding(
             padding: mobileDevice
@@ -118,6 +115,7 @@ class _ChooseClipartState extends State<ChooseClipart> {
                   child: Container(
                     child: SvgPicture.asset(
                       clipArt,
+                      color: darkMode ? Colors.grey[500] : Colors.black,
                       semanticsLabel: 'phone',
                       height: 80,
                       width: 80,

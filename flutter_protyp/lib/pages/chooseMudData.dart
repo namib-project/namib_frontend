@@ -7,6 +7,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_protyp/data/device_mud/device.dart';
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart' as http;
 
 class ChooseMudData extends StatefulWidget {
   ChooseMudData({
@@ -35,19 +36,6 @@ class _ChooseMudDataState extends State<ChooseMudData> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: SelectableText(
-          'details'.tr().toString(),
-        ),
-        actions: <Widget>[
-          Padding(
-            padding: mobileDevice
-                ? EdgeInsets.fromLTRB(12, 5, 12, 12)
-                : EdgeInsets.fromLTRB(0, 5, 12, 12),
-            child: SettingsPopup(),
-          ),
-        ],
-      ),
       body: Center(
         child: Column(
           children: [
@@ -98,59 +86,52 @@ class _ChooseMudDataState extends State<ChooseMudData> {
   }
 
   Future<List<MudGuess>> getMudGuessList() async {
-    ///  String id = widget.device.id.toString();
-    ///  String mudGuessExtension = 'devices/$id/guesses';
-    ///
-    ///  print("kleiner test1");
-    ///  print(url + mudGuessExtension);
-    ///
-    ///  response = await http.get(url + mudGuessExtension, headers: {
-    ///    "Content-Type": "application/json",
-    ///    "Authorization": "Bearer $jwtToken"
-    ///  }).timeout(const Duration(seconds: 5), onTimeout: () {
-    ///    return _handleTimeOut();
-    ///  });
-    ///
-    ///  print("kleiner test");
-    ///  print(url + mudGuessExtension);
-    ///  print(response.statusCode);
-    ///  if (response.statusCode == 200) {
-    ///    var jsonMudGuessData = jsonDecode(response.body) as List;
-    ///    List<MudGuess> mudTest = jsonMudGuessData
-    ///        .map((tagJson) => MudGuess.fromJson(tagJson))
-    ///        .toList();
-    ///    return mudTest;
-    ///  } else {
-    ///    throw Exception("Failed to get Data");
-    ///  }
-    ///}
-    ///
-    ///
-    ///
-    ///
-    ///
+    // String id = widget.device.id.toString();
+    // String mudGuessExtension = 'devices/$id/guesses';
+    //
+    //
+    // response = await http.get(url + mudGuessExtension, headers: {
+    //   "Content-Type": "application/json",
+    //   "Authorization": "Bearer $jwtToken"
+    // }).timeout(const Duration(seconds: 5), onTimeout: () {
+    //   return null;
+    // });
+    //
+    // print("kleiner test");
+    // print(url + mudGuessExtension);
+    // print(response.statusCode);
+    // print(response.body);
+    //   if (response.statusCode == 200) {
+    //     var jsonMudGuessData = jsonDecode(response.body) as List;
+    //     List<MudGuess> mudTest = jsonMudGuessData
+    //         .map((tagJson) => MudGuess.fromJson(tagJson))
+    //         .toList();
+    //     return mudTest;
+    //   } else {
+    //     throw Exception("Failed to get Data");
+    //   }
+    // }
 
     String test =
         '[{"manufacturer_name": null,"model_name": "AmazonEcho","mud_url": "https://iotanalytics.unsw.edu.au/mud/amazonEchoMud.json"},'
         '{"manufacturer_name": "dorbellUnternehmen","model_name": null,"mud_url": "https://iotanalytics.unsw.edu.au/mud/augustdoorbellcamMud.json"}]';
-    //print("Response code: " + response.statusCode.toString());
-    //print(response.body);
 
     //if (response.statusCode == 200) {
-    var jsonMudGuesses = jsonDecode(test) as List;
-    List<MudGuess> mudGuessesTest =
-        jsonMudGuesses.map((tagJson) => MudGuess.fromJson(tagJson)).toList();
-    mudGuessesTest.forEach((element) {
-      if(element.manufacturer_name == null){
-        element.manufacturer_name = "noInfo".tr().toString();
-      }
-      if(element.model_name == null){
-        element.model_name = "noInfo".tr().toString();
-      }
-    });
+      //String _data = utf8.decode(response.bodyBytes);
+      var jsonMudGuesses = jsonDecode(test) as List;
+      List<MudGuess> mudGuessesTest =
+          jsonMudGuesses.map((tagJson) => MudGuess.fromJson(tagJson)).toList();
 
-    return mudGuessesTest;
+      mudGuessesTest.forEach((element) {
+        if (element.manufacturer_name == null) {
+          element.manufacturer_name = "noInfo".tr().toString();
+        }
+        if (element.model_name == null) {
+          element.model_name = "noInfo".tr().toString();
+        }
+      });
 
-    dynamic _handleTimeOut() {}
+      return mudGuessesTest;
+    //}
   }
 }

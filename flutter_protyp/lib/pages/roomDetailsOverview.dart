@@ -70,7 +70,6 @@ class _RoomDetailsOverviewState extends State<RoomDetailsOverview> {
             Navigator.pushReplacementNamed(context, "/editRoom");
           },
         ),
-        title: SelectableText("Details"),
         actions: <Widget>[
           Padding(
             padding: mobileDevice

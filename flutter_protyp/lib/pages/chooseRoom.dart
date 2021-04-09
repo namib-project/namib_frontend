@@ -36,19 +36,6 @@ class _ChooseRoomState extends State<ChooseRoom> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: SelectableText(
-          'details'.tr().toString(),
-        ),
-        actions: <Widget>[
-          Padding(
-            padding: mobileDevice
-                ? EdgeInsets.fromLTRB(12, 5, 12, 12)
-                : EdgeInsets.fromLTRB(0, 5, 12, 12),
-            child: SettingsPopup(),
-          ),
-        ],
-      ),
       body: Center(
         child: Column(
           children: [

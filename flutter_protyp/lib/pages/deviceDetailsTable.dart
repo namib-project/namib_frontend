@@ -177,7 +177,7 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
                         ),
                       ),
                       child: Text(
-                        "Clipart ändern",
+                        "changeClipart".tr().toString(),
                         style: TextStyle(fontSize: 20),
                       ),
                       onPressed: () {
@@ -201,7 +201,7 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
                         ),
                       ),
                       child: Text(
-                        "Raum ändern",
+                        "changeRoom".tr().toString(),
                         style: TextStyle(fontSize: 20),
                       ),
                       onPressed: () {
@@ -215,10 +215,7 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
                 SizedBox(
                   height: 20,
                 ),
-                // Column(children: mobileDevice
-                //     ? _mobileView()
-                //     : _desktopView()),
-                Column(children: _mobileView()),
+                Column(children: mobileDevice ? _mobileView() : _desktopView()),
                 SizedBox(
                   height: 40,
                 ),
@@ -376,7 +373,7 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
 
   List<Widget> _mobileView() {
     var selectableText1 = SelectableText(
-      "ipaddress".tr().toString(),
+      "ipaddress".tr().toString() + ":",
       style: TextStyle(fontSize: 20),
     );
     var selectableText2 = SelectableText(
@@ -389,7 +386,7 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
       height: 20,
     );
     var selectableText3 = SelectableText(
-      "lastinteraction".tr().toString(),
+      "lastinteraction".tr().toString() + ":",
       style: TextStyle(fontSize: 20),
     );
     var selectableText4 = SelectableText(
@@ -400,11 +397,12 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
       height: 20,
     );
     var selectableText5 = SelectableText(
-      "MUD URL: ",
+      "MUD URL:",
       style: TextStyle(fontSize: 20),
     );
     var selectableText6 = SelectableText(
       widget.device.mud_url,
+      textAlign: TextAlign.center,
       style: TextStyle(fontSize: 18),
       onTap: () {
         _launchMUDURL();
@@ -428,7 +426,7 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
 
     if (widget.device.mud_data.documentation != null) {
       var selectableText7 = SelectableText(
-        'documentation'.tr().toString(),
+        'documentation'.tr().toString() + ":",
         style: TextStyle(fontSize: 20),
       );
       var selectableText8 = SelectableText(
@@ -442,6 +440,274 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
       list.add(selectableText8);
     }
 
+    if(widget.device.mud_data.expiration != null){
+      var sizedBox = SizedBox(height: 20,);
+      var selectableText9 = SelectableText(
+        'expiration'.tr().toString() + ":",
+        style: TextStyle(fontSize: 20),
+      );
+      var selectableText10 = SelectableText(
+        widget.device.mud_data.expiration,
+        style: TextStyle(fontSize: 18),
+      );
+      list.add(sizedBox);
+      list.add(selectableText9);
+      list.add(selectableText10);
+    }
+
+    if(widget.device.mud_data.last_update != null){
+      var sizedBox = SizedBox(height: 20,);
+      var selectableText11 = SelectableText(
+        'lastUpdate'.tr().toString() + ":",
+        style: TextStyle(fontSize: 20),
+      );
+      var selectableText12 = SelectableText(
+        widget.device.mud_data.last_update,
+        style: TextStyle(fontSize: 18),
+      );
+      list.add(sizedBox);
+      list.add(selectableText11);
+      list.add(selectableText12);
+    }
+
+    if(widget.device.mud_data.mfg_name != null){
+      var sizedBox = SizedBox(height: 20,);
+      var selectableText13 = SelectableText(
+        'manufacturer'.tr().toString() + ":",
+        style: TextStyle(fontSize: 20),
+      );
+      var selectableText14 = SelectableText(
+        widget.device.mud_data.mfg_name,
+        style: TextStyle(fontSize: 18),
+      );
+      list.add(sizedBox);
+      list.add(selectableText13);
+      list.add(selectableText14);
+    }
+
+    if(widget.device.mud_data.model_name != null){
+      var sizedBox = SizedBox(height: 20,);
+      var selectableText15 = SelectableText(
+        'model'.tr().toString() + ":",
+        style: TextStyle(fontSize: 20),
+      );
+      var selectableText16 = SelectableText(
+        widget.device.mud_data.model_name,
+        style: TextStyle(fontSize: 18),
+      );
+      list.add(sizedBox);
+      list.add(selectableText15);
+      list.add(selectableText16);
+    }
+
+    if(widget.device.mud_data.systeminfo != null){
+      var sizedBox = SizedBox(height: 20,);
+      var selectableText17 = SelectableText(
+        'systeminfo'.tr().toString() + ":",
+        style: TextStyle(fontSize: 20),
+      );
+      var selectableText18 = SelectableText(
+        widget.device.mud_data.systeminfo,
+        style: TextStyle(fontSize: 18),
+      );
+      list.add(sizedBox);
+      list.add(selectableText17);
+      list.add(selectableText18);
+    }
+
+    return list;
+  }
+
+  List<Widget> _desktopView() {
+    var column1 = Expanded(
+        child: Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SelectableText(
+              "ipaddress".tr().toString() + ":",
+              style: TextStyle(fontSize: 20),
+            ),
+            SelectableText(
+              widget.device.ipv4_addr == null
+                  ? widget.device.ipv6_addr
+                  : widget.device.ipv4_addr,
+              style: TextStyle(fontSize: 18),
+            ),
+          ],
+        ),
+        SizedBox(
+          height: 50,
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SelectableText(
+              "MUD URL:",
+              style: TextStyle(fontSize: 20),
+            ),
+            SelectableText(
+              widget.device.mud_url,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 18),
+              onTap: () {
+                _launchMUDURL();
+              },
+            ),
+          ],
+        ),
+        Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: widget.device.mud_data.mfg_name != null
+                ? [
+                    SizedBox(
+                      height: 50,
+                    ),
+                    SelectableText(
+                      'manufacturer'.tr().toString() + ":",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    SelectableText(
+                      widget.device.mud_data.mfg_name,
+                      style: TextStyle(fontSize: 18),
+                    )
+                  ]
+                : [Container()]),
+        Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: widget.device.mud_data.model_name != null
+                ? [
+                    SizedBox(
+                      height: 50,
+                    ),
+                    SelectableText(
+                      'model'.tr().toString() + ":",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    SelectableText(
+                      widget.device.mud_data.model_name,
+                      style: TextStyle(fontSize: 18),
+                    )
+                  ]
+                : [Container()]),
+        Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: widget.device.mud_data.systeminfo != null
+                ? [
+                    SizedBox(
+                      height: 50,
+                    ),
+                    SelectableText(
+                      "systeminfo".tr().toString() + ":",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    SelectableText(
+                      widget.device.mud_data.systeminfo,
+                      style: TextStyle(fontSize: 18),
+                    )
+                  ]
+                : [Container()]),
+      ],
+    ));
+
+    var column2 = Expanded(
+        child: Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SelectableText(
+              "lastinteraction".tr().toString() + ":",
+              style: TextStyle(fontSize: 20),
+            ),
+            SelectableText(
+              widget.device.last_interaction,
+              style: TextStyle(fontSize: 18),
+            ),
+          ],
+        ),
+        Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: widget.device.mud_data.expiration != null
+                ? [
+                    SizedBox(
+                      height: 50,
+                    ),
+                    SelectableText(
+                      'expiration'.tr().toString() + ":",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    SelectableText(
+                      widget.device.mud_data.expiration,
+                      style: TextStyle(fontSize: 18),
+                    )
+                  ]
+                : [Container()]),
+        Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: widget.device.mud_data.last_update != null
+                ? [
+                    SizedBox(
+                      height: 50,
+                    ),
+                    SelectableText(
+                      'lastUpdate'.tr().toString() + ":",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    SelectableText(
+                      widget.device.mud_data.last_update,
+                      style: TextStyle(fontSize: 18),
+                    )
+                  ]
+                : [Container()]),
+        Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: widget.device.mud_data.documentation != null
+                ? [
+                    SizedBox(
+                      height: 50,
+                    ),
+                    SelectableText(
+                      'documentation'.tr().toString() + ":",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    SelectableText(
+                      widget.device.mud_data.documentation,
+                      style: TextStyle(fontSize: 18),
+                      onTap: () {
+                        _launchDocumentation();
+                      },
+                    )
+                  ]
+                : [Container()])
+      ],
+    ));
+
+    var row = Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        column1,
+        // SizedBox(
+        //   width: 200,
+        // ),
+        column2
+      ],
+    );
+
+    List<Widget> list = [
+      SizedBox(
+        height: 40,
+      ),
+      row,
+      SizedBox(
+        height: 30,
+      )
+    ];
     return list;
   }
 

@@ -51,9 +51,6 @@ class _ChooseMudDataDetailsState extends State<ChooseMudDataDetails> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: AppBar(
-        title: SelectableText(
-          'details'.tr().toString(),
-        ),
         actions: <Widget>[
           Padding(
             padding: mobileDevice

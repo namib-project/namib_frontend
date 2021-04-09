@@ -50,17 +50,6 @@ class _ChooseMudDataDetailsTableState extends State<ChooseMudDataDetailsTable> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // AppBar(
-      //   title: SelectableText("Details"),
-      //   actions: <Widget>[
-      //     Padding(
-      //       padding: mobileDevice
-      //           ? EdgeInsets.fromLTRB(12, 5, 12, 12)
-      //           : EdgeInsets.fromLTRB(0, 5, 12, 12),
-      //       child: SettingsPopup(),
-      //     ),
-      //   ],
-      // ),
       body: Center(
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
