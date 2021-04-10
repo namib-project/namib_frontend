@@ -1278,13 +1278,13 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
 
   void _changeRoom() {
     String _deviceId = widget.device.id.toString();
-    String _updateDeviceExtention = "devices/$_deviceId";
+    String _updateDeviceExtension = "devices/$_deviceId";
 
     Map<String, dynamic> data = {
       "room_id": _selectedRoom.id,
     };
     var response = http.put(
-      url + _updateDeviceExtention,
+      url + _updateDeviceExtension,
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer $jwtToken"
