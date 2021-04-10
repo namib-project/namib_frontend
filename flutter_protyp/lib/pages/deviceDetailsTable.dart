@@ -1260,8 +1260,6 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
                               onPressed: () {
                                 _changeRoom();
                                 Navigator.of(context).pop();
-
-                                forwardReset();
                               },
                             ),
                           ],
@@ -1293,6 +1291,7 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
       },
       body: jsonEncode(data),
     );
+    forwardReset();
   }
 
   Future _chooseClipartDialog(BuildContext context) {
