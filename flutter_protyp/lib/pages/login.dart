@@ -344,7 +344,7 @@ class _LoginState extends State<Login> {
 
   //Activates the login button if more then one character are in the username and password field
   void checkForLoginButton() {
-    if (_username.length > 1 && _password.length > 1) {
+    if (_username.length > 1 && _password.length > 7) {
       setState(() {
         loginButton = true;
       });

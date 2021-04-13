@@ -13,6 +13,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 class DeviceDetailsTable extends StatefulWidget {
   const DeviceDetailsTable({
@@ -671,7 +672,7 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
               style: TextStyle(fontSize: 20),
             ),
             SelectableText(
-              widget.device.last_interaction,
+              formatTimeAgo(widget.device.last_interaction),
               style: TextStyle(fontSize: 18),
             ),
           ],
@@ -688,7 +689,7 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
                       style: TextStyle(fontSize: 20),
                     ),
                     SelectableText(
-                      widget.device.mud_data.expiration,
+                      formatTimeAgo(widget.device.mud_data.expiration),
                       style: TextStyle(fontSize: 18),
                     )
                   ]
@@ -705,7 +706,7 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
                       style: TextStyle(fontSize: 20),
                     ),
                     SelectableText(
-                      widget.device.mud_data.last_update,
+                      formatTimeAgo(widget.device.mud_data.last_update),
                       style: TextStyle(fontSize: 18),
                     )
                   ]
@@ -754,6 +755,38 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
       )
     ];
     return list;
+  }
+
+  String formatTimeAgo(String time){
+    DateTime dateTime = DateTime.parse(time);
+    Duration diff = DateTime.now().difference(dateTime);
+
+    print(time);
+    print(diff.inDays);
+    if(diff.inDays >= 1){
+      return '${diff.inDays} ' + "daysAgo".tr().toString();
+    } else if(diff.inHours >= 1){
+      return '${diff.inHours} ' + "hoursAgo".tr().toString();
+    } else if(diff.inMinutes >= 1){
+      return '${diff.inMinutes} ' + "minutesAgo".tr().toString();
+    } else if (diff.inSeconds >= 1){
+      return '${diff.inSeconds} ' + "secondsAgo".tr().toString();
+    } else if(diff.inDays < 0) {
+      Duration positiveTime = diff.abs();
+      return "in".tr().toString() + ' ${positiveTime.inDays} ' + "days".tr().toString();
+    } else if(diff.inHours < 0) {
+      Duration positiveTime = diff.abs();
+      return "in".tr().toString() + ' ${positiveTime.inHours} ' + "hours".tr().toString();
+    }  else if(diff.inMinutes < 0) {
+      Duration positiveTime = diff.abs();
+      return "in".tr().toString() + ' ${positiveTime.inMinutes} ' + "minutes".tr().toString();
+    } else if(diff.inSeconds < 0) {
+      Duration positiveTime = diff.abs();
+      return "in".tr().toString() + ' ${positiveTime.inSeconds} ' + "seconds".tr().toString();
+    }
+    else {
+      return 'justNow'.tr().toString();
+    }
   }
 
   // This method launch the data to the profils, if it is not possible there will be thrown an error
