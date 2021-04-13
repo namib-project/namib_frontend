@@ -117,5 +117,15 @@
   "lastUpdate": "Last update",
   "model": "Model",
   "systeminfo": "System info",
-  "macAddress": "MAC address"
+  "macAddress": "MAC address",
+  "daysAgo": "day(s) ago",
+  "hoursAgo": "hour(s) ago",
+  "minutesAgo": "minute(s) ago",
+  "secondsAgo": "second(s) ago",
+  "justNow": "just now",
+  "days": "day(s)",
+  "in": "in",
+  "hours": "hour(s)",
+  "minutes": "minute(s)",
+  "seconds": "second(s)"
 }
