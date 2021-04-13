@@ -127,5 +127,6 @@
   "in": "in",
   "hours": "hour(s)",
   "minutes": "minute(s)",
-  "seconds": "second(s)"
+  "seconds": "second(s)",
+  "signUpForbidden" : "Registering is currently prohibited, contact your administrator"
 }

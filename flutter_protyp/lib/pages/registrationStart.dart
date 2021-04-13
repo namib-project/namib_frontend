@@ -35,7 +35,6 @@ class _RegistrationState extends State<RegistrationStart> {
   ///Variables for visibility of error messages
   bool errorMessage1 = false;
   bool errorMessage2 = false;
-  bool passwordMessage = false;
   bool regisButton = false;
   bool usernameMessage = false;
   bool networkMessage = false;
@@ -235,6 +234,17 @@ class _RegistrationState extends State<RegistrationStart> {
                                     errorMessage1 = false;
                                   });
                                 }
+                                if (_secPassword != _password &&
+                                    _secPassword.length > 7) {
+                                  //Show error message, if the first password input is not equal to the second input
+                                  setState(() {
+                                    errorMessage2 = true;
+                                  });
+                                } else {
+                                  setState(() {
+                                    errorMessage2 = false;
+                                  });
+                                }
                                 checkForRegistrationButton(); //Check, if all conditions for enabling registration button are true
                               });
                             },
@@ -292,12 +302,10 @@ class _RegistrationState extends State<RegistrationStart> {
                                   //Show error message, if the first password input is not equal to the second input
                                   setState(() {
                                     errorMessage2 = true;
-                                    passwordMessage = false;
                                   });
                                 } else {
                                   setState(() {
                                     errorMessage2 = false;
-                                    passwordMessage = true;
                                   });
                                 }
                                 checkForRegistrationButton(); //Check, if all conditions for enabling registration button are true
@@ -375,45 +383,45 @@ class _RegistrationState extends State<RegistrationStart> {
                           padding: EdgeInsets.all(0),
                           child: Container(
                             alignment: Alignment.center,
-                            child: ButtonTheme(
-                              minWidth: 300,
-                              height: 100,
-                              child: FlatButton(
-                                color: Color(0x00000000),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50),
-                                ),
-                                onPressed: regisButton
-                                    ? () async => {
-                                          response = await http
-                                              .post(url + signupExtension,
-                                                  headers: {
-                                                    "Content-Type":
-                                                        "application/json"
-                                                  },
-                                                  body: json.encode({
-                                                    "password": _password,
-                                                    "username": _username
-                                                  }))
-                                              .timeout(
-                                                  const Duration(seconds: 3),
-                                                  onTimeout: () {
-                                            return catchTimeout();
-                                          }),
-                                          _username = "",
-                                          _password = "",
-                                          _secPassword = "",
-                                          passwordMessage = false,
-                                          checkResponse(),
-                                        }
-                                    : null,
-                                child: Text(
-                                  "signup".tr().toString(),
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                            child: TextButton(
+                              style: ButtonStyle(
+                                  minimumSize: MaterialStateProperty.all(
+                                      Size(300.0, 100.0)),
+                                  backgroundColor: MaterialStateProperty.all(
+                                      Color(0x00000000)),
+                                  shape: MaterialStateProperty.all(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(50),
+                                    ),
+                                  )),
+                              onPressed: regisButton
+                                  ? () async => {
+                                        response = await http
+                                            .post(url + signupExtension,
+                                                headers: {
+                                                  "Content-Type":
+                                                      "application/json"
+                                                },
+                                                body: json.encode({
+                                                  "password": _password,
+                                                  "username": _username
+                                                }))
+                                            .timeout(const Duration(seconds: 3),
+                                                onTimeout: () {
+                                          return catchTimeout();
+                                        }),
+                                        _username = "",
+                                        _password = "",
+                                        _secPassword = "",
+                                        checkResponse(),
+                                      }
+                                  : null,
+                              child: Text(
+                                "signup".tr().toString(),
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
@@ -435,7 +443,6 @@ class _RegistrationState extends State<RegistrationStart> {
   dynamic catchTimeout() {
     setState(() {
       usernameMessage = false;
-      passwordMessage = false;
       networkMessage = true;
     });
     return null;
@@ -464,7 +471,6 @@ class _RegistrationState extends State<RegistrationStart> {
       setState(() {
         if (response.statusCode == 200) {
           usernameMessage = false;
-          passwordMessage = false;
           networkMessage = false;
 
           // Confirmation dialog
@@ -486,7 +492,7 @@ class _RegistrationState extends State<RegistrationStart> {
                       Container(
                         height: 70,
                         alignment: Alignment.center,
-                        child: FlatButton(
+                        child: TextButton(
                           onPressed: () {
                             Navigator.of(context).pop();
                             _forward();
@@ -501,11 +507,78 @@ class _RegistrationState extends State<RegistrationStart> {
                   ));
         } else if (response.statusCode == 500) {
           usernameMessage = true;
-          passwordMessage = false;
           networkMessage = false;
+        } else if (response.statusCode == 400) {
+          _forbiddenDialog(context);
         }
       });
     } on NoSuchMethodError {}
+  }
+
+  _forbiddenDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        // Here are displayed all cliparts to put devices in different classes
+        // At the end there ist a pop-up dialog to save or dismiss the changes
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return Center(
+              child: Theme(
+                data: ThemeData(
+                  brightness: darkMode ? Brightness.dark : Brightness.light,
+                  primaryColor: primaryColor,
+                  accentColor: primaryColor,
+                  hintColor: Colors.grey,
+                ),
+                child: AlertDialog(
+                  scrollable: true,
+                  contentPadding: EdgeInsets.all(20),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                  ),
+                  content: Container(
+                    width: 300,
+                    height: 150,
+                    child: Column(
+                      children: <Widget>[
+                        SelectableText(
+                          'signUpForbidden'.tr().toString(),
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 40,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            TextButton(
+                              child: Text(
+                                "OK",
+                                style: TextStyle(
+                                  color: buttonColor,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 
   // Is called after creating the user

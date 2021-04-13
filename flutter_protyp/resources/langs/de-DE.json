@@ -128,5 +128,6 @@
   "hours": "Stunde(n)",
   "minutes": "Minute(n)",
   "seconds": "Sekunde(n)",
-  "in": "in"
+  "in": "in",
+  "signUpForbidden": "Das Registrieren ist zur Zeit verboten, wenden Sie sich an Ihren Administrator"
 }
