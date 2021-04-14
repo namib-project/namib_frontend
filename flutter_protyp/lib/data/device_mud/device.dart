@@ -12,6 +12,7 @@ part 'device.g.dart';
 class Device {
   ///systeminfo = Gerätename, name = MUD-Name, software_rev = Software Version,
   String hostname,
+      name,
       type,
       ipv4_addr,
       ipv6_addr,
@@ -26,6 +27,7 @@ class Device {
 
   Device(
       this.hostname,
+      this.name,
       this.type,
       this.ipv4_addr,
       this.ipv6_addr,

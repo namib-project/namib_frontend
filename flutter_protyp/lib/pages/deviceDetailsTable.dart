@@ -13,7 +13,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
 
 class DeviceDetailsTable extends StatefulWidget {
   const DeviceDetailsTable({
@@ -57,6 +56,9 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
     size: 17,
   );
 
+  String _name;
+  String _newName;
+
   @override
   void initState() {
     super.initState();
@@ -65,6 +67,7 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
     _clipArtForDisplay = widget.device.clipart;
     _roomsForDisplay = widget.rooms;
     _sortRoomsForDisplay();
+    _name = widget.device.name;
 
     if (widget.device.room != null) {
       _selectedRoom = widget.device.room;
@@ -112,6 +115,46 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
                 ),
                 SizedBox(
                   height: 20,
+                ),
+
+                SelectableText(
+                  _name != null ? _name : "",
+                  style: TextStyle(fontSize: 25),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+
+                Visibility(
+                  //The error message shows, if networkError is true
+                  visible: adminAccess,
+                  child: Column(
+                    children: [
+                      Container(
+                        alignment: Alignment.center,
+                        height: 60,
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            minimumSize:
+                                MaterialStateProperty.all(Size(120, 50)),
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                              buttonColor,
+                            ),
+                          ),
+                          onPressed: () {
+                            _renameDialog();
+                          },
+                          child: Text(
+                            "rename".tr().toString(),
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      )
+                    ],
+                  ),
                 ),
 
                 Visibility(
@@ -757,34 +800,39 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
     return list;
   }
 
-  String formatTimeAgo(String time){
+  String formatTimeAgo(String time) {
     DateTime dateTime = DateTime.parse(time);
     Duration diff = DateTime.now().difference(dateTime);
 
-    print(time);
-    print(diff.inDays);
-    if(diff.inDays >= 1){
+    if (diff.inDays >= 1) {
       return '${diff.inDays} ' + "daysAgo".tr().toString();
-    } else if(diff.inHours >= 1){
+    } else if (diff.inHours >= 1) {
       return '${diff.inHours} ' + "hoursAgo".tr().toString();
-    } else if(diff.inMinutes >= 1){
+    } else if (diff.inMinutes >= 1) {
       return '${diff.inMinutes} ' + "minutesAgo".tr().toString();
-    } else if (diff.inSeconds >= 1){
+    } else if (diff.inSeconds >= 1) {
       return '${diff.inSeconds} ' + "secondsAgo".tr().toString();
-    } else if(diff.inDays < 0) {
+    } else if (diff.inDays < 0) {
       Duration positiveTime = diff.abs();
-      return "in".tr().toString() + ' ${positiveTime.inDays} ' + "days".tr().toString();
-    } else if(diff.inHours < 0) {
+      return "in".tr().toString() +
+          ' ${positiveTime.inDays} ' +
+          "days".tr().toString();
+    } else if (diff.inHours < 0) {
       Duration positiveTime = diff.abs();
-      return "in".tr().toString() + ' ${positiveTime.inHours} ' + "hours".tr().toString();
-    }  else if(diff.inMinutes < 0) {
+      return "in".tr().toString() +
+          ' ${positiveTime.inHours} ' +
+          "hours".tr().toString();
+    } else if (diff.inMinutes < 0) {
       Duration positiveTime = diff.abs();
-      return "in".tr().toString() + ' ${positiveTime.inMinutes} ' + "minutes".tr().toString();
-    } else if(diff.inSeconds < 0) {
+      return "in".tr().toString() +
+          ' ${positiveTime.inMinutes} ' +
+          "minutes".tr().toString();
+    } else if (diff.inSeconds < 0) {
       Duration positiveTime = diff.abs();
-      return "in".tr().toString() + ' ${positiveTime.inSeconds} ' + "seconds".tr().toString();
-    }
-    else {
+      return "in".tr().toString() +
+          ' ${positiveTime.inSeconds} ' +
+          "seconds".tr().toString();
+    } else {
       return 'justNow'.tr().toString();
     }
   }
@@ -825,6 +873,89 @@ class _DeviceDetailsTableState extends State<DeviceDetailsTable> {
           "Authorization": "Bearer $jwtToken"
         },
         body: jsonEncode(data));
+  }
+
+  void _renameDialog() {
+    showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18.0),
+            ),
+            content: Container(
+              width: 300,
+              height: 175,
+              child: Column(
+                children: [
+                  SelectableText("renameDisclaimer".tr().toString()),
+                  SizedBox(
+                    height: 40,
+                  ),
+                  TextField(
+                    cursorColor: Colors.grey,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'name'.tr().toString(),
+                    ),
+                    onChanged: (text) {
+                      _newName = text;
+                    },
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Buttons to accept or dismiss the changes like described above
+                      TextButton(
+                        child: Text(
+                          "cancel".tr().toString(),
+                          style: TextStyle(
+                            color: buttonColor,
+                            fontSize: 18,
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop(); // dismiss dialog
+                        },
+                      ),
+                      TextButton(
+                        child: Text(
+                          "save".tr().toString(),
+                          style: TextStyle(
+                            color: buttonColor,
+                            fontSize: 18,
+                          ),
+                        ),
+                        onPressed: () {
+                          Map<String, dynamic> data = {"name": _newName};
+                          String _urlExtension = "devices/${widget.device.id}";
+                          http.put(url + _urlExtension,
+                              headers: {
+                                "Content-Type": "application/json",
+                                "Authorization": "Bearer $jwtToken"
+                              },
+                              body: jsonEncode(data));
+                          setNewName(_newName);
+                          Navigator.of(context).pop(); // dismiss dialog
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  setNewName(String name){
+    setState(() {
+      _name = name;
+    });
   }
 
   void _resetDialog() {

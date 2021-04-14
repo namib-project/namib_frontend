@@ -128,5 +128,9 @@
   "hours": "hour(s)",
   "minutes": "minute(s)",
   "seconds": "second(s)",
-  "signUpForbidden" : "Registering is currently prohibited, contact your administrator"
+  "signUpForbidden" : "Registering is currently prohibited, contact your administrator",
+  "hostname": "Hostname",
+  "rename": "Rename",
+  "renameDisclaimer": "Choose a new name",
+  "chooseDeviceName": "Choose a device name"
 }

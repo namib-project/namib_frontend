@@ -52,6 +52,27 @@ class _IgnoredDevicesTableState extends State<IgnoredDevicesTable> {
                 SizedBox(
                   height: 50,
                 ),
+                TextButton.icon(
+                  style: ButtonStyle(
+                    minimumSize: MaterialStateProperty.all(Size(160, 60)),
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50.0))),
+                  ),
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(context, "/ignoredDeviceOverview");
+                  },
+                  label: Text(
+                    "reload".tr().toString(),
+                    style: TextStyle(color: buttonColor),
+                  ),
+                  icon: Icon(
+                    Icons.replay,
+                    color: buttonColor,
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
                 Container(
                   height: 50,
                   child: SelectableText(

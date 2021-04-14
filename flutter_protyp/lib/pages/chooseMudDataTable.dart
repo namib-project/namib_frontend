@@ -32,7 +32,6 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
 
   Device _newDevice;
 
-  var txt = TextEditingController();
 
   MudGuess _chosenMudGuess;
   bool _sortAscending = true;
@@ -44,6 +43,8 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
     FontAwesomeIcons.arrowDown,
     size: 17,
   );
+
+  String _name = "";
 
   @override
   void initState() {
@@ -113,33 +114,36 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
                                   height: 250,
                                   child: _listForMudData(context),
                                 ),
-                                // Container(
-                                //   height: 70,
-                                //   alignment: Alignment.center,
-                                //   child: SelectableText(
-                                //     'chooseDeviceName'.tr().toString(),
-                                //     style: TextStyle(
-                                //       fontFamily: "OpenSans",
-                                //       fontSize: 16,
-                                //     ),
-                                //   ),
-                                // ),
+                                Container(
+                                  height: 70,
+                                  alignment: Alignment.center,
+                                  child: SelectableText(
+                                    'chooseDeviceName'.tr().toString(),
+                                    style: TextStyle(
+                                      fontFamily: "OpenSans",
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
 
-                                /// Maybe add Option to choose Name for device
-                                // Container(
-                                //   height: 70,
-                                //   width: 350,
-                                //   alignment: Alignment.center,
-                                //   child: TextField(
-                                //     controller: txt,
-                                //     obscureText: false,
-                                //     cursorColor: Colors.grey,
-                                //     decoration: InputDecoration(
-                                //       border: OutlineInputBorder(),
-                                //       labelText: 'deviceName'.tr().toString(),
-                                //     ),
-                                //   ),
-                                // ),
+                                Container(
+                                  height: 70,
+                                  width: 350,
+                                  alignment: Alignment.center,
+                                  child: TextField(
+                                    obscureText: false,
+                                    cursorColor: Colors.grey,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(),
+                                      labelText: 'name'.tr().toString(),
+                                    ),
+                                    onChanged: (value){
+                                      setState(() {
+                                        _name = value;
+                                      });
+                                    },
+                                  ),
+                                ),
                                 _bottomButtons(),
                               ],
                             )
@@ -205,6 +209,7 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
                       {
                         _newDevice = widget.device,
                         _newDevice.mud_url = _chosenMudGuess.mud_url,
+                        _newDevice.name = _name,
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -347,7 +352,6 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
                 _chosenMudGuess == _mudGuessListForDisplay[index]
                     ? _chosenMudGuess = null
                     : _chosenMudGuess = _mudGuessListForDisplay[index];
-                txt.text = _mudGuessListForDisplay[index].model_name;
               });
             },
             child: Card(

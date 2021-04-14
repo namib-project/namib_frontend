@@ -9,6 +9,7 @@ part of 'device.dart';
 Device _$DeviceFromJson(Map<String, dynamic> json) {
   return Device(
     json['hostname'] as String,
+    json['name'] as String,
     json['type'] as String,
     json['ipv4_addr'] as String,
     json['ipv6_addr'] as String,
@@ -29,6 +30,7 @@ Device _$DeviceFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$DeviceToJson(Device instance) => <String, dynamic>{
       'hostname': instance.hostname,
+      'name': instance.name,
       'type': instance.type,
       'ipv4_addr': instance.ipv4_addr,
       'ipv6_addr': instance.ipv6_addr,

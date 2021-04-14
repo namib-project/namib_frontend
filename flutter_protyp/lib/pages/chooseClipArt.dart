@@ -180,6 +180,7 @@ class _ChooseClipartState extends State<ChooseClipart> {
       "clipart": _selectedClipArt,
       "mud_url": widget.device.mud_url,
       "room_id": widget.device.room.id,
+      "name": widget.device.name
     };
 
     response = await http.put(url + _deviceExtension,

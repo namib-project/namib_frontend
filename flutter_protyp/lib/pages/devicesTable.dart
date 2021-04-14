@@ -292,7 +292,7 @@ class _DevicesTableState extends State<DevicesTable> {
                           icon: _sortAscending ? _arrowUp : _arrowDown,
                         ),
                         Text(
-                          'name'.tr().toString(),
+                          'hostname'.tr().toString(),
                           style: TextStyle(
                             fontSize: 20,
                           ),
@@ -302,7 +302,7 @@ class _DevicesTableState extends State<DevicesTable> {
                   ),
                 ),
                 Text(
-                  'mud'.tr().toString(),
+                  'name'.tr().toString(),
                   style: TextStyle(
                     fontSize: 20,
                   ),
@@ -404,7 +404,7 @@ class _DevicesTableState extends State<DevicesTable> {
                       ),
                     ),
                     Text(
-                      d.mud_url,
+                      d.name,
                       style: TextStyle(
                         fontSize: 20,
                       ),
@@ -478,6 +478,12 @@ class _DevicesTableState extends State<DevicesTable> {
     for (Device d in _devicesCopy) {
       if (d.clipart == null) {
         d.clipart = allClipArts[0];
+      }
+    }
+
+    for (Device d in _devicesCopy) {
+      if (d.name == null) {
+        d.name = "";
       }
     }
 

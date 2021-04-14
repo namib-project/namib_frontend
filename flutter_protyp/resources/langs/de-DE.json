@@ -129,5 +129,9 @@
   "minutes": "Minute(n)",
   "seconds": "Sekunde(n)",
   "in": "in",
-  "signUpForbidden": "Das Registrieren ist zur Zeit verboten, wenden Sie sich an Ihren Administrator"
+  "signUpForbidden": "Das Registrieren ist zur Zeit verboten, wenden Sie sich an Ihren Administrator",
+  "hostname": "Hostname",
+  "rename": "Umbenennen",
+  "renameDisclaimer": "Wahlen Sie einen neuen Namen",
+  "chooseDeviceName": "Wählen Sie einen Gerätenamen"
 }
