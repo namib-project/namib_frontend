@@ -112,6 +112,7 @@
   "allowDataCollection": "Datensammeln erlauben",
   "enableSignup": "Registrieren aktivieren",
   "noInfo": "Keine Inforation",
+  "Benutzer verwalten": "Benutzer verwalten",
   "changeClipart": "Clipart ändern",
   "changeRoom": "Raum ändern",
   "expiration": "Ablaufdatum",
@@ -133,5 +134,6 @@
   "hostname": "Hostname",
   "rename": "Umbenennen",
   "renameDisclaimer": "Wahlen Sie einen neuen Namen",
-  "chooseDeviceName": "Wählen Sie einen Gerätenamen"
+  "chooseDeviceName": "Wählen Sie einen Gerätenamen",
+  "newUser": "Neuen Nutzer anlegen"
 }

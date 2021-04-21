@@ -9,19 +9,16 @@ part of 'user.dart';
 User _$UserFromJson(Map<String, dynamic> json) {
   return User(
     json['username'] as String,
-    json['userIDs'] as int,
-    json['roles'] as List,
-    json['permissionsList'] as List,
-    json['user'] as bool,
-    json['admin'] as bool,
+    json['user_id'] as int,
+    (json['roles'] as List)
+        ?.map(
+            (e) => e == null ? null : Roles.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
   );
 }
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'username': instance.username,
-      'userIDs': instance.userIDs,
-      'roles': instance.roles,
-      'permissionsList': instance.permissionsList,
-      'user': instance.user,
-      'admin': instance.admin,
+      'user_id': instance.user_id,
+      'roles': instance.roles?.map((e) => e?.toJson())?.toList(),
     };

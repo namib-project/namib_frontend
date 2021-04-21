@@ -12,7 +12,6 @@ import 'package:flutter_protyp/pages/registration.dart';
 import 'package:flutter_protyp/pages/startService.dart';
 import 'package:flutter_protyp/pages/manageUser.dart';
 import 'package:flutter_protyp/pages/userManagement.dart';
-import 'package:flutter_protyp/pages/userProfile.dart';
 import 'package:flutter_protyp/widgets/theme.dart';
 import 'package:provider/provider.dart';
 import "package:flutter_protyp/widgets/constant.dart";
@@ -77,7 +76,6 @@ class MaterialAppWithTheme extends StatelessWidget {
           "/ignoredDeviceOverview": (context) => IgnoredDeviceOverview(),
           "/editRoom": (context) => EditRoom(),
           "/dummie": (context) => Dummy(),
-          "/userProfile": (context) => UserProfile(),
           "/administrativeSettings" : (context) => AdministrativeSettings()
         });
   }

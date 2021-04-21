@@ -29,8 +29,8 @@ class _UserManagementState extends State<UserManagement> {
   void initState() {
     super.initState();
     //getUsers();
-    getSpecificUser();
-    //users = getUsers();
+    //getSpecificUser();
+    users = getUsers();
   }
 
   @override
@@ -56,7 +56,7 @@ class _UserManagementState extends State<UserManagement> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
                             SelectableText("wentWrongError".tr().toString()),
-                            RaisedButton(
+                            ElevatedButton(
                                 child: Text("reload".tr().toString()),
                                 onPressed: () {
                                   Navigator.pushReplacementNamed(
@@ -95,7 +95,7 @@ class _UserManagementState extends State<UserManagement> {
   // TODO: Embedding the userhandling
 // Function to get the users-list from controller
   Future<List<User>> getUsers() async {
-    String usersExtension = 'management/users';
+    String usersExtension = 'management/users/';
     var _response = await http.get(url + usersExtension,
         headers: {
           "Content-Type": "application/json",
@@ -103,13 +103,11 @@ class _UserManagementState extends State<UserManagement> {
         }).timeout(const Duration(seconds: 5), onTimeout: () {
       return _handleTimeOut();
     });
-
     if (_response.statusCode == 200) {
-      print(json.decode(_response.body));
-      String test =
-          '[{"username":"manfred", "admin":true, "user": true},{"username":"gertrud", "admin":false, "user":true}]';
+      String _data = utf8.decode(_response.bodyBytes);
+      print(json.decode(_data));
 
-      var jdecode = jsonDecode(test) as List;
+      var jdecode = jsonDecode(_data) as List;
       List<User> mudServObjs =
       jdecode.map((tagJson) => User.fromJson(tagJson)).toList();
       return mudServObjs;

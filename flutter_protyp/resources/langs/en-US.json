@@ -110,6 +110,7 @@
   "collectData": "Do you want us to collect data about the devices in your network in the background?",
   "allowDataCollection": "Allow data collection",
   "enableSignup": "Enable signup",
+  "Benutzer verwalten": "User management",
   "noInfo": "No information",
   "changeClipart": "Change clipart",
   "changeRoom": "Change room",
@@ -132,5 +133,7 @@
   "hostname": "Hostname",
   "rename": "Rename",
   "renameDisclaimer": "Choose a new name",
-  "chooseDeviceName": "Choose a device name"
+  "chooseDeviceName": "Choose a device name",
+  "newUser": "Create new user"
+
 }

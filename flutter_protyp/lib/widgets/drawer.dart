@@ -68,15 +68,6 @@ class _MainDrawerState extends State<MainDrawer> {
               onTap: () =>
                   {Navigator.pushReplacementNamed(context, "/editRoom")},
             ),
-            Visibility(
-              visible: adminAccess,
-              child: CustomListTile(
-                icon: Icons.person_add,
-                text: "signup".tr().toString(),
-                onTap: () =>
-                    {Navigator.pushReplacementNamed(context, "/registration")},
-              ),
-            ),
 
             CustomListTile(
               icon: Icons.settings_applications,
@@ -87,15 +78,15 @@ class _MainDrawerState extends State<MainDrawer> {
               },
             ),
 
-           //  Visibility(
-           //    visible: adminAccess,
-           //    child:  CustomListTile(
-           //      icon: Icons.group,
-           //      text: "userManagement".tr().toString(),
-           //      onTap: () =>
-           //      {Navigator.pushReplacementNamed(context, "/userManagement")},
-           //    ),
-           //  ),
+             Visibility(
+               visible: adminAccess,
+               child:  CustomListTile(
+                 icon: Icons.group,
+                 text: "userManagement".tr().toString(),
+                 onTap: () =>
+                 {Navigator.pushReplacementNamed(context, "/userManagement")},
+               ),
+             ),
 
 
 
