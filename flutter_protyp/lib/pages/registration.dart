@@ -9,6 +9,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
+enum SingingCharacter { lafayette, jefferson }
+
 // This method is for the system-administrator to create a user
 
 class Registration extends StatefulWidget {
@@ -43,10 +45,16 @@ class _RegistrationState extends State<Registration> {
   bool networkMessage = false;
 
   ///Test for http client
-  String signupExtension = "users/signup";
+  String signupExtension = "management/users/";
 
   /// Stores the response from the controller
   var response;
+
+
+  bool _admin = false;
+  bool _user = false;
+  List _roleID =  [];
+
 
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -56,12 +64,6 @@ class _RegistrationState extends State<Registration> {
           child: Container(
         height: double.infinity,
         //Context will appear smaller on mobile devices
-        child: SingleChildScrollView(
-          physics: AlwaysScrollableScrollPhysics(),
-          padding: EdgeInsets.symmetric(
-            horizontal: 0,
-            vertical: 120,
-          ),
           child: SingleChildScrollView(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -75,7 +77,7 @@ class _RegistrationState extends State<Registration> {
                         height: 70,
                         alignment: Alignment.center,
                         child: SelectableText(
-                          "signup".tr().toString(),
+                          "newUser".tr().toString(),
                           style: TextStyle(
                             fontFamily: "OpenSans",
                             fontSize: 30,
@@ -204,6 +206,7 @@ class _RegistrationState extends State<Registration> {
                           },
                         ),
                       ),
+
                       Visibility(
                         //The error message shows, if errorMessage2 is true
                         visible: errorMessage2,
@@ -243,7 +246,40 @@ class _RegistrationState extends State<Registration> {
                       SizedBox(
                         height: 15,
                       ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          SelectableText("roles".tr().toString() + ":"),
+                          Row(
+                            children: [
+                              SelectableText("Admin"),
+                              Checkbox(
+                                activeColor: buttonColor,
+                                value: _admin,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    _admin = value;
+                                  });
+                                },
+                              )
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              SelectableText("user".tr().toString()),
+                              Checkbox(
+                                  activeColor: buttonColor,
+                                  value: _user,
+                                  onChanged: (bool value) {
+                                    setState(() {
+                                      _user = value;
+                                    });
+                                  })
+                            ],
+                          ),
 
+                        ],
+                      ),
                       // This container contains the logic to register the new user
                       // also with the http logic
                       Container(
@@ -260,14 +296,23 @@ class _RegistrationState extends State<Registration> {
                               //Button is enabled if regisButton is true
                               onPressed: regisButton
                                   ? () async => {
-                                        response = await http
+
+                                if(_admin == true){
+                                _roleID.add(0)
+                                }else if (_admin == false && _user == true )
+                                  {
+                                   _roleID.add(1)
+                                  },
+
+                                response = await http
                                             .post(url + signupExtension,
-                                                headers: {
-                                                  "Content-Type":
-                                                      "application/json"
-                                                },
+                                            headers: {
+                                              "Content-Type": "application/json",
+                                              "Authorization": "Bearer $jwtToken"
+                                            },
                                                 body: json.encode({
                                                   "password": _password,
+                                                  "roles_ids": _roleID,
                                                   "username": _username
                                                 }))
                                             .timeout(const Duration(seconds: 3),
@@ -279,6 +324,7 @@ class _RegistrationState extends State<Registration> {
                                         _secPassword = "",
                                         passwordMessage = false,
                                         checkResponse(),
+                                print(response.statusCode),
                                       }
                                   : null,
                               child: Text(
@@ -295,7 +341,7 @@ class _RegistrationState extends State<Registration> {
               ],
             ),
           ),
-        ),
+
       )),
     );
   }
@@ -316,7 +362,9 @@ class _RegistrationState extends State<Registration> {
         errorMessage1 == false &&
         errorMessage2 == false &&
         _password.length > 7 &&
-        _secPassword.length > 1) {
+        _secPassword.length > 1 &&
+        (_admin == false || _user == false)
+    ) {
       setState(() {
         regisButton = true;
       });
@@ -359,6 +407,7 @@ class _RegistrationState extends State<Registration> {
                         child: TextButton(
                           onPressed: () {
                             Navigator.of(context).pop();
+
                             _forwarding();
                           },
                           child: Text(
@@ -383,3 +432,4 @@ class _RegistrationState extends State<Registration> {
     Navigator.pushReplacementNamed(context, "/userManagement");
   }
 }
+

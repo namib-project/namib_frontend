@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'package:flutter_protyp/data/roles.dart';
+import 'package:flutter_protyp/pages/userManagement.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +8,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_protyp/data/user.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:linkable/constants.dart';
+import 'package:http/http.dart' as http;
 
 // This class builds the users-table to edit
 
@@ -31,6 +36,7 @@ class UsersTableState extends State<UsersTable> {
     FontAwesomeIcons.arrowDown,
     size: 17,
   );
+
 
   @override
   void initState() {
@@ -73,10 +79,17 @@ class UsersTableState extends State<UsersTable> {
                       child: (widget.users != null && widget.users.length != 0)
                           ? Column(
                               children: <Widget>[
+                                TextButton(
+                                  child: Text("newUser".tr().toString()),
+                                  onPressed:() {
+                                      _createUserDialog(context);
+                                  },
+                                ),
                                 _searchBar(),
                                 _listHeader(),
+
                                 Container(
-                                  height: 250,
+                                  height: 80.0 * _usersForDisplay.length,
                                   child: _listForUsers(context),
                                 )
                               ],
@@ -225,6 +238,7 @@ class UsersTableState extends State<UsersTable> {
                     IconButton(
                       onPressed: () {
                         _editUserRoleDialog(context, _usersForDisplay[index]);
+                        //get specific
                       },
                       icon: Icon(
                         FontAwesomeIcons.edit,
@@ -234,6 +248,8 @@ class UsersTableState extends State<UsersTable> {
                     IconButton(
                       onPressed: () {
                         _deleteUserDialog(context, _usersForDisplay[index]);
+
+
                       },
                       icon: Icon(
                         FontAwesomeIcons.trash,
@@ -263,6 +279,7 @@ class UsersTableState extends State<UsersTable> {
 
   // This dialog will appear, if you need to delete a user
   void _deleteUserDialog(BuildContext context, User user) {
+
     showDialog(
         context: context,
         barrierDismissible: true,
@@ -313,8 +330,6 @@ class UsersTableState extends State<UsersTable> {
                           ),
                           onPressed: () {
                             _deleteUser(user);
-
-                            // TODO: see if it shows on Overview else Overview has to be loaded again
                             Navigator.of(context).pop(); // dismiss dialog
                           },
                         ),
@@ -330,6 +345,22 @@ class UsersTableState extends State<UsersTable> {
 
   // This dialog will appear, if you need to edit a user-role
   void _editUserRoleDialog(BuildContext context, User user) {
+
+    bool _admin = false;
+    bool _user = false;
+
+    if(user.roles != null )
+      {
+        for (Roles r in user.roles )
+          {
+            if(r.name == "admin"){
+              _admin = true;
+            }else if(r.name == "reader") {
+              _user = true;
+            }
+          }
+      }
+      ;
     showDialog(
         context: context,
         barrierDismissible: true,
@@ -384,10 +415,10 @@ class UsersTableState extends State<UsersTable> {
                                 SelectableText("Admin"),
                                 Checkbox(
                                   activeColor: buttonColor,
-                                  value: user.admin,
+                                  value: _admin,
                                   onChanged: (bool value) {
                                     setState(() {
-                                      user.admin = value;
+                                      _admin = value;
                                     });
                                   },
                                 )
@@ -398,14 +429,15 @@ class UsersTableState extends State<UsersTable> {
                                 SelectableText("user".tr().toString()),
                                 Checkbox(
                                     activeColor: buttonColor,
-                                    value: user.user,
+                                    value: _user,
                                     onChanged: (bool value) {
                                       setState(() {
-                                        user.user = value;
+                                  _user = value;
                                       }); //TODO erst übernehmen wenn save drücken
                                     })
                               ],
-                            )
+                            ),
+
                           ],
                         ),
                         SizedBox(
@@ -434,9 +466,8 @@ class UsersTableState extends State<UsersTable> {
                                 ),
                               ),
                               onPressed: () {
-                                //TODO http request to update roles of user
                                 Navigator.of(context).pop(); // dismiss dialog
-                                _saveChanges();
+                                _saveChanges(user.user_id,_admin,_user, user);
                               },
                             ),
                           ],
@@ -452,12 +483,59 @@ class UsersTableState extends State<UsersTable> {
   }
 
   // This method is called after the changes are made
-  void _saveChanges() {
+  void _saveChanges(int _userID, bool _admin, bool _user, User user ) async {
     Navigator.pushReplacementNamed(context, "/userManagement");
+    int _roleID;
+
+    int idtest = user.user_id;
+
+
+    if (_admin == true ){
+      _roleID = 0;
+    }else if ( _user == true && _admin == false)
+      {
+        _roleID = 1;
+      }
+
+String rolesExtension = "roles/assign";
+
+var _respopnseRoles = await http.post(url + rolesExtension,
+    headers: {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer $jwtToken"
+    },
+  body: json.encode( {
+   'role_id': _roleID,
+    'user_id': idtest
+  })
+  ).timeout(const Duration(seconds: 7),
+    onTimeout: () {
+      return _handleTimeOut();
+    });
+
+    print(_respopnseRoles.statusCode);
+    print(_respopnseRoles.body);
+
   }
 
   // This method is called after the user was deleted
-  void _deleteUser(User user) {
+  void _deleteUser(User user) async {
+
+    int userIDForRequest = user.user_id;
+
+    String deleteUserExtension = 'management/users/$userIDForRequest';
+    var _responseDelete = await http.delete(url + deleteUserExtension,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $jwtToken"
+        },
+    );
     Navigator.pushReplacementNamed(context, "/userManagement");
   }
 }
+
+  void _createUserDialog(BuildContext context) {
+    Navigator.pushReplacementNamed(context, "/registration");
+  }
+
+dynamic _handleTimeOut() {}
