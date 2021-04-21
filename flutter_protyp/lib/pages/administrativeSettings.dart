@@ -4,7 +4,6 @@ import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:linkable/linkable.dart';
 import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -17,6 +16,8 @@ class AdministrativeSettings extends StatefulWidget {
 }
 
 class _AdministrativeSettingsState extends State<AdministrativeSettings> {
+
+  /// Future map for holding data
   Future<Map<String, dynamic>> globaleConfigs;
 
   @override
@@ -30,6 +31,7 @@ class _AdministrativeSettingsState extends State<AdministrativeSettings> {
       appBar: MainAppbar(),
       drawer: MainDrawer(),
       body: Center(
+        // FutureBuilder for building the page with future values
           child: FutureBuilder<Map<String, dynamic>>(
               future: globaleConfigs,
               builder: (context, snapshot) {
@@ -81,6 +83,7 @@ class _AdministrativeSettingsState extends State<AdministrativeSettings> {
                                   SizedBox(
                                     height: 25,
                                   ),
+                                  //TODO geplante Einstellung bisher noch nicht integriert
                                   // Linkable(
                                   //     textAlign: TextAlign.center,
                                   //     textColor: darkMode
@@ -120,7 +123,7 @@ class _AdministrativeSettingsState extends State<AdministrativeSettings> {
                                   SizedBox(
                                     height: 10,
                                   ),
-                                  Transform.scale(
+                                  Transform.scale( // Transform widget for sizing of the checkboxes
                                       scale: 1.5,
                                       child: Checkbox(
                                           value: allowSignup != null
@@ -146,7 +149,7 @@ class _AdministrativeSettingsState extends State<AdministrativeSettings> {
                                   SizedBox(
                                     height: 10,
                                   ),
-                                  Transform.scale(
+                                  Transform.scale( // Transform widget for sizing of the checkboxes
                                       scale: 1.5,
                                       child: Checkbox(
                                           value: collectData,
@@ -190,10 +193,10 @@ class _AdministrativeSettingsState extends State<AdministrativeSettings> {
     );
   }
 
+
+  // This function fetches the data of the globale config variables CollectDeviceData and AllowUserSignup from controller
   Future<Map<String, dynamic>> fetchGlobaleConfigs() async {
     String collectDeviceExtension = "config?keys=CollectDeviceData";
-
-    /// CollectDeviceData AllowUserSignup
 
     var collectResponse = await http.get(url + collectDeviceExtension,
         headers: {
@@ -214,14 +217,14 @@ class _AdministrativeSettingsState extends State<AdministrativeSettings> {
       data.addAll(jsonDecode(allowSignupResponse.body));
       return data;
     }
-
     return null;
   }
 
+  // This function updates the value of AllowUserSignup at controller
   void updateAllowSignupValue(bool value) async {
     String allowSignupExtension = "config?keys=AllowUserSignup";
     Map<String, dynamic> _data = {"AllowUserSignup": value.toString()};
-    var response = await http.patch(url + allowSignupExtension,
+    await http.patch(url + allowSignupExtension,
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Bearer $jwtToken"
@@ -230,10 +233,11 @@ class _AdministrativeSettingsState extends State<AdministrativeSettings> {
     Navigator.pushReplacementNamed(context, "/administrativeSettings");
   }
 
+  // This function updates the value of CollectDeviceData at controller
   void updateCollectDeviceDataValue(bool value) async {
     String allowSignupExtension = "config?keys=CollectDeviceData";
     Map<String, dynamic> _data = {"CollectDeviceData": value.toString()};
-    var response = await http.patch(url + allowSignupExtension,
+    await http.patch(url + allowSignupExtension,
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Bearer $jwtToken"
