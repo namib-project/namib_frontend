@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_protyp/data/device_mud/device.dart';
 import 'package:flutter_protyp/data/device_mud/room.dart';
-import 'package:flutter_protyp/pages/deviceDetails.dart';
+import 'package:flutter_protyp/pages/deviceDetailsBuilder.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -354,7 +354,7 @@ class _DevicesTableState extends State<DevicesTable> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => DeviceDetails(
+                  builder: (context) => DeviceDetailsBuilder(
                     id: d.id,
                   ),
                 ),

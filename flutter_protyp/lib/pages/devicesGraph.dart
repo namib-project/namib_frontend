@@ -7,7 +7,7 @@ import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:graphview/GraphView.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'deviceDetails.dart';
+import 'deviceDetailsBuilder.dart';
 
 // This class implements the functions to generate the devices-graph
 
@@ -126,7 +126,7 @@ class _DevicesGraphState extends State<DevicesGraph> {
         onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => DeviceDetails(id: device.id,),
+            builder: (context) => DeviceDetailsBuilder(id: device.id,),
           ),
         ), //("Node $i")),
       );
