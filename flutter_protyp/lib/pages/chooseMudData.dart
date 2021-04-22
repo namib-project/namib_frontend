@@ -47,26 +47,31 @@ class _ChooseMudDataState extends State<ChooseMudData> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return Expanded(
-                      child: ChooseMudDataTable(
-                    mudGuessList: snapshot.data,
-                    device: widget.device,
-                  ));
+                    child: ChooseMudDataTable(
+                      mudGuessList: snapshot.data,
+                      device: widget.device,
+                    ),
+                  );
                 } else if (snapshot.hasError) {
                   // If the process failed this message returns
                   print(snapshot.error);
                   return Container(
                     width: 600,
                     child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          SelectableText("wentWrongError".tr().toString()),
-                          ElevatedButton(
-                              child: Text("reload".tr().toString()),
-                              onPressed: () {
-                                Navigator.pushReplacementNamed(
-                                    context, "/chooseRoom");
-                              })
-                        ]),
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        SelectableText("wentWrongError".tr().toString()),
+                        ElevatedButton(
+                          child: Text(
+                            "reload".tr().toString(),
+                          ),
+                          onPressed: () {
+                            Navigator.pushReplacementNamed(
+                                context, "/chooseRoom");
+                          },
+                        )
+                      ],
+                    ),
                   );
                 }
                 // By default, show a loading spinner.
@@ -112,26 +117,28 @@ class _ChooseMudDataState extends State<ChooseMudData> {
     //   }
     // }
 
+    // TODO: here the real function has to be implemented when working
+
     String test =
         '[{"manufacturer_name": null,"model_name": "AmazonEcho","mud_url": "https://iotanalytics.unsw.edu.au/mud/amazonEchoMud.json"},'
         '{"manufacturer_name": "dorbellUnternehmen","model_name": null,"mud_url": "https://iotanalytics.unsw.edu.au/mud/augustdoorbellcamMud.json"}]';
 
     //if (response.statusCode == 200) {
-      //String _data = utf8.decode(response.bodyBytes);
-      var jsonMudGuesses = jsonDecode(test) as List;
-      List<MudGuess> mudGuessesTest =
-          jsonMudGuesses.map((tagJson) => MudGuess.fromJson(tagJson)).toList();
+    //String _data = utf8.decode(response.bodyBytes);
+    var jsonMudGuesses = jsonDecode(test) as List;
+    List<MudGuess> mudGuessesTest =
+        jsonMudGuesses.map((tagJson) => MudGuess.fromJson(tagJson)).toList();
 
-      mudGuessesTest.forEach((element) {
-        if (element.manufacturer_name == null) {
-          element.manufacturer_name = "noInfo".tr().toString();
-        }
-        if (element.model_name == null) {
-          element.model_name = "noInfo".tr().toString();
-        }
-      });
+    mudGuessesTest.forEach((element) {
+      if (element.manufacturer_name == null) {
+        element.manufacturer_name = "noInfo".tr().toString();
+      }
+      if (element.model_name == null) {
+        element.model_name = "noInfo".tr().toString();
+      }
+    });
 
-      return mudGuessesTest;
+    return mudGuessesTest;
     //}
   }
 }

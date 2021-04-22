@@ -60,14 +60,18 @@ class _ChooseMudDataDetailsTableState extends State<ChooseMudDataDetailsTable> {
                   height: 30,
                 ),
                 SelectableText(
-                  widget.mudData.systeminfo == null ? "" : widget.mudData.systeminfo,
+                  widget.mudData.systeminfo == null
+                      ? ""
+                      : widget.mudData.systeminfo,
                   style: TextStyle(
                     fontSize: 25,
                   ),
                 ),
-                SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
                 SelectableText(
-                widget.mudData.url,
+                  widget.mudData.url,
                   style: TextStyle(
                     fontSize: 25,
                   ),
@@ -258,21 +262,29 @@ class _ChooseMudDataDetailsTableState extends State<ChooseMudDataDetailsTable> {
   _generateDnsList() {
     _aclListCopy = [];
     if (widget.mudData.acl_override.isEmpty) {
-      widget.mudData.acllist.forEach((aclElement) {
-        aclElement.ace.forEach((aceElement) {
-          if (aceElement.matches.dnsname != null) {
-            _aclListCopy.add(aceElement.matches.dnsname);
-          }
-        });
-      });
+      widget.mudData.acllist.forEach(
+        (aclElement) {
+          aclElement.ace.forEach(
+            (aceElement) {
+              if (aceElement.matches.dnsname != null) {
+                _aclListCopy.add(aceElement.matches.dnsname);
+              }
+            },
+          );
+        },
+      );
     } else {
-      widget.mudData.acl_override.forEach((aclElement) {
-        aclElement.ace.forEach((aceElement) {
-          if (aceElement.matches.dnsname != null) {
-            _aclListCopy.add(aceElement.matches.dnsname);
-          }
-        });
-      });
+      widget.mudData.acl_override.forEach(
+        (aclElement) {
+          aclElement.ace.forEach(
+            (aceElement) {
+              if (aceElement.matches.dnsname != null) {
+                _aclListCopy.add(aceElement.matches.dnsname);
+              }
+            },
+          );
+        },
+      );
     }
     _aclListCopy = _aclListCopy.toSet().toList();
     _aclListForDisplay = List.from(_aclListCopy);
@@ -298,29 +310,29 @@ class _ChooseMudDataDetailsTableState extends State<ChooseMudDataDetailsTable> {
                   iconSize: 30,
                   onPressed: () {
                     showDialog(
-                        context: context,
-                        barrierDismissible: true,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text("explanation".tr().toString()),
-                            content:
-                                Text("explanationDNSNames".tr().toString()),
-                            actions: [
-                              TextButton(
-                                child: Text(
-                                  "Ok!",
-                                  style: TextStyle(
-                                    color: buttonColor,
-                                    fontSize: 18,
-                                  ),
+                      context: context,
+                      barrierDismissible: true,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text("explanation".tr().toString()),
+                          content: Text("explanationDNSNames".tr().toString()),
+                          actions: [
+                            TextButton(
+                              child: Text(
+                                "Ok!",
+                                style: TextStyle(
+                                  color: buttonColor,
+                                  fontSize: 18,
                                 ),
-                                onPressed: () {
-                                  Navigator.of(context).pop(); // dismiss dialog
-                                },
-                              )
-                            ],
-                          );
-                        });
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop(); // dismiss dialog
+                              },
+                            )
+                          ],
+                        );
+                      },
+                    );
                   },
                 )
               : MouseRegion(

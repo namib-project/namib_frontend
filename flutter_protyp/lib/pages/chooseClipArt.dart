@@ -150,19 +150,20 @@ class _ChooseClipartState extends State<ChooseClipart> {
                 },
               ),
               TextButton(
-                  child: Text(
-                    'confirm'.tr().toString(),
-                    style: TextStyle(
-                      color: buttonColor,
-                      fontSize: 18,
-                    ),
+                child: Text(
+                  'confirm'.tr().toString(),
+                  style: TextStyle(
+                    color: buttonColor,
+                    fontSize: 18,
                   ),
-                  onPressed: () => {
-                        if (allClipArts.contains(_selectedClipArt))
-                          {
-                            _putDevice(),
-                          },
-                      }),
+                ),
+                onPressed: () => {
+                  if (allClipArts.contains(_selectedClipArt))
+                    {
+                      _putDevice(),
+                    },
+                },
+              ),
             ],
           ),
         ],

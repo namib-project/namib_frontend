@@ -16,7 +16,6 @@ class AdministrativeSettings extends StatefulWidget {
 }
 
 class _AdministrativeSettingsState extends State<AdministrativeSettings> {
-
   /// Future map for holding data
   Future<Map<String, dynamic>> globaleConfigs;
 
@@ -32,167 +31,174 @@ class _AdministrativeSettingsState extends State<AdministrativeSettings> {
       drawer: MainDrawer(),
       body: Center(
         // FutureBuilder for building the page with future values
-          child: FutureBuilder<Map<String, dynamic>>(
-              future: globaleConfigs,
-              builder: (context, snapshot) {
-                bool collectData = false;
-                if (snapshot.hasData) {
-                  if (snapshot.data["CollectDeviceData"] != null) {
-                    if ("true".compareTo(snapshot.data["CollectDeviceData"]) ==
-                        0) {
-                      collectData = true;
-                    }
-                  }
-                  bool allowSignup = false;
-                  if (snapshot.data["AllowUserSignup"] != null) {
-                    if ("true".compareTo(snapshot.data["AllowUserSignup"]) ==
-                        0) {
-                      allowSignup = true;
-                    }
-                  }
-                  return Container(
-                    height: double.infinity,
-                    //Context will appear smaller on mobile devices
-                    child: SingleChildScrollView(
-                      physics: AlwaysScrollableScrollPhysics(),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 0,
-                        vertical: 120,
-                      ),
-                      child: SingleChildScrollView(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Container(
-                              width: 700,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Container(
-                                    height: 70,
-                                    alignment: Alignment.center,
-                                    child: SelectableText(
-                                      "administrativeSettings".tr().toString(),
-                                      style: TextStyle(
-                                        fontFamily: "OpenSans",
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 25,
-                                  ),
-                                  //TODO geplante Einstellung bisher noch nicht integriert
-                                  // Linkable(
-                                  //     textAlign: TextAlign.center,
-                                  //     textColor: darkMode
-                                  //         ? Colors.white
-                                  //         : Colors.black,
-                                  //     style: TextStyle(
-                                  //       fontSize: 20,
-                                  //     ),
-                                  //     text: "letsEncryptUsageText"
-                                  //         .tr()
-                                  //         .toString()),
-                                  // SizedBox(
-                                  //   height: 10,
-                                  // ),
-                                  // ElevatedButton(
-                                  //     style: ButtonStyle(
-                                  //         minimumSize:
-                                  //             MaterialStateProperty.all(
-                                  //                 Size(250.0, 50.0))),
-                                  //     onPressed: () {},
-                                  //     child: Text(
-                                  //       "acceptEncryptTerms".tr().toString(),
-                                  //       style: TextStyle(fontSize: 18),
-                                  //     )),
-                                  // SizedBox(
-                                  //   height: 15,
-                                  // ),
-                                  // Divider(),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  SelectableText(
-                                    "signupFunction".tr().toString(),
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(fontSize: 20),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Transform.scale( // Transform widget for sizing of the checkboxes
-                                      scale: 1.5,
-                                      child: Checkbox(
-                                          value: allowSignup != null
-                                              ? allowSignup
-                                              : false,
-                                          fillColor: MaterialStateProperty.all(
-                                              buttonColor),
-                                          onChanged: (value) {
-                                            updateAllowSignupValue(value);
-                                          })),
-                                  SizedBox(
-                                    height: 15,
-                                  ),
-                                  Divider(),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  SelectableText(
-                                    "collectData".tr().toString(),
-                                    style: TextStyle(fontSize: 20),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Transform.scale( // Transform widget for sizing of the checkboxes
-                                      scale: 1.5,
-                                      child: Checkbox(
-                                          value: collectData,
-                                          fillColor: MaterialStateProperty.all(
-                                              buttonColor),
-                                          onChanged: (value) {
-                                            updateCollectDeviceDataValue(value);
-                                          })),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                } else if (snapshot.hasError) {
-                  print(snapshot.error);
-                  return Container(
-                    width: 600,
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          SelectableText("wentWrongError".tr().toString()),
-                          ElevatedButton(
-                              child: Text("reload".tr().toString()),
-                              onPressed: () {
-                                Navigator.pushReplacementNamed(
-                                    context, "/administrativeSettings");
-                              })
-                        ]),
-                  );
-                } else {
-                  return SizedBox(
-                    width: 30,
-                    height: 30,
-                    child: CircularProgressIndicator(),
-                  );
+        child: FutureBuilder<Map<String, dynamic>>(
+          future: globaleConfigs,
+          builder: (context, snapshot) {
+            bool collectData = false;
+            if (snapshot.hasData) {
+              if (snapshot.data["CollectDeviceData"] != null) {
+                if ("true".compareTo(snapshot.data["CollectDeviceData"]) == 0) {
+                  collectData = true;
                 }
-              })),
+              }
+              bool allowSignup = false;
+              if (snapshot.data["AllowUserSignup"] != null) {
+                if ("true".compareTo(snapshot.data["AllowUserSignup"]) == 0) {
+                  allowSignup = true;
+                }
+              }
+              return Container(
+                height: double.infinity,
+                //Context will appear smaller on mobile devices
+                child: SingleChildScrollView(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 0,
+                    vertical: 120,
+                  ),
+                  child: SingleChildScrollView(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Container(
+                          width: 700,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                height: 70,
+                                alignment: Alignment.center,
+                                child: SelectableText(
+                                  "administrativeSettings".tr().toString(),
+                                  style: TextStyle(
+                                    fontFamily: "OpenSans",
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 25,
+                              ),
+                              //TODO geplante Einstellung bisher noch nicht integriert
+                              // Linkable(
+                              //     textAlign: TextAlign.center,
+                              //     textColor: darkMode
+                              //         ? Colors.white
+                              //         : Colors.black,
+                              //     style: TextStyle(
+                              //       fontSize: 20,
+                              //     ),
+                              //     text: "letsEncryptUsageText"
+                              //         .tr()
+                              //         .toString()),
+                              // SizedBox(
+                              //   height: 10,
+                              // ),
+                              // ElevatedButton(
+                              //     style: ButtonStyle(
+                              //         minimumSize:
+                              //             MaterialStateProperty.all(
+                              //                 Size(250.0, 50.0))),
+                              //     onPressed: () {},
+                              //     child: Text(
+                              //       "acceptEncryptTerms".tr().toString(),
+                              //       style: TextStyle(fontSize: 18),
+                              //     )),
+                              // SizedBox(
+                              //   height: 15,
+                              // ),
+                              // Divider(),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              SelectableText(
+                                "signupFunction".tr().toString(),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Transform.scale(
+                                // Transform widget for sizing of the checkboxes
+                                scale: 1.5,
+                                child: Checkbox(
+                                  value:
+                                      allowSignup != null ? allowSignup : false,
+                                  fillColor:
+                                      MaterialStateProperty.all(buttonColor),
+                                  onChanged: (value) {
+                                    updateAllowSignupValue(value);
+                                  },
+                                ),
+                              ),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              Divider(),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              SelectableText(
+                                "collectData".tr().toString(),
+                                style: TextStyle(fontSize: 20),
+                                textAlign: TextAlign.center,
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Transform.scale(
+                                // Transform widget for sizing of the checkboxes
+                                scale: 1.5,
+                                child: Checkbox(
+                                  value: collectData,
+                                  fillColor:
+                                      MaterialStateProperty.all(buttonColor),
+                                  onChanged: (value) {
+                                    updateCollectDeviceDataValue(value);
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            } else if (snapshot.hasError) {
+              print(snapshot.error);
+              return Container(
+                width: 600,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    SelectableText("wentWrongError".tr().toString()),
+                    ElevatedButton(
+                        child: Text(
+                          "reload".tr().toString(),
+                        ),
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(
+                              context, "/administrativeSettings");
+                        })
+                  ],
+                ),
+              );
+            } else {
+              return SizedBox(
+                width: 30,
+                height: 30,
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
+        ),
+      ),
     );
   }
-
 
   // This function fetches the data of the globale config variables CollectDeviceData and AllowUserSignup from controller
   Future<Map<String, dynamic>> fetchGlobaleConfigs() async {
