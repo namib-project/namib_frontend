@@ -17,8 +17,8 @@ class ManageUser extends StatefulWidget {
   _ManageUserState createState() => _ManageUserState();
 }
 
-//Class for user management
 class _ManageUserState extends State<ManageUser> {
+  /// Vars that lets the password appear in text or dots
   bool seePassword = false;
   bool seePasswordAgain = false;
   Icon iconSee = Icon(
@@ -39,10 +39,9 @@ class _ManageUserState extends State<ManageUser> {
   String nameExtension = 'users/me';
   String passwordExtension = 'users/password';
 
-  var errorMessage1 = false;
-
+  /// Booleans for visibility of error messages
+  bool errorMessage1 = false;
   bool changePasswordButton = false;
-
   bool errorMessage2 = false;
 
   Widget build(BuildContext context) {
@@ -52,7 +51,6 @@ class _ManageUserState extends State<ManageUser> {
         body: Center(
           child: Container(
             width: 400,
-            //Context will appear smaller on mobile devices
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
@@ -87,8 +85,6 @@ class _ManageUserState extends State<ManageUser> {
                     ),
                   ),
                 ),
-                // This container contains a button which sends a request for the new password
-                // of the user
                 Container(
                   height: 70,
                   alignment: Alignment.center,
@@ -111,8 +107,8 @@ class _ManageUserState extends State<ManageUser> {
         ));
   }
 
-  // This dialog pops up if you clicked on change username
-    _changeUsernameDialog() async {
+  // This dialog pops up if you clicked on change username and implements functions for changing the username
+  _changeUsernameDialog() async {
     showDialog(
         context: context,
         barrierDismissible: true,
@@ -156,22 +152,19 @@ class _ManageUserState extends State<ManageUser> {
                             height: 70,
                             alignment: Alignment.center,
                             child: TextField(
-                              decoration: InputDecoration(
-                                suffixIcon: Icon(
-                                  FontAwesomeIcons.user,
+                                decoration: InputDecoration(
+                                  suffixIcon: Icon(
+                                    FontAwesomeIcons.user,
+                                  ),
+                                  border: OutlineInputBorder(),
+                                  labelText: "newUsername".tr().toString(),
                                 ),
-                                border: OutlineInputBorder(),
-                                labelText: "newUsername".tr().toString(),
-                              ),
-            onChanged: (String value) async {
-            setState(() {
-            _newUsername = value;
-            });
-                              }
-                            ),
+                                onChanged: (String value) async {
+                                  setState(() {
+                                    _newUsername = value;
+                                  });
+                                }),
                           ),
-
-
                           Container(
                             height: 70,
                             alignment: Alignment.center,
@@ -180,17 +173,20 @@ class _ManageUserState extends State<ManageUser> {
                               children: [
                                 ElevatedButton(
                                   style: ButtonStyle(
-                                    minimumSize: MaterialStateProperty.all(Size(120, 50)),
+                                    minimumSize: MaterialStateProperty.all(
+                                        Size(120, 50)),
                                   ),
                                   onPressed: () async {
                                     Navigator.of(context).pop();
                                     try {
-                                      var _response = await http.post(url + nameExtension,
+                                      var _response = await http.post(
+                                          url + nameExtension,
                                           headers: {
                                             "Content-Type": "application/json",
                                             "Authorization": "Bearer $jwtToken"
                                           },
-                                          body: json.encode({'username': _newUsername}));
+                                          body: json.encode(
+                                              {'username': _newUsername}));
                                       if (_response.statusCode == 200) {
                                         _forward();
                                       } else {
@@ -209,8 +205,8 @@ class _ManageUserState extends State<ManageUser> {
                                 ),
                                 ElevatedButton(
                                     style: ButtonStyle(
-                                      minimumSize:
-                                      MaterialStateProperty.all(Size(120, 50)),
+                                      minimumSize: MaterialStateProperty.all(
+                                          Size(120, 50)),
                                     ),
                                     onPressed: () {
                                       Navigator.of(context).pop();
@@ -223,8 +219,7 @@ class _ManageUserState extends State<ManageUser> {
                             ),
                           ),
                         ],
-                      )
-                  ),
+                      )),
                 ),
               ),
             );
@@ -232,8 +227,7 @@ class _ManageUserState extends State<ManageUser> {
         });
   }
 
-
-  // This dialog pops up if you clicked on change password
+  // This dialog pops up if you clicked on change password and implements functions for changing the password
   _changePasswordDialog() async {
     seePasswordAgain = false;
     seePassword = false;
@@ -469,7 +463,7 @@ class _ManageUserState extends State<ManageUser> {
         });
   }
 
-  // This functions is called if you press save after editing user information
+  // This functions is called if you press save after editing user information it redirects to login
   void _forward() {
     Navigator.pushReplacementNamed(context, "/login");
     permissions = [];
@@ -478,13 +472,12 @@ class _ManageUserState extends State<ManageUser> {
     userAccess = false;
   }
 
+  // Dialog shows if one of the request were not successful
   void _errorDialog() {
     showDialog(
         context: context,
         barrierDismissible: true,
         builder: (BuildContext context) {
-          // Here are displayed all cliparts to put devices in different classes
-          // At the end there ist a pop-up dialog to save or dismiss the changes
           return StatefulBuilder(builder: (context, setState) {
             return Center(
               child: Theme(
@@ -529,6 +522,7 @@ class _ManageUserState extends State<ManageUser> {
         });
   }
 
+  // This function updates UI depending on the input
   void checkForChangePasswordButton() {
     if (!errorMessage1 &&
         _newPassword.length > 7 &&
@@ -544,6 +538,7 @@ class _ManageUserState extends State<ManageUser> {
     }
   }
 
+  // Function that checks the necessary height of the change password dialog depending on wich error messages are shown
   double _checkHeight() {
     if (errorMessage1 && !errorMessage2 || !errorMessage1 && errorMessage2) {
       return 338;
