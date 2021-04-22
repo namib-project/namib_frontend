@@ -6,11 +6,14 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_protyp/data/device_mud/device.dart';
 import 'package:flutter_protyp/pages/chooseMudDataDetails.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_protyp/data/device_mud/mudGuess.dart';
 
+import 'chooseClipArt.dart';
 import 'chooseRoom.dart';
 
 class ChooseMudDataTable extends StatefulWidget {
@@ -45,11 +48,23 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
 
   String _name = "";
 
+  TextEditingController textEditingController = new TextEditingController();
+
   @override
   void initState() {
     super.initState();
     _mudGuessListForDisplay = widget.mudGuessList;
     _sortMudGuessListForDisplay();
+    _newDevice = widget.device;
+
+    textEditingController.text = _newDevice.name != null ? _newDevice.name : "";
+    if (_newDevice.mud_url != null) {
+      widget.mudGuessList.forEach((element) {
+        if (element.mud_url == _newDevice.mud_url) {
+          _chosenMudGuess = element;
+        }
+      });
+    }
   }
 
   Widget build(BuildContext context) {
@@ -130,6 +145,7 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
                                   alignment: Alignment.center,
                                   child: TextField(
                                     obscureText: false,
+                                    controller: textEditingController,
                                     cursorColor: Colors.grey,
                                     decoration: InputDecoration(
                                       border: OutlineInputBorder(),
@@ -138,9 +154,34 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
                                     onChanged: (value) {
                                       setState(() {
                                         _name = value;
+                                        _newDevice.name = value;
                                       });
                                     },
                                   ),
+                                ),
+                                ElevatedButton(
+                                  child: Text("Raum auswählen"),
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => ChooseRoom(
+                                              device: _newDevice,
+                                              mudGuesses: widget.mudGuessList),
+                                        ));
+                                  },
+                                ),
+                                ElevatedButton(
+                                  child: Text("Clipart auswählen"),
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => ChooseClipart(
+                                              device: _newDevice,
+                                              mudGuesses: widget.mudGuessList),
+                                        ));
+                                  },
                                 ),
                                 _bottomButtons(),
                               ],
@@ -195,30 +236,18 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
                 {Navigator.pushReplacementNamed(context, "/deviceOverview")},
           ),
           TextButton(
-            child: Text(
-              'confirm'.tr().toString(),
-              style: TextStyle(
-                color: buttonColor,
-                fontSize: 18,
+              child: Text(
+                'confirm'.tr().toString(),
+                style: TextStyle(
+                  color: buttonColor,
+                  fontSize: 18,
+                ),
               ),
-            ),
-            onPressed: () => {
-              if (_chosenMudGuess != null)
-                {
-                  _newDevice = widget.device,
-                  _newDevice.mud_url = _chosenMudGuess.mud_url,
-                  _newDevice.name = _name,
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ChooseRoom(
-                        device: _newDevice,
-                      ),
-                    ),
-                  )
-                },
-            },
-          ),
+              onPressed: _newDevice.mud_url != null
+                  ? () {
+                      _putDevice();
+                    }
+                  : null),
         ],
       ),
     );
@@ -351,6 +380,9 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
                 _chosenMudGuess == _mudGuessListForDisplay[index]
                     ? _chosenMudGuess = null
                     : _chosenMudGuess = _mudGuessListForDisplay[index];
+                if (_chosenMudGuess != null) {
+                  _newDevice.mud_url = _chosenMudGuess.mud_url;
+                }
               });
             },
             child: Card(
@@ -418,6 +450,9 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
                                   ? _chosenMudGuess = null
                                   : _chosenMudGuess =
                                       _mudGuessListForDisplay[index];
+                              if (_chosenMudGuess != null) {
+                                _newDevice.mud_url = _chosenMudGuess.mud_url;
+                              }
                             });
                           },
                         ),
@@ -443,5 +478,26 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
             .sort((a, b) => b.model_name.compareTo(a.model_name));
       }
     });
+  }
+
+  _putDevice() async {
+    String _deviceId = widget.device.id.toString();
+    String _deviceExtension = "devices/$_deviceId";
+
+    Map<String, dynamic> _data = {
+      "clipart": widget.device.clipart != null
+          ? widget.device.clipart
+          : allClipArts[0],
+      "mud_url": _newDevice.mud_url,
+      "room_id": widget.device.room != null ? widget.device.room.id : null,
+      "name": _newDevice.name != null ? _newDevice.name : ""
+    };
+
+    await http.put(url + _deviceExtension, body: jsonEncode(_data), headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $jwtToken"
+    });
+
+    Navigator.pushReplacementNamed(context, "/deviceOverview");
   }
 }
