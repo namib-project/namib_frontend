@@ -26,12 +26,11 @@ class RoomTable extends StatefulWidget {
   _RoomTableState createState() => _RoomTableState();
 }
 
-//Class for user registration, will only be used at the first usage
+//Class for choosing a room, will only be used at the first usage
 class _RoomTableState extends State<RoomTable> {
   List<Room> _uniqueRooms = [];
   List<Room> _roomsForDisplay;
   Room _chosenRoom;
-  String _newRoomName;
 
   Device _newDevice;
 
@@ -385,18 +384,19 @@ class _RoomTableState extends State<RoomTable> {
                     Expanded(
                       flex: 1,
                       child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(4),
-                                color: Color(
-                                    int.parse(_roomsForDisplay[index].color)),
-                              ),
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 40,
+                            width: 40,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(4),
+                              color: Color(
+                                  int.parse(_roomsForDisplay[index].color)),
                             ),
-                          ]),
+                          ),
+                        ],
+                      ),
                     ),
                     Expanded(
                       flex: 1,
@@ -440,8 +440,9 @@ class _RoomTableState extends State<RoomTable> {
                 fontSize: 18,
               ),
             ),
-            onPressed: () =>
-                {Navigator.pushReplacementNamed(context, "/deviceOverview")},
+            onPressed: () {
+              Navigator.pushReplacementNamed(context, "/deviceOverview");
+            },
           ),
           TextButton(
             child: Text(
@@ -451,20 +452,19 @@ class _RoomTableState extends State<RoomTable> {
                 fontSize: 18,
               ),
             ),
-            onPressed: () => {
-              if (_chosenRoom != null)
-                {
-                  _newDevice = widget.device,
-                  _newDevice.room = _chosenRoom,
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ChooseClipart(
-                        device: widget.device,
-                      ),
+            onPressed: () {
+              if (_chosenRoom != null) {
+                _newDevice = widget.device;
+                _newDevice.room = _chosenRoom;
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChooseClipart(
+                      device: widget.device,
                     ),
                   ),
-                }
+                );
+              }
             },
           ),
         ],

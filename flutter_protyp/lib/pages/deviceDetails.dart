@@ -14,7 +14,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 
-
 // Class that display the details of a specific device and implements functions for updating the device
 class DeviceDetails extends StatefulWidget {
   const DeviceDetails({
@@ -23,8 +22,11 @@ class DeviceDetails extends StatefulWidget {
     @required this.rooms,
   }) : super(key: key);
 
-  final Device device; /// The displayed device that passes through from the deviceDetailsBuilder class
-  final List<Room> rooms; /// The displayed rooms which pass through from the deviceDetailsBuilder class
+  /// The displayed device that passes through from the deviceDetailsBuilder class
+  final Device device;
+
+  /// The displayed rooms which pass through from the deviceDetailsBuilder class
+  final List<Room> rooms;
 
   @override
   _DeviceDetailsState createState() => _DeviceDetailsState();
@@ -245,7 +247,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                 ),
 
                 Visibility(
-                  //The error message shows, if networkError is true
+                  // The error message shows, if networkError is true
                   visible: adminAccess,
                   child: Container(
                     alignment: Alignment.center,
@@ -271,7 +273,10 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                 SizedBox(
                   height: 20,
                 ),
-                Column(children: mobileDevice ? _mobileView() : _desktopView()), // Check if mobile device, than there are different ways of showing the information
+                Column(
+                  // Check if mobile device, than there are different ways of showing the information
+                  children: mobileDevice ? _mobileView() : _desktopView(),
+                ),
                 SizedBox(
                   height: 40,
                 ),
@@ -280,57 +285,58 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          SelectableText(
-                            'allowedDNSRequests'.tr().toString(),
-                            style: TextStyle(fontSize: 20),
-                          ),
-                        ]),
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        SelectableText(
+                          'allowedDNSRequests'.tr().toString(),
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ],
+                    ),
                     SizedBox(
                       height: 20,
                     ),
                     Visibility(
                       visible: adminAccess && !editColumn,
                       child: ElevatedButton(
-                          style: ButtonStyle(
-                            minimumSize:
-                                MaterialStateProperty.all(Size(120, 50)),
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                              buttonColor,
-                            ),
+                        style: ButtonStyle(
+                          minimumSize: MaterialStateProperty.all(Size(120, 50)),
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                            buttonColor,
                           ),
-                          onPressed: () {
-                            setState(() {
-                              editColumn = !editColumn;
-                            });
-                          },
-                          child: Text(
-                            "edit".tr().toString(),
-                            style: TextStyle(fontSize: 20),
-                          )),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            editColumn = !editColumn;
+                          });
+                        },
+                        child: Text(
+                          "edit".tr().toString(),
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ),
                     ),
                     Visibility(
                       visible: editColumn,
                       child: ElevatedButton(
-                          style: ButtonStyle(
-                            minimumSize:
-                                MaterialStateProperty.all(Size(120, 50)),
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                              buttonColor,
-                            ),
+                        style: ButtonStyle(
+                          minimumSize: MaterialStateProperty.all(Size(120, 50)),
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                            buttonColor,
                           ),
-                          onPressed: () {
-                            setState(() {
-                              editColumn = !editColumn;
-                              forwardReset();
-                            });
-                            _transmitData();
-                          },
-                          child: Text(
-                            "save".tr().toString(),
-                            style: TextStyle(fontSize: 20),
-                          )),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            editColumn = !editColumn;
+                            forwardReset();
+                          });
+                          _transmitData();
+                        },
+                        child: Text(
+                          "save".tr().toString(),
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ),
                     ),
                     SizedBox(
                       height: 20,
@@ -338,23 +344,23 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                     Visibility(
                       visible: editColumn,
                       child: ElevatedButton(
-                          style: ButtonStyle(
-                            minimumSize:
-                                MaterialStateProperty.all(Size(120, 50)),
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                              buttonColor,
-                            ),
+                        style: ButtonStyle(
+                          minimumSize: MaterialStateProperty.all(Size(120, 50)),
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                            buttonColor,
                           ),
-                          onPressed: () {
-                            setState(() {
-                              editColumn = !editColumn;
-                              forwardReset();
-                            });
-                          },
-                          child: Text(
-                            "cancel".tr().toString(),
-                            style: TextStyle(fontSize: 20),
-                          )),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            editColumn = !editColumn;
+                            forwardReset();
+                          });
+                        },
+                        child: Text(
+                          "cancel".tr().toString(),
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ),
                     ),
                     SizedBox(
                       height: 20,
@@ -607,47 +613,47 @@ class _DeviceDetailsState extends State<DeviceDetails> {
   // Return a list of widget in case of desktop device for better visibility
   List<Widget> _desktopView() {
     var column1 = Expanded(
-        child: Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SelectableText(
-              "ipaddress".tr().toString() + ":",
-              style: TextStyle(fontSize: 20),
-            ),
-            SelectableText(
-              widget.device.ipv4_addr == null
-                  ? widget.device.ipv6_addr
-                  : widget.device.ipv4_addr,
-              style: TextStyle(fontSize: 18),
-            ),
-          ],
-        ),
-        SizedBox(
-          height: 50,
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SelectableText(
-              "MUD URL:",
-              style: TextStyle(fontSize: 20),
-            ),
-            SelectableText(
-              widget.device.mud_url,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 18),
-              onTap: () {
-                _launchMUDURL();
-              },
-            ),
-          ],
-        ),
-        Column(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SelectableText(
+                "ipaddress".tr().toString() + ":",
+                style: TextStyle(fontSize: 20),
+              ),
+              SelectableText(
+                widget.device.ipv4_addr == null
+                    ? widget.device.ipv6_addr
+                    : widget.device.ipv4_addr,
+                style: TextStyle(fontSize: 18),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 50,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SelectableText(
+                "MUD URL:",
+                style: TextStyle(fontSize: 20),
+              ),
+              SelectableText(
+                widget.device.mud_url,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 18),
+                onTap: () {
+                  _launchMUDURL();
+                },
+              ),
+            ],
+          ),
+          Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: widget.device.mud_data.mfg_name != null
                 ? [
@@ -663,8 +669,11 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                       style: TextStyle(fontSize: 18),
                     )
                   ]
-                : [Container()]),
-        Column(
+                : [
+                    Container(),
+                  ],
+          ),
+          Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: widget.device.mud_data.model_name != null
                 ? [
@@ -680,8 +689,11 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                       style: TextStyle(fontSize: 18),
                     )
                   ]
-                : [Container()]),
-        Column(
+                : [
+                    Container(),
+                  ],
+          ),
+          Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: widget.device.mud_data.systeminfo != null
                 ? [
@@ -697,18 +709,22 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                       style: TextStyle(fontSize: 18),
                     )
                   ]
-                : [Container()]),
-      ],
-    ));
+                : [
+                    Container(),
+                  ],
+          ),
+        ],
+      ),
+    );
 
     var column2 = Expanded(
-        child: Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Column(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: widget.device.mac_addr != null
                     ? [
@@ -721,21 +737,24 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                           style: TextStyle(fontSize: 18),
                         )
                       ]
-                    : [Container()]),
-            SizedBox(
-              height: 50,
-            ),
-            SelectableText(
-              "lastinteraction".tr().toString() + ":",
-              style: TextStyle(fontSize: 20),
-            ),
-            SelectableText(
-              formatTimeAgo(widget.device.last_interaction),
-              style: TextStyle(fontSize: 18),
-            ),
-          ],
-        ),
-        Column(
+                    : [
+                        Container(),
+                      ],
+              ),
+              SizedBox(
+                height: 50,
+              ),
+              SelectableText(
+                "lastinteraction".tr().toString() + ":",
+                style: TextStyle(fontSize: 20),
+              ),
+              SelectableText(
+                formatTimeAgo(widget.device.last_interaction),
+                style: TextStyle(fontSize: 18),
+              ),
+            ],
+          ),
+          Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: widget.device.mud_data.expiration != null
                 ? [
@@ -751,8 +770,11 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                       style: TextStyle(fontSize: 18),
                     )
                   ]
-                : [Container()]),
-        Column(
+                : [
+                    Container(),
+                  ],
+          ),
+          Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: widget.device.mud_data.last_update != null
                 ? [
@@ -768,8 +790,11 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                       style: TextStyle(fontSize: 18),
                     )
                   ]
-                : [Container()]),
-        Column(
+                : [
+                    Container(),
+                  ],
+          ),
+          Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: widget.device.mud_data.documentation != null
                 ? [
@@ -788,9 +813,13 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                       },
                     )
                   ]
-                : [Container()])
-      ],
-    ));
+                : [
+                    Container(),
+                  ],
+          )
+        ],
+      ),
+    );
 
     var row = Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -894,83 +923,84 @@ class _DeviceDetailsState extends State<DeviceDetails> {
   // Shows the dialog for renaming the device
   void _renameDialog() {
     showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18.0),
-            ),
-            content: Container(
-              width: 300,
-              height: 175,
-              child: Column(
-                children: [
-                  SelectableText("renameDisclaimer".tr().toString()),
-                  SizedBox(
-                    height: 40,
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18.0),
+          ),
+          content: Container(
+            width: 300,
+            height: 175,
+            child: Column(
+              children: [
+                SelectableText("renameDisclaimer".tr().toString()),
+                SizedBox(
+                  height: 40,
+                ),
+                TextField(
+                  cursorColor: Colors.grey,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'name'.tr().toString(),
                   ),
-                  TextField(
-                    cursorColor: Colors.grey,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'name'.tr().toString(),
+                  onChanged: (text) {
+                    _newName = text;
+                  },
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // Buttons to accept or dismiss the changes like described above
+                    TextButton(
+                      child: Text(
+                        "cancel".tr().toString(),
+                        style: TextStyle(
+                          color: buttonColor,
+                          fontSize: 18,
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop(); // dismiss dialog
+                      },
                     ),
-                    onChanged: (text) {
-                      _newName = text;
-                    },
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      // Buttons to accept or dismiss the changes like described above
-                      TextButton(
-                        child: Text(
-                          "cancel".tr().toString(),
-                          style: TextStyle(
-                            color: buttonColor,
-                            fontSize: 18,
-                          ),
+                    TextButton(
+                      child: Text(
+                        "save".tr().toString(),
+                        style: TextStyle(
+                          color: buttonColor,
+                          fontSize: 18,
                         ),
-                        onPressed: () {
-                          Navigator.of(context).pop(); // dismiss dialog
-                        },
                       ),
-                      TextButton(
-                        child: Text(
-                          "save".tr().toString(),
-                          style: TextStyle(
-                            color: buttonColor,
-                            fontSize: 18,
-                          ),
-                        ),
-                        onPressed: () {
-                          Map<String, dynamic> data = {"name": _newName};
-                          String _urlExtension = "devices/${widget.device.id}";
-                          http.put(url + _urlExtension,
-                              headers: {
-                                "Content-Type": "application/json",
-                                "Authorization": "Bearer $jwtToken"
-                              },
-                              body: jsonEncode(data));
-                          setNewName(_newName);
-                          Navigator.of(context).pop(); // dismiss dialog
-                        },
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                      onPressed: () {
+                        Map<String, dynamic> data = {"name": _newName};
+                        String _urlExtension = "devices/${widget.device.id}";
+                        http.put(url + _urlExtension,
+                            headers: {
+                              "Content-Type": "application/json",
+                              "Authorization": "Bearer $jwtToken"
+                            },
+                            body: jsonEncode(data));
+                        setNewName(_newName);
+                        Navigator.of(context).pop(); // dismiss dialog
+                      },
+                    ),
+                  ],
+                ),
+              ],
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 
   // Updates UI
-  setNewName(String name){
+  setNewName(String name) {
     setState(() {
       _name = name;
     });
@@ -979,81 +1009,84 @@ class _DeviceDetailsState extends State<DeviceDetails> {
   // Dialog for resetting the mud file of this device
   void _resetDialog() {
     showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18.0),
-            ),
-            title: SelectableText("attention".tr().toString()),
-            content: Container(
-              width: 300,
-              height: 175,
-              child: Column(
-                children: [
-                  SelectableText("resetDisclaimer".tr().toString()),
-                  SizedBox(
-                    height: 40,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      // Buttons to accept or dismiss the changes like described above
-                      TextButton(
-                        child: Text(
-                          "cancel".tr().toString(),
-                          style: TextStyle(
-                            color: buttonColor,
-                            fontSize: 18,
-                          ),
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18.0),
+          ),
+          title: SelectableText("attention".tr().toString()),
+          content: Container(
+            width: 300,
+            height: 175,
+            child: Column(
+              children: [
+                SelectableText("resetDisclaimer".tr().toString()),
+                SizedBox(
+                  height: 40,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // Buttons to accept or dismiss the changes like described above
+                    TextButton(
+                      child: Text(
+                        "cancel".tr().toString(),
+                        style: TextStyle(
+                          color: buttonColor,
+                          fontSize: 18,
                         ),
-                        onPressed: () {
-                          Navigator.of(context).pop(); // dismiss dialog
-                        },
                       ),
-                      TextButton(
-                        child: Text(
-                          "reset".tr().toString(),
-                          style: TextStyle(
-                            color: buttonColor,
-                            fontSize: 18,
-                          ),
+                      onPressed: () {
+                        Navigator.of(context).pop(); // dismiss dialog
+                      },
+                    ),
+                    TextButton(
+                      child: Text(
+                        "reset".tr().toString(),
+                        style: TextStyle(
+                          color: buttonColor,
+                          fontSize: 18,
                         ),
-                        onPressed: () async {
-                          Map<String, dynamic> data = {"acl_override": []};
-                          String _urlExtension = "?mud_url=";
-                          String _urlEncoded =
-                              urlEncode(text: widget.device.mud_url).toString();
-                          await http.put(
-                              url +
-                                  _updateMUDExtension +
-                                  _urlExtension +
-                                  _urlEncoded,
-                              headers: {
-                                "Content-Type": "application/json",
-                                "Authorization": "Bearer $jwtToken"
-                              },
-                              body: jsonEncode(data));
-                          Navigator.of(context).pop(); // dismiss dialog
-                          forwardReset();
-                        },
                       ),
-                    ],
-                  ),
-                ],
-              ),
+                      onPressed: () async {
+                        Map<String, dynamic> data = {"acl_override": []};
+                        String _urlExtension = "?mud_url=";
+                        String _urlEncoded =
+                            urlEncode(text: widget.device.mud_url).toString();
+                        await http.put(
+                            url +
+                                _updateMUDExtension +
+                                _urlExtension +
+                                _urlEncoded,
+                            headers: {
+                              "Content-Type": "application/json",
+                              "Authorization": "Bearer $jwtToken"
+                            },
+                            body: jsonEncode(data));
+                        Navigator.of(context).pop(); // dismiss dialog
+                        forwardReset();
+                      },
+                    ),
+                  ],
+                ),
+              ],
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 
   // Reloads the page
   void forwardReset() {
     Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => DeviceDetailsBuilder(id: widget.device.id)));
+      context,
+      MaterialPageRoute(
+        builder: (context) => DeviceDetailsBuilder(id: widget.device.id),
+      ),
+    );
   }
 
   // Implements the header of the dns name table
@@ -1392,23 +1425,23 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                           Expanded(
                                             flex: 1,
                                             child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
-                                                children: [
-                                                  Container(
-                                                    height: 40,
-                                                    width: 40,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              4),
-                                                      color: Color(int.parse(
-                                                          _roomsForDisplay[
-                                                                  index]
-                                                              .color)),
-                                                    ),
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: [
+                                                Container(
+                                                  height: 40,
+                                                  width: 40,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            4),
+                                                    color: Color(int.parse(
+                                                        _roomsForDisplay[index]
+                                                            .color)),
                                                   ),
-                                                ]),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -1435,7 +1468,8 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                 ),
                               ),
                               onPressed: () {
-                                Navigator.of(context).pop(); // dismiss dialog
+                                // dismiss dialog
+                                Navigator.of(context).pop();
                               },
                             ),
                             TextButton(
@@ -1591,7 +1625,8 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                               onPressed: () {
                                 _changeClipart();
                                 changeClipArtForDisplay();
-                                Navigator.of(context).pop(); // dismiss dialog
+                                // dismiss dialog
+                                Navigator.of(context).pop();
                               },
                             ),
                           ],
@@ -1634,49 +1669,55 @@ class _DeviceDetailsState extends State<DeviceDetails> {
   // Dialog for deleting a dns name from the table
   void _deleteDNSName(String accessControlEntry) {
     showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18.0),
-            ),
-            title: SelectableText("attention".tr().toString()),
-            content: Container(
-              width: 300,
-              height: 175,
-              child: Column(
-                children: [
-                  SelectableText("deleteDNSNameDisclaimer".tr().toString()),
-                  SizedBox(
-                    height: 40,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      // Buttons to accept or dismiss the changes like described above
-                      TextButton(
-                        child: Text(
-                          "cancel".tr().toString(),
-                          style: TextStyle(
-                            color: buttonColor,
-                            fontSize: 18,
-                          ),
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18.0),
+          ),
+          title: SelectableText(
+            "attention".tr().toString(),
+          ),
+          content: Container(
+            width: 300,
+            height: 175,
+            child: Column(
+              children: [
+                SelectableText(
+                  "deleteDNSNameDisclaimer".tr().toString(),
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // Buttons to accept or dismiss the changes like described above
+                    TextButton(
+                      child: Text(
+                        "cancel".tr().toString(),
+                        style: TextStyle(
+                          color: buttonColor,
+                          fontSize: 18,
                         ),
-                        onPressed: () {
-                          Navigator.of(context).pop(); // dismiss dialog
-                        },
                       ),
-                      TextButton(
-                        child: Text(
-                          "delete".tr().toString(),
-                          style: TextStyle(
-                            color: buttonColor,
-                            fontSize: 18,
-                          ),
+                      onPressed: () {
+                        // dismiss dialog
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    TextButton(
+                      child: Text(
+                        "delete".tr().toString(),
+                        style: TextStyle(
+                          color: buttonColor,
+                          fontSize: 18,
                         ),
-                        onPressed: () {
-                          setState(() {
+                      ),
+                      onPressed: () {
+                        setState(
+                          () {
                             // If acl_override is empty a copy of acllist gets put at acl_override
                             if (widget.device.mud_data.acl_override.isEmpty) {
                               widget.device.mud_data.acl_override =
@@ -1714,17 +1755,20 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                 }
                               }
                             }
-                          });
-                          Navigator.of(context).pop(); // dismiss dialog
-                        },
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                          },
+                        );
+                        // dismiss dialog
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                ),
+              ],
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 
   // Additional explanation text for the dns name list
@@ -1732,35 +1776,36 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     return Visibility(
       visible: !expertMode,
       child:
-          mobileDevice //if mobile device, then icon button with dialog, else icon with hover effect
+          //if mobile device, then icon button with dialog, else icon with hover effect
+          mobileDevice
               ? IconButton(
                   icon: Icon(Icons.help_center),
                   iconSize: 30,
                   onPressed: () {
                     showDialog(
-                        context: context,
-                        barrierDismissible: true,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text("explanation".tr().toString()),
-                            content:
-                                Text("explanationDNSNames".tr().toString()),
-                            actions: [
-                              TextButton(
-                                child: Text(
-                                  "Ok!",
-                                  style: TextStyle(
-                                    color: buttonColor,
-                                    fontSize: 18,
-                                  ),
+                      context: context,
+                      barrierDismissible: true,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text("explanation".tr().toString()),
+                          content: Text("explanationDNSNames".tr().toString()),
+                          actions: [
+                            TextButton(
+                              child: Text(
+                                "Ok!",
+                                style: TextStyle(
+                                  color: buttonColor,
+                                  fontSize: 18,
                                 ),
-                                onPressed: () {
-                                  Navigator.of(context).pop(); // dismiss dialog
-                                },
-                              )
-                            ],
-                          );
-                        });
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop(); // dismiss dialog
+                              },
+                            )
+                          ],
+                        );
+                      },
+                    );
                   },
                 )
               : MouseRegion(

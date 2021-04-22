@@ -32,7 +32,6 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
 
   Device _newDevice;
 
-
   MudGuess _chosenMudGuess;
   bool _sortAscending = true;
   Icon _arrowUp = Icon(
@@ -125,7 +124,6 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
                                     ),
                                   ),
                                 ),
-
                                 Container(
                                   height: 70,
                                   width: 350,
@@ -137,7 +135,7 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
                                       border: OutlineInputBorder(),
                                       labelText: 'name'.tr().toString(),
                                     ),
-                                    onChanged: (value){
+                                    onChanged: (value) {
                                       setState(() {
                                         _name = value;
                                       });
@@ -197,29 +195,30 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
                 {Navigator.pushReplacementNamed(context, "/deviceOverview")},
           ),
           TextButton(
-              child: Text(
-                'confirm'.tr().toString(),
-                style: TextStyle(
-                  color: buttonColor,
-                  fontSize: 18,
-                ),
+            child: Text(
+              'confirm'.tr().toString(),
+              style: TextStyle(
+                color: buttonColor,
+                fontSize: 18,
               ),
-              onPressed: () => {
-                    if (_chosenMudGuess != null)
-                      {
-                        _newDevice = widget.device,
-                        _newDevice.mud_url = _chosenMudGuess.mud_url,
-                        _newDevice.name = _name,
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ChooseRoom(
-                              device: _newDevice,
-                            ),
-                          ),
-                        )
-                      },
-                  }),
+            ),
+            onPressed: () => {
+              if (_chosenMudGuess != null)
+                {
+                  _newDevice = widget.device,
+                  _newDevice.mud_url = _chosenMudGuess.mud_url,
+                  _newDevice.name = _name,
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ChooseRoom(
+                        device: _newDevice,
+                      ),
+                    ),
+                  )
+                },
+            },
+          ),
         ],
       ),
     );
@@ -396,8 +395,9 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
                             return Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => ChooseMudDataDetails(
-                                    mudGuessUrl:
-                                        _mudGuessListForDisplay[index].mud_url),
+                                  mudGuessUrl:
+                                      _mudGuessListForDisplay[index].mud_url,
+                                ),
                               ),
                             );
                           },
