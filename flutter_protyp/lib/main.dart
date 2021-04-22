@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_protyp/pages/about.dart';
 import 'package:flutter_protyp/pages/administrativeSettings.dart';
 import "package:flutter_protyp/pages/deviceOverview.dart";
-import 'package:flutter_protyp/pages/dummie.dart';
+import 'package:flutter_protyp/pages/dummy.dart';
 import 'package:flutter_protyp/pages/editRoom.dart';
 import 'package:flutter_protyp/pages/ignoredDeviceOverview.dart';
 import "package:flutter_protyp/pages/newDevice.dart";
@@ -75,7 +75,7 @@ class MaterialAppWithTheme extends StatelessWidget {
           "/newDeviceOverview": (context) => NewDeviceOverview(),
           "/ignoredDeviceOverview": (context) => IgnoredDeviceOverview(),
           "/editRoom": (context) => EditRoom(),
-          "/dummie": (context) => Dummie(),
+          "/dummie": (context) => Dummy(),
           "/administrativeSettings" : (context) => AdministrativeSettings()
         });
   }

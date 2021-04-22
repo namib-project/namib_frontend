@@ -3,20 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-// This class comes up if your user dont have any permissions on the application
-// Just a small text that inform you about your options
+// This class comes up if a user don´t have any permissions on the application
+// Just a small text that informs about the options
 
-class Dummie extends StatefulWidget {
+class Dummy extends StatefulWidget {
   @override
-  _DummieState createState() => _DummieState();
+  _DummyState createState() => _DummyState();
 }
 
-class _DummieState extends State<Dummie> {
-
-  @override
-  void initState() {
-    super.initState();
-  }
+class _DummyState extends State<Dummy> {
 
   @override
   Widget build(BuildContext context) {

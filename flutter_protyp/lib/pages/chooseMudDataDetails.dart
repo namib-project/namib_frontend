@@ -74,19 +74,21 @@ class _ChooseMudDataDetailsState extends State<ChooseMudDataDetails> {
                 return Container(
                   width: 600,
                   child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        SelectableText("wentWrongError".tr().toString()),
-                        ElevatedButton(
-                            child: Text("reload".tr().toString()),
-                            onPressed: () {
-                              Navigator.pushReplacementNamed(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      SelectableText("wentWrongError".tr().toString()),
+                      ElevatedButton(
+                        child: Text("reload".tr().toString()),
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(
 
-                                  /// TODO: mit daten die seite neu laden
-                                  context,
-                                  "/chooseMudDataDetails");
-                            })
-                      ]),
+                              /// TODO: mit daten die seite neu laden
+                              context,
+                              "/chooseMudDataDetails");
+                        },
+                      )
+                    ],
+                  ),
                 );
               }
               // By default, show a loading spinner.
@@ -269,43 +271,44 @@ class _ChooseMudDataDetailsState extends State<ChooseMudDataDetails> {
 
   //Creating the overlay element just an example for expert mode
   OverlayEntry overlayEntry = OverlayEntry(
-      builder: (context) => Center(
-            child: Container(
-              width: 400,
-              height: 200,
-              padding: EdgeInsets.all(20),
-              alignment: Alignment(0, 0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                color: darkMode
-                    ? Colors.black.withOpacity(0.9)
-                    : Colors.grey.withOpacity(0.9),
-              ),
-              child: Column(
-                children: [
-                  SelectableText(
-                    "explanation".tr().toString(),
-                    style: TextStyle(
-                        fontFamily: "OpenSans",
-                        fontSize: 35,
-                        color: darkMode ? Colors.white : Colors.black,
-                        decoration: TextDecoration.none),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  SelectableText(
-                    "explanationDNSNames".tr().toString(),
-                    style: TextStyle(
-                        fontFamily: "OpenSans",
-                        fontSize: 20,
-                        color: darkMode ? Colors.white : Colors.black,
-                        decoration: TextDecoration.none),
-                  ),
-                ],
-              ),
+    builder: (context) => Center(
+      child: Container(
+        width: 400,
+        height: 200,
+        padding: EdgeInsets.all(20),
+        alignment: Alignment(0, 0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+          color: darkMode
+              ? Colors.black.withOpacity(0.9)
+              : Colors.grey.withOpacity(0.9),
+        ),
+        child: Column(
+          children: [
+            SelectableText(
+              "explanation".tr().toString(),
+              style: TextStyle(
+                  fontFamily: "OpenSans",
+                  fontSize: 35,
+                  color: darkMode ? Colors.white : Colors.black,
+                  decoration: TextDecoration.none),
             ),
-          ));
+            SizedBox(
+              height: 20,
+            ),
+            SelectableText(
+              "explanationDNSNames".tr().toString(),
+              style: TextStyle(
+                  fontFamily: "OpenSans",
+                  fontSize: 20,
+                  color: darkMode ? Colors.white : Colors.black,
+                  decoration: TextDecoration.none),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
 
   //Function that shows the overlay element
   showOverlay(BuildContext context) {
@@ -335,7 +338,6 @@ class _ChooseMudDataDetailsState extends State<ChooseMudDataDetails> {
     closeOverlay();
   }
 
-
   Future<List<MUDData>> _getMudDataFuture() async {
     String _mudDataExtension = 'mud/';
 
@@ -350,7 +352,6 @@ class _ChooseMudDataDetailsState extends State<ChooseMudDataDetails> {
         }).timeout(const Duration(seconds: 5), onTimeout: () {
       return _handleTimeOut();
     });
-
 
     if (response.statusCode == 200) {
       var jsonMudData = jsonDecode(response.body) as List;

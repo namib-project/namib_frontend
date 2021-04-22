@@ -46,26 +46,29 @@ class _ChooseRoomState extends State<ChooseRoom> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return Expanded(
-                      child: RoomTable(
-                    rooms: snapshot.data,
-                    device: widget.device,
-                  ));
+                    child: RoomTable(
+                      rooms: snapshot.data,
+                      device: widget.device,
+                    ),
+                  );
                 } else if (snapshot.hasError) {
                   // If the process failed this message returns
                   print(snapshot.error);
                   return Container(
                     width: 600,
                     child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          SelectableText("wentWrongError".tr().toString()),
-                          ElevatedButton(
-                              child: Text("reload".tr().toString()),
-                              onPressed: () {
-                                Navigator.pushReplacementNamed(
-                                    context, "/chooseRoom");
-                              })
-                        ]),
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        SelectableText("wentWrongError".tr().toString()),
+                        ElevatedButton(
+                          child: Text("reload".tr().toString()),
+                          onPressed: () {
+                            Navigator.pushReplacementNamed(
+                                context, "/chooseRoom");
+                          },
+                        ),
+                      ],
+                    ),
                   );
                 }
                 // By default, show a loading spinner.

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_protyp/pages/deviceOverview.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:http/http.dart' as http;
-import 'dummie.dart';
+import 'dummy.dart';
 import 'handlers/ThemeHandler.dart';
 
 // Class that gets the config variables after successful login,
@@ -15,6 +15,8 @@ class ThemingService extends StatefulWidget {
     Key key,
     @required this.brightness,
   }) : super(key: key);
+
+  /// Required attribute to offer the theming
   final String brightness;
 
   _ThemingServiceState createState() => _ThemingServiceState();
@@ -44,7 +46,7 @@ class _ThemingServiceState extends State<ThemingService> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               if (adminAccess == false && userAccess == false) {
-                return Dummie();
+                return Dummy();
               } else {
                 return DeviceOverview();
               }
@@ -74,8 +76,8 @@ class _ThemingServiceState extends State<ThemingService> {
         "Authorization": "Bearer $jwtToken"
       });
 
-      // If request is successful theme gets alter if necessary, if request is
-      // not successful setTheme() set theme color like OS properties
+      // If request is successful theme gets altered if necessary, if request is
+      // not successful setTheme() sets the theme color like OS properties
       if (response.statusCode == 200) {
         if (jsonDecode(response.body)["value"] == "true") {
           darkMode = false;
@@ -90,7 +92,7 @@ class _ThemingServiceState extends State<ThemingService> {
     return darkMode;
   }
 
-  // This method sets the brightness-theme for the app from properties of the operating system
+  // This method sets the brightness of the theme for the app from properties of the operating system
   void setTheme() {
     if (widget.brightness.toString() != "Brightness.light" &&
         darkMode == false) {

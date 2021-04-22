@@ -81,8 +81,12 @@ class _StartServiceState extends State<StartService> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             Map<String, dynamic> data = jsonDecode(snapshot.data);
+
             if (Uri.base.scheme != "https" && data["secure_name"] != null) {
-              window.location.replace(Uri.base.replace(scheme: "https", host: data["secure_name"], port: 443).toString());
+              window.location.replace(Uri.base
+                  .replace(
+                      scheme: "https", host: data["secure_name"], port: 443)
+                  .toString());
             }
             bool required_setup = data["setup_required"];
             if (required_setup) {
