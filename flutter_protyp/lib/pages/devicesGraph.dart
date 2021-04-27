@@ -14,6 +14,7 @@ import 'package:flutter_protyp/data/room.dart';
 
 import 'deviceDetails.dart';
 
+// This class generates the graph for a specific room
 class DevicesGraph extends StatefulWidget {
   const DevicesGraph({
     Key key,
@@ -82,44 +83,8 @@ class _DeviceGraphState extends State<DevicesGraph> {
     );
   }
 
-  Widget getNodeText(int i) {
-    return GestureDetector(
-      onLongPressStart: (details) {
-        var x = details.globalPosition.dx;
-        var y = details.globalPosition.dy;
-        Offset(x, y);
-      },
-      onPanStart: (details) {
-        var x = details.globalPosition.dx;
-        var y = details.globalPosition.dy;
-        setState(() {
-          builder.setFocusedNode(graph.getNodeAtPosition(i - 1));
-          graph.getNodeAtPosition(i - 1).position = Offset(x, y);
-        });
-      },
-      onPanUpdate: (details) {
-        var x = details.globalPosition.dx;
-        var y = details.globalPosition.dy;
-        setState(() {
-          builder.setFocusedNode(graph.getNodeAtPosition(i - 1));
-          graph.getNodeAtPosition(i - 1).position = Offset(x, y);
-        });
-      },
-      onPanEnd: (details) {
-        builder.setFocusedNode(null);
-      },
-      child: Container(
-          padding: EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4),
-            boxShadow: [
-              BoxShadow(color: Colors.blue[100], spreadRadius: 1),
-            ],
-          ),
-          child: Text("Node $i")),
-    );
-  }
 
+  // Function to generate a node for a room
   Widget getRoomText(Room room) {
     return GestureDetector(
       child: Container(
@@ -136,6 +101,7 @@ class _DeviceGraphState extends State<DevicesGraph> {
     );
   }
 
+  // Function to generate a node for a device
   Widget getDeviceText(Device device){
     return GestureDetector(
       child: Container(
@@ -168,16 +134,17 @@ class _DeviceGraphState extends State<DevicesGraph> {
   @override
   void initState() {
     super.initState();
-
+    //Node for the current room
     final Node room = Node(getRoomText(widget.room));
 
+    //gets all devices in the current room
     _devices = widget.devices;
     for (Device d in _devices) {
       if (d.roomname.toLowerCase() == widget.room.roomname.toLowerCase()) {
         _devicesInRoom.add(d);
       }
     }
-
+    //generates all nodes and edges for all devices in the current room
     _devicesInRoom.forEach((d) {
       final ExtNode device = new ExtNode(getDeviceText(d));
       graph.addEdge(room, device, paint: Paint()..color = Colors.orange);
