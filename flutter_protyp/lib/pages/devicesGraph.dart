@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_protyp/data/device_mud/device.dart';
 import 'package:flutter_protyp/pages/roomsGraph.dart';
+import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
+import 'package:flutter_protyp/widgets/drawer.dart';
 import 'package:graphview/GraphView.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -32,13 +34,24 @@ class _DeviceGraphState extends State<DevicesGraph> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      appBar: AppBar(
+        title: SelectableText(widget.room.roomname),
+        actions: <Widget>[
+          Padding(
+            padding: mobileDevice
+                ? EdgeInsets.fromLTRB(12, 5, 12, 12)
+                : EdgeInsets.fromLTRB(0, 5, 12, 12),
+            child: SettingsPopup(),
+          ),
+        ],
+      ),
       body: Center(
         child: Container(
             child: Column(children: [
           Container(
             height: 70,
             child: SelectableText(
-              'deviceOverview'.tr().toString(),
+              widget.room.roomname,
               style: TextStyle(
                 fontFamily: "OpenSans",
                 fontSize: 30,
@@ -167,7 +180,7 @@ class _DeviceGraphState extends State<DevicesGraph> {
 
     _devicesInRoom.forEach((d) {
       final ExtNode device = new ExtNode(getDeviceText(d));
-      graph.addEdge(room, device);
+      graph.addEdge(room, device, paint: Paint()..color = Colors.orange);
     });
 
     builder = FruchtermanReingoldAlgorithm(iterations: 1000);
