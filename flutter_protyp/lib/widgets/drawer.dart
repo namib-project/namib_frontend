@@ -47,36 +47,53 @@ class _MainDrawerState extends State<MainDrawer> {
               onTap: () =>
                   {Navigator.pushReplacementNamed(context, "/deviceOverview")},
             ),
-            CustomListTile(
-              icon: Icons.playlist_add, // or maybe: ad_units
-              text: 'unmanagedDevices'.tr().toString(),
-              onTap: () => {
-                Navigator.pushReplacementNamed(context, "/newDeviceOverview")
-              },
-            ),
-            CustomListTile(
-              icon: Icons.search_off, // or maybe: ad_units
-              text: 'ignoredDevices'.tr().toString(),
-              onTap: () => {
-                Navigator.pushReplacementNamed(
-                    context, "/ignoredDeviceOverview")
-              },
-            ),
-            CustomListTile(
-              icon: Icons.edit, // or maybe: ad_units
-              text: 'editRoom'.tr().toString(),
-              onTap: () =>
-                  {Navigator.pushReplacementNamed(context, "/editRoom")},
+
+            Visibility(
+              visible: adminAccess,
+              child:  CustomListTile(
+                icon: Icons.playlist_add, // or maybe: ad_units
+                text: 'unmanagedDevices'.tr().toString(),
+                onTap: () => {
+                  Navigator.pushReplacementNamed(context, "/newDeviceOverview")
+                },
+              ),
             ),
 
-            CustomListTile(
-              icon: Icons.settings_applications,
-              text: "administrativeSettings".tr().toString(),
-              onTap: () => {
-                Navigator.pushReplacementNamed(
-                    context, "/administrativeSettings")
-              },
+            Visibility(
+              visible: adminAccess,
+              child:  CustomListTile(
+                icon: Icons.search_off, // or maybe: ad_units
+                text: 'ignoredDevices'.tr().toString(),
+                onTap: () => {
+                  Navigator.pushReplacementNamed(
+                      context, "/ignoredDeviceOverview")
+                },
+              ),
             ),
+
+            Visibility(
+              visible: adminAccess,
+              child:  CustomListTile(
+                icon: Icons.edit, // or maybe: ad_units
+                text: 'editRoom'.tr().toString(),
+                onTap: () =>
+                {Navigator.pushReplacementNamed(context, "/editRoom")},
+              ),
+            ),
+
+
+            Visibility(
+              visible: adminAccess,
+              child:  CustomListTile(
+                icon: Icons.settings_applications,
+                text: "administrativeSettings".tr().toString(),
+                onTap: () => {
+                  Navigator.pushReplacementNamed(
+                      context, "/administrativeSettings")
+                },
+              ),
+            ),
+
 
              Visibility(
                visible: adminAccess,
