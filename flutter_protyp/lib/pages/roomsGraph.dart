@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_protyp/data/device_mud/device.dart';
+import 'package:flutter_protyp/data/device_mud/room.dart';
 import 'package:flutter_protyp/pages/devicesGraph.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
@@ -10,7 +11,6 @@ import 'package:flutter_protyp/widgets/drawer.dart';
 import 'package:graphview/GraphView.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_protyp/data/room.dart';
 
 import 'deviceDetails.dart';
 
@@ -99,10 +99,10 @@ class _RoomsGraphState extends State<RoomsGraph> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4),
                 boxShadow: [
-                  BoxShadow(color: Color(int.parse(room.roomcolor)), spreadRadius: 1),
+                  BoxShadow(color: Color(int.parse(room.color)), spreadRadius: 1),
                 ],
               ),
-              child: Text(room.roomname)),
+              child: Text(room.name)),
            onTap: () => Navigator.push(context,
                MaterialPageRoute(
                builder: (context) => DevicesGraph(room: room, devices: devices),
@@ -124,11 +124,11 @@ class _RoomsGraphState extends State<RoomsGraph> {
     // gets all rooms
     _devices = widget.devices;
     for(Device d in _devices){
-      Room room = new Room(d.roomname, d.roomcolor);
+      Room room = new Room(d.room.id,d.room.name, d.room.color);
       _rooms.add(room);
     }
-    final _allRooms = _rooms.map((e) => e.roomname).toSet();
-    _rooms.retainWhere((x) => _allRooms.remove(x.roomname));
+    final _allRooms = _rooms.map((e) => e.name).toSet();
+    _rooms.retainWhere((x) => _allRooms.remove(x.name));
 
     // generates all nodes and edges for all rooms
     _rooms.forEach((Room r) {

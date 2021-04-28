@@ -10,7 +10,7 @@ import 'package:flutter_protyp/widgets/drawer.dart';
 import 'package:graphview/GraphView.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_protyp/data/room.dart';
+import 'package:flutter_protyp/data/device_mud/room.dart';
 
 import 'deviceDetails.dart';
 
@@ -36,7 +36,7 @@ class _DeviceGraphState extends State<DevicesGraph> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: AppBar(
-        title: SelectableText(widget.room.roomname),
+        title: SelectableText(widget.room.name),
         actions: <Widget>[
           Padding(
             padding: mobileDevice
@@ -52,7 +52,7 @@ class _DeviceGraphState extends State<DevicesGraph> {
           Container(
             height: 70,
             child: SelectableText(
-              widget.room.roomname,
+              widget.room.name,
               style: TextStyle(
                 fontFamily: "OpenSans",
                 fontSize: 30,
@@ -93,10 +93,10 @@ class _DeviceGraphState extends State<DevicesGraph> {
             borderRadius: BorderRadius.circular(4),
             boxShadow: [
               BoxShadow(
-                  color: Color(int.parse(room.roomcolor)), spreadRadius: 1),
+                  color: Color(int.parse(room.color)), spreadRadius: 1),
             ],
           ),
-          child: Text(room.roomname)),
+          child: Text(room.color)),
       //("Node $i")),
     );
   }
@@ -116,13 +116,13 @@ class _DeviceGraphState extends State<DevicesGraph> {
             children: [SvgPicture.asset(
               device.clipart, semanticsLabel: 'phone', height: 50, width: 50,
               color: Color(
-                int.parse(device.roomcolor),
+                int.parse(device.room.color),
               ),
             ), Text(device.hostname)],
           ) ),
       onTap: () => Navigator.push(context,
         MaterialPageRoute(
-          builder: (context) => DeviceDetails(device: device),
+          builder: (context) => DeviceDetails(device: device, rooms: [],),
         ),
       ),//("Node $i")),
     );
@@ -140,7 +140,7 @@ class _DeviceGraphState extends State<DevicesGraph> {
     //gets all devices in the current room
     _devices = widget.devices;
     for (Device d in _devices) {
-      if (d.roomname.toLowerCase() == widget.room.roomname.toLowerCase()) {
+      if (d.name.toLowerCase() == widget.room.name.toLowerCase()) {
         _devicesInRoom.add(d);
       }
     }
