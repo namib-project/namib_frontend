@@ -3,39 +3,56 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_protyp/data/device_mud/device.dart';
+import 'package:flutter_protyp/pages/roomsGraph.dart';
+import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
+import 'package:flutter_protyp/widgets/drawer.dart';
 import 'package:graphview/GraphView.dart';
-import 'package:websafe_svg/websafe_svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'deviceDetailsBuilder.dart';
+import 'package:flutter_protyp/data/room.dart';
 
-// This class implements the functions to generate the devices-graph
+import 'deviceDetails.dart';
 
+// This class generates the graph for a specific room
 class DevicesGraph extends StatefulWidget {
   const DevicesGraph({
     Key key,
-    @required this.devices,
+    @required this.room,
+    this.devices,
   }) : super(key: key);
-
-  /// List which stores all given devices
+  final Room room;
   final List<Device> devices;
 
-  _DevicesGraphState createState() => _DevicesGraphState();
+  _DeviceGraphState createState() => _DeviceGraphState();
 }
 
-class _DevicesGraphState extends State<DevicesGraph> {
-  Future<List<Device>> devices;
+class _DeviceGraphState extends State<DevicesGraph> {
+  List<Device> _devices = [];
+  List<Device> _devicesInRoom = [];
+  List<Room> _rooms = [];
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      appBar: AppBar(
+        title: SelectableText(widget.room.roomname),
+        actions: <Widget>[
+          Padding(
+            padding: mobileDevice
+                ? EdgeInsets.fromLTRB(12, 5, 12, 12)
+                : EdgeInsets.fromLTRB(0, 5, 12, 12),
+            child: SettingsPopup(),
+          ),
+        ],
+      ),
       body: Center(
         child: Container(
             child: Column(children: [
           Container(
             height: 70,
             child: SelectableText(
-              'deviceOverview'.tr().toString(),
+              widget.room.roomname,
               style: TextStyle(
                 fontFamily: "OpenSans",
                 fontSize: 30,
@@ -66,145 +83,49 @@ class _DevicesGraphState extends State<DevicesGraph> {
     );
   }
 
-  // Function getting the list of devices in network from controller
-  Future<List<Device>> getDevices() async {
-    String urlDevices = 'http://172.26.144.1:8000/devices/';
-    var responseDevices;
-    //responseDevices = await http.get(urlDevices);
-    String test =
-        '[{"hostname": "string","id": 0,"ip_addr": "string","last_interaction": "2021-02-12T07:41:54.362Z","mac_addr": "string","mud_data": {"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","destination_port": {"range": [0],"single": 0},"direction_initiated": "FromDevice","dnsname": "string","protocol": {"name": "TCP","num": 0},"source_port": {"range": [0],"single": 0}},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-02-12T07:41:54.362Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "string","url": "string"},"mud_url": "string","vendor_class": "string","room":"Bath room"}, {"hostname": "string","id": 0,"ip_addr": "string","last_interaction": "2021-02-12T07:41:54.362Z","mac_addr": "string","mud_data": {"acllist": [{"ace": [{"action": "Accept","matches": {"address_mask": "string","destination_port": {"range": [0],"single": 0},"direction_initiated": "FromDevice","dnsname": "string","protocol": {"name": "TCP","num": 0},"source_port": {"range": [0],"single": 0}},"name": "string"}],"acl_type": "IPV6","name": "string","packet_direction": "FromDevice"}],"documentation": "string","expiration": "2021-02-12T07:41:54.362Z","last_update": "string","masa_url": "string","mfg_name": "string","model_name": "string","systeminfo": "string","url": "string"},"mud_url": "string","vendor_class": "string", "room":"Living Room"}]';
-    var jsonDevices = jsonDecode(test) as List;
-    List<Device> devicesTest =
-        jsonDevices.map((tagJson) => Device.fromJson(tagJson)).toList();
-    return devicesTest;
-    //if (responseDevices.statusCode == 200) {
-    //  return devicesTest;
-    //} else {
-    //  throw Exception("Failed to get Data");
-    //}
-    //TODO bei release auf http request umstellen
+
+  // Function to generate a node for a room
+  Widget getRoomText(Room room) {
+    return GestureDetector(
+      child: Container(
+          padding: EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(4),
+            boxShadow: [
+              BoxShadow(
+                  color: Color(int.parse(room.roomcolor)), spreadRadius: 1),
+            ],
+          ),
+          child: Text(room.roomname)),
+      //("Node $i")),
+    );
   }
 
-  Widget getNodeText(int i, [Device device, String name, int j]) {
-    if (device != null) {
-      return GestureDetector(
-        onLongPressStart: (details) {
-          var x = details.globalPosition.dx;
-          var y = details.globalPosition.dy;
-          Offset(x, y);
-        },
-        onPanStart: (details) {
-          var x = details.globalPosition.dx;
-          var y = details.globalPosition.dy;
-          setState(() {
-            builder.setFocusedNode(graph.getNodeAtPosition(i - 1));
-            graph.getNodeAtPosition(i - 1).position = Offset(x, y);
-          });
-        },
-        onPanUpdate: (details) {
-          var x = details.globalPosition.dx;
-          var y = details.globalPosition.dy;
-          setState(() {
-            builder.setFocusedNode(graph.getNodeAtPosition(i - 1));
-            graph.getNodeAtPosition(i - 1).position = Offset(x, y);
-          });
-        },
-        onPanEnd: (details) {
-          builder.setFocusedNode(null);
-        },
-        child: Container(
-            padding: EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(4),
-              boxShadow: [
-                BoxShadow(color: Colors.blue[100], spreadRadius: 1),
-              ],
-            ),
-            child: WebsafeSvg.asset(allClipArts[3],
-                semanticsLabel: 'phone', height: 25, width: 25)),
-        //
-        onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => DeviceDetailsBuilder(id: device.id,),
+  // Function to generate a node for a device
+  Widget getDeviceText(Device device){
+    return GestureDetector(
+      child: Container(
+          padding: EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(4),
+            boxShadow: [
+              //BoxShadow(color: Color(int.parse(device.roomcolor)), spreadRadius: 1),
+            ],
           ),
-        ), //("Node $i")),
-      );
-    } else if (j == 13) {
-      return GestureDetector(
-        onLongPressStart: (details) {
-          var x = details.globalPosition.dx;
-          var y = details.globalPosition.dy;
-          Offset(x, y);
-        },
-        onPanStart: (details) {
-          var x = details.globalPosition.dx;
-          var y = details.globalPosition.dy;
-          setState(() {
-            builder.setFocusedNode(graph.getNodeAtPosition(i - 1));
-            graph.getNodeAtPosition(i - 1).position = Offset(x, y);
-          });
-        },
-        onPanUpdate: (details) {
-          var x = details.globalPosition.dx;
-          var y = details.globalPosition.dy;
-          setState(() {
-            builder.setFocusedNode(graph.getNodeAtPosition(i - 1));
-            graph.getNodeAtPosition(i - 1).position = Offset(x, y);
-          });
-        },
-        onPanEnd: (details) {
-          builder.setFocusedNode(null);
-        },
-        child: Container(
-            padding: EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(4),
-              boxShadow: [
-                BoxShadow(color: Colors.orange, spreadRadius: 1),
-              ],
-            ),
-            child: WebsafeSvg.asset(allClipArts[j],
-                semanticsLabel: 'phone', height: 25, width: 25)),
-        //
-      );
-    } else {
-      return GestureDetector(
-          onLongPressStart: (details) {
-            var x = details.globalPosition.dx;
-            var y = details.globalPosition.dy;
-            Offset(x, y);
-          },
-          onPanStart: (details) {
-            var x = details.globalPosition.dx;
-            var y = details.globalPosition.dy;
-            setState(() {
-              builder.setFocusedNode(graph.getNodeAtPosition(i - 1));
-              graph.getNodeAtPosition(i - 1).position = Offset(x, y);
-            });
-          },
-          onPanUpdate: (details) {
-            var x = details.globalPosition.dx;
-            var y = details.globalPosition.dy;
-            setState(() {
-              builder.setFocusedNode(graph.getNodeAtPosition(i - 1));
-              graph.getNodeAtPosition(i - 1).position = Offset(x, y);
-            });
-          },
-          onPanEnd: (details) {
-            builder.setFocusedNode(null);
-          },
-          child: Container(
-              padding: EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4),
-                boxShadow: [
-                  BoxShadow(color: Colors.orange, spreadRadius: 1),
-                ],
+          child: Column(
+            children: [SvgPicture.asset(
+              device.clipart, semanticsLabel: 'phone', height: 50, width: 50,
+              color: Color(
+                int.parse(device.roomcolor),
               ),
-              child: Text(name)) //("Node $i")),
-          );
-    }
+            ), Text(device.hostname)],
+          ) ),
+      onTap: () => Navigator.push(context,
+        MaterialPageRoute(
+          builder: (context) => DeviceDetails(device: device),
+        ),
+      ),//("Node $i")),
+    );
   }
 
   final Graph graph = Graph();
@@ -213,69 +134,22 @@ class _DevicesGraphState extends State<DevicesGraph> {
   @override
   void initState() {
     super.initState();
-    int i = 1;
-    final router = Node(getNodeText(i, null, "Router", 13));
-    final test = Node(getNodeText(2, null, "Beispiel Raum"));
-    final deviceTest = Node(getNodeText(3, widget.devices[0]));
-    final deviceTest2 = Node(getNodeText(4, widget.devices[1]));
-    final exampleRoom = Node(getNodeText(5, null, "Küche"));
-    final exampleRoom2 = Node(getNodeText(6, null, "Badezimmer"));
-    i++;
-    graph.addEdge(router, test, paint: Paint()..color = Colors.black);
-    graph.addEdge(test, deviceTest, paint: Paint()..color = Colors.black);
-    graph.addEdge(test, deviceTest2, paint: Paint()..color = Colors.black);
-    graph.addEdge(router, exampleRoom, paint: Paint()..color = Colors.black);
-    graph.addEdge(router, exampleRoom2, paint: Paint()..color = Colors.black);
-    //List<String> rooms = new List();
-    //List<Node> roomNodes = new List();
+    //Node for the current room
+    final Node room = Node(getRoomText(widget.room));
 
-    //widget.devices.forEach((element) {
-    //  if (!rooms.contains(element.room)) rooms.add(element.room);
-    //});
+    //gets all devices in the current room
+    _devices = widget.devices;
+    for (Device d in _devices) {
+      if (d.roomname.toLowerCase() == widget.room.roomname.toLowerCase()) {
+        _devicesInRoom.add(d);
+      }
+    }
+    //generates all nodes and edges for all devices in the current room
+    _devicesInRoom.forEach((d) {
+      final ExtNode device = new ExtNode(getDeviceText(d));
+      graph.addEdge(room, device, paint: Paint()..color = Colors.orange);
+    });
 
-    //rooms.forEach((element) {
-    //  final Node room = new Node(getNodeText(i, null, element));
-    //  i++;
-    //  room.name = element;
-    //  graph.addEdge(router, room, paint: Paint()..color = Colors.orange);
-    //  roomNodes.add(room);
-    //});
-    //widget.devices.forEach((elementDevice) {
-    //  Node device = new Node(getNodeText(i, elementDevice));
-    //  i++;
-    //  roomNodes.forEach((elementRoom) {
-    //    if (elementRoom.name == elementDevice.room) {
-    //      graph.addEdge(elementRoom, device,
-    //          paint: Paint()..color = Colors.orange);
-    //    }
-    //  });
-    //});
-
-    //int _deviceCount = widget.devices.length;
-    //for(int j = 0; j < _deviceCount; j++){
-    //  if(!rooms.contains(widget.devices[j])){
-    //    rooms.add(widget.devices[j].room);
-    //  }
-    //}
-    //int _roomCount = rooms.length;
-    //for(int j = 0; j < _roomCount; j++){
-    //  Node room = new Node(getNodeText(i, null, rooms[j]));
-    //  i++;
-    //  room.name = rooms[j];
-    //  graph.addEdge(router, room);
-    //  roomNodes.add(room);
-    //}
-    //int _roomNodes = roomNodes.length;
-    //for(int j = 0; j < _deviceCount; j++){
-    //  Node device = new Node(getNodeText(i, widget.devices[j]));
-    //  i++;
-    //  for(int k = 0; k < _roomNodes; k++){
-    //    if (roomNodes[k].name == widget.devices[j].room){
-    //      graph.addEdge(roomNodes[k], device);
-    //    }
-    //  }
-    //}
-
-    builder = FruchtermanReingoldAlgorithm(iterations: 10000);
+    builder = FruchtermanReingoldAlgorithm(iterations: 1000);
   }
 }
