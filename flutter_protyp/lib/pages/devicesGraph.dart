@@ -11,6 +11,7 @@ import 'package:graphview/GraphView.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_protyp/data/room.dart';
+import 'package:flutter_protyp/data/room.dart';
 
 import 'deviceDetails.dart';
 

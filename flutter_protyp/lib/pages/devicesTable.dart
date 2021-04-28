@@ -417,6 +417,12 @@ class _DevicesTableState extends State<DevicesTable> {
                       ),
                     ),
                     Text(
+                      d.mud_url,
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                    Text(
                       d.type,
                       style: TextStyle(
                         fontSize: 20,
