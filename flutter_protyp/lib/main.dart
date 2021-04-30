@@ -5,13 +5,14 @@ import 'package:flutter_protyp/pages/administrativeSettings.dart';
 import "package:flutter_protyp/pages/deviceOverview.dart";
 import 'package:flutter_protyp/pages/dummy.dart';
 import 'package:flutter_protyp/pages/editRoom.dart';
-import 'package:flutter_protyp/pages/ignoredDeviceOverview.dart';
+import 'package:flutter_protyp/pages/ignoredDeviceBuilder.dart';
 import "package:flutter_protyp/pages/newDevice.dart";
 import "package:flutter_protyp/pages/newDeviceOverview.dart";
 import 'package:flutter_protyp/pages/registration.dart';
 import 'package:flutter_protyp/pages/startService.dart';
 import 'package:flutter_protyp/pages/manageUser.dart';
 import 'package:flutter_protyp/pages/userManagement.dart';
+import 'package:flutter_protyp/pages/enforcerBuilder.dart';
 import 'package:flutter_protyp/widgets/theme.dart';
 import 'package:provider/provider.dart';
 import "package:flutter_protyp/widgets/constant.dart";
@@ -75,6 +76,7 @@ class MaterialAppWithTheme extends StatelessWidget {
           "/newDeviceOverview": (context) => NewDeviceOverview(),
           "/ignoredDeviceOverview": (context) => IgnoredDeviceOverview(),
           "/editRoom": (context) => EditRoom(),
+          "/enforcerBuilder": (context) => EnforcerBuilder(),
           "/dummie": (context) => Dummy(),
           "/administrativeSettings" : (context) => AdministrativeSettings()
         });

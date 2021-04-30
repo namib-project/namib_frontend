@@ -81,6 +81,12 @@ class _MainDrawerState extends State<MainDrawer> {
               ),
             ),
 
+            CustomListTile(
+              icon: Icons.format_list_bulleted,
+              text: "Enforcer",
+              onTap: () => {Navigator.pushReplacementNamed(context, "/enforcerBuilder")},
+            ),
+
 
             Visibility(
               visible: adminAccess,

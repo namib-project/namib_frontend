@@ -135,5 +135,9 @@
   "rename": "Umbenennen",
   "renameDisclaimer": "Wahlen Sie einen neuen Namen",
   "chooseDeviceName": "Wählen Sie einen Gerätenamen",
-  "newUser": "Neuen Nutzer anlegen"
+  "newUser": "Neuen Nutzer anlegen",
+  "enforcerList": "Liste verbundener Enforcer",
+  "certId": "Zertifikats ID",
+  "allowed": "Zugelassen",
+  "lastIP": "Letzte IP Adresse"
 }

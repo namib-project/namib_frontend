@@ -134,6 +134,9 @@
   "rename": "Rename",
   "renameDisclaimer": "Choose a new name",
   "chooseDeviceName": "Choose a device name",
-  "newUser": "Create new user"
-
+  "newUser": "Create new user",
+  "enforcerList": "List of connected enforcers",
+  "certId": "Certificate ID",
+  "allowed": "Allowed",
+  "lastIP": "Last IP address"
 }

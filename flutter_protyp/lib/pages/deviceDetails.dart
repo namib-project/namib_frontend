@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_protyp/data/device_mud/room.dart';
+import 'package:flutter_protyp/pages/formatter/timeFormatter.dart';
 import 'package:url_encoder/url_encoder.dart';
 import 'package:flutter_protyp/data/device_mud/device.dart';
 import 'package:flutter_protyp/pages/deviceDetailsBuilder.dart';
@@ -73,6 +74,9 @@ class _DeviceDetailsState extends State<DeviceDetails> {
   /// Strings for the name and the new name given by user
   String _name;
   String _newName;
+
+  /// Time formatter for time stamps
+  TimeFormatter formatter = new TimeFormatter();
 
   @override
   void initState() {
@@ -456,7 +460,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
       style: TextStyle(fontSize: 20),
     );
     var selectableText4 = SelectableText(
-      widget.device.last_interaction,
+      formatter.formatTimeAgo(widget.device.last_interaction),
       style: TextStyle(fontSize: 18),
     );
     var sizedBox2 = SizedBox(
@@ -531,7 +535,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
         style: TextStyle(fontSize: 20),
       );
       var selectableText10 = SelectableText(
-        widget.device.mud_data.expiration,
+        formatter.formatTimeAgo(widget.device.mud_data.expiration),
         style: TextStyle(fontSize: 18),
       );
       list.add(sizedBox);
@@ -548,7 +552,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
         style: TextStyle(fontSize: 20),
       );
       var selectableText12 = SelectableText(
-        widget.device.mud_data.last_update,
+        formatter.formatTimeAgo(widget.device.mud_data.last_update),
         style: TextStyle(fontSize: 18),
       );
       list.add(sizedBox);
@@ -749,7 +753,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                 style: TextStyle(fontSize: 20),
               ),
               SelectableText(
-                formatTimeAgo(widget.device.last_interaction),
+                formatter.formatTimeAgo(widget.device.last_interaction),
                 style: TextStyle(fontSize: 18),
               ),
             ],
@@ -766,7 +770,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                       style: TextStyle(fontSize: 20),
                     ),
                     SelectableText(
-                      formatTimeAgo(widget.device.mud_data.expiration),
+                      formatter.formatTimeAgo(widget.device.mud_data.expiration),
                       style: TextStyle(fontSize: 18),
                     )
                   ]
@@ -786,7 +790,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                       style: TextStyle(fontSize: 20),
                     ),
                     SelectableText(
-                      formatTimeAgo(widget.device.mud_data.last_update),
+                      formatter.formatTimeAgo(widget.device.mud_data.last_update),
                       style: TextStyle(fontSize: 18),
                     )
                   ]
@@ -842,44 +846,6 @@ class _DeviceDetailsState extends State<DeviceDetails> {
       )
     ];
     return list;
-  }
-
-  // Formatter for time stamps
-  String formatTimeAgo(String time) {
-    DateTime dateTime = DateTime.parse(time);
-    Duration diff = DateTime.now().difference(dateTime);
-
-    if (diff.inDays >= 1) {
-      return '${diff.inDays} ' + "daysAgo".tr().toString();
-    } else if (diff.inHours >= 1) {
-      return '${diff.inHours} ' + "hoursAgo".tr().toString();
-    } else if (diff.inMinutes >= 1) {
-      return '${diff.inMinutes} ' + "minutesAgo".tr().toString();
-    } else if (diff.inSeconds >= 1) {
-      return '${diff.inSeconds} ' + "secondsAgo".tr().toString();
-    } else if (diff.inDays < 0) {
-      Duration positiveTime = diff.abs();
-      return "in".tr().toString() +
-          ' ${positiveTime.inDays} ' +
-          "days".tr().toString();
-    } else if (diff.inHours < 0) {
-      Duration positiveTime = diff.abs();
-      return "in".tr().toString() +
-          ' ${positiveTime.inHours} ' +
-          "hours".tr().toString();
-    } else if (diff.inMinutes < 0) {
-      Duration positiveTime = diff.abs();
-      return "in".tr().toString() +
-          ' ${positiveTime.inMinutes} ' +
-          "minutes".tr().toString();
-    } else if (diff.inSeconds < 0) {
-      Duration positiveTime = diff.abs();
-      return "in".tr().toString() +
-          ' ${positiveTime.inSeconds} ' +
-          "seconds".tr().toString();
-    } else {
-      return 'justNow'.tr().toString();
-    }
   }
 
   // This method launch the documentation of the profils, if it is not possible there will be thrown an error

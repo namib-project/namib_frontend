@@ -1,32 +1,32 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_protyp/data/device_mud/device.dart';
+import 'package:flutter_protyp/data/enforcer.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import "package:flutter_protyp/widgets/drawer.dart";
 import 'package:easy_localization/easy_localization.dart';
 import 'package:http/http.dart' as http;
 
-import 'ignoredDevicesTable.dart';
+import 'enforcerOverview.dart';
 
 /// returns deviceOverview site
-class IgnoredDeviceOverview extends StatefulWidget {
-  _IgnoredDeviceOverviewState createState() => _IgnoredDeviceOverviewState();
+class EnforcerBuilder extends StatefulWidget {
+  _EnforcerBuilderState createState() => _EnforcerBuilderState();
 }
 
-class _IgnoredDeviceOverviewState extends State<IgnoredDeviceOverview> {
+class _EnforcerBuilderState extends State<EnforcerBuilder> {
   var response;
 
   /// A List to safe all devices
-  Future<List<Device>> devices;
+  Future<List<Enforcer>> enforcers;
 
   bool pressed = false;
 
   @override
   void initState() {
     super.initState();
-    devices = getDevices();
+    enforcers = getEnforcers();
   }
 
   @override
@@ -38,16 +38,12 @@ class _IgnoredDeviceOverviewState extends State<IgnoredDeviceOverview> {
             child: Column(children: [
           // This future builder element put in the different devices after these will be loaded
           // The future builder element a delayed sending of context
-          FutureBuilder<List<Device>>(
-            future: devices,
+          FutureBuilder<List<Enforcer>>(
+            future: enforcers,
             builder: (context, snapshotDevice) {
               if (snapshotDevice.hasData) {
                 return Expanded(
-                    child: IgnoredDevicesTable(
-                  devices: snapshotDevice.data
-                      .where((e) => e.type == "unknown")
-                      .toList(),
-                ));
+                    child: EnforcerOverview(enforcers: snapshotDevice.data));
               } else if (snapshotDevice.hasError) {
                 // If the process failed this message returns
                 print(snapshotDevice.error);
@@ -61,7 +57,7 @@ class _IgnoredDeviceOverviewState extends State<IgnoredDeviceOverview> {
                             child: Text("reload".tr().toString()),
                             onPressed: () {
                               Navigator.pushReplacementNamed(
-                                  context, "/ignoredDeviceOverview");
+                                  context, "/enforcerBuilder");
                             })
                       ]),
                 );
@@ -80,24 +76,22 @@ class _IgnoredDeviceOverviewState extends State<IgnoredDeviceOverview> {
   }
 
   // Function getting the list of devices in network from controller
-  Future<List<Device>> getDevices() async {
-    String devicesExtension = 'devices';
+  Future<List<Enforcer>> getEnforcers() async {
+    String devicesExtension = 'enforcers';
     var _response = await http.get(url + devicesExtension, headers: {
       "Content-Type": "application/json",
       "Authorization": "Bearer $jwtToken"
     }).timeout(const Duration(seconds: 5), onTimeout: () {
-      return _handleTimeOut();
+      return null;
     });
 
     if (_response.statusCode == 200) {
-      var jsonDevices = jsonDecode(_response.body) as List;
-      List<Device> devicesTest =
-          jsonDevices.map((tagJson) => Device.fromJson(tagJson)).toList();
-      return devicesTest;
+      var jsonEnforcers = jsonDecode(_response.body) as List;
+      List<Enforcer> enforcers =
+          jsonEnforcers.map((tagJson) => Enforcer.fromJson(tagJson)).toList();
+      return enforcers;
     } else {
       throw Exception("Failed to get Data");
     }
   }
-
-  dynamic _handleTimeOut() {}
 }
