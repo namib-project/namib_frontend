@@ -47,50 +47,36 @@ class _MainDrawerState extends State<MainDrawer> {
               onTap: () =>
                   {Navigator.pushReplacementNamed(context, "/deviceOverview")},
             ),
-
-            Visibility(
-              visible: adminAccess,
-              child:  CustomListTile(
-                icon: Icons.playlist_add, // or maybe: ad_units
-                text: 'unmanagedDevices'.tr().toString(),
-                onTap: () => {
-                  Navigator.pushReplacementNamed(context, "/newDeviceOverview")
-                },
-              ),
+            CustomListTile(
+              icon: Icons.playlist_add, // or maybe: ad_units
+              text: 'unmanagedDevices'.tr().toString(),
+              onTap: () => {
+                Navigator.pushReplacementNamed(context, "/newDeviceOverview")
+              },
             ),
-
-            Visibility(
-              visible: adminAccess,
-              child:  CustomListTile(
-                icon: Icons.search_off, // or maybe: ad_units
-                text: 'ignoredDevices'.tr().toString(),
-                onTap: () => {
-                  Navigator.pushReplacementNamed(
-                      context, "/ignoredDeviceOverview")
-                },
-              ),
+            CustomListTile(
+              icon: Icons.search_off, // or maybe: ad_units
+              text: 'ignoredDevices'.tr().toString(),
+              onTap: () => {
+                Navigator.pushReplacementNamed(
+                    context, "/ignoredDeviceOverview")
+              },
             ),
-
-            Visibility(
-              visible: adminAccess,
-              child:  CustomListTile(
-                icon: Icons.edit, // or maybe: ad_units
-                text: 'editRoom'.tr().toString(),
-                onTap: () =>
-                {Navigator.pushReplacementNamed(context, "/editRoom")},
-              ),
+            CustomListTile(
+              icon: Icons.edit, // or maybe: ad_units
+              text: 'editRoom'.tr().toString(),
+              onTap: () =>
+                  {Navigator.pushReplacementNamed(context, "/editRoom")},
             ),
-
             CustomListTile(
               icon: Icons.format_list_bulleted,
               text: "Enforcer",
-              onTap: () => {Navigator.pushReplacementNamed(context, "/enforcerBuilder")},
+              onTap: () =>
+                  {Navigator.pushReplacementNamed(context, "/enforcerBuilder")},
             ),
-
-
             Visibility(
               visible: adminAccess,
-              child:  CustomListTile(
+              child: CustomListTile(
                 icon: Icons.settings_applications,
                 text: "administrativeSettings".tr().toString(),
                 onTap: () => {
@@ -99,20 +85,16 @@ class _MainDrawerState extends State<MainDrawer> {
                 },
               ),
             ),
-
-
-             Visibility(
-               visible: adminAccess,
-               child:  CustomListTile(
-                 icon: Icons.group,
-                 text: "userManagement".tr().toString(),
-                 onTap: () =>
-                 {Navigator.pushReplacementNamed(context, "/userManagement")},
-               ),
-             ),
-
-
-
+            Visibility(
+              visible: adminAccess,
+              child: CustomListTile(
+                icon: Icons.group,
+                text: "userManagement".tr().toString(),
+                onTap: () => {
+                  Navigator.pushReplacementNamed(context, "/userManagement")
+                },
+              ),
+            ),
             CustomListTile(
               icon: Icons.feedback,
               text: "About",

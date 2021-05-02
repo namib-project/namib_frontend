@@ -98,14 +98,17 @@ class _EditRoomTableState extends State<EditRoomTable> {
                     ),
                   ),
                 ),
-                Container(
-                  height: 70,
-                  alignment: Alignment.center,
-                  child: SelectableText(
-                    'selectRoom'.tr().toString(),
-                    style: TextStyle(
-                      fontFamily: "OpenSans",
-                      fontSize: 20,
+                Visibility(
+                  visible: adminAccess,
+                  child: Container(
+                    height: 70,
+                    alignment: Alignment.center,
+                    child: SelectableText(
+                      'selectRoom'.tr().toString(),
+                      style: TextStyle(
+                        fontFamily: "OpenSans",
+                        fontSize: 20,
+                      ),
                     ),
                   ),
                 ),
@@ -126,19 +129,25 @@ class _EditRoomTableState extends State<EditRoomTable> {
                                   height: 250,
                                   child: _listForRooms(context),
                                 ),
-                                Container(
-                                  height: 70,
-                                  alignment: Alignment.center,
-                                  child: SelectableText(
-                                    'orCreateNew'.tr().toString(),
-                                    style: TextStyle(
-                                      fontFamily: "OpenSans",
-                                      fontSize: 16,
+                                Visibility(
+                                  visible: adminAccess,
+                                    child: Column(
+                                  children: [
+                                    Container(
+                                      height: 70,
+                                      alignment: Alignment.center,
+                                      child: SelectableText(
+                                        'orCreateNew'.tr().toString(),
+                                        style: TextStyle(
+                                          fontFamily: "OpenSans",
+                                          fontSize: 16,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                _newRoomDialog(),
-                                _bottomButtons(),
+                                    _newRoomDialog(),
+                                    _bottomButtons(),
+                                  ],
+                                ))
                               ],
                             )
                           : Container(
@@ -157,19 +166,23 @@ class _EditRoomTableState extends State<EditRoomTable> {
                                     ),
                                   ),
                                 ),
-                                Container(
-                                  height: 70,
-                                  alignment: Alignment.center,
-                                  child: SelectableText(
-                                    'orCreateNew'.tr().toString(),
-                                    style: TextStyle(
-                                      fontFamily: "OpenSans",
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ),
-                                _newRoomDialog(),
-                                _bottomButtons()
+                                Visibility(
+                                    visible: adminAccess,
+                                    child: Column(children: [
+                                      Container(
+                                        height: 70,
+                                        alignment: Alignment.center,
+                                        child: SelectableText(
+                                          'orCreateNew'.tr().toString(),
+                                          style: TextStyle(
+                                            fontFamily: "OpenSans",
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ),
+                                      _newRoomDialog(),
+                                      _bottomButtons(),
+                                    ]))
                               ])),
                     ),
                     Expanded(
@@ -319,16 +332,18 @@ class _EditRoomTableState extends State<EditRoomTable> {
             customBorder: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => RoomDetails(
-                    roomId: _roomsForDisplay[index].id,
-                  ),
-                ),
-              );
-            },
+            onTap: adminAccess
+                ? () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => RoomDetails(
+                          roomId: _roomsForDisplay[index].id,
+                        ),
+                      ),
+                    );
+                  }
+                : null,
             child: Card(
               child: Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16),

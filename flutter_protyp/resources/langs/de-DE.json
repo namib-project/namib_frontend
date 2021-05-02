@@ -139,5 +139,6 @@
   "enforcerList": "Liste verbundener Enforcer",
   "certId": "Zertifikats ID",
   "allowed": "Zugelassen",
-  "lastIP": "Letzte IP Adresse"
+  "lastIP": "Letzte IP Adresse",
+  "deleteRoom": "Raum löschen"
 }

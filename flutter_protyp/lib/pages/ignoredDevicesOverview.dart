@@ -84,14 +84,17 @@ class _IgnoredDevicesTableState extends State<IgnoredDevicesTable> {
                     ),
                   ),
                 ),
-                Container(
-                  height: 70,
-                  alignment: Alignment.center,
-                  child: SelectableText(
-                    'searchInformationQuestion'.tr().toString(),
-                    style: TextStyle(
-                      fontFamily: "OpenSans",
-                      fontSize: 20,
+                Visibility(
+                  visible: adminAccess,
+                  child: Container(
+                    height: 70,
+                    alignment: Alignment.center,
+                    child: SelectableText(
+                      'searchInformationQuestion'.tr().toString(),
+                      style: TextStyle(
+                        fontFamily: "OpenSans",
+                        fontSize: 20,
+                      ),
                     ),
                   ),
                 ),

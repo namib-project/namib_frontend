@@ -83,14 +83,17 @@ class _NewDevicesTableState extends State<NewDevicesTable> {
                     ),
                   ),
                 ),
-                Container(
-                  height: 70,
-                  alignment: Alignment.center,
-                  child: SelectableText(
-                    'chooseDeviceToAdd'.tr().toString(),
-                    style: TextStyle(
-                      fontFamily: "OpenSans",
-                      fontSize: 20,
+                Visibility(
+                  visible: adminAccess,
+                  child: Container(
+                    height: 70,
+                    alignment: Alignment.center,
+                    child: SelectableText(
+                      'chooseDeviceToAdd'.tr().toString(),
+                      style: TextStyle(
+                        fontFamily: "OpenSans",
+                        fontSize: 20,
+                      ),
                     ),
                   ),
                 ),

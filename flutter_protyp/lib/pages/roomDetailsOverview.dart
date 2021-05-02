@@ -127,6 +127,23 @@ class _RoomDetailsOverviewState extends State<RoomDetailsOverview> {
                     },
                   ),
                 ),
+                SizedBox(
+                  height: 20,
+                ),
+                Visibility(
+                  visible: adminAccess,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      _deleteRoom();
+                    },
+                    child: Text(
+                      "deleteRoom".tr().toString(),
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    style: ButtonStyle(
+                        minimumSize: MaterialStateProperty.all(Size(120, 50))),
+                  ),
+                ),
                 _bottomButtons(),
               ],
             ),
@@ -134,6 +151,20 @@ class _RoomDetailsOverviewState extends State<RoomDetailsOverview> {
         ),
       ),
     );
+  }
+
+  _deleteRoom() async {
+    String roomExtension = "rooms/${widget.room.id}";
+    var _response;
+    _response = await http.delete(
+      url + roomExtension,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $jwtToken"
+      },
+    ).timeout(Duration(seconds: 5));
+    print(_response.statusCode);
+    _forward();
   }
 
   _bottomButtons() {
