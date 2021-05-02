@@ -35,13 +35,13 @@ class _EnforcerOverviewState extends State<EnforcerOverview> {
 
   TimeFormatter formatter = new TimeFormatter();
 
-
   @override
   void initState() {
     super.initState();
     _enforcersForDisplay = widget.enforcers;
     _enforcersForDisplay.forEach((element) {
-      element.last_interaction = formatter.formatTimeAgo(element.last_interaction);
+      element.last_interaction =
+          formatter.formatTimeAgo(element.last_interaction);
     });
     _sortEnforcersForDisplay();
   }
@@ -194,10 +194,16 @@ class _EnforcerOverviewState extends State<EnforcerOverview> {
                 ),
                 Text(
                   "lastinteraction".tr().toString(),
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                Text("lastIP".tr().toString(),
-                style: TextStyle(fontSize: 20),)
+                Text(
+                  "lastIP".tr().toString(),
+                  style: TextStyle(fontSize: 20),
+                  textAlign: TextAlign.center,
+                )
               ],
             ),
           ),
@@ -240,7 +246,6 @@ class _EnforcerOverviewState extends State<EnforcerOverview> {
       "Content-Type": "application/json",
       "Authorization": "Bearer $jwtToken"
     });
-
   }
 
   ListView _listForDevices(BuildContext context) {
@@ -271,12 +276,15 @@ class _EnforcerOverviewState extends State<EnforcerOverview> {
                     ),
                     Checkbox(
                         value: _enforcersForDisplay[index].allowed,
-                        onChanged: adminAccess ? (value) {
-                          setState(() {
-                            _enforcersForDisplay[index].allowed = value;
-                          });
-                          _updateEnforcer(_enforcersForDisplay[index], value);
-                        } : null),
+                        onChanged: adminAccess
+                            ? (value) {
+                                setState(() {
+                                  _enforcersForDisplay[index].allowed = value;
+                                });
+                                _updateEnforcer(
+                                    _enforcersForDisplay[index], value);
+                              }
+                            : null),
                     Text(
                       _enforcersForDisplay[index].last_interaction,
                       style: TextStyle(

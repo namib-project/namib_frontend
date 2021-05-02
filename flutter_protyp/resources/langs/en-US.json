@@ -138,6 +138,6 @@
   "enforcerList": "List of connected enforcers",
   "certId": "Certificate ID",
   "allowed": "Allowed",
-  "lastIP": "Last IP address",
+  "lastIP": "Last \n IP address",
   "deleteRoom": "Delete room"
 }
