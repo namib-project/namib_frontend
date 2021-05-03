@@ -78,74 +78,26 @@ class _UserManagementState extends State<UserManagement> {
     );
   }
 
-  // This method reopens the side after editing changes
-  void saveChanges() {
-    Navigator.pushReplacementNamed(context, "/userManagement");
-  }
-
-  void forwarding() {
-    Navigator.pushReplacementNamed(context, "/userManagement");
-  }
-
-  void deleteUser(User user) {
-    Navigator.pushReplacementNamed(context, "/userManagement");
-  }
-
-
-  // TODO: Embedding the userhandling
-// Function to get the users-list from controller
+ // Function to get the users-list from controller
   Future<List<User>> getUsers() async {
     String usersExtension = 'management/users/';
-    var _response = await http.get(url + usersExtension,
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer $jwtToken"
-        }).timeout(const Duration(seconds: 5), onTimeout: () {
-      return _handleTimeOut();
+    var _response = await http.get(url + usersExtension, headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $jwtToken"
+    }).timeout(const Duration(seconds: 5), onTimeout: () {
+      return null;
     });
+
     if (_response.statusCode == 200) {
       String _data = utf8.decode(_response.bodyBytes);
-      print(json.decode(_data));
 
       var jdecode = jsonDecode(_data) as List;
-      List<User> mudServObjs =
-      jdecode.map((tagJson) => User.fromJson(tagJson)).toList();
-      return mudServObjs;
+
+      List<User> userList =
+          jdecode.map((tagJson) => User.fromJson(tagJson)).toList();
+      return userList;
     } else {
       throw Exception("Failed to get Data");
     }
   }
-
-  void createUser() async {
-    String createusersExtension = 'management/users';
-    var _responseCreate = await http.post(url + createusersExtension,
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer $jwtToken"
-        },
-        body: json.encode({
-          'password': newPassword,
-          'roles_ids': roleIds,
-          'username': newUsername
-        }
-        )
-    );
-  }
-
-
- //void getSpecificUser() async {
- //  String specificUserEExtension = 'management/users/{$userID}';
- //  var _responseSpecificUser = await http.get(url + specificUserEExtension,
- //      headers: {
- //        "Content-Type": "application/json",
- //        "Authorization": "Bearer $jwtToken"
- //      }).timeout(const Duration(seconds: 5), onTimeout: () {
- //        return _handleTimeOut();
- //      },
- //  );
- //  print(json.decode(_responseSpecificUser.body));
- //}
-
-
-  dynamic _handleTimeOut() {}
 }

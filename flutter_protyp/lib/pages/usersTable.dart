@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:flutter_protyp/data/roles.dart';
-import 'package:flutter_protyp/pages/userManagement.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +7,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_protyp/data/user.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:linkable/constants.dart';
 import 'package:http/http.dart' as http;
 
 // This class builds the users-table to edit
@@ -39,10 +37,9 @@ class UsersTableState extends State<UsersTable> {
 
   @override
   void initState() {
-    setState(() {
-      _usersForDisplay = widget.users;
-      _sortUsersForDisplay();
-    });
+    super.initState();
+    _usersForDisplay = widget.users;
+    _sortUsersForDisplay();
   }
 
   Widget build(BuildContext context) {
@@ -67,9 +64,19 @@ class UsersTableState extends State<UsersTable> {
                     ),
                   ),
                 ),
-
                 SizedBox(
                   height: 20,
+                ),
+                ElevatedButton(
+                  style: ButtonStyle(
+                      minimumSize: MaterialStateProperty.all(
+                          Size(160.0, 50.0)),
+                      padding: MaterialStateProperty.all(
+                          EdgeInsets.all(10))),
+                  child: Text("newUser".tr().toString()),
+                  onPressed: () {
+                    _createUserDialog(context);
+                  },
                 ),
                 Row(
                   children: [
@@ -82,22 +89,12 @@ class UsersTableState extends State<UsersTable> {
                       child: (widget.users != null && widget.users.length != 0)
                           ? Column(
                               children: <Widget>[
-                                ElevatedButton(
-                      style: ButtonStyle(
-                          minimumSize: MaterialStateProperty.all(Size(160.0, 50.0)),
-                          padding: MaterialStateProperty.all(EdgeInsets.all(10))
-                      ),
-                                  child: Text("newUser".tr().toString()),
-                                  onPressed:() {
-                                      _createUserDialog(context);
-                                  },
-                                ),
+
                                 SizedBox(
                                   height: 10,
                                 ),
                                 _searchBar(),
                                 _listHeader(),
-
                                 Container(
                                   height: 80.0 * _usersForDisplay.length,
                                   child: _listForUsers(context),
@@ -258,8 +255,6 @@ class UsersTableState extends State<UsersTable> {
                     IconButton(
                       onPressed: () {
                         _deleteUserDialog(context, _usersForDisplay[index]);
-
-
                       },
                       icon: Icon(
                         FontAwesomeIcons.trash,
@@ -289,7 +284,6 @@ class UsersTableState extends State<UsersTable> {
 
   // This dialog will appear, if you need to delete a user
   void _deleteUserDialog(BuildContext context, User user) {
-
     showDialog(
         context: context,
         barrierDismissible: true,
@@ -355,23 +349,19 @@ class UsersTableState extends State<UsersTable> {
 
   // This dialog will appear, if you need to edit a user-role
   void _editUserRoleDialog(BuildContext context, User user) {
-
     bool _admin = false;
     bool _user = false;
 
-
-    if(user.roles != null )
-      {
-        for (Roles r in user.roles )
-          {
-            if(r.name == "admin"){
-              _admin = true;
-            }else if(r.name == "reader") {
-              _user = true;
-            }
-          }
+    if (user.roles != null) {
+      for (Roles r in user.roles) {
+        if (r.name == "admin") {
+          _admin = true;
+        } else if (r.name == "reader") {
+          _user = true;
+        }
       }
-      ;
+    }
+    ;
     showDialog(
         context: context,
         barrierDismissible: true,
@@ -443,12 +433,11 @@ class UsersTableState extends State<UsersTable> {
                                     value: _user,
                                     onChanged: (bool value) {
                                       setState(() {
-                                  _user = value;
-                                      }); //TODO erst übernehmen wenn save drücken
+                                        _user = value;
+                                      });
                                     })
                               ],
                             ),
-
                           ],
                         ),
                         SizedBox(
@@ -478,7 +467,7 @@ class UsersTableState extends State<UsersTable> {
                               ),
                               onPressed: () {
                                 Navigator.of(context).pop(); // dismiss dialog
-                                _saveChanges(user.user_id,_admin,_user, user);
+                                _saveChanges(user.id, _admin, _user, user);
                               },
                             ),
                           ],
@@ -494,162 +483,128 @@ class UsersTableState extends State<UsersTable> {
   }
 
   // This method is called after the changes are made
-  void _saveChanges(int _userID, bool _admin, bool _user, User user ) async {
-
+  void _saveChanges(int _userID, bool _admin, bool _user, User user) async {
     int _roleID = 7;
 
-    int idtest = user.user_id;
+    int idtest = user.id;
 
     String assignRoleExtension = "roles/assign";
     String unassignRoleExtension = "roles/unassign";
 
-    if (_admin == false  && _user == true ){
-
+    if (_admin == false && _user == true) {
       _roleID = 1;
-     int  _unassignID = 0;
+      int _unassignID = 0;
 
+       await http
+          .post(url + assignRoleExtension,
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer $jwtToken"
+              },
+              body: json.encode({'role_id': _roleID, 'user_id': idtest}))
+          .timeout(const Duration(seconds: 7), onTimeout: () {
+        return null;
+      });
 
-      var _respopnseAssignRoles = await http.post(url + assignRoleExtension,
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer $jwtToken"
-          },
-          body: json.encode( {
-            'role_id': _roleID,
-            'user_id': idtest
-          })
-      ).timeout(const Duration(seconds: 7),
-          onTimeout: () {
-            return _handleTimeOut();
-          });
-
-      var _respopnseUnassignRoles = await http.post(url + unassignRoleExtension,
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer $jwtToken"
-          },
-          body: json.encode( {
-            'role_id': _unassignID,
-            'user_id': idtest
-          })
-      ).timeout(const Duration(seconds: 7),
-          onTimeout: () {
-            return _handleTimeOut();
-          });
+       await http
+          .post(url + unassignRoleExtension,
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer $jwtToken"
+              },
+              body: json.encode({'role_id': _unassignID, 'user_id': idtest}))
+          .timeout(const Duration(seconds: 7), onTimeout: () {
+        return null;
+      });
 
       Navigator.pushReplacementNamed(context, "/userManagement");
-    }else if (_user == true && _admin == true )
-      {
-        // int _unassignID = 0;
-        _roleID = 0;
+    } else if (_user == true && _admin == true) {
+      _roleID = 0;
 
+      await http
+          .post(url + assignRoleExtension,
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer $jwtToken"
+              },
+              body: json.encode({'role_id': _roleID, 'user_id': idtest}))
+          .timeout(const Duration(seconds: 7), onTimeout: () {
+        return null;
+      });
 
-        var _respopnseAssignRoles = await http.post(url + assignRoleExtension,
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": "Bearer $jwtToken"
-            },
-            body: json.encode( {
-              'role_id': _roleID,
-              'user_id': idtest
-            })
-        ).timeout(const Duration(seconds: 7),
-            onTimeout: () {
-              return _handleTimeOut();
-            });
-
-        Navigator.pushReplacementNamed(context, "/userManagement");
-      }else if ( _user == false && _admin == true){
-
+      Navigator.pushReplacementNamed(context, "/userManagement");
+    } else if (_user == false && _admin == true) {
       _roleID = 0;
       int _unassignID = 1;
 
-      var _respopnseAssignRoles = await http.post(url + assignRoleExtension,
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer $jwtToken"
-          },
-          body: json.encode( {
-            'role_id': _roleID,
-            'user_id': idtest
-          })
-      ).timeout(const Duration(seconds: 7),
-          onTimeout: () {
-            return _handleTimeOut();
-          });
+       await http
+          .post(url + assignRoleExtension,
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer $jwtToken"
+              },
+              body: json.encode({'role_id': _roleID, 'user_id': idtest}))
+          .timeout(const Duration(seconds: 7), onTimeout: () {
+        return null;
+      });
 
-      var _respopnseUnassignRoles = await http.post(url + unassignRoleExtension,
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer $jwtToken"
-          },
-          body: json.encode( {
-            'role_id': _unassignID,
-            'user_id': idtest
-          })
-      ).timeout(const Duration(seconds: 7),
-          onTimeout: () {
-            return _handleTimeOut();
-          });
+       await http
+          .post(url + unassignRoleExtension,
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer $jwtToken"
+              },
+              body: json.encode({'role_id': _unassignID, 'user_id': idtest}))
+          .timeout(const Duration(seconds: 7), onTimeout: () {
+        return null;
+      });
 
       Navigator.pushReplacementNamed(context, "/userManagement");
-    }
-    else if ( _user == false && _admin == false){
-
+    } else if (_user == false && _admin == false) {
       int _unassignID = 1;
       int _unassignID2 = 0;
 
-      var _respopnseUnassignRoles = await http.post(url + unassignRoleExtension,
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer $jwtToken"
-          },
-          body: json.encode( {
-            'role_id': _unassignID,
-            'user_id': idtest
-          })
-      ).timeout(const Duration(seconds: 7),
-          onTimeout: () {
-            return _handleTimeOut();
-          });
+       await http
+          .post(url + unassignRoleExtension,
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer $jwtToken"
+              },
+              body: json.encode({'role_id': _unassignID, 'user_id': idtest}))
+          .timeout(const Duration(seconds: 7), onTimeout: () {
+        return null;
+      });
 
-      var _respopnseUnassignRoles2 = await http.post(url + unassignRoleExtension,
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer $jwtToken"
-          },
-          body: json.encode( {
-            'role_id': _unassignID2,
-            'user_id': idtest
-          })
-      ).timeout(const Duration(seconds: 7),
-          onTimeout: () {
-            return _handleTimeOut();
-          });
+       await http
+          .post(url + unassignRoleExtension,
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer $jwtToken"
+              },
+              body: json.encode({'role_id': _unassignID2, 'user_id': idtest}))
+          .timeout(const Duration(seconds: 7), onTimeout: () {
+        return null;
+      });
       Navigator.pushReplacementNamed(context, "/userManagement");
-
-
     }
   }
 
   // This method is called after the user was deleted
   void _deleteUser(User user) async {
-
-    int userIDForRequest = user.user_id;
+    int userIDForRequest = user.id;
 
     String deleteUserExtension = 'management/users/$userIDForRequest';
-    var _responseDelete = await http.delete(url + deleteUserExtension,
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer $jwtToken"
-        },
+    await http.delete(
+      url + deleteUserExtension,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $jwtToken"
+      },
     );
-    Navigator.pushReplacementNamed(context, "/userManagement");
+    Navigator.pushReplacementNamed(context, "/registration");
   }
 }
 
-  void _createUserDialog(BuildContext context) {
-    Navigator.pushReplacementNamed(context, "/registration");
-  }
-
-dynamic _handleTimeOut() {}
+void _createUserDialog(BuildContext context) {
+  Navigator.pushReplacementNamed(context, "/registration");
+}
