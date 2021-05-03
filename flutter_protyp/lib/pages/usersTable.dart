@@ -54,7 +54,7 @@ class UsersTableState extends State<UsersTable> {
                   height: 30,
                 ),
                 Container(
-                  height: 30,
+                  height: 40,
                   child: SelectableText(
                     'Benutzer verwalten'.tr().toString(),
                     style: TextStyle(
@@ -69,10 +69,8 @@ class UsersTableState extends State<UsersTable> {
                 ),
                 ElevatedButton(
                   style: ButtonStyle(
-                      minimumSize: MaterialStateProperty.all(
-                          Size(160.0, 50.0)),
-                      padding: MaterialStateProperty.all(
-                          EdgeInsets.all(10))),
+                      minimumSize: MaterialStateProperty.all(Size(160.0, 50.0)),
+                      padding: MaterialStateProperty.all(EdgeInsets.all(10))),
                   child: Text("newUser".tr().toString()),
                   onPressed: () {
                     _createUserDialog(context);
@@ -89,7 +87,6 @@ class UsersTableState extends State<UsersTable> {
                       child: (widget.users != null && widget.users.length != 0)
                           ? Column(
                               children: <Widget>[
-
                                 SizedBox(
                                   height: 10,
                                 ),
@@ -495,7 +492,7 @@ class UsersTableState extends State<UsersTable> {
       _roleID = 1;
       int _unassignID = 0;
 
-       await http
+      await http
           .post(url + assignRoleExtension,
               headers: {
                 "Content-Type": "application/json",
@@ -506,7 +503,7 @@ class UsersTableState extends State<UsersTable> {
         return null;
       });
 
-       await http
+      await http
           .post(url + unassignRoleExtension,
               headers: {
                 "Content-Type": "application/json",
@@ -537,7 +534,7 @@ class UsersTableState extends State<UsersTable> {
       _roleID = 0;
       int _unassignID = 1;
 
-       await http
+      await http
           .post(url + assignRoleExtension,
               headers: {
                 "Content-Type": "application/json",
@@ -548,7 +545,7 @@ class UsersTableState extends State<UsersTable> {
         return null;
       });
 
-       await http
+      await http
           .post(url + unassignRoleExtension,
               headers: {
                 "Content-Type": "application/json",
@@ -564,7 +561,7 @@ class UsersTableState extends State<UsersTable> {
       int _unassignID = 1;
       int _unassignID2 = 0;
 
-       await http
+      await http
           .post(url + unassignRoleExtension,
               headers: {
                 "Content-Type": "application/json",
@@ -575,7 +572,7 @@ class UsersTableState extends State<UsersTable> {
         return null;
       });
 
-       await http
+      await http
           .post(url + unassignRoleExtension,
               headers: {
                 "Content-Type": "application/json",
@@ -601,10 +598,10 @@ class UsersTableState extends State<UsersTable> {
         "Authorization": "Bearer $jwtToken"
       },
     );
+    Navigator.pushReplacementNamed(context, "/userManagement");
+  }
+
+  void _createUserDialog(BuildContext context) {
     Navigator.pushReplacementNamed(context, "/registration");
   }
-}
-
-void _createUserDialog(BuildContext context) {
-  Navigator.pushReplacementNamed(context, "/registration");
 }
