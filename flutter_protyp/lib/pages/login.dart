@@ -407,11 +407,11 @@ class _LoginState extends State<Login> {
     Function eq = const ListEquality().equals;
     List<dynamic> user = ["**/list", "**/read"];
     List<dynamic> admin = ["**"];
-    if (eq(admin, permissions) == true) {
+    if (eq(admin, permissions)) {
       adminAccess = true;
       userAccess = false;
       roleID = 0;
-    } else if (eq(user, permissions) == true) {
+    } else if (eq(user, permissions)) {
       userAccess = true;
       adminAccess = false;
       roleID = 1;

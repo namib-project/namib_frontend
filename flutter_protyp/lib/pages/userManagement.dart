@@ -131,18 +131,20 @@ class _UserManagementState extends State<UserManagement> {
         )
     );
   }
-  void getSpecificUser() async {
-    String specificUserEExtension = 'management/users/{$userID}';
-    var _responseSpecificUser = await http.get(url + specificUserEExtension,
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer $jwtToken"
-        }).timeout(const Duration(seconds: 5), onTimeout: () {
-          return _handleTimeOut();
-        },
-    );
-    print(json.decode(_responseSpecificUser.body));
-  }
+
+
+ //void getSpecificUser() async {
+ //  String specificUserEExtension = 'management/users/{$userID}';
+ //  var _responseSpecificUser = await http.get(url + specificUserEExtension,
+ //      headers: {
+ //        "Content-Type": "application/json",
+ //        "Authorization": "Bearer $jwtToken"
+ //      }).timeout(const Duration(seconds: 5), onTimeout: () {
+ //        return _handleTimeOut();
+ //      },
+ //  );
+ //  print(json.decode(_responseSpecificUser.body));
+ //}
 
 
   dynamic _handleTimeOut() {}
