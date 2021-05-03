@@ -139,5 +139,6 @@
   "certId": "Certificate ID",
   "allowed": "Allowed",
   "lastIP": "Last \n IP address",
-  "deleteRoom": "Delete room"
+  "deleteRoom": "Delete room",
+  "wrongRoomName": "The room name is already used!"
 }

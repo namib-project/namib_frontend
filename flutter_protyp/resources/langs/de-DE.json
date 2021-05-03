@@ -140,5 +140,6 @@
   "certId": "Zertifikats ID",
   "allowed": "Zugelassen",
   "lastIP": "Letzte \n IP Adresse",
-  "deleteRoom": "Raum löschen"
+  "deleteRoom": "Raum löschen",
+  "wrongRoomName": "Der gewählte Name ist schon vergeben!"
 }

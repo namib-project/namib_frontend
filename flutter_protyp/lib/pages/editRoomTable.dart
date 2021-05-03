@@ -28,6 +28,8 @@ class _EditRoomTableState extends State<EditRoomTable> {
   List<Room> _roomsForDisplay;
 
   String _newRoomName;
+  bool roomnameMessage = false;
+
 
   /// to get the value to create a room with color use: currentColor.value.toString()
   Color _newColor = Color(0xFFB00020);
@@ -145,6 +147,18 @@ class _EditRoomTableState extends State<EditRoomTable> {
                                       ),
                                     ),
                                     _newRoomDialog(),
+                                      Visibility(
+                                        visible: roomnameMessage,
+                                        child: Container(
+                                          height: 50,
+                                          alignment: Alignment.center,
+                                          child: SelectableText(
+                                            "wrongRoomName".tr().toString(),
+                                            style:
+                                            TextStyle(color: Colors.red[700], fontSize: 20),
+                                          ),
+                                        ),
+                                      ),
                                     _bottomButtons(),
                                   ],
                                 ))
@@ -181,8 +195,25 @@ class _EditRoomTableState extends State<EditRoomTable> {
                                         ),
                                       ),
                                       _newRoomDialog(),
+
+                                        Visibility(
+                                          visible: roomnameMessage,
+                                          child: Container(
+                                            height: 50,
+                                            alignment: Alignment.center,
+                                            child: SelectableText(
+                                              "wrongRoomName".tr().toString(),
+                                              style:
+                                              TextStyle(color: Colors.red[700], fontSize: 50),
+                                            ),
+                                          ),
+                                        ),
                                       _bottomButtons(),
-                                    ]))
+                                    ])),
+                                SizedBox(
+                                  height: 10,
+                                ),
+
                               ])),
                     ),
                     Expanded(
@@ -211,6 +242,7 @@ class _EditRoomTableState extends State<EditRoomTable> {
             height: 50,
             width: 280,
             child: TextField(
+              maxLength: 50,
               obscureText: false,
               cursorColor: Colors.grey,
               decoration: InputDecoration(
@@ -224,6 +256,7 @@ class _EditRoomTableState extends State<EditRoomTable> {
               },
             ),
           ),
+
           SizedBox(
             width: 20,
           ),
@@ -390,9 +423,11 @@ class _EditRoomTableState extends State<EditRoomTable> {
     return Container(
       height: 70,
       alignment: Alignment.center,
+
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
+
           TextButton(
               child: Text(
                 'create'.tr().toString(),
@@ -440,8 +475,24 @@ class _EditRoomTableState extends State<EditRoomTable> {
           )
           .timeout(Duration(seconds: 5));
     }
+    print(_response.statusCode);
+    checkResponse(_response.statusCode);
 
-    Navigator.pushReplacementNamed(context, "/editRoom");
+
+  }
+
+  void checkResponse(int statusCode){
+
+    if (statusCode == 409) {
+
+      setState(() {
+        roomnameMessage = true;
+      });
+
+    } else if (statusCode == 200) {
+      Navigator.pushReplacementNamed(context, "/editRoom");
+      roomnameMessage = false;
+    }
   }
 
   // Gives the colorPicker AlertDialog with the colors above
