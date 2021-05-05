@@ -5,7 +5,7 @@ import 'package:flutter_protyp/pages/deviceOverview.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:http/http.dart' as http;
 import 'dummy.dart';
-import 'handlers/ThemeHandler.dart';
+import 'handlers/ThemeChangeHandler.dart';
 
 // Class that gets the config variables after successful login,
 // alters theme if necessary

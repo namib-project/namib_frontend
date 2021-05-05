@@ -7,7 +7,7 @@ import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:html';
-import 'handlers/ThemeHandler.dart';
+import 'handlers/ThemeChangeHandler.dart';
 
 // This class get the important information for building the application before the login appears
 

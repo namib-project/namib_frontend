@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_protyp/pages/handlers/ThemeHandler.dart';
+import 'package:flutter_protyp/pages/handlers/ThemeChangeHandler.dart';
 import "package:flutter_protyp/widgets/constant.dart";
 import 'package:provider/provider.dart';
 import 'package:flutter_protyp/widgets/theme.dart';
