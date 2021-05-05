@@ -122,19 +122,19 @@ class _SettingsPopupState extends State<SettingsPopup> {
                   },
                 ),
                 // Switch to change expert mode/normal mode
-                SwitchListTile(
-                  title: Text(
-                    "expertMode".tr().toString(),
-                    style: TextStyle(
-                      fontSize: 18,
-                    ),
-                  ),
-                  activeColor: buttonColor,
-                  value: expertMode,
-                  onChanged: (bool value) {
-                    setExpertMode(setState, value);
-                  },
-                ),
+                // SwitchListTile(
+                //   title: Text(
+                //     "expertMode".tr().toString(),
+                //     style: TextStyle(
+                //       fontSize: 18,
+                //     ),
+                //   ),
+                //   activeColor: buttonColor,
+                //   value: expertMode,
+                //   onChanged: (bool value) {
+                //     setExpertMode(setState, value);
+                //   },
+                // ),
 
                 // Switch to change languages
                 Container(
@@ -278,13 +278,13 @@ class _SettingsPopupState extends State<SettingsPopup> {
 
   // This method activates the expert mode, if the devices is new, its default turned out
   // otherwise its saved in the system variables
-  void setExpertMode(StateSetter setState, bool value) {
-    ThemeChangeHandler handler = ThemeChangeHandler();
-    setState(() {
-      handler.changeExpertMode(value, context);
-    });
-    handler.setExpertModeUserConfig(expertMode);
-  }
+  // void setExpertMode(StateSetter setState, bool value) {
+  //   ThemeChangeHandler handler = ThemeChangeHandler();
+  //   setState(() {
+  //     handler.changeExpertMode(value, context);
+  //   });
+  //   handler.setExpertModeUserConfig(expertMode);
+  // }
 
   // This method activates the dark mode, if the devices is new, its default turned out
   // otherwise its saved in the system variables

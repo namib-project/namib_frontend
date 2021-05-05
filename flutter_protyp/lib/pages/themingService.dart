@@ -26,14 +26,14 @@ class _ThemingServiceState extends State<ThemingService> {
   /// Variables that are expected from controller
   Future<String> configLanguage;
   Future<bool> configDarkMode;
-  Future<bool> configExpertMode;
+ // Future<bool> configExpertMode;
 
   // Init function that calls functions for requesting data from controller
   @override
   void initState() {
     super.initState();
     configDarkMode = _getDarkModeUserConfig();
-    configExpertMode = _getExpertModeUsersConfig();
+   // configExpertMode = _getExpertModeUsersConfig();
     configLanguage = _getLanguageUsersConfig();
   }
 
@@ -131,25 +131,25 @@ class _ThemingServiceState extends State<ThemingService> {
   }
 
   // Function try to fetch data for setting the expert mode from controller
-  Future<bool> _getExpertModeUsersConfig() async {
-    String urlExtension = "users/config/expertMode";
-    try {
-      // If request is successful expert mode gets alter if necessary, if request is
-      // not successful nothing happens because expert mode is off by default
-      var response = await http.get(url + urlExtension, headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer $jwtToken"
-      });
-      if (response.statusCode == 200) {
-        if (jsonDecode(response.body)["value"] == "true") {
-          themeChangeHandler.changeExpertMode(true, context);
-        }
-        return true;
-      } else {
-        return expertMode;
-      }
-    } on Exception {
-      return expertMode;
-    }
-  }
+  // Future<bool> _getExpertModeUsersConfig() async {
+  //   String urlExtension = "users/config/expertMode";
+  //   try {
+  //     // If request is successful expert mode gets alter if necessary, if request is
+  //     // not successful nothing happens because expert mode is off by default
+  //     var response = await http.get(url + urlExtension, headers: {
+  //       "Content-Type": "application/json",
+  //       "Authorization": "Bearer $jwtToken"
+  //     });
+  //     if (response.statusCode == 200) {
+  //       if (jsonDecode(response.body)["value"] == "true") {
+  //         themeChangeHandler.changeExpertMode(true, context);
+  //       }
+  //       return true;
+  //     } else {
+  //       return expertMode;
+  //     }
+  //   } on Exception {
+  //     return expertMode;
+  //   }
+  // }
 }

@@ -53,22 +53,22 @@ class ThemeChangeHandler {
 
   // Function that changes the apps appearance by the given value
   // If true all Visibility widget depending on this expert mode variable are shown
-  void changeExpertMode(bool value, BuildContext context) {
-    expertMode = value;
-    ThemeChanger themeChanger =
-        Provider.of<ThemeChanger>(context, listen: false);
-    !darkMode
-        ? themeChanger.setTheme(ThemeData.light().copyWith(
-            primaryColor: primaryColor,
-            accentColor: primaryColor,
-            hintColor: Colors.grey,
-          ))
-        : themeChanger.setTheme(ThemeData.dark().copyWith(
-            primaryColor: primaryColor,
-            accentColor: primaryColor,
-            hintColor: Colors.grey,
-          ));
-  }
+  // void changeExpertMode(bool value, BuildContext context) {
+  //   expertMode = value;
+  //   ThemeChanger themeChanger =
+  //       Provider.of<ThemeChanger>(context, listen: false);
+  //   !darkMode
+  //       ? themeChanger.setTheme(ThemeData.light().copyWith(
+  //           primaryColor: primaryColor,
+  //           accentColor: primaryColor,
+  //           hintColor: Colors.grey,
+  //         ))
+  //       : themeChanger.setTheme(ThemeData.dark().copyWith(
+  //           primaryColor: primaryColor,
+  //           accentColor: primaryColor,
+  //           hintColor: Colors.grey,
+  //         ));
+  // }
 
   // Function that posts the value of the dark mode variable to the key value store on controller
   void setDarkModeUserConfig(bool value) async {
@@ -101,17 +101,17 @@ class ThemeChangeHandler {
   }
 
   // Function that posts the value of the expert mode variable to the key value store on controller
-  setExpertModeUserConfig(bool value) async {
-    String urlExpertModeExtension = "users/configs/expertMode";
-    try {
-      await http.post(url + urlExpertModeExtension,
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer $jwtToken"
-          },
-          body: jsonEncode({
-            "value": "$value",
-          }));
-    } on Exception {}
-  }
+  // setExpertModeUserConfig(bool value) async {
+  //   String urlExpertModeExtension = "users/configs/expertMode";
+  //   try {
+  //     await http.post(url + urlExpertModeExtension,
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           "Authorization": "Bearer $jwtToken"
+  //         },
+  //         body: jsonEncode({
+  //           "value": "$value",
+  //         }));
+  //   } on Exception {}
+  // }
 }
