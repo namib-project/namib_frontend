@@ -4,14 +4,13 @@ import 'package:flutter_protyp/pages/about.dart';
 import 'package:flutter_protyp/pages/administrativeSettings.dart';
 import "package:flutter_protyp/pages/deviceOverview.dart";
 import 'package:flutter_protyp/pages/dummy.dart';
-import 'package:flutter_protyp/pages/editRoom.dart';
+import 'package:flutter_protyp/pages/editRoomBuilder.dart';
 import 'package:flutter_protyp/pages/ignoredDeviceBuilder.dart';
-import "package:flutter_protyp/pages/newDevice.dart";
-import "package:flutter_protyp/pages/newDeviceOverview.dart";
+import "package:flutter_protyp/pages/newDeviceBuilder.dart";
 import 'package:flutter_protyp/pages/registration.dart';
 import 'package:flutter_protyp/pages/startService.dart';
 import 'package:flutter_protyp/pages/manageUser.dart';
-import 'package:flutter_protyp/pages/userManagement.dart';
+import 'package:flutter_protyp/pages/userManagementBuilder.dart';
 import 'package:flutter_protyp/pages/enforcerBuilder.dart';
 import 'package:flutter_protyp/widgets/theme.dart';
 import 'package:provider/provider.dart';
@@ -72,7 +71,6 @@ class MaterialAppWithTheme extends StatelessWidget {
           "/registrationStart": (context) => RegistrationStart(),
           "/about": (context) => About(),
           "/userManagement": (context) => UserManagement(),
-          "/newDevice": (context) => NewDevice(),
           "/newDeviceOverview": (context) => NewDeviceOverview(),
           "/ignoredDeviceOverview": (context) => IgnoredDeviceOverview(),
           "/editRoom": (context) => EditRoom(),

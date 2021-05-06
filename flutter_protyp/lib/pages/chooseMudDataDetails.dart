@@ -3,36 +3,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_protyp/data/device_mud/mudData.dart';
-import 'package:flutter_protyp/pages/chooseMudDataDetailsTable.dart';
-import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:http/http.dart' as http;
-import 'package:url_encoder/url_encoder.dart';
-import 'dart:convert';
 
-import 'package:flutter_svg/flutter_svg.dart';
-
-class ChooseMudDataDetails extends StatefulWidget {
-  const ChooseMudDataDetails({
+class ChooseMudDataDetailsTable extends StatefulWidget {
+  const ChooseMudDataDetailsTable({
     Key key,
-    @required this.mudGuessUrl,
+    @required this.mudData,
   }) : super(key: key);
-  final String mudGuessUrl;
 
-  _ChooseMudDataDetailsState createState() => _ChooseMudDataDetailsState();
+  final MUDData mudData;
+
+  @override
+  _ChooseMudDataDetailsTableState createState() =>
+      _ChooseMudDataDetailsTableState();
 }
 
-class _ChooseMudDataDetailsState extends State<ChooseMudDataDetails> {
+class _ChooseMudDataDetailsTableState extends State<ChooseMudDataDetailsTable> {
+  bool inRegion = false;
+
+  bool editColumn = false;
+  bool resetButton = false;
+
   List<String> _aclListForDisplay = [];
   List<String> _aclListCopy = [];
 
-  Future<List<MUDData>> _mudDataFuture;
-  MUDData _mudData;
-
-  var response;
-
   bool _sortAscending = true;
+
   Icon _arrowUp = Icon(
     FontAwesomeIcons.arrowUp,
     size: 17,
@@ -45,61 +42,114 @@ class _ChooseMudDataDetailsState extends State<ChooseMudDataDetails> {
   @override
   void initState() {
     super.initState();
-    _mudDataFuture = _getMudDataFuture();
+    _generateDnsList();
+    _aclListForDisplay = List.from(_aclListCopy);
+    _sortAclListForDisplay();
   }
 
+  @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: AppBar(
-        actions: <Widget>[
-          Padding(
-            padding: mobileDevice
-                ? EdgeInsets.fromLTRB(12, 5, 12, 12)
-                : EdgeInsets.fromLTRB(0, 5, 12, 12),
-            child: SettingsPopup(),
-          ),
-        ],
-      ),
+    return Scaffold(
       body: Center(
-        child: FutureBuilder<List<MUDData>>(
-            future: _mudDataFuture,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return ChooseMudDataDetailsTable(
-                  mudData: snapshot.data[0],
-                );
-              } else if (snapshot.hasError) {
-                // If the process failed this message returns
-                print(snapshot.error);
-                return Container(
-                  width: 600,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      SelectableText("wentWrongError".tr().toString()),
-                      ElevatedButton(
-                        child: Text("reload".tr().toString()),
-                        onPressed: () {
-                          Navigator.pushReplacementNamed(
-
-                              /// TODO: mit daten die seite neu laden
-                              context,
-                              "/chooseMudDataDetails");
-                        },
-                      )
-                    ],
-                  ),
-                );
-              }
-              // By default, show a loading spinner.
-              else {
-                return SizedBox(
-                  width: 30,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Container(
+            child: Column(
+              children: <Widget>[
+                SizedBox(
                   height: 30,
-                  child: CircularProgressIndicator(),
-                );
-              }
-            }),
+                ),
+                SelectableText(
+                  widget.mudData.systeminfo == null
+                      ? ""
+                      : widget.mudData.systeminfo,
+                  style: TextStyle(
+                    fontSize: 25,
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                SelectableText(
+                  widget.mudData.url,
+                  style: TextStyle(
+                    fontSize: 25,
+                  ),
+                ),
+                // Column(
+                //   children: mobileDevice ? _mobileView() : _desktopView(),
+                // ),
+
+                SizedBox(
+                  height: 20,
+                ),
+
+                SizedBox(
+                  height: 40,
+                ),
+                // Table row to display and edit the different DNS-Requests
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          SelectableText(
+                            'allowedDNSRequests'.tr().toString(),
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ]),
+                    _expertModeText(context),
+                  ],
+                ),
+                // This table displays the HTTP-addresses which are allowed
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Container(),
+                    ),
+                    Expanded(
+                      flex: 16,
+                      child: (widget.mudData.acllist != null &&
+                              widget.mudData.acllist.length != 0)
+                          ? Column(
+                              children: <Widget>[
+                                _searchBar(),
+                                _listHeader(),
+                                Container(
+                                  height: 500,
+                                  child: _listForAcl(),
+                                )
+                              ],
+                            )
+                          : Container(
+                              height: 80,
+                              child: Card(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 16, right: 16),
+                                  child: SelectableText(
+                                    "noEntries".tr().toString(),
+                                    style: TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Container(),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -210,12 +260,34 @@ class _ChooseMudDataDetailsState extends State<ChooseMudDataDetails> {
   }
 
   _generateDnsList() {
-    _mudData.acllist.forEach((aclElement) {
-      aclElement.ace.forEach((aceElement) {
-        if (aceElement.matches.dnsname != null)
-          _aclListCopy.add(aceElement.matches.dnsname);
-      });
-    });
+    _aclListCopy = [];
+    if (widget.mudData.acl_override.isEmpty) {
+      widget.mudData.acllist.forEach(
+        (aclElement) {
+          aclElement.ace.forEach(
+            (aceElement) {
+              if (aceElement.matches.dnsname != null) {
+                _aclListCopy.add(aceElement.matches.dnsname);
+              }
+            },
+          );
+        },
+      );
+    } else {
+      widget.mudData.acl_override.forEach(
+        (aclElement) {
+          aclElement.ace.forEach(
+            (aceElement) {
+              if (aceElement.matches.dnsname != null) {
+                _aclListCopy.add(aceElement.matches.dnsname);
+              }
+            },
+          );
+        },
+      );
+    }
+    _aclListCopy = _aclListCopy.toSet().toList();
+    _aclListForDisplay = List.from(_aclListCopy);
   }
 
   _sortAclListForDisplay() {
@@ -238,23 +310,29 @@ class _ChooseMudDataDetailsState extends State<ChooseMudDataDetails> {
                   iconSize: 30,
                   onPressed: () {
                     showDialog(
-                        context: context,
-                        barrierDismissible: true,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text("explanation".tr().toString()),
-                            content:
-                                Text("explanationDNSNames".tr().toString()),
-                            actions: [
-                              FlatButton(
-                                child: Text("Ok!"),
-                                onPressed: () {
-                                  Navigator.of(context).pop(); // dismiss dialog
-                                },
-                              )
-                            ],
-                          );
-                        });
+                      context: context,
+                      barrierDismissible: true,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text("explanation".tr().toString()),
+                          content: Text("explanationDNSNames".tr().toString()),
+                          actions: [
+                            TextButton(
+                              child: Text(
+                                "Ok!",
+                                style: TextStyle(
+                                  color: buttonColor,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop(); // dismiss dialog
+                              },
+                            )
+                          ],
+                        );
+                      },
+                    );
                   },
                 )
               : MouseRegion(
@@ -266,8 +344,32 @@ class _ChooseMudDataDetailsState extends State<ChooseMudDataDetails> {
     );
   }
 
-  ///True if mouse is in the MouseRegion widget, else false
-  bool inRegion = false;
+  //Function called from MouseRegion widget below, opens the overlay on mouse enter
+  void _enterInRegion(PointerEvent details) {
+    setState(() {
+      inRegion = true;
+    });
+    showOverlay(context);
+  }
+
+  //Function called from MouseRegion widget below, closes the overlay on mouse exit
+  void _exitInRegion(PointerEvent details) {
+    setState(() {
+      inRegion = false;
+    });
+    closeOverlay();
+  }
+
+  //Function that shows the overlay element
+  showOverlay(BuildContext context) {
+    OverlayState overlayState = Overlay.of(context);
+    overlayState.insert(overlayEntry);
+  }
+
+  //Function for closing the overlay element
+  closeOverlay() {
+    overlayEntry.remove();
+  }
 
   //Creating the overlay element just an example for expert mode
   OverlayEntry overlayEntry = OverlayEntry(
@@ -309,59 +411,4 @@ class _ChooseMudDataDetailsState extends State<ChooseMudDataDetails> {
       ),
     ),
   );
-
-  //Function that shows the overlay element
-  showOverlay(BuildContext context) {
-    OverlayState overlayState = Overlay.of(context);
-    overlayState.insert(overlayEntry);
-  }
-
-  //Function for closing the overlay element
-
-  closeOverlay() {
-    overlayEntry.remove();
-  }
-
-  //Function called from MouseRegion widget below, opens the overlay on mouse enter
-  void _enterInRegion(PointerEvent details) {
-    setState(() {
-      inRegion = true;
-    });
-    showOverlay(context);
-  }
-
-  //Function called from MouseRegion widget below, closes the overlay on mouse exit
-  void _exitInRegion(PointerEvent details) {
-    setState(() {
-      inRegion = false;
-    });
-    closeOverlay();
-  }
-
-  Future<List<MUDData>> _getMudDataFuture() async {
-    String _mudDataExtension = 'mud/';
-
-    String _urlExtension = "?mud_url=";
-    String _urlEncodedMudUrl = urlEncode(text: widget.mudGuessUrl).toString();
-
-    response = await http.get(
-        url + _mudDataExtension + _urlExtension + _urlEncodedMudUrl,
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer $jwtToken"
-        }).timeout(const Duration(seconds: 5), onTimeout: () {
-      return _handleTimeOut();
-    });
-
-    if (response.statusCode == 200) {
-      var jsonMudData = jsonDecode(response.body) as List;
-      List<MUDData> mudDataTest =
-          jsonMudData.map((e) => MUDData.fromJson(e)).toList();
-      return mudDataTest;
-    } else {
-      throw Exception("Failed to get Data");
-    }
-  }
-
-  dynamic _handleTimeOut() {}
 }

@@ -336,7 +336,6 @@ class _IgnoredDevicesTableState extends State<IgnoredDevicesTable> {
               borderRadius: BorderRadius.circular(10),
             ),
             onTap: () {
-              /// TODO check if correct
               if (adminAccess && _devicesForDisplay[index].mud_data == null) {
                 _addDeviceDialog(context, _devicesForDisplay[index].id);
               }

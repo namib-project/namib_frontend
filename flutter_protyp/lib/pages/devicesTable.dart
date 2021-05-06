@@ -434,7 +434,7 @@ class _DevicesTableState extends State<DevicesTable> {
     }
   }
 
-  /// TODO: maybe search not only through name -> see chooseMudData.dart
+  /// TODO: maybe search not only through name -> see chooseMudDataBuilder.dart
   _searchWithSearchWord() {
     _searchWord = _searchWord.toLowerCase();
     setState(() {
@@ -463,7 +463,6 @@ class _DevicesTableState extends State<DevicesTable> {
     });
   }
 
-  /// TODO: what if room null; also compare Id not name
   _createDevicesForDisplay() {
     _devicesForDisplay = [];
 

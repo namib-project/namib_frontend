@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_protyp/data/device_mud/mudGuess.dart';
-import 'package:flutter_protyp/pages/chooseMudDataTable.dart';
+import 'package:flutter_protyp/pages/chooseMudDataTableOverview.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -99,54 +99,32 @@ class _ChooseMudDataState extends State<ChooseMudData> {
   }
 
   Future<List<MudGuess>> getMudGuessList() async {
-    // String id = widget.device.id.toString();
-    // String mudGuessExtension = 'devices/$id/guesses';
-    //
-    //
-    // response = await http.get(url + mudGuessExtension, headers: {
-    //   "Content-Type": "application/json",
-    //   "Authorization": "Bearer $jwtToken"
-    // }).timeout(const Duration(seconds: 5), onTimeout: () {
-    //   return null;
-    // });
-    //
-    // print("kleiner test");
-    // print(url + mudGuessExtension);
-    // print(response.statusCode);
-    // print(response.body);
-    //   if (response.statusCode == 200) {
-    //     var jsonMudGuessData = jsonDecode(response.body) as List;
-    //     List<MudGuess> mudTest = jsonMudGuessData
-    //         .map((tagJson) => MudGuess.fromJson(tagJson))
-    //         .toList();
-    //     return mudTest;
-    //   } else {
-    //     throw Exception("Failed to get Data");
-    //   }
-    // }
+    String id = widget.device.id.toString();
+    String mudGuessExtension = 'devices/$id/guesses';
 
-    // TODO: here the real function has to be implemented when working
-
-    String test =
-        '[{"manufacturer_name": null,"model_name": "AmazonEcho","mud_url": "https://iotanalytics.unsw.edu.au/mud/amazonEchoMud.json"},'
-        '{"manufacturer_name": "dorbellUnternehmen","model_name": null,"mud_url": "https://iotanalytics.unsw.edu.au/mud/augustdoorbellcamMud.json"}]';
-
-    //if (response.statusCode == 200) {
-    //String _data = utf8.decode(response.bodyBytes);
-    var jsonMudGuesses = jsonDecode(test) as List;
-    List<MudGuess> mudGuessesTest =
-        jsonMudGuesses.map((tagJson) => MudGuess.fromJson(tagJson)).toList();
-
-    mudGuessesTest.forEach((element) {
-      if (element.manufacturer_name == null) {
-        element.manufacturer_name = "noInfo".tr().toString();
-      }
-      if (element.model_name == null) {
-        element.model_name = "noInfo".tr().toString();
-      }
+    response = await http.get(url + mudGuessExtension, headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $jwtToken"
+    }).timeout(const Duration(seconds: 5), onTimeout: () {
+      return null;
     });
 
-    return mudGuessesTest;
-    //}
+    if (response.statusCode == 200) {
+      String _data = utf8.decode(response.bodyBytes);
+      var jsonMudGuesses = jsonDecode(_data) as List;
+      List<MudGuess> mudGuessesTest =
+          jsonMudGuesses.map((tagJson) => MudGuess.fromJson(tagJson)).toList();
+
+      mudGuessesTest.forEach((element) {
+        if (element.manufacturer_name == null) {
+          element.manufacturer_name = "noInfo".tr().toString();
+        }
+        if (element.model_name == null) {
+          element.model_name = "noInfo".tr().toString();
+        }
+      });
+
+      return mudGuessesTest;
+    }
   }
 }
