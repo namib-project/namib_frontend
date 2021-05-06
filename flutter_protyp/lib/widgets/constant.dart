@@ -23,9 +23,9 @@ bool darkMode = false;
 bool mobileDevice = false;
 String language = "en";
 String jwtToken = "";
-String url = "/";
+String url = "http://172.23.64.1:8000/";
 List<dynamic> permissions = [];
-int userID ;
+int userID;
 int roleID;
 
 ///Variables for permissions

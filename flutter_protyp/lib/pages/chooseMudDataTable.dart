@@ -8,6 +8,7 @@ import 'package:flutter_protyp/pages/chooseMudDataDetails.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -141,7 +142,7 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
                                 ),
                                 Container(
                                   height: 70,
-                                  width: 350,
+                                  width: 400,
                                   alignment: Alignment.center,
                                   child: TextField(
                                     obscureText: false,
@@ -159,29 +160,167 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
                                     },
                                   ),
                                 ),
-                                ElevatedButton(
-                                  child: Text("Raum auswählen"),
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => ChooseRoom(
-                                              device: _newDevice,
-                                              mudGuesses: widget.mudGuessList),
-                                        ));
-                                  },
+                                Container(
+                                  width: 400,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      ElevatedButton(
+                                        style: ButtonStyle(
+                                          minimumSize:
+                                              MaterialStateProperty.all(
+                                                  Size(120, 50)),
+                                          backgroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                            buttonColor,
+                                          ),
+                                        ),
+                                        child: Text(
+                                          "Raum auswählen",
+                                          style: TextStyle(fontSize: 20),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ChooseRoom(
+                                                        device: _newDevice,
+                                                        mudGuesses: widget
+                                                            .mudGuessList),
+                                              ));
+                                        },
+                                      ),
+                                      Visibility(
+                                        visible: _newDevice.room != null,
+                                        child: Container(
+                                          width: 200,
+                                          height: 70,
+                                          child: Card(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(4.0),
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 16, right: 16),
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: <Widget>[
+                                                  Expanded(
+                                                    flex: 1,
+                                                    child: Text(
+                                                      _newDevice.room != null
+                                                          ? _newDevice.room.name
+                                                          : "",
+                                                      style: TextStyle(
+                                                        fontSize: 20,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    flex: 1,
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment.end,
+                                                      children: [
+                                                        Container(
+                                                          height: 40,
+                                                          width: 40,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        4),
+                                                            color: Color(
+                                                              int.parse(_newDevice
+                                                                          .room !=
+                                                                      null
+                                                                  ? _newDevice
+                                                                      .room
+                                                                      .color
+                                                                  : "0xFFB00020"),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                ElevatedButton(
-                                  child: Text("Clipart auswählen"),
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => ChooseClipart(
-                                              device: _newDevice,
-                                              mudGuesses: widget.mudGuessList),
-                                        ));
-                                  },
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Container(
+                                  width: 400,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      ElevatedButton(
+                                        style: ButtonStyle(
+                                          minimumSize:
+                                              MaterialStateProperty.all(
+                                                  Size(120, 50)),
+                                          backgroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                            buttonColor,
+                                          ),
+                                        ),
+                                        child: Text(
+                                          "Clipart auswählen",
+                                          style: TextStyle(fontSize: 20),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ChooseClipart(
+                                                      device: _newDevice,
+                                                      mudGuesses:
+                                                          widget.mudGuessList),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                      Visibility(
+                                        visible: _newDevice.clipart != null,
+                                        child: Container(
+                                          height: 60,
+                                          width: 200,
+                                          child: SvgPicture.asset(
+                                            _newDevice.clipart != null
+                                                ? _newDevice.clipart
+                                                : allClipArts[0],
+                                            color: _newDevice.room != null
+                                                ? Color(int.parse(
+                                                    _newDevice.room.color))
+                                                : (darkMode
+                                                    ? Colors.grey[500]
+                                                    : Colors.black),
+                                            height: 60,
+                                            width: 60,
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
                                 _bottomButtons(),
                               ],

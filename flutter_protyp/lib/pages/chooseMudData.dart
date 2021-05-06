@@ -62,14 +62,22 @@ class _ChooseMudDataState extends State<ChooseMudData> {
                       children: <Widget>[
                         SelectableText("wentWrongError".tr().toString()),
                         ElevatedButton(
-                          child: Text(
-                            "reload".tr().toString(),
+                          style: ButtonStyle(
+                            minimumSize:
+                                MaterialStateProperty.all(Size(120, 50)),
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                              buttonColor,
+                            ),
                           ),
                           onPressed: () {
                             Navigator.pushReplacementNamed(
                                 context, "/chooseRoom");
                           },
-                        )
+                          child: Text(
+                            "reload".tr().toString(),
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ),
                       ],
                     ),
                   );
