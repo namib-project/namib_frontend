@@ -4,20 +4,23 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_protyp/data/device_mud/device.dart';
+import 'package:flutter_protyp/data/device_mud/mudGuess.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 import 'package:flutter_svg/flutter_svg.dart';
+
+import 'chooseMudDataTable.dart';
 
 class ChooseClipart extends StatefulWidget {
   ChooseClipart({
     Key key,
     @required this.device,
+    @required this.mudGuesses,
   }) : super(key: key);
 
   final Device device;
+  final List<MudGuess> mudGuesses;
 
   _ChooseClipartState createState() => _ChooseClipartState();
 }
@@ -26,6 +29,14 @@ class ChooseClipart extends StatefulWidget {
 class _ChooseClipartState extends State<ChooseClipart> {
   /// A string that safes the selected clipart from the clipart-list
   String _selectedClipArt = allClipArts[0];
+
+  Device _device;
+
+  @override
+  void initState() {
+    super.initState();
+    _device = widget.device;
+  }
 
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -64,7 +75,7 @@ class _ChooseClipartState extends State<ChooseClipart> {
                       width: 200,
                       child: SvgPicture.asset(
                         _selectedClipArt,
-                        color: Color(int.parse(widget.device.room.color)),
+                        color: Color(int.parse(_device.room != null ? _device.room.color : "0xFFB00020")),
                         semanticsLabel: 'phone',
                         height: 200,
                         width: 200,
@@ -157,11 +168,29 @@ class _ChooseClipartState extends State<ChooseClipart> {
                     fontSize: 18,
                   ),
                 ),
-                onPressed: () => {
-                  if (allClipArts.contains(_selectedClipArt))
-                    {
-                      _putDevice(),
-                    },
+                onPressed: () {
+                  if (allClipArts.contains(_selectedClipArt)) {
+                    _device.clipart = _selectedClipArt;
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChooseMudDataTable(
+                          device: _device,
+                          mudGuessList: widget.mudGuesses,
+                        ),
+                      ),
+                    );
+                  } else {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChooseMudDataTable(
+                          device: widget.device,
+                          mudGuessList: widget.mudGuesses,
+                        ),
+                      ),
+                    );
+                  }
                 },
               ),
             ],
@@ -169,30 +198,5 @@ class _ChooseClipartState extends State<ChooseClipart> {
         ],
       ),
     );
-  }
-
-  /// TODO
-  _putDevice() async {
-    String _deviceId = widget.device.id.toString();
-    String _deviceExtension = "devices/$_deviceId";
-    var response;
-
-    Map<String, dynamic> _data = {
-      "clipart": _selectedClipArt,
-      "mud_url": widget.device.mud_url,
-      "room_id": widget.device.room.id,
-      "name": widget.device.name
-    };
-
-    response = await http.put(url + _deviceExtension,
-        body: jsonEncode(_data),
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer $jwtToken"
-        });
-
-    {
-      Navigator.pushReplacementNamed(context, "/deviceOverview");
-    }
   }
 }

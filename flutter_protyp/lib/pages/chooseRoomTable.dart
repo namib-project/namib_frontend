@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_protyp/data/device_mud/device.dart';
+import 'package:flutter_protyp/data/device_mud/mudGuess.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -10,16 +11,19 @@ import 'package:flutter_protyp/data/device_mud/room.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 
 import 'chooseClipArt.dart';
+import 'chooseMudDataTable.dart';
 
 class RoomTable extends StatefulWidget {
   const RoomTable({
     Key key,
     @required this.rooms,
     @required this.device,
+    @required this.mudGuesses,
   }) : super(key: key);
 
   /// List which stores all given devices
   final List<Room> rooms;
+  final List<MudGuess> mudGuesses;
 
   final Device device;
 
@@ -78,16 +82,14 @@ class _RoomTableState extends State<RoomTable> {
 
   @override
   void initState() {
-    setState(() {
-      _uniqueRooms = widget.rooms;
+    super.initState();
+    _uniqueRooms = widget.rooms;
 
-      /// to remove all the duplicates to get all rooms only once
-      final _allRooms = _uniqueRooms.map((e) => e.name).toSet();
-      _uniqueRooms.retainWhere((x) => _allRooms.remove(x.name));
-
-      _roomsForDisplay = _uniqueRooms;
-      _sortRoomsForDisplay();
-    });
+    /// to remove all the duplicates to get all rooms only once
+    final _allRooms = _uniqueRooms.map((e) => e.name).toSet();
+    _uniqueRooms.retainWhere((x) => _allRooms.remove(x.name));
+    _roomsForDisplay = _uniqueRooms;
+    _sortRoomsForDisplay();
   }
 
   Widget build(BuildContext context) {
@@ -456,11 +458,23 @@ class _RoomTableState extends State<RoomTable> {
               if (_chosenRoom != null) {
                 _newDevice = widget.device;
                 _newDevice.room = _chosenRoom;
+
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ChooseClipart(
+                    builder: (context) => ChooseMudDataTable(
+                      device: _newDevice,
+                      mudGuessList: widget.mudGuesses,
+                    ),
+                  ),
+                );
+              } else {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChooseMudDataTable(
                       device: widget.device,
+                      mudGuessList: widget.mudGuesses,
                     ),
                   ),
                 );

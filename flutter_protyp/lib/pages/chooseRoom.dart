@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_protyp/data/device_mud/device.dart';
+import 'package:flutter_protyp/data/device_mud/mudGuess.dart';
 import 'package:flutter_protyp/pages/chooseRoomTable.dart';
 
 import 'package:flutter_protyp/widgets/appbar.dart';
@@ -15,9 +16,11 @@ class ChooseRoom extends StatefulWidget {
   ChooseRoom({
     Key key,
     @required this.device,
+    @required this.mudGuesses,
   }) : super(key: key);
 
   final Device device;
+  final List<MudGuess> mudGuesses;
 
   _ChooseRoomState createState() => _ChooseRoomState();
 }
@@ -49,6 +52,7 @@ class _ChooseRoomState extends State<ChooseRoom> {
                     child: RoomTable(
                       rooms: snapshot.data,
                       device: widget.device,
+                      mudGuesses: widget.mudGuesses
                     ),
                   );
                 } else if (snapshot.hasError) {
