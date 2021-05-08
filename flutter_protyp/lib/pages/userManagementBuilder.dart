@@ -20,6 +20,7 @@ class _UserManagementState extends State<UserManagement> {
   /// List with all registered users
   Future<List<User>> users;
 
+  /// This vars are to discribe the user
   String newPassword = "";
   String newUsername = "";
   List<dynamic> roleIds = [];
@@ -28,8 +29,6 @@ class _UserManagementState extends State<UserManagement> {
   @override
   void initState() {
     super.initState();
-    //getUsers();
-    //getSpecificUser();
     users = getUsers();
   }
 
@@ -78,7 +77,7 @@ class _UserManagementState extends State<UserManagement> {
     );
   }
 
- // Function to get the users-list from controller
+ // Function to get the users-list from controller and convert it to dart-list
   Future<List<User>> getUsers() async {
     String usersExtension = 'management/users/';
     var _response = await http.get(url + usersExtension, headers: {

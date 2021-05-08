@@ -9,9 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-enum SingingCharacter { lafayette, jefferson }
-
-// This method is for the system-administrator to create a user
+// This class is for the system-administrator to create a user
 
 class Registration extends StatefulWidget {
   @override
@@ -51,6 +49,7 @@ class _RegistrationState extends State<Registration> {
   var response;
 
 
+  /// To give roles to the new user
   bool _admin = false;
   bool _user = false;
   List _roleID =  [];
@@ -362,8 +361,7 @@ class _RegistrationState extends State<Registration> {
         errorMessage1 == false &&
         errorMessage2 == false &&
         _password.length > 7 &&
-        _secPassword.length > 1 &&
-        (_admin == false || _user == false)
+        _secPassword.length > 1
     ) {
       setState(() {
         regisButton = true;

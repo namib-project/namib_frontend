@@ -10,7 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-// This class contains the functions to edit the user-profile
+// This class contains the functions to edit the own user-profile
 
 class ManageUser extends StatefulWidget {
   @override

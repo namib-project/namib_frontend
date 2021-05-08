@@ -23,6 +23,7 @@ class UsersTable extends StatefulWidget {
   UsersTableState createState() => UsersTableState();
 }
 
+// This class is for building and displaying the usersTable
 class UsersTableState extends State<UsersTable> {
   List<User> _usersForDisplay = List<User>();
   bool _sortAscending = true;
@@ -129,7 +130,7 @@ class UsersTableState extends State<UsersTable> {
     );
   }
 
-  // This function sorts the users-table on button hit
+  // This function displays the header of the table with the used information
   _listHeader() {
     return Container(
       height: 80,
@@ -268,7 +269,7 @@ class UsersTableState extends State<UsersTable> {
     );
   }
 
-  // This function sorts the devices-table by username
+  // This function sorts the users-table by username
   _sortUsersForDisplay() {
     setState(() {
       if (_sortAscending) {
@@ -479,7 +480,7 @@ class UsersTableState extends State<UsersTable> {
         });
   }
 
-  // This method is called after the changes are made
+  // This method is called after the changes of the userRoles are made
   void _saveChanges(int _userID, bool _admin, bool _user, User user) async {
     int _roleID = 7;
 
@@ -586,7 +587,7 @@ class UsersTableState extends State<UsersTable> {
     }
   }
 
-  // This method is called after the user was deleted
+  // This method is to delete the user
   void _deleteUser(User user) async {
     int userIDForRequest = user.id;
 
@@ -601,6 +602,7 @@ class UsersTableState extends State<UsersTable> {
     Navigator.pushReplacementNamed(context, "/userManagement");
   }
 
+  // This function returns the registration-page to create a user
   void _createUserDialog(BuildContext context) {
     Navigator.pushReplacementNamed(context, "/registration");
   }

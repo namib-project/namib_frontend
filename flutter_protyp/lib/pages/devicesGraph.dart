@@ -6,10 +6,8 @@ import 'package:flutter_protyp/data/device_mud/device.dart';
 import 'package:flutter_protyp/pages/roomsGraph.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
-import 'package:flutter_protyp/widgets/drawer.dart';
 import 'package:graphview/GraphView.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_protyp/data/device_mud/room.dart';
 
 import 'deviceDetails.dart';
