@@ -434,13 +434,14 @@ class _DevicesTableState extends State<DevicesTable> {
     }
   }
 
-  /// TODO: maybe search not only through name -> see chooseMudDataBuilder.dart
   _searchWithSearchWord() {
     _searchWord = _searchWord.toLowerCase();
     setState(() {
       _devicesCopy = widget.devices.where((device) {
-        var deviceName = device.hostname.toLowerCase();
-        return deviceName.contains(_searchWord);
+        var deviceHostName = device.hostname.toLowerCase();
+        var deviceName = device.name.toLowerCase();
+        return deviceHostName.contains(_searchWord) ||
+            deviceName.contains(_searchWord);
       }).toList();
     });
   }
