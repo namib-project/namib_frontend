@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -7,10 +6,10 @@ import 'package:flutter_protyp/data/device_mud/device.dart';
 import 'package:flutter_protyp/data/device_mud/mudGuess.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
-
 import 'package:flutter_svg/flutter_svg.dart';
-
 import 'chooseMudDataTableOverview.dart';
+
+/// Class for choosing a clipart for describing the device
 
 class ChooseClipart extends StatefulWidget {
   ChooseClipart({
@@ -19,17 +18,18 @@ class ChooseClipart extends StatefulWidget {
     @required this.mudGuesses,
   }) : super(key: key);
 
+  /// Lists for device description
   final Device device;
   final List<MudGuess> mudGuesses;
 
   _ChooseClipartState createState() => _ChooseClipartState();
 }
 
-//Class for user registration, will only be used at the first usage
 class _ChooseClipartState extends State<ChooseClipart> {
   /// A string that safes the selected clipart from the clipart-list
   String _selectedClipArt = allClipArts[0];
 
+  /// A new device
   Device _device;
 
   @override
@@ -75,7 +75,9 @@ class _ChooseClipartState extends State<ChooseClipart> {
                       width: 200,
                       child: SvgPicture.asset(
                         _selectedClipArt,
-                        color: Color(int.parse(_device.room != null ? _device.room.color : "0xFFB00020")),
+                        color: Color(int.parse(_device.room != null
+                            ? _device.room.color
+                            : "0xFFB00020")),
                         semanticsLabel: 'phone',
                         height: 200,
                         width: 200,
@@ -104,6 +106,8 @@ class _ChooseClipartState extends State<ChooseClipart> {
     );
   }
 
+
+  /// Return a grid with different cliparts for the devices
   _clipArtOptions() {
     return Container(
       width: 500,

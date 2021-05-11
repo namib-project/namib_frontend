@@ -6,12 +6,15 @@ import 'package:flutter_protyp/data/device_mud/mudData.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+/// This class is for editing the MUD-Profile of the device
+
 class ChooseMudDataDetailsTable extends StatefulWidget {
   const ChooseMudDataDetailsTable({
     Key key,
     @required this.mudData,
   }) : super(key: key);
 
+  /// A MUD-Data entry
   final MUDData mudData;
 
   @override
@@ -20,16 +23,17 @@ class ChooseMudDataDetailsTable extends StatefulWidget {
 }
 
 class _ChooseMudDataDetailsTableState extends State<ChooseMudDataDetailsTable> {
+  /// For hovering over
   bool inRegion = false;
-
   bool editColumn = false;
   bool resetButton = false;
 
+  /// Access-control-Lists
   List<String> _aclListForDisplay = [];
   List<String> _aclListCopy = [];
 
+  /// For sorting the list
   bool _sortAscending = true;
-
   Icon _arrowUp = Icon(
     FontAwesomeIcons.arrowUp,
     size: 17,
@@ -76,18 +80,14 @@ class _ChooseMudDataDetailsTableState extends State<ChooseMudDataDetailsTable> {
                     fontSize: 25,
                   ),
                 ),
-                // Column(
-                //   children: mobileDevice ? _mobileView() : _desktopView(),
-                // ),
-
                 SizedBox(
                   height: 20,
                 ),
-
                 SizedBox(
                   height: 40,
                 ),
-                // Table row to display and edit the different DNS-Requests
+
+                /// Table row to display and edit the different DNS-Requests
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -102,7 +102,8 @@ class _ChooseMudDataDetailsTableState extends State<ChooseMudDataDetailsTable> {
                     _expertModeText(context),
                   ],
                 ),
-                // This table displays the HTTP-addresses which are allowed
+
+                /// This table displays the HTTP-addresses which are allowed
                 Row(
                   children: [
                     Expanded(
@@ -154,6 +155,7 @@ class _ChooseMudDataDetailsTableState extends State<ChooseMudDataDetailsTable> {
     );
   }
 
+  /// This function creates the list-header which is displayed above the table
   _listHeader() {
     return Container(
       height: 80,
@@ -199,6 +201,7 @@ class _ChooseMudDataDetailsTableState extends State<ChooseMudDataDetailsTable> {
     );
   }
 
+  /// This is a simple searchbar to scan for objects
   _searchBar() {
     return Padding(
       padding: EdgeInsets.all(8),
@@ -225,6 +228,7 @@ class _ChooseMudDataDetailsTableState extends State<ChooseMudDataDetailsTable> {
     );
   }
 
+  /// This functions is for display the table
   ListView _listForAcl() {
     return ListView.builder(
       itemCount: _aclListForDisplay.length,
@@ -259,6 +263,7 @@ class _ChooseMudDataDetailsTableState extends State<ChooseMudDataDetailsTable> {
     );
   }
 
+  /// This function builds the table with dns-entries
   _generateDnsList() {
     _aclListCopy = [];
     if (widget.mudData.acl_override.isEmpty) {
@@ -290,6 +295,7 @@ class _ChooseMudDataDetailsTableState extends State<ChooseMudDataDetailsTable> {
     _aclListForDisplay = List.from(_aclListCopy);
   }
 
+  /// Sort function of ACL (Access-Control-List)
   _sortAclListForDisplay() {
     setState(() {
       if (_sortAscending) {
@@ -302,49 +308,50 @@ class _ChooseMudDataDetailsTableState extends State<ChooseMudDataDetailsTable> {
 
   Visibility _expertModeText(BuildContext context) {
     return Visibility(
-      visible: !expertMode,
-      child:
-          mobileDevice //if mobile device, then icon button with dialog, else icon with hover effect
-              ? IconButton(
-                  icon: Icon(Icons.help_center),
-                  iconSize: 30,
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      barrierDismissible: true,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text("explanation".tr().toString()),
-                          content: Text("explanationDNSNames".tr().toString()),
-                          actions: [
-                            TextButton(
-                              child: Text(
-                                "Ok!",
-                                style: TextStyle(
-                                  color: buttonColor,
-                                  fontSize: 18,
-                                ),
-                              ),
-                              onPressed: () {
-                                Navigator.of(context).pop(); // dismiss dialog
-                              },
-                            )
-                          ],
-                        );
-                      },
+      visible: true,
+      child: mobileDevice
+
+          /// If mobile device, then icon button with dialog, else icon with hover effect
+          ? IconButton(
+              icon: Icon(Icons.help_center),
+              iconSize: 30,
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  barrierDismissible: true,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("explanation".tr().toString()),
+                      content: Text("explanationDNSNames".tr().toString()),
+                      actions: [
+                        TextButton(
+                          child: Text(
+                            "Ok!",
+                            style: TextStyle(
+                              color: buttonColor,
+                              fontSize: 18,
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop(); // dismiss dialog
+                          },
+                        )
+                      ],
                     );
                   },
-                )
-              : MouseRegion(
-                  //MouseRegion for the hover element
-                  onEnter: _enterInRegion,
-                  onExit: _exitInRegion,
-                  child: Icon(Icons.help_center),
-                ),
+                );
+              },
+            )
+          : MouseRegion(
+              /// MouseRegion for the hover element
+              onEnter: _enterInRegion,
+              onExit: _exitInRegion,
+              child: Icon(Icons.help_center),
+            ),
     );
   }
 
-  //Function called from MouseRegion widget below, opens the overlay on mouse enter
+  /// Function called from MouseRegion widget below, opens the overlay on mouse enter
   void _enterInRegion(PointerEvent details) {
     setState(() {
       inRegion = true;
@@ -352,7 +359,7 @@ class _ChooseMudDataDetailsTableState extends State<ChooseMudDataDetailsTable> {
     showOverlay(context);
   }
 
-  //Function called from MouseRegion widget below, closes the overlay on mouse exit
+  /// Function called from MouseRegion widget below, closes the overlay on mouse exit
   void _exitInRegion(PointerEvent details) {
     setState(() {
       inRegion = false;
@@ -360,18 +367,18 @@ class _ChooseMudDataDetailsTableState extends State<ChooseMudDataDetailsTable> {
     closeOverlay();
   }
 
-  //Function that shows the overlay element
+  /// Function that shows the overlay element
   showOverlay(BuildContext context) {
     OverlayState overlayState = Overlay.of(context);
     overlayState.insert(overlayEntry);
   }
 
-  //Function for closing the overlay element
+  /// Function for closing the overlay element
   closeOverlay() {
     overlayEntry.remove();
   }
 
-  //Creating the overlay element just an example for expert mode
+  /// Creating the overlay element just an example for expert mode
   OverlayEntry overlayEntry = OverlayEntry(
     builder: (context) => Center(
       child: Container(

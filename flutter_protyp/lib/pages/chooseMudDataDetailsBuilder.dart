@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 import 'package:url_encoder/url_encoder.dart';
 import 'dart:convert';
 
+/// This class builds the MUD-List
 
 class ChooseMudDataDetails extends StatefulWidget {
   const ChooseMudDataDetails({
@@ -22,6 +23,7 @@ class ChooseMudDataDetails extends StatefulWidget {
 }
 
 class _ChooseMudDataDetailsState extends State<ChooseMudDataDetails> {
+  /// List to work with MUD-Datas
   Future<List<MUDData>> _mudDataFuture;
 
   @override
@@ -51,7 +53,7 @@ class _ChooseMudDataDetailsState extends State<ChooseMudDataDetails> {
                   mudData: snapshot.data[0],
                 );
               } else if (snapshot.hasError) {
-                // If the process failed this message returns
+                /// If the process failed this message returns
                 print(snapshot.error);
                 return Container(
                   width: 600,
@@ -70,7 +72,8 @@ class _ChooseMudDataDetailsState extends State<ChooseMudDataDetails> {
                   ),
                 );
               }
-              // By default, show a loading spinner.
+
+              /// By default, show a loading spinner.
               else {
                 return SizedBox(
                   width: 30,
@@ -83,6 +86,7 @@ class _ChooseMudDataDetailsState extends State<ChooseMudDataDetails> {
     );
   }
 
+  /// This method gets the MUD-List
   Future<List<MUDData>> _getMudDataFuture() async {
     String _mudDataExtension = 'mud/';
     var _response;

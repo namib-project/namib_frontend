@@ -8,7 +8,7 @@ import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-// This page is for administrative settings of the application
+/// This page is for administrative settings of the application
 
 class AdministrativeSettings extends StatefulWidget {
   @override
@@ -30,7 +30,7 @@ class _AdministrativeSettingsState extends State<AdministrativeSettings> {
       appBar: MainAppbar(),
       drawer: MainDrawer(),
       body: Center(
-        // FutureBuilder for building the page with future values
+        /// FutureBuilder for building the page with future values
         child: FutureBuilder<Map<String, dynamic>>(
           future: globaleConfigs,
           builder: (context, snapshot) {
@@ -49,7 +49,7 @@ class _AdministrativeSettingsState extends State<AdministrativeSettings> {
               }
               return Container(
                 height: double.infinity,
-                //Context will appear smaller on mobile devices
+                /// Context will appear smaller on mobile devices
                 child: SingleChildScrollView(
                   physics: AlwaysScrollableScrollPhysics(),
                   padding: EdgeInsets.symmetric(
@@ -121,7 +121,7 @@ class _AdministrativeSettingsState extends State<AdministrativeSettings> {
                                 height: 10,
                               ),
                               Transform.scale(
-                                // Transform widget for sizing of the checkboxes
+                                /// Transform widget for sizing of the checkboxes
                                 scale: 1.5,
                                 child: Checkbox(
                                   value:
@@ -200,7 +200,7 @@ class _AdministrativeSettingsState extends State<AdministrativeSettings> {
     );
   }
 
-  // This function fetches the data of the globale config variables CollectDeviceData and AllowUserSignup from controller
+  /// This function fetches the data of the globale config variables CollectDeviceData and AllowUserSignup from controller
   Future<Map<String, dynamic>> fetchGlobaleConfigs() async {
     String collectDeviceExtension = "config?keys=CollectDeviceData";
 
@@ -226,7 +226,7 @@ class _AdministrativeSettingsState extends State<AdministrativeSettings> {
     return null;
   }
 
-  // This function updates the value of AllowUserSignup at controller
+  /// This function updates the value of AllowUserSignup at controller
   void updateAllowSignupValue(bool value) async {
     String allowSignupExtension = "config?keys=AllowUserSignup";
     Map<String, dynamic> _data = {"AllowUserSignup": value.toString()};
@@ -239,7 +239,7 @@ class _AdministrativeSettingsState extends State<AdministrativeSettings> {
     Navigator.pushReplacementNamed(context, "/administrativeSettings");
   }
 
-  // This function updates the value of CollectDeviceData at controller
+  /// This function updates the value of CollectDeviceData at controller
   void updateCollectDeviceDataValue(bool value) async {
     String allowSignupExtension = "config?keys=CollectDeviceData";
     Map<String, dynamic> _data = {"CollectDeviceData": value.toString()};

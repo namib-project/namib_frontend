@@ -7,7 +7,7 @@ import 'package:flutter_protyp/widgets/drawer.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:http/http.dart' as http;
 
-// This class implements the service to check the controller version
+/// This class implements the service to check the controller version
 
 class About extends StatefulWidget {
   @override
@@ -18,8 +18,8 @@ class _AboutState extends State<About> {
   /// Variable to safe the version of the controller
   Future<String> version;
 
-  // Future string type to build at runtime
-  // Get request for the controller version to display it for the user
+  /// Future string type to build at runtime
+  /// Get request for the controller version to display it for the user
   Future<String> fetchVersion() async {
     try {
       String statusExtension = "status";
@@ -77,8 +77,8 @@ class _AboutState extends State<About> {
                     ),
                   ),
                   Container(
-                      // FutureBuilder element, that will be build but context will be shown after get request above
-                      // Here will be presented the current controller version
+                      /// FutureBuilder element, that will be build but context will be shown after get request above
+                      /// Here will be presented the current controller version
                       child: FutureBuilder<String>(
                     future: version,
                     builder: (context, snapshot) {
@@ -87,8 +87,7 @@ class _AboutState extends State<About> {
                       } else if (snapshot.hasError) {
                         return Text("${snapshot.error}");
                       }
-
-                      // By default, show a loading spinner.
+                      /// By default, show a loading spinner.
                       return CircularProgressIndicator();
                     },
                   )),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_protyp/data/device_mud/mudGuess.dart';
 import 'package:flutter_protyp/pages/chooseMudDataTableOverview.dart';
-import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_protyp/data/device_mud/device.dart';
@@ -9,18 +8,22 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
+/// This class contains the MUD-Geusses functions
+
 class ChooseMudData extends StatefulWidget {
   ChooseMudData({
     Key key,
     @required this.device,
   }) : super(key: key);
 
+  /// A new device
   final Device device;
 
   _ChooseMudDataState createState() => _ChooseMudDataState();
 }
 
 class _ChooseMudDataState extends State<ChooseMudData> {
+  /// A list for MUD-Guesses
   Future<List<MudGuess>> mudGuessList;
 
   /// URL response to store
@@ -29,7 +32,6 @@ class _ChooseMudDataState extends State<ChooseMudData> {
   @override
   void initState() {
     super.initState();
-
     mudGuessList = getMudGuessList();
   }
 
@@ -39,8 +41,8 @@ class _ChooseMudDataState extends State<ChooseMudData> {
       body: Center(
         child: Column(
           children: [
-            // This future builder element put in the different devices after these will be loaded
-            // The future builder element a delayed sending of context
+            /// This future builder element put in the different devices after these will be loaded
+            /// The future builder element a delayed sending of context
 
             FutureBuilder<List<MudGuess>>(
               future: mudGuessList,
@@ -53,7 +55,7 @@ class _ChooseMudDataState extends State<ChooseMudData> {
                     ),
                   );
                 } else if (snapshot.hasError) {
-                  // If the process failed this message returns
+                  /// If the process failed this message returns
                   print(snapshot.error);
                   return Container(
                     width: 600,
@@ -82,7 +84,7 @@ class _ChooseMudDataState extends State<ChooseMudData> {
                     ),
                   );
                 }
-                // By default, show a loading spinner.
+                /// By default, show a loading spinner.
                 else {
                   return SizedBox(
                     width: 30,
@@ -98,6 +100,7 @@ class _ChooseMudDataState extends State<ChooseMudData> {
     );
   }
 
+  /// This function gets the MUD-Guesses list from the controller
   Future<List<MudGuess>> getMudGuessList() async {
     String id = widget.device.id.toString();
     String mudGuessExtension = 'devices/$id/guesses';
