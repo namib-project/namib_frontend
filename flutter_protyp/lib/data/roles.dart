@@ -1,11 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
 
-// This class is a data construct for a role
 part 'roles.g.dart';
 
-@JsonSerializable(explicitToJson: true)
-class Roles{
+/// This class is a data construct for a role
 
+@JsonSerializable(explicitToJson: true)
+class Roles {
   int id;
   String name;
 

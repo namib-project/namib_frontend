@@ -1,8 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 
+/// Class that implements a function for formatting time stamps
 
-class TimeFormatter{
-  // Formatter for time stamps
+class TimeFormatter {
+  /// Formatter for time stamps
   String formatTimeAgo(String time) {
     DateTime dateTime = DateTime.parse(time);
     Duration diff = DateTime.now().difference(dateTime);
@@ -40,4 +41,3 @@ class TimeFormatter{
     }
   }
 }
-

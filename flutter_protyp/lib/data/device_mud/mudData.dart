@@ -1,15 +1,14 @@
 import 'package:flutter_protyp/data/device_mud/aclElement.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-// This class is a data construct for a MUD-Profile
+/// This class is a data construct for a MUD-Profile
 
 part 'mudData.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class MUDData {
-  List<ACLElement> acllist; //Access Control list mit Access Control entries
-  List<ACLElement>
-      acl_override; //Access Control list mit Access Control overrides
+  List<ACLElement> acllist;
+  List<ACLElement> acl_override;
   String documentation,
       last_update,
       masa_url,

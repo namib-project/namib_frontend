@@ -2,6 +2,8 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'mudGuess.g.dart';
 
+/// This class is a data construct for a MUD guess
+
 @JsonSerializable(explicitToJson: true)
 class MudGuess {
   String manufacturer_name, model_name, mud_url;

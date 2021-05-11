@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-// This class is a data construct for a MUD-Profile
+/// This class is a data construct for a room
 
 part 'room.g.dart';
 

@@ -2,15 +2,12 @@ import 'package:flutter_protyp/data/device_mud/room.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter_protyp/data/device_mud/mudData.dart';
 
-// This class is a data construct for a device
-/// This is a Test to see if this is a viable option to convert json to dartClass
-/// idea: https://www.youtube.com/watch?v=8fFoLs9qVQA
+/// This class is a data construct for a device
 
 part 'device.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Device {
-  ///systeminfo = Gerätename, name = MUD-Name, software_rev = Software Version,
   String hostname,
       name,
       type,

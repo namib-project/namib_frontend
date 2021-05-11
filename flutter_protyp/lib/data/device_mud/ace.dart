@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'ace.g.dart';
 
-// This class is a data construct for an access-control-entry
+/// This class is a data construct for an access-control-entry
 
 @JsonSerializable(explicitToJson: true)
 class ACE {
