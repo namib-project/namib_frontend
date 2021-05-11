@@ -11,14 +11,14 @@ import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 
-// This class contains the hole login-functions and permission handling
-
 class Login extends StatefulWidget {
   @override
   _LoginState createState() => _LoginState();
 }
 
+/// This class contains the hole login-functions and permission handling
 class _LoginState extends State<Login> {
+  /// Vars that lets the password appear in text or dots
   bool seePassword = false;
   Icon iconSee = Icon(
     FontAwesomeIcons.eyeSlash,
@@ -54,7 +54,7 @@ class _LoginState extends State<Login> {
   /// Creates a time-area for the refresh-token-functions
   static const oneSec = const Duration(seconds: 840);
 
-  // This method scans the operating system and starts if its true the mobile device version
+  /// This method scans the operating system and starts if its true the mobile device version
   void onlineOs() {
     String android = "android";
     String ios = "ios";
@@ -72,7 +72,7 @@ class _LoginState extends State<Login> {
     super.initState();
   }
 
-  // This method sets the brightness for the hole app
+  /// This method sets the brightness for the hole app
   void setSystemPreferences() {
     brightness = MediaQuery.of(context).platformBrightness.toString();
   }
@@ -228,7 +228,7 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                       Visibility(
-                        //The error message shows, if networkError is true
+                        /// The error message shows, if networkError is true
                         visible: networkError,
                         child: Container(
                           alignment: Alignment.center,
@@ -259,8 +259,9 @@ class _LoginState extends State<Login> {
                           ),
                         ),
                       ),
-                      // This container contains the login-button which handles the login-functions
-                      // also with the http-request
+
+                      /// This container contains the login-button which handles the login-functions
+                      /// with the http-request
                       Container(
                         alignment: Alignment.center,
                         width: 250,
@@ -281,7 +282,8 @@ class _LoginState extends State<Login> {
                             alignment: Alignment.center,
                             child: TextButton(
                               style: ButtonStyle(
-                                minimumSize: MaterialStateProperty.all(Size(300, 100)),
+                                  minimumSize:
+                                      MaterialStateProperty.all(Size(300, 100)),
                                   backgroundColor: MaterialStateProperty.all(
                                       Color(0x00000000)),
                                   shape: MaterialStateProperty.all(
@@ -334,7 +336,7 @@ class _LoginState extends State<Login> {
     );
   }
 
-  // Displays message if the http response takes to long
+  /// Displays message if the http response takes too long
   dynamic _handleTimeOut() {
     setState(() {
       networkError = true;
@@ -342,7 +344,7 @@ class _LoginState extends State<Login> {
     return null;
   }
 
-  //Activates the login button if more then one character are in the username and password field
+  /// Activates the login button if more then one characters are in the username and password field
   void checkForLoginButton() {
     if (_username.length > 1 && _password.length > 7) {
       setState(() {
@@ -355,7 +357,7 @@ class _LoginState extends State<Login> {
     }
   }
 
-  //Evaluates the http response an displays the relevant messages
+  /// Evaluates the http response code and displays the messages
   void _checkResponse(int statusCode) {
     try {
       setState(() {
@@ -390,7 +392,7 @@ class _LoginState extends State<Login> {
     } on NoSuchMethodError {}
   }
 
-  // Function to get the permission from the JWT-Token
+  /// Function to get the permission from the JWT-Token
   void decodeToken() {
     String _token;
     _token = jwtToken;
@@ -402,7 +404,7 @@ class _LoginState extends State<Login> {
     userID = jsonDecode(resp)["sub"];
   }
 
-  // Function for set the access permission for the application
+  /// Function for set the access permission for the application
   Future testPermissions() async {
     Function eq = const ListEquality().equals;
     List<dynamic> user = ["**/list", "**/read"];
@@ -418,12 +420,11 @@ class _LoginState extends State<Login> {
     }
   }
 
-  //This function refreshes the JWT token for authorization
+  ///This function refreshes the JWT token for authorization
   Future _refreshToken() async {
     var test = await http.get(url + tokenExtension, headers: {
       "Content-Type": "application/json",
       "Authorization": "Bearer $jwtToken"
-      // 'Charset': 'utf-8'
     });
     newToken = json.decode(test.body)['token'];
     jwtToken = newToken;

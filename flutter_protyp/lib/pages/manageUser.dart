@@ -359,6 +359,7 @@ class _ManageUserState extends State<ManageUser> {
                                       errorMessage2 = false;
                                     });
                                   }
+
                                   ///Check, if all conditions for enabling change button are true
                                   checkForChangePasswordButton();
                                 });
