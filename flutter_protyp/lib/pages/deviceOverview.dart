@@ -11,13 +11,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:http/http.dart' as http;
 import 'devicesGraph.dart';
 
-// This class returns deviceOverview site with the graphview
+/// This class returns deviceOverview site with the graphview
 
 class DeviceOverview extends StatefulWidget {
   _DeviceOverviewState createState() => _DeviceOverviewState();
 }
 
 class _DeviceOverviewState extends State<DeviceOverview> {
+  /// Bool for visibility object
   bool view = true;
 
   /// A List to safe all devices

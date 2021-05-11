@@ -9,20 +9,21 @@ import 'package:flutter_protyp/pages/deviceDetails.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:http/http.dart' as http;
 
-// This class is just for fetching the data and passes them to deviceDetails
+/// This class is just for fetching the data and passes them to deviceDetails
 
 class DeviceDetailsBuilder extends StatefulWidget {
   const DeviceDetailsBuilder({
     Key key,
     @required this.id,
   }) : super(key: key);
-  final int id; /// Required attribute for fetching the the device from controller
+
+  /// Required attribute for fetching the the device from controller
+  final int id;
 
   _DeviceDetailsBuilderState createState() => _DeviceDetailsBuilderState();
 }
 
 class _DeviceDetailsBuilderState extends State<DeviceDetailsBuilder> {
-
   /// Future lists of the data that cones from the controller
   Future<Device> deviceFuture;
   Future<List<Room>> _futureRooms;
@@ -40,7 +41,8 @@ class _DeviceDetailsBuilderState extends State<DeviceDetailsBuilder> {
         future: _futureRooms,
         builder: (context, _roomsSnapshot) {
           if (_roomsSnapshot.hasData) {
-            return FutureBuilder<Device>( // FutureBuilder for processing the future data
+            return FutureBuilder<Device>(
+              /// FutureBuilder for processing the future data
               future: deviceFuture,
               builder: (context, _deviceSnapshot) {
                 if (_deviceSnapshot.hasData) {
@@ -49,7 +51,7 @@ class _DeviceDetailsBuilderState extends State<DeviceDetailsBuilder> {
                     rooms: _roomsSnapshot.data,
                   );
                 } else if (_deviceSnapshot.hasError) {
-                  // If the process failed this message returns
+                  /// If the process failed this message returns
                   print(_deviceSnapshot.error);
                   return Container(
                     width: 600,
@@ -66,7 +68,8 @@ class _DeviceDetailsBuilderState extends State<DeviceDetailsBuilder> {
                         ]),
                   );
                 }
-                // By default, show a loading spinner.
+
+                /// By default, show a loading spinner.
                 else {
                   return SizedBox(
                     width: 30,
@@ -77,7 +80,7 @@ class _DeviceDetailsBuilderState extends State<DeviceDetailsBuilder> {
               },
             );
           } else if (_roomsSnapshot.hasError) {
-            // If the process failed this message returns
+            /// If the process failed this message returns
             print(_roomsSnapshot.error);
             return Container(
               width: 600,
@@ -94,7 +97,8 @@ class _DeviceDetailsBuilderState extends State<DeviceDetailsBuilder> {
                   ]),
             );
           }
-          // By default, show a loading spinner.
+
+          /// By default, show a loading spinner.
           else {
             return SizedBox(
               width: 30,
@@ -107,7 +111,7 @@ class _DeviceDetailsBuilderState extends State<DeviceDetailsBuilder> {
     );
   }
 
-  // This function gets the device from the controller
+  /// This function gets the device from the controller
   Future<Device> _fetchDevice() async {
     String deviceExtension = "devices/";
 
@@ -134,7 +138,7 @@ class _DeviceDetailsBuilderState extends State<DeviceDetailsBuilder> {
     }
   }
 
-  // This function gets the rooms from the controller
+  /// This function gets the rooms from the controller
   Future<List<Room>> _getRooms() async {
     String roomsExtension = 'rooms';
     var _response = await http.get(url + roomsExtension, headers: {

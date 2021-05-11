@@ -15,7 +15,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 
-// Class that display the details of a specific device and implements functions for updating the device
+/// Class that display the details of a specific device and implements functions for updating the device
+
 class DeviceDetails extends StatefulWidget {
   const DeviceDetails({
     Key key,
@@ -145,7 +146,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                 ),
 
                 Visibility(
-                  //The error message shows, if networkError is true
+                  /// The error message shows, if networkError is true
                   visible: adminAccess,
                   child: Column(
                     children: [
@@ -177,7 +178,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                 ),
 
                 Visibility(
-                  //The error message shows, if networkError is true
+                  /// The error message shows, if networkError is true
                   visible: adminAccess,
                   child: Container(
                     alignment: Alignment.center,
@@ -227,7 +228,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                 ),
 
                 Visibility(
-                  //The error message shows, if networkError is true
+                  /// The error message shows, if networkError is true
                   visible: adminAccess,
                   child: Container(
                     alignment: Alignment.center,
@@ -251,7 +252,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                 ),
 
                 Visibility(
-                  // The error message shows, if networkError is true
+                  /// The error message shows, if networkError is true
                   visible: adminAccess,
                   child: Container(
                     alignment: Alignment.center,
@@ -278,13 +279,14 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                   height: 20,
                 ),
                 Column(
-                  // Check if mobile device, than there are different ways of showing the information
+                  /// Check if mobile device, than there are different ways of showing the information
                   children: mobileDevice ? _mobileView() : _desktopView(),
                 ),
                 SizedBox(
                   height: 40,
                 ),
-                // Table row to display and edit the different DNS-Requests
+
+                /// Table row to display and edit the different DNS-Requests
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -372,7 +374,8 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                     _expertModeText(context),
                   ],
                 ),
-                // This table displays the HTTP-addresses which are allowed
+
+                /// This table displays the HTTP-addresses which are allowed
                 Row(
                   children: [
                     Expanded(
@@ -427,7 +430,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     );
   }
 
-  // Function that sort the list of room according to the sortAscendingRooms variable
+  /// Function that sort the list of room according to the sortAscendingRooms variable
   _sortRoomsForDisplay() {
     setState(() {
       if (_sortAscendingRooms) {
@@ -438,7 +441,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     });
   }
 
-  // Returns a list of widget in case of mobile device for better visibility
+  /// Returns a list of widget in case of mobile device for better visibility
   List<Widget> _mobileView() {
     var selectableText1 = SelectableText(
       "ipaddress".tr().toString() + ":",
@@ -614,7 +617,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     return list;
   }
 
-  // Return a list of widget in case of desktop device for better visibility
+  /// Return a list of widget in case of desktop device for better visibility
   List<Widget> _desktopView() {
     var column1 = Expanded(
       child: Column(
@@ -770,7 +773,8 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                       style: TextStyle(fontSize: 20),
                     ),
                     SelectableText(
-                      formatter.formatTimeAgo(widget.device.mud_data.expiration),
+                      formatter
+                          .formatTimeAgo(widget.device.mud_data.expiration),
                       style: TextStyle(fontSize: 18),
                     )
                   ]
@@ -790,7 +794,8 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                       style: TextStyle(fontSize: 20),
                     ),
                     SelectableText(
-                      formatter.formatTimeAgo(widget.device.mud_data.last_update),
+                      formatter
+                          .formatTimeAgo(widget.device.mud_data.last_update),
                       style: TextStyle(fontSize: 18),
                     )
                   ]
@@ -848,7 +853,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     return list;
   }
 
-  // This method launch the documentation of the profils, if it is not possible there will be thrown an error
+  /// This method launch the documentation of the profils, if it is not possible there will be thrown an error
   _launchDocumentation() async {
     if (await canLaunch(widget.device.mud_data.documentation)) {
       await launch(widget.device.mud_data.documentation);
@@ -857,8 +862,8 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     }
   }
 
-  // This method launchs the MUDURL to the device, these URLs are the profils for the devices that are added to the app
-  // if it not possible it will be thrown an error
+  /// This method launchs the MUDURL to the device, these URLs are the profils for the devices that are added to the app
+  /// if it not possible it will be thrown an error
   _launchMUDURL() async {
     if (await canLaunch(widget.device.mud_url)) {
       await launch(widget.device.mud_url);
@@ -867,7 +872,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     }
   }
 
-  // This method sends the MUD-Profile-Data to the controller
+  /// This method sends the MUD-Profile-Data to the controller
   Future _transmitData() async {
     Map<String, dynamic> test = widget.device.mud_data.toJson();
 
@@ -886,7 +891,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
         body: jsonEncode(data));
   }
 
-  // Shows the dialog for renaming the device
+  /// Shows the dialog for renaming the device
   void _renameDialog() {
     showDialog(
       context: context,
@@ -965,14 +970,14 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     );
   }
 
-  // Updates UI
+  /// Updates UI
   setNewName(String name) {
     setState(() {
       _name = name;
     });
   }
 
-  // Dialog for resetting the mud file of this device
+  /// Dialog for resetting the mud file of this device
   void _resetDialog() {
     showDialog(
       context: context,
@@ -1045,7 +1050,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     );
   }
 
-  // Reloads the page
+  /// Reloads the page
   void forwardReset() {
     Navigator.pushReplacement(
       context,
@@ -1055,7 +1060,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     );
   }
 
-  // Implements the header of the dns name table
+  /// Implements the header of the dns name table
   _listHeader() {
     return Container(
       height: 80,
@@ -1110,7 +1115,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     );
   }
 
-  // Implements the search bar of the dns name table
+  /// Implements the search bar of the dns name table
   _searchBar() {
     return Padding(
       padding: EdgeInsets.all(8),
@@ -1137,7 +1142,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     );
   }
 
-  // Implements the dns name list of the dns name table
+  /// Implements the dns name list of the dns name table
   ListView _listForAcl() {
     return ListView.builder(
       itemCount: _aclListForDisplay.length,
@@ -1184,7 +1189,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     );
   }
 
-  // Processes the information in the device for the dns name list
+  /// Processes the information in the device for the dns name list
   _generateDnsList() {
     _aclListCopy = [];
     if (widget.device.mud_data.acl_override.isEmpty) {
@@ -1208,7 +1213,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     _aclListForDisplay = List.from(_aclListCopy);
   }
 
-  // Function for sorting the dns name list
+  /// Function for sorting the dns name list
   _sortAclListForDisplay() {
     setState(() {
       if (_sortAscending) {
@@ -1219,7 +1224,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     });
   }
 
-  // Dialog for updating the room of the device
+  /// Dialog for updating the room of the device
   _chooseRoomDialog(BuildContext context) {
     return showDialog(
       context: context,
@@ -1424,7 +1429,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            // Buttons to accept or dismiss the changes like described above
+                            /// Buttons to accept or dismiss the changes like described above
                             TextButton(
                               child: Text(
                                 "Abbrechen",
@@ -1465,7 +1470,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     );
   }
 
-  // Updates the room of the device at the controller
+  /// Updates the room of the device at the controller
   void _changeRoom() {
     String _deviceId = widget.device.id.toString();
     String _updateDeviceExtension = "devices/$_deviceId";
@@ -1484,7 +1489,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     forwardReset();
   }
 
-  // Dialog for choosing a new clipart for the device
+  /// Dialog for choosing a new clipart for the device
   Future _chooseClipartDialog(BuildContext context) {
     return showDialog(
       context: context,
@@ -1609,14 +1614,14 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     );
   }
 
-  // Updates UI
+  /// Updates UI
   void changeClipArtForDisplay() {
     setState(() {
       _clipArtForDisplay = _selectedClipart;
     });
   }
 
-  // Updates the clipart at the controller
+  /// Updates the clipart at the controller
   void _changeClipart() {
     String _deviceId = widget.device.id.toString();
     String _updateDeviceExtension = "devices/$_deviceId";
@@ -1632,7 +1637,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
         body: jsonEncode(data));
   }
 
-  // Dialog for deleting a dns name from the table
+  /// Dialog for deleting a dns name from the table
   void _deleteDNSName(String accessControlEntry) {
     showDialog(
       context: context,
@@ -1737,7 +1742,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     );
   }
 
-  // Additional explanation text for the dns name list
+  /// Additional explanation text for the dns name list
   Visibility _expertModeText(BuildContext context) {
     return Visibility(
       visible: !expertMode,
@@ -1783,7 +1788,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     );
   }
 
-  //Function called from MouseRegion widget below, opens the overlay on mouse enter
+  /// Function called from MouseRegion widget below, opens the overlay on mouse enter
   void _enterInRegion(PointerEvent details) {
     setState(() {
       inRegion = true;
@@ -1791,7 +1796,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     showOverlay(context);
   }
 
-  //Function called from MouseRegion widget below, closes the overlay on mouse exit
+  /// Function called from MouseRegion widget below, closes the overlay on mouse exit
   void _exitInRegion(PointerEvent details) {
     setState(() {
       inRegion = false;
@@ -1799,18 +1804,18 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     closeOverlay();
   }
 
-  //Function that shows the overlay element
+  /// Function that shows the overlay element
   showOverlay(BuildContext context) {
     OverlayState overlayState = Overlay.of(context);
     overlayState.insert(overlayEntry);
   }
 
-  //Function for closing the overlay element
+  /// Function for closing the overlay element
   closeOverlay() {
     overlayEntry.remove();
   }
 
-  //Creating the overlay element just an example for expert mode
+  /// Creating the overlay element just an example for expert mode
   OverlayEntry overlayEntry = OverlayEntry(
     builder: (context) => Center(
       child: Container(
