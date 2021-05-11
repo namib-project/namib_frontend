@@ -1,25 +1,5 @@
 stages:
   - archive
-  - doc
-  
-
-  
-
-doc:release:
-  stage: doc
-  image: cirrusci/flutter
-  before_script:
-    - cd \flutter_protyp
-    - flutter packages get
-    - flutter clean
-  script:
-    - flutter doctor --android-licenses
-    - flutter build web --release
-    - dartdoc
-  artifacts:
-    paths:
-      - "**/doc"
-    expire_in: 7 days
 
 web:release:
   stage: archive
