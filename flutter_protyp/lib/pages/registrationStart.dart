@@ -27,19 +27,19 @@ class _RegistrationState extends State<RegistrationStart> {
     size: 17,
   );
 
-  ///Variables for user inputs
+  /// Variables for user inputs
   String _password = "";
   String _username = "";
   String _secPassword = "";
 
-  ///Variables for visibility of error messages
+  /// Variables for visibility of error messages
   bool errorMessage1 = false;
   bool errorMessage2 = false;
   bool regisButton = false;
   bool usernameMessage = false;
   bool networkMessage = false;
 
-  ///Test for http client
+  /// Test for http client
   String signupExtension = "users/signup";
 
   /// Stores the response from the controller
@@ -70,10 +70,11 @@ class _RegistrationState extends State<RegistrationStart> {
                 Text(
                   "NAMIB",
                   style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: "OpenSans",
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold),
+                    color: Colors.white,
+                    fontFamily: "OpenSans",
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 SizedBox(
                   height: 30,
@@ -86,8 +87,11 @@ class _RegistrationState extends State<RegistrationStart> {
                       (networkMessage ? 120.0 : 0.0),
                   width: 325,
                   decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10)),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(
+                      10,
+                    ),
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -121,10 +125,13 @@ class _RegistrationState extends State<RegistrationStart> {
                                   height: 50,
                                   child: TextButton(
                                     style: ButtonStyle(
-                                        shape: MaterialStateProperty.all(
-                                            RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(50),
-                                    ))),
+                                      shape: MaterialStateProperty.all(
+                                        RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                        ),
+                                      ),
+                                    ),
                                     onPressed: () => {
                                       Navigator.pushReplacementNamed(
                                           context, "/login")
@@ -188,9 +195,9 @@ class _RegistrationState extends State<RegistrationStart> {
                             ),
                             onChanged: (String value) async {
                               setState(() {
-                                _username = value; //Username set to variable
+                                _username = value;
                               });
-                              checkForRegistrationButton(); //Check, if all conditions for enabling registration button are true
+                              _checkForRegistrationButton();
                             },
                           ),
                         ),
@@ -219,13 +226,12 @@ class _RegistrationState extends State<RegistrationStart> {
                             ),
                             onChanged: (String value) async {
                               setState(() {
-                                _password = value; //Password set to variable
+                                _password = value;
                               });
                               await Future.delayed(const Duration(seconds: 1),
                                   () {
-                                //Wait for 1 second
                                 if (value.length < 8) {
-                                  //Shows error message if password contains less then 8 characters
+                                  /// Shows error message if password contains less then 8 characters
                                   setState(() {
                                     errorMessage1 = true;
                                   });
@@ -236,7 +242,7 @@ class _RegistrationState extends State<RegistrationStart> {
                                 }
                                 if (_secPassword != _password &&
                                     _secPassword.length > 7) {
-                                  //Show error message, if the first password input is not equal to the second input
+                                  /// Show error message, if the first password input is not equal to the second input
                                   setState(() {
                                     errorMessage2 = true;
                                   });
@@ -245,7 +251,7 @@ class _RegistrationState extends State<RegistrationStart> {
                                     errorMessage2 = false;
                                   });
                                 }
-                                checkForRegistrationButton(); //Check, if all conditions for enabling registration button are true
+                                _checkForRegistrationButton();
                               });
                             },
                           ),
@@ -256,7 +262,7 @@ class _RegistrationState extends State<RegistrationStart> {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
                         child: Visibility(
-                          //The error message shows, if errorMessage1 is true
+                          /// The error message shows, if errorMessage1 is true
                           visible: errorMessage1,
                           child: Container(
                             alignment: Alignment.center,
@@ -264,7 +270,9 @@ class _RegistrationState extends State<RegistrationStart> {
                             child: SelectableText(
                               "minCharacters".tr().toString(),
                               style: TextStyle(
-                                  color: Colors.red[700], fontSize: 20),
+                                color: Colors.red[700],
+                                fontSize: 20,
+                              ),
                             ),
                           ),
                         ),
@@ -295,21 +303,23 @@ class _RegistrationState extends State<RegistrationStart> {
                               setState(() {
                                 _secPassword = value;
                               });
-                              await Future.delayed(const Duration(seconds: 1),
-                                  () {
-                                //Wait for 1 second
-                                if (value != _password) {
-                                  //Show error message, if the first password input is not equal to the second input
-                                  setState(() {
-                                    errorMessage2 = true;
-                                  });
-                                } else {
-                                  setState(() {
-                                    errorMessage2 = false;
-                                  });
-                                }
-                                checkForRegistrationButton(); //Check, if all conditions for enabling registration button are true
-                              });
+                              await Future.delayed(
+                                const Duration(seconds: 1),
+                                () {
+                                  //Wait for 1 second
+                                  if (value != _password) {
+                                    /// Show error message, if the first password input is not equal to the second input
+                                    setState(() {
+                                      errorMessage2 = true;
+                                    });
+                                  } else {
+                                    setState(() {
+                                      errorMessage2 = false;
+                                    });
+                                  }
+                                  _checkForRegistrationButton();
+                                },
+                              );
                             },
                           ),
                         ),
@@ -317,7 +327,7 @@ class _RegistrationState extends State<RegistrationStart> {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
                         child: Visibility(
-                          //The error message shows, if errorMessage2 is true
+                          /// The error message shows, if errorMessage2 is true
                           visible: errorMessage2,
                           child: Container(
                               alignment: Alignment.center,
@@ -325,7 +335,9 @@ class _RegistrationState extends State<RegistrationStart> {
                               child: SelectableText(
                                 "pswNotMatch".tr().toString(),
                                 style: TextStyle(
-                                    color: Colors.red[700], fontSize: 20),
+                                  color: Colors.red[700],
+                                  fontSize: 20,
+                                ),
                               )),
                         ),
                       ),
@@ -339,7 +351,9 @@ class _RegistrationState extends State<RegistrationStart> {
                             child: SelectableText(
                               "userNameTaken".tr().toString(),
                               style: TextStyle(
-                                  color: Colors.red[700], fontSize: 20),
+                                color: Colors.red[700],
+                                fontSize: 20,
+                              ),
                             ),
                           ),
                         ),
@@ -354,7 +368,9 @@ class _RegistrationState extends State<RegistrationStart> {
                             child: SelectableText(
                               "networkError".tr().toString(),
                               style: TextStyle(
-                                  color: Colors.red[700], fontSize: 20),
+                                color: Colors.red[700],
+                                fontSize: 20,
+                              ),
                             ),
                           ),
                         ),
@@ -363,8 +379,8 @@ class _RegistrationState extends State<RegistrationStart> {
                         height: 60,
                       ),
 
-                      // This container contains the logic to register the new user
-                      // also with the http logic
+                      /// This container contains the logic to register the new user
+                      /// also with the http logic
                       Container(
                         alignment: Alignment.center,
                         width: 250,
@@ -408,12 +424,12 @@ class _RegistrationState extends State<RegistrationStart> {
                                                 }))
                                             .timeout(const Duration(seconds: 3),
                                                 onTimeout: () {
-                                          return catchTimeout();
+                                          return _catchTimeout();
                                         }),
                                         _username = "",
                                         _password = "",
                                         _secPassword = "",
-                                        checkResponse(),
+                                        _checkResponse(),
                                       }
                                   : null,
                               child: Text(
@@ -439,8 +455,8 @@ class _RegistrationState extends State<RegistrationStart> {
     );
   }
 
-  // If the Server takes to long to answer error messages are displayed
-  dynamic catchTimeout() {
+  /// If the Server takes to long to answer error messages are displayed
+  dynamic _catchTimeout() {
     setState(() {
       usernameMessage = false;
       networkMessage = true;
@@ -448,8 +464,8 @@ class _RegistrationState extends State<RegistrationStart> {
     return null;
   }
 
-  //Function checks all conditions for activating the registration button
-  void checkForRegistrationButton() {
+  /// Function checks all conditions for activating the registration button
+  void _checkForRegistrationButton() {
     if (_username.length > 0 &&
         errorMessage1 == false &&
         errorMessage2 == false &&
@@ -465,46 +481,53 @@ class _RegistrationState extends State<RegistrationStart> {
     }
   }
 
-  // Function evaluates the http response and displays the relevant messages
-  void checkResponse() {
+  /// Function evaluates the http response and displays the relevant messages
+  void _checkResponse() {
     try {
       setState(() {
         if (response.statusCode == 200) {
           usernameMessage = false;
           networkMessage = false;
 
-          // Confirmation dialog
+          /// Confirmation dialog
           showDialog(
-              context: context,
-              builder: (context) => SimpleDialog(
-                    title: SelectableText("confirmation".tr().toString()),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0)),
-                    contentPadding: EdgeInsets.all(20.0),
-                    children: [
-                      Container(
-                        height: 100,
-                        width: 300,
-                        alignment: Alignment.center,
-                        child: SelectableText(
-                            "registrationSuccess".tr().toString()),
+            context: context,
+            builder: (context) => SimpleDialog(
+              title: SelectableText("confirmation".tr().toString()),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(
+                  18.0,
+                ),
+              ),
+              contentPadding: EdgeInsets.all(20.0),
+              children: [
+                Container(
+                  height: 100,
+                  width: 300,
+                  alignment: Alignment.center,
+                  child: SelectableText(
+                    "registrationSuccess".tr().toString(),
+                  ),
+                ),
+                Container(
+                  height: 70,
+                  alignment: Alignment.center,
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      _forward();
+                    },
+                    child: Text(
+                      "Ok",
+                      style: TextStyle(
+                        color: buttonColor,
                       ),
-                      Container(
-                        height: 70,
-                        alignment: Alignment.center,
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                            _forward();
-                          },
-                          child: Text(
-                            "Ok",
-                            style: TextStyle(color: buttonColor),
-                          ),
-                        ),
-                      )
-                    ],
-                  ));
+                    ),
+                  ),
+                )
+              ],
+            ),
+          );
         } else if (response.statusCode == 500) {
           usernameMessage = true;
           networkMessage = false;
@@ -515,13 +538,12 @@ class _RegistrationState extends State<RegistrationStart> {
     } on NoSuchMethodError {}
   }
 
+  /// shows if registration over this site is forbidden by admin
   _forbiddenDialog(BuildContext context) {
     return showDialog(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
-        // Here are displayed all cliparts to put devices in different classes
-        // At the end there ist a pop-up dialog to save or dismiss the changes
         return StatefulBuilder(
           builder: (context, setState) {
             return Center(
@@ -581,7 +603,8 @@ class _RegistrationState extends State<RegistrationStart> {
     );
   }
 
-  // Is called after creating the user
+  /// Is called after creating the user
+  /// redirects to login
   void _forward() {
     Navigator.pushReplacementNamed(context, "/login");
   }

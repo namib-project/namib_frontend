@@ -9,7 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-// This class is for the system-administrator to create a user
+/// This class is for the system-administrator to create a user
 
 class Registration extends StatefulWidget {
   @override
@@ -48,21 +48,18 @@ class _RegistrationState extends State<Registration> {
   /// Stores the response from the controller
   var response;
 
-
   /// To give roles to the new user
   bool _admin = false;
   bool _user = false;
-  List _roleID =  [];
-
+  List _roleID = [];
 
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: MainAppbar(),
       drawer: MainDrawer(),
       body: Center(
-          child: Container(
-        height: double.infinity,
-        //Context will appear smaller on mobile devices
+        child: Container(
+          height: double.infinity,
           child: SingleChildScrollView(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -94,13 +91,14 @@ class _RegistrationState extends State<Registration> {
                           obscureText: false,
                           cursorColor: Colors.grey,
                           decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: "username".tr().toString()),
+                            border: OutlineInputBorder(),
+                            labelText: "username".tr().toString(),
+                          ),
                           onChanged: (String value) async {
                             setState(() {
-                              _username = value; //Username set to variable
+                              _username = value;
                             });
-                            checkForRegistrationButton(); //Check, if all conditions for enabling registration button are true
+                            _checkForRegistrationButton();
                           },
                         ),
                       ),
@@ -127,28 +125,30 @@ class _RegistrationState extends State<Registration> {
                           ),
                           onChanged: (String value) async {
                             setState(() {
-                              _password = value; //Password set to variable
+                              _password = value;
                             });
-                            await Future.delayed(const Duration(seconds: 1),
-                                () {
-                              //Wait for 1 second
-                              if (value.length < 8) {
-                                //Shows error message if password contains less then 8 characters
-                                setState(() {
-                                  errorMessage1 = true;
-                                });
-                              } else {
-                                setState(() {
-                                  errorMessage1 = false;
-                                });
-                              }
-                              checkForRegistrationButton(); //Check, if all conditions for enabling registration button are true
-                            });
+                            await Future.delayed(
+                              const Duration(seconds: 1),
+                              () {
+                                //Wait for 1 second
+                                if (value.length < 8) {
+                                  /// Shows error message if password contains less then 8 characters
+                                  setState(() {
+                                    errorMessage1 = true;
+                                  });
+                                } else {
+                                  setState(() {
+                                    errorMessage1 = false;
+                                  });
+                                }
+                                _checkForRegistrationButton();
+                              },
+                            );
                           },
                         ),
                       ),
                       Visibility(
-                        //The error message shows, if errorMessage1 is true
+                        /// The error message shows, if errorMessage1 is true
                         visible: errorMessage1,
                         child: Container(
                           alignment: Alignment.center,
@@ -185,38 +185,42 @@ class _RegistrationState extends State<Registration> {
                             setState(() {
                               _secPassword = value;
                             });
-                            await Future.delayed(const Duration(seconds: 1),
-                                () {
-                              //Wait for 1 second
-                              if (value != _password) {
-                                //Show error message, if the first password input is not equal to the second input
-                                setState(() {
-                                  errorMessage2 = true;
-                                  passwordMessage = false;
-                                });
-                              } else {
-                                setState(() {
-                                  errorMessage2 = false;
-                                  passwordMessage = true;
-                                });
-                              }
-                              checkForRegistrationButton(); //Check, if all conditions for enabling registration button are true
-                            });
+                            await Future.delayed(
+                              const Duration(seconds: 1),
+                              () {
+                                if (value != _password) {
+                                  /// Show error message, if the first password input is not equal to the second input
+                                  setState(() {
+                                    errorMessage2 = true;
+                                    passwordMessage = false;
+                                  });
+                                } else {
+                                  setState(() {
+                                    errorMessage2 = false;
+                                    passwordMessage = true;
+                                  });
+                                }
+                                _checkForRegistrationButton();
+                              },
+                            );
                           },
                         ),
                       ),
 
                       Visibility(
-                        //The error message shows, if errorMessage2 is true
+                        /// The error message shows, if errorMessage2 is true
                         visible: errorMessage2,
                         child: Container(
-                            alignment: Alignment.center,
-                            height: 50,
-                            child: SelectableText(
-                              "pswNotMatch".tr().toString(),
-                              style: TextStyle(
-                                  color: Colors.red[700], fontSize: 20),
-                            )),
+                          alignment: Alignment.center,
+                          height: 50,
+                          child: SelectableText(
+                            "pswNotMatch".tr().toString(),
+                            style: TextStyle(
+                              color: Colors.red[700],
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
                       ),
                       Visibility(
                         visible: usernameMessage,
@@ -225,8 +229,10 @@ class _RegistrationState extends State<Registration> {
                           alignment: Alignment.center,
                           child: SelectableText(
                             "userNameTaken".tr().toString(),
-                            style:
-                                TextStyle(color: Colors.red[700], fontSize: 20),
+                            style: TextStyle(
+                              color: Colors.red[700],
+                              fontSize: 20,
+                            ),
                           ),
                         ),
                       ),
@@ -237,8 +243,10 @@ class _RegistrationState extends State<Registration> {
                           alignment: Alignment.center,
                           child: SelectableText(
                             "networkError".tr().toString(),
-                            style:
-                                TextStyle(color: Colors.red[700], fontSize: 20),
+                            style: TextStyle(
+                              color: Colors.red[700],
+                              fontSize: 20,
+                            ),
                           ),
                         ),
                       ),
@@ -267,20 +275,21 @@ class _RegistrationState extends State<Registration> {
                             children: [
                               SelectableText("user".tr().toString()),
                               Checkbox(
-                                  activeColor: buttonColor,
-                                  value: _user,
-                                  onChanged: (bool value) {
-                                    setState(() {
-                                      _user = value;
-                                    });
-                                  })
+                                activeColor: buttonColor,
+                                value: _user,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    _user = value;
+                                  });
+                                },
+                              )
                             ],
                           ),
-
                         ],
                       ),
-                      // This container contains the logic to register the new user
-                      // also with the http logic
+
+                      /// This container contains the logic to register the new user
+                      /// also with the http logic
                       Container(
                         height: 70,
                         alignment: Alignment.center,
@@ -289,26 +298,27 @@ class _RegistrationState extends State<Registration> {
                           children: <Widget>[
                             ElevatedButton(
                               style: ButtonStyle(
-                                minimumSize: MaterialStateProperty.all(Size(140.0, 50.0)),
-                                padding: MaterialStateProperty.all(EdgeInsets.all(10))
-                              ),
-                              //Button is enabled if regisButton is true
+                                  minimumSize: MaterialStateProperty.all(
+                                      Size(140.0, 50.0)),
+                                  padding: MaterialStateProperty.all(
+                                      EdgeInsets.all(10))),
+
+                              /// Button is enabled if regisButton is true
                               onPressed: regisButton
                                   ? () async => {
-
-                                if(_admin == true){
-                                _roleID.add(0)
-                                }else if (_admin == false && _user == true )
-                                  {
-                                   _roleID.add(1)
-                                  },
-
-                                response = await http
+                                        if (_admin == true)
+                                          {_roleID.add(0)}
+                                        else if (_admin == false &&
+                                            _user == true)
+                                          {_roleID.add(1)},
+                                        response = await http
                                             .post(url + signupExtension,
-                                            headers: {
-                                              "Content-Type": "application/json",
-                                              "Authorization": "Bearer $jwtToken"
-                                            },
+                                                headers: {
+                                                  "Content-Type":
+                                                      "application/json",
+                                                  "Authorization":
+                                                      "Bearer $jwtToken"
+                                                },
                                                 body: json.encode({
                                                   "password": _password,
                                                   "roles_ids": _roleID,
@@ -316,14 +326,14 @@ class _RegistrationState extends State<Registration> {
                                                 }))
                                             .timeout(const Duration(seconds: 3),
                                                 onTimeout: () {
-                                          return catchTimeout();
+                                          return _catchTimeout();
                                         }),
                                         _username = "",
                                         _password = "",
                                         _secPassword = "",
                                         passwordMessage = false,
                                         checkResponse(),
-                                print(response.statusCode),
+                                        print(response.statusCode),
                                       }
                                   : null,
                               child: Text(
@@ -340,13 +350,13 @@ class _RegistrationState extends State<Registration> {
               ],
             ),
           ),
-
-      )),
+        ),
+      ),
     );
   }
 
-  // If the Server takes to long to answer error messages are displayed
-  dynamic catchTimeout() {
+  /// If the Server takes to long to answer error messages are displayed
+  dynamic _catchTimeout() {
     setState(() {
       usernameMessage = false;
       passwordMessage = false;
@@ -355,14 +365,13 @@ class _RegistrationState extends State<Registration> {
     return null;
   }
 
-  //Function checks all conditions for activating the registration button
-  void checkForRegistrationButton() {
+  /// Function checks all conditions for activating the registration button
+  void _checkForRegistrationButton() {
     if (_username.length > 0 &&
         errorMessage1 == false &&
         errorMessage2 == false &&
         _password.length > 7 &&
-        _secPassword.length > 1
-    ) {
+        _secPassword.length > 1) {
       setState(() {
         regisButton = true;
       });
@@ -373,7 +382,7 @@ class _RegistrationState extends State<Registration> {
     }
   }
 
-  // Function evaluates the http response and displays the relevant messages
+  /// Function evaluates the http response and displays the relevant messages
   void checkResponse() {
     try {
       setState(() {
@@ -382,40 +391,42 @@ class _RegistrationState extends State<Registration> {
           passwordMessage = false;
           networkMessage = false;
 
-          // Confirmation dialog
+          /// Confirmation dialog
           showDialog(
-              context: context,
-              builder: (context) => SimpleDialog(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18.0),
+            context: context,
+            builder: (context) => SimpleDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0),
+              ),
+              title: SelectableText("confirmation".tr().toString()),
+              contentPadding: EdgeInsets.all(20.0),
+              children: [
+                Container(
+                  height: 100,
+                  width: 300,
+                  alignment: Alignment.center,
+                  child: SelectableText(
+                    "registrationSuccess".tr().toString(),
+                  ),
                 ),
-                    title: SelectableText("confirmation".tr().toString()),
-                    contentPadding: EdgeInsets.all(20.0),
-                    children: [
-                      Container(
-                        height: 100,
-                        width: 300,
-                        alignment: Alignment.center,
-                        child: SelectableText(
-                            "registrationSuccess".tr().toString()),
-                      ),
-                      Container(
-                        height: 70,
-                        alignment: Alignment.center,
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
+                Container(
+                  height: 70,
+                  alignment: Alignment.center,
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
 
-                            _forwarding();
-                          },
-                          child: Text(
-                            "Ok",
-                            style: TextStyle(color: buttonColor),
-                          ),
-                        ),
-                      )
-                    ],
-                  ));
+                      _forwarding();
+                    },
+                    child: Text(
+                      "Ok",
+                      style: TextStyle(color: buttonColor),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          );
         } else if (response.statusCode == 500) {
           usernameMessage = true;
           passwordMessage = false;
@@ -423,11 +434,10 @@ class _RegistrationState extends State<Registration> {
         }
       });
     } on NoSuchMethodError {}
-   }
+  }
 
-  // Is called after creating the user
+  /// Is called after creating the user
   void _forwarding() {
     Navigator.pushReplacementNamed(context, "/userManagement");
   }
 }
-
