@@ -33,6 +33,7 @@ bool adminAccess = false;
 bool userAccess = false;
 
 /// this is for all the clipart pictures
+/// which can be found in the folder resources
 /// is used in chooseClipArt.dart
 final List<String> allClipArts = [
   'resources/clipart/settings_suggest.svg',

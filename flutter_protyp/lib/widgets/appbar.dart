@@ -7,8 +7,8 @@ import 'package:flutter_protyp/widgets/theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-// Gives an AppBar with logoutButton
-// Can be coloured with primaryColor in constant.dart
+/// Gives an AppBar with logoutButton and options like darkmode and language
+/// Can be coloured with primaryColor in constant.dart
 
 class MainAppbar extends StatefulWidget implements PreferredSizeWidget {
   @override
@@ -51,7 +51,7 @@ class _MainAppbarState extends State<MainAppbar> {
           },
         ),
 
-        // Text field for displaying the username
+        /// Text field for displaying the username
         title: SelectableText("hello".tr().toString() + " " + getUserName()),
         actions: <Widget>[
           Padding(
@@ -65,7 +65,7 @@ class _MainAppbarState extends State<MainAppbar> {
     );
   }
 
-  // This method parses the string with username from controller
+  /// This method parses the string with username from controller
   String getUserName() {
     if (jwtToken.length > 1) {
       myJson = jwtToken;
@@ -92,6 +92,7 @@ class _SettingsPopupState extends State<SettingsPopup> {
   Widget build(BuildContext context) {
     ThemeChanger themeChanger = Provider.of<ThemeChanger>(context);
 
+    /// The popupMenu for Settings and Logout
     return PopupMenuButton<Widget>(
       icon: Center(
         child: Icon(
@@ -107,7 +108,7 @@ class _SettingsPopupState extends State<SettingsPopup> {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                // Switch to change the Dark / LightMode
+                /// Switch to change the Dark / LightMode
                 SwitchListTile(
                   title: Text(
                     "Dark mode",
@@ -121,22 +122,8 @@ class _SettingsPopupState extends State<SettingsPopup> {
                     setDarkMode(setState, themeChanger);
                   },
                 ),
-                // Switch to change expert mode/normal mode
-                // SwitchListTile(
-                //   title: Text(
-                //     "expertMode".tr().toString(),
-                //     style: TextStyle(
-                //       fontSize: 18,
-                //     ),
-                //   ),
-                //   activeColor: buttonColor,
-                //   value: expertMode,
-                //   onChanged: (bool value) {
-                //     setExpertMode(setState, value);
-                //   },
-                // ),
 
-                // Switch to change languages
+                /// Switch to change languages
                 Container(
                   width: 250,
                   height: 50,
@@ -210,7 +197,7 @@ class _SettingsPopupState extends State<SettingsPopup> {
                   thickness: 2,
                 ),
 
-                // Button to get user information
+                /// Button to get user information
                 Container(
                   width: 300,
                   height: 50,
@@ -238,7 +225,7 @@ class _SettingsPopupState extends State<SettingsPopup> {
                   thickness: 2,
                 ),
 
-                // Logoutbutton
+                /// Logoutbutton
                 Container(
                   width: 300,
                   height: 50,
@@ -259,7 +246,9 @@ class _SettingsPopupState extends State<SettingsPopup> {
                       child: Text(
                         "Logout",
                         style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
@@ -276,18 +265,8 @@ class _SettingsPopupState extends State<SettingsPopup> {
     );
   }
 
-  // This method activates the expert mode, if the devices is new, its default turned out
-  // otherwise its saved in the system variables
-  // void setExpertMode(StateSetter setState, bool value) {
-  //   ThemeChangeHandler handler = ThemeChangeHandler();
-  //   setState(() {
-  //     handler.changeExpertMode(value, context);
-  //   });
-  //   handler.setExpertModeUserConfig(expertMode);
-  // }
-
-  // This method activates the dark mode, if the devices is new, its default turned out
-  // otherwise its saved in the system variables
+  /// This method activates the dark mode, if the devices is new, its default turned out
+  /// otherwise its saved in the system variables
   void setDarkMode(StateSetter setState, ThemeChanger themeChanger) {
     ThemeChangeHandler handler = ThemeChangeHandler();
     setState(() {
@@ -296,8 +275,8 @@ class _SettingsPopupState extends State<SettingsPopup> {
     handler.setDarkModeUserConfig(darkMode);
   }
 
-  // This method activates the language the user selected, the default language
-  // is from the operating system
+  /// This method activates the language the user selected, the default language
+  /// is from the operating system
   void setLanguage(StateSetter setState, int index, BuildContext context) {
     ThemeChangeHandler handler = new ThemeChangeHandler();
     setState(() {

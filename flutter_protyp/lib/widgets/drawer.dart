@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import "package:flutter_protyp/widgets/constant.dart";
 import 'package:easy_localization/easy_localization.dart';
 
-// Gives a Drawer in which the different sites are linked
-// Can be coloured with primaryColor and secondaryColor in constant.dart
+/// Gives a Drawer in which the different sites are linked
+/// Can be coloured with primaryColor and secondaryColor in constant.dart
 
 class MainDrawer extends StatefulWidget {
   @override
@@ -16,14 +16,8 @@ class _MainDrawerState extends State<MainDrawer> {
     return SizedBox(
       width: 300,
       child: Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the drawer if there isn't enough vertical
-        // space to fit everything.
-
         child: ListView(
-          // Important: Remove any padding from the ListView.
           padding: EdgeInsets.zero,
-
           children: <Widget>[
             Container(
               height: 100,
@@ -33,29 +27,30 @@ class _MainDrawerState extends State<MainDrawer> {
                   style: TextStyle(fontSize: 20),
                 ),
                 decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                  colors: <Color>[
-                    secondaryColor,
-                    primaryColor,
-                  ],
-                )),
+                  gradient: LinearGradient(
+                    colors: <Color>[
+                      secondaryColor,
+                      primaryColor,
+                    ],
+                  ),
+                ),
               ),
             ),
             CustomListTile(
-              icon: Icons.device_hub, // or maybe: ad_units
+              icon: Icons.device_hub,
               text: 'deviceOverview'.tr().toString(),
               onTap: () =>
                   {Navigator.pushReplacementNamed(context, "/deviceOverview")},
             ),
             CustomListTile(
-              icon: Icons.playlist_add, // or maybe: ad_units
+              icon: Icons.playlist_add,
               text: 'unmanagedDevices'.tr().toString(),
               onTap: () => {
                 Navigator.pushReplacementNamed(context, "/newDeviceOverview")
               },
             ),
             CustomListTile(
-              icon: Icons.search_off, // or maybe: ad_units
+              icon: Icons.search_off,
               text: 'ignoredDevices'.tr().toString(),
               onTap: () => {
                 Navigator.pushReplacementNamed(
@@ -63,7 +58,7 @@ class _MainDrawerState extends State<MainDrawer> {
               },
             ),
             CustomListTile(
-              icon: Icons.edit, // or maybe: ad_units
+              icon: Icons.edit,
               text: 'editRoom'.tr().toString(),
               onTap: () =>
                   {Navigator.pushReplacementNamed(context, "/editRoom")},
@@ -110,7 +105,7 @@ class _MainDrawerState extends State<MainDrawer> {
 /// Gives a ListTile which is used in the drawer
 /// Needs an icon and a text which will be displayed
 /// and a function which will be executed on click
-/// /// Can be coloured with buttonColor and secondaryColor in constant.dart
+/// Can be coloured with buttonColor and secondaryColor in constant.dart
 class CustomListTile extends StatefulWidget {
   final IconData icon;
   final String text;
