@@ -10,7 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-// This class contains the functions to edit the own user-profile
+/// This class contains the functions and UI to edit the own user profile
 
 class ManageUser extends StatefulWidget {
   @override
@@ -107,7 +107,7 @@ class _ManageUserState extends State<ManageUser> {
         ));
   }
 
-  // This dialog pops up if you clicked on change username and implements functions for changing the username
+  /// This dialog pops up if you clicked on change username and implements functions for changing the username
   _changeUsernameDialog() async {
     showDialog(
         context: context,
@@ -227,7 +227,7 @@ class _ManageUserState extends State<ManageUser> {
         });
   }
 
-  // This dialog pops up if you clicked on change password and implements functions for changing the password
+  /// This dialog pops up if you clicked on change password and implements functions for changing the password
   _changePasswordDialog() async {
     seePasswordAgain = false;
     seePassword = false;
@@ -359,13 +359,14 @@ class _ManageUserState extends State<ManageUser> {
                                       errorMessage2 = false;
                                     });
                                   }
-                                  checkForChangePasswordButton(); //Check, if all conditions for enabling change button are true
+                                  ///Check, if all conditions for enabling change button are true
+                                  checkForChangePasswordButton();
                                 });
                               },
                             ),
                           ),
                           Visibility(
-                            //The error message shows, if errorMessage1 is true
+                            /// The error message shows, if errorMessage1 is true
                             visible: errorMessage1,
                             child: Container(
                               alignment: Alignment.center,
@@ -382,7 +383,7 @@ class _ManageUserState extends State<ManageUser> {
                             height: 8,
                           ),
                           Visibility(
-                            //The error message shows, if errorMessage1 is true
+                            /// The error message shows, if errorMessage1 is true
                             visible: errorMessage2,
                             child: Container(
                               alignment: Alignment.center,
@@ -463,7 +464,7 @@ class _ManageUserState extends State<ManageUser> {
         });
   }
 
-  // This functions is called if you press save after editing user information it redirects to login
+  /// This functions is called if you press save after editing user information it redirects to login
   void _forward() {
     Navigator.pushReplacementNamed(context, "/login");
     permissions = [];
@@ -472,7 +473,7 @@ class _ManageUserState extends State<ManageUser> {
     userAccess = false;
   }
 
-  // Dialog shows if one of the request were not successful
+  /// Dialog shows if one of the request were not successful
   void _errorDialog() {
     showDialog(
         context: context,
@@ -522,7 +523,7 @@ class _ManageUserState extends State<ManageUser> {
         });
   }
 
-  // This function updates UI depending on the input
+  /// This function updates UI depending results of the input check
   void checkForChangePasswordButton() {
     if (!errorMessage1 &&
         _newPassword.length > 7 &&
@@ -538,7 +539,7 @@ class _ManageUserState extends State<ManageUser> {
     }
   }
 
-  // Function that checks the necessary height of the change password dialog depending on wich error messages are shown
+  /// Function that checks the necessary height of the change password dialog depending on wich error messages are shown
   double _checkHeight() {
     if (errorMessage1 && !errorMessage2 || !errorMessage1 && errorMessage2) {
       return 338;
