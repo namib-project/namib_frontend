@@ -14,6 +14,8 @@ import 'package:flutter_protyp/data/device_mud/mudGuess.dart';
 import 'chooseClipArt.dart';
 import 'chooseRoomBuilder.dart';
 
+/// This class builds the page where MUD-Profiles must be given to a device and other properties can be given
+
 class ChooseMudDataTable extends StatefulWidget {
   ChooseMudDataTable({
     Key key,
@@ -21,19 +23,23 @@ class ChooseMudDataTable extends StatefulWidget {
     @required this.device,
   }) : super(key: key);
 
+  /// List with MUD-Guesses
   final List<MudGuess> mudGuessList;
+
+  /// A new device
   final Device device;
 
   _ChooseMudDataTableState createState() => _ChooseMudDataTableState();
 }
 
-//Class for user registration, will only be used at the first usage
 class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
+  /// List which displays MUD-Entries
   List<MudGuess> _mudGuessListForDisplay;
-
+ /// A new device
   Device _newDevice;
-
+ /// MUD-Guess-Entry
   MudGuess _chosenMudGuess;
+  /// For sorting the table
   bool _sortAscending = true;
   Icon _arrowUp = Icon(
     FontAwesomeIcons.arrowUp,
@@ -44,8 +50,10 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
     size: 17,
   );
 
+  /// Name of the device
   String _name = "";
 
+  /// Takes the name of the device and stores
   TextEditingController textEditingController = new TextEditingController();
 
   @override
@@ -353,6 +361,7 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
     );
   }
 
+  /// Build actionbuttons and display it
   _bottomButtons() {
     return Container(
       height: 70,
@@ -389,6 +398,7 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
     );
   }
 
+  /// This function creates the list-header which is displayed above the table
   _listHeader() {
     return Container(
       height: 80,
@@ -470,6 +480,7 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
     );
   }
 
+  /// This is a simple searchbar to scan for objects
   _searchBar() {
     return Padding(
       padding: EdgeInsets.all(8),
@@ -501,6 +512,7 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
     );
   }
 
+  /// This functions is for display the table
   ListView _listForMudData(BuildContext context) {
     return ListView.builder(
       itemCount: _mudGuessListForDisplay.length,
@@ -604,6 +616,7 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
     );
   }
 
+  /// Sort function for MUD-Guesses-List
   _sortMudGuessListForDisplay() {
     setState(() {
       if (_sortAscending) {
@@ -616,6 +629,7 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
     });
   }
 
+  /// Function sends the edited device to server
   _putDevice() async {
     String _deviceId = widget.device.id.toString();
     String _deviceExtension = "devices/$_deviceId";

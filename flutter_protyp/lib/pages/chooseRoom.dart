@@ -9,8 +9,9 @@ import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_protyp/data/device_mud/room.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
-
 import 'chooseMudDataTableOverview.dart';
+
+/// This class is for choosing a room for device
 
 class RoomTable extends StatefulWidget {
   const RoomTable({
@@ -24,6 +25,7 @@ class RoomTable extends StatefulWidget {
   final List<Room> rooms;
   final List<MudGuess> mudGuesses;
 
+  /// A new device
   final Device device;
 
   _RoomTableState createState() => _RoomTableState();
@@ -31,15 +33,20 @@ class RoomTable extends StatefulWidget {
 
 //Class for choosing a room, will only be used at the first usage
 class _RoomTableState extends State<RoomTable> {
+  /// List with rooms
   List<Room> _uniqueRooms = [];
   List<Room> _roomsForDisplay;
+
+  /// A room
   Room _chosenRoom;
 
+  /// A new device
   Device _newDevice;
 
   /// to get the value to create a room with color use: currentColor.value.toString()
   Color currentColor = Color(4289724448);
 
+  /// For sorting
   bool _sortAscending = true;
   Icon _arrowUp = Icon(
     FontAwesomeIcons.arrowUp,
@@ -50,9 +57,9 @@ class _RoomTableState extends State<RoomTable> {
     size: 17,
   );
 
-  // Define some custom colors for the custom picker segment.
-  // The 'guide' color values are from
-  // https://material.io/design/color/the-color-system.html#color-theme-creation
+  /// Define some custom colors for the custom picker segment.
+  /// The 'guide' color values are from
+  /// https://material.io/design/color/the-color-system.html#color-theme-creation
   static const Color guidePrimary = Color(0xFF6200EE);
   static const Color guidePrimaryVariant = Color(0xFF3700B3);
   static const Color guideSecondary = Color(0xFF03DAC6);
@@ -61,7 +68,7 @@ class _RoomTableState extends State<RoomTable> {
   static const Color guideErrorDark = Color(0xFFCF6679);
   static const Color blueBlues = Color(0xFF174378);
 
-  // Make a custom ColorSwatch to name map from the above custom colors.
+  /// Make a custom ColorSwatch to name map from the above custom colors.
   final Map<ColorSwatch<Object>, String> colorsNameMap =
       <ColorSwatch<Object>, String>{
     ColorTools.createPrimarySwatch(guidePrimary): 'Guide Purple',
@@ -73,6 +80,7 @@ class _RoomTableState extends State<RoomTable> {
     ColorTools.createPrimarySwatch(blueBlues): 'Blue blues',
   };
 
+  /// Changes the current color
   void changeColor(Color color) {
     setState(() {
       currentColor = color;
@@ -148,18 +156,6 @@ class _RoomTableState extends State<RoomTable> {
                                   height: 250,
                                   child: _listForRooms(context),
                                 ),
-                                // Container(
-                                //   height: 70,
-                                //   alignment: Alignment.center,
-                                //   child: SelectableText(
-                                //     'orCreateNew'.tr().toString(),
-                                //     style: TextStyle(
-                                //       fontFamily: "OpenSans",
-                                //       fontSize: 16,
-                                //     ),
-                                //   ),
-                                // ),
-                                // _newRoomDialog(),
                                 _bottomButtons(),
                               ],
                             )
@@ -194,78 +190,7 @@ class _RoomTableState extends State<RoomTable> {
     );
   }
 
-  // _newRoomDialog() {
-  //   return Container(
-  //     height: 100,
-  //     alignment: Alignment.center,
-  //     child: Column(
-  //       children: [
-  //         Row(
-  //           mainAxisAlignment: MainAxisAlignment.center,
-  //           //crossAxisAlignment: CrossAxisAlignment.baseline,
-  //           children: [
-  //             Container(
-  //               height: 50,
-  //               width: 280,
-  //               child: TextField(
-  //                 obscureText: false,
-  //                 cursorColor: Colors.grey,
-  //                 decoration: InputDecoration(
-  //                   border: OutlineInputBorder(),
-  //                   labelText: 'roomName'.tr().toString(),
-  //                 ),
-  //                 onChanged: (text) {
-  //                   setState(() {
-  //                     _chosenRoom = null;
-  //                   });
-  //                 },
-  //               ),
-  //             ),
-  //             SizedBox(
-  //               width: 20,
-  //             ),
-  //             InkWell(
-  //               onTap: () {
-  //                 _showColorAlertDialog(context);
-  //               },
-  //               child: Container(
-  //                 height: 50,
-  //                 width: 50,
-  //                 decoration: BoxDecoration(
-  //                   borderRadius: BorderRadius.circular(4),
-  //                   color: currentColor,
-  //                 ),
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //         SizedBox(
-  //           height: 20,
-  //         ),
-  //         FlatButton(
-  //           child: Text(
-  //             'create'.tr().toString(),
-  //             style: TextStyle(
-  //               color: buttonColor,
-  //               fontSize: 18,
-  //             ),
-  //           ),
-  //           onPressed: () => {
-  //             Navigator.push(
-  //               context,
-  //               MaterialPageRoute(
-  //                 builder: (context) => ChooseRoom(
-  //                   device: widget.device,
-  //                 ),
-  //               ),
-  //             ),
-  //           },
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
+  /// This function creates the list-header which is displayed above the table
   _listHeader() {
     return Container(
       height: 80,
@@ -323,6 +248,7 @@ class _RoomTableState extends State<RoomTable> {
     );
   }
 
+  /// This is a simple searchbar to scan for objects
   _searchBar() {
     return Padding(
       padding: EdgeInsets.all(8),
@@ -349,6 +275,7 @@ class _RoomTableState extends State<RoomTable> {
     );
   }
 
+  /// This functions is for display the table
   ListView _listForRooms(BuildContext context) {
     return ListView.builder(
       itemCount: _roomsForDisplay.length,
@@ -426,6 +353,7 @@ class _RoomTableState extends State<RoomTable> {
     );
   }
 
+  /// Buttons for actions to do
   _bottomButtons() {
     return Container(
       height: 70,
@@ -485,94 +413,7 @@ class _RoomTableState extends State<RoomTable> {
     );
   }
 
-  // Gives the colorPicker AlertDialog with the colors above
-  _showColorAlertDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return Center(
-          child: Theme(
-            data: ThemeData(
-              brightness: darkMode ? Brightness.dark : Brightness.light,
-              primaryColor: primaryColor,
-              accentColor: primaryColor,
-              hintColor: Colors.grey,
-            ),
-            child: AlertDialog(
-              scrollable: true,
-              contentPadding: EdgeInsets.all(0),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18.0),
-              ),
-              content: Container(
-                width: 300,
-                height: 470,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(0),
-                      child: Card(
-                        elevation: 0,
-                        child: ColorPicker(
-                          color: currentColor,
-                          onColorChanged: (Color color) =>
-                              setState(() => currentColor = color),
-                          width: 50,
-                          height: 50,
-                          elevation: 0,
-                          borderRadius: 4,
-                          padding: EdgeInsets.fromLTRB(6, 10, 6, 0),
-                          heading: Text(
-                            "selectColor".tr().toString(),
-                            style: TextStyle(
-                              fontSize: 22,
-                              color: darkMode ? Colors.white : Colors.black,
-                            ),
-                          ),
-                          subheading: Text(
-                            "selectShade".tr().toString(),
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: darkMode ? Colors.white : Colors.black,
-                            ),
-                          ),
-                          pickersEnabled: const <ColorPickerType, bool>{
-                            ColorPickerType.primary: true,
-                            ColorPickerType.accent: false,
-                          },
-                        ),
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 15),
-                          child: TextButton(
-                            child: Text(
-                              "Ok",
-                              style: TextStyle(
-                                color: buttonColor,
-                                fontSize: 18,
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
+  /// Sorting the list
   _sortRoomsForDisplay() {
     setState(() {
       if (_sortAscending) {
