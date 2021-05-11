@@ -8,6 +8,8 @@ import 'package:flutter_protyp/pages/chooseMudDataBuilder.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+/// shows all the new devices
+
 class NewDevicesTable extends StatefulWidget {
   NewDevicesTable({
     Key key,
@@ -20,7 +22,6 @@ class NewDevicesTable extends StatefulWidget {
   _NewDevicesTableState createState() => _NewDevicesTableState();
 }
 
-//Class for user registration, will only be used at the first usage
 class _NewDevicesTableState extends State<NewDevicesTable> {
   List<Device> _devicesForDisplay;
   bool _sortAscending = true;
@@ -54,11 +55,15 @@ class _NewDevicesTableState extends State<NewDevicesTable> {
                 TextButton.icon(
                   style: ButtonStyle(
                     minimumSize: MaterialStateProperty.all(Size(160, 60)),
-                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50.0))),
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50.0),
+                      ),
+                    ),
                   ),
                   onPressed: () {
-                    Navigator.pushReplacementNamed(context, "/newDeviceOverview");
+                    Navigator.pushReplacementNamed(
+                        context, "/newDeviceOverview");
                   },
                   label: Text(
                     "reload".tr().toString(),
@@ -122,7 +127,9 @@ class _NewDevicesTableState extends State<NewDevicesTable> {
                                   child: Card(
                                     child: Padding(
                                       padding: const EdgeInsets.only(
-                                          left: 16, right: 16),
+                                        left: 16,
+                                        right: 16,
+                                      ),
                                       child: SelectableText(
                                         "noEntries".tr().toString(),
                                         style: TextStyle(
@@ -148,6 +155,7 @@ class _NewDevicesTableState extends State<NewDevicesTable> {
     );
   }
 
+  /// header fpr the table
   _listHeader() {
     return Container(
       height: 80,
@@ -202,6 +210,7 @@ class _NewDevicesTableState extends State<NewDevicesTable> {
     );
   }
 
+  /// searchBar for the table
   _searchBar() {
     return Padding(
       padding: EdgeInsets.all(8),
@@ -228,6 +237,7 @@ class _NewDevicesTableState extends State<NewDevicesTable> {
     );
   }
 
+  /// ListBuilder for the devices
   ListView _listForDevices(BuildContext context) {
     return ListView.builder(
       itemCount: _devicesForDisplay.length,
@@ -282,6 +292,7 @@ class _NewDevicesTableState extends State<NewDevicesTable> {
     );
   }
 
+  /// sorts devices in the list
   _sortDevicesForDisplay() {
     setState(() {
       if (_sortAscending) {

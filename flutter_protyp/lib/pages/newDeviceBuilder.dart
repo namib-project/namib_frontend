@@ -9,7 +9,8 @@ import "package:flutter_protyp/widgets/drawer.dart";
 import 'package:easy_localization/easy_localization.dart';
 import 'package:http/http.dart' as http;
 
-/// returns deviceOverview site
+/// FutureBuilder to load newDevicesOverview with data
+
 class NewDeviceOverview extends StatefulWidget {
   _NewDeviceOverviewState createState() => _NewDeviceOverviewState();
 }
@@ -25,67 +26,75 @@ class _NewDeviceOverviewState extends State<NewDeviceOverview> {
   @override
   void initState() {
     super.initState();
-    devices = getDevices();
+    devices = _getDevices();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: MainAppbar(),
-        drawer: MainDrawer(),
-        body: Center(
-            child: Column(children: [
-          // This future builder element put in the different devices after these will be loaded
-          // The future builder element a delayed sending of context
-          FutureBuilder<List<Device>>(
-            future: devices,
-            builder: (context, snapshotDevice) {
-              if (snapshotDevice.hasData) {
-                return Expanded(
+      appBar: MainAppbar(),
+      drawer: MainDrawer(),
+      body: Center(
+        child: Column(
+          children: [
+            /// This future builder element put in the different devices after these will be loaded
+            /// The future builder element a delayed sending of context
+            FutureBuilder<List<Device>>(
+              future: devices,
+              builder: (context, snapshotDevice) {
+                if (snapshotDevice.hasData) {
+                  return Expanded(
                     child: NewDevicesTable(
-                  devices: snapshotDevice.data
-                      .where((e) => e.type == "detecting")
-                      .toList(),
-                ));
-              } else if (snapshotDevice.hasError) {
-                // If the process failed this message returns
-                print(snapshotDevice.error);
-                return Container(
-                  width: 600,
-                  child: Row(
+                      devices: snapshotDevice.data
+                          .where((e) => e.type == "detecting")
+                          .toList(),
+                    ),
+                  );
+                } else if (snapshotDevice.hasError) {
+                  /// If the process failed this message returns
+                  print(snapshotDevice.error);
+                  return Container(
+                    width: 600,
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
                         SelectableText("wentWrongError".tr().toString()),
                         ElevatedButton(
-                            child: Text("reload".tr().toString()),
-                            onPressed: () {
-                              Navigator.pushReplacementNamed(
-                                  context, "/deviceOverview");
-                            })
-                      ]),
-                );
-              }
-              // By default, show a loading spinner.
-              else {
-                return SizedBox(
-                  width: 30,
-                  height: 30,
-                  child: CircularProgressIndicator(),
-                );
-              }
-            },
-          ),
-        ])));
+                          child: Text("reload".tr().toString()),
+                          onPressed: () {
+                            Navigator.pushReplacementNamed(
+                                context, "/deviceOverview");
+                          },
+                        )
+                      ],
+                    ),
+                  );
+                }
+
+                /// By default, show a loading spinner.
+                else {
+                  return SizedBox(
+                    width: 30,
+                    height: 30,
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
-  // Function getting the list of devices in network from controller
-  Future<List<Device>> getDevices() async {
+  /// Function getting the list of devices in network from controller
+  Future<List<Device>> _getDevices() async {
     String devicesExtension = 'devices';
     var _response = await http.get(url + devicesExtension, headers: {
       "Content-Type": "application/json",
       "Authorization": "Bearer $jwtToken"
     }).timeout(const Duration(seconds: 5), onTimeout: () {
-      return _handleTimeOut();
+      return null;
     });
 
     if (_response.statusCode == 200) {
@@ -97,6 +106,4 @@ class _NewDeviceOverviewState extends State<NewDeviceOverview> {
       throw Exception("Failed to get Data");
     }
   }
-
-  dynamic _handleTimeOut() {}
 }
