@@ -21,9 +21,12 @@ class IgnoredDevicesTable extends StatefulWidget {
   _IgnoredDevicesTableState createState() => _IgnoredDevicesTableState();
 }
 
-//Class for user registration, will only be used at the first usage
+/// Class for working with ignored devices
 class _IgnoredDevicesTableState extends State<IgnoredDevicesTable> {
+  /// List of displayed devices
   List<Device> _devicesForDisplay;
+
+  /// Variables for handling table
   bool _sortAscending = true;
   Icon _arrowUp = Icon(
     FontAwesomeIcons.arrowUp,
@@ -59,7 +62,8 @@ class _IgnoredDevicesTableState extends State<IgnoredDevicesTable> {
                         borderRadius: BorderRadius.circular(50.0))),
                   ),
                   onPressed: () {
-                    Navigator.pushReplacementNamed(context, "/ignoredDeviceOverview");
+                    Navigator.pushReplacementNamed(
+                        context, "/ignoredDeviceOverview");
                   },
                   label: Text(
                     "reload".tr().toString(),
@@ -149,6 +153,7 @@ class _IgnoredDevicesTableState extends State<IgnoredDevicesTable> {
     );
   }
 
+  /// Header of ignored devices list
   _listHeader() {
     return Container(
       height: 80,
@@ -203,6 +208,7 @@ class _IgnoredDevicesTableState extends State<IgnoredDevicesTable> {
     );
   }
 
+  /// Searchbar for searching through divices list
   _searchBar() {
     return Padding(
       padding: EdgeInsets.all(8),
@@ -229,13 +235,12 @@ class _IgnoredDevicesTableState extends State<IgnoredDevicesTable> {
     );
   }
 
+  /// Function shows dialog for allow data collecting for specific device
   Future _addDeviceDialog(BuildContext context, int _deviceId) {
     return showDialog(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
-        // Here are displayed all cliparts to put devices in different classes
-        // At the end there ist a pop-up dialog to save or dismiss the changes
         return StatefulBuilder(
           builder: (context, setState) {
             return Center(
@@ -269,7 +274,6 @@ class _IgnoredDevicesTableState extends State<IgnoredDevicesTable> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            // Buttons to accept or dismiss the changes like described above
                             TextButton(
                               child: Text(
                                 'cancel'.tr().toString(),
@@ -310,21 +314,21 @@ class _IgnoredDevicesTableState extends State<IgnoredDevicesTable> {
     );
   }
 
+  /// Function that updates a device and activates data collecting
   _updateDevice(String _deviceId) async {
     String _devicesExtension = "devices/$_deviceId";
 
     Map<String, dynamic> _data = {"collect_info": true};
 
-    var _response = await http.put(url + _devicesExtension,
-        body: jsonEncode(_data),
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer $jwtToken"
-        });
+    await http.put(url + _devicesExtension, body: jsonEncode(_data), headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $jwtToken"
+    });
 
     Navigator.pushReplacementNamed(context, "/newDeviceOverview");
   }
 
+  /// List entries with all devices
   ListView _listForDevices(BuildContext context) {
     return ListView.builder(
       itemCount: _devicesForDisplay.length,
@@ -372,6 +376,7 @@ class _IgnoredDevicesTableState extends State<IgnoredDevicesTable> {
     );
   }
 
+  /// Function for sorting the displayed devices
   _sortDevicesForDisplay() {
     setState(() {
       if (_sortAscending) {
