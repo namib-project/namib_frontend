@@ -14,15 +14,18 @@ class EnforcerOverview extends StatefulWidget {
     @required this.enforcers,
   }) : super(key: key);
 
-  /// List which stores all given devices
+  /// List which stores all given enforcers
   final List<Enforcer> enforcers;
 
   _EnforcerOverviewState createState() => _EnforcerOverviewState();
 }
 
-//Class for user registration, will only be used at the first usage
+/// Class for editing enforcer list
 class _EnforcerOverviewState extends State<EnforcerOverview> {
+  /// List of enforcers for display
   List<Enforcer> _enforcersForDisplay;
+
+  /// Variables for handling table
   bool _sortAscending = true;
   Icon _arrowUp = Icon(
     FontAwesomeIcons.arrowUp,
@@ -33,6 +36,7 @@ class _EnforcerOverviewState extends State<EnforcerOverview> {
     size: 17,
   );
 
+  /// Formatter for time staps
   TimeFormatter formatter = new TimeFormatter();
 
   @override
@@ -151,6 +155,7 @@ class _EnforcerOverviewState extends State<EnforcerOverview> {
     );
   }
 
+  /// Header of enforcers list
   _listHeader() {
     return Container(
       height: 80,
@@ -212,6 +217,7 @@ class _EnforcerOverviewState extends State<EnforcerOverview> {
     );
   }
 
+  /// Searchbar for searching through enforcers list
   _searchBar() {
     return Padding(
       padding: EdgeInsets.all(8),
@@ -238,6 +244,7 @@ class _EnforcerOverviewState extends State<EnforcerOverview> {
     );
   }
 
+  /// Function that updates the picked enforcer
   _updateEnforcer(Enforcer enforcer, bool allowedValue) async {
     String _enforcersExtension =
         "enforcers/${enforcer.cert_id}?allowed=${enforcer.allowed}";
@@ -248,6 +255,7 @@ class _EnforcerOverviewState extends State<EnforcerOverview> {
     });
   }
 
+  /// List entries of enforcers
   ListView _listForDevices(BuildContext context) {
     return ListView.builder(
       itemCount: _enforcersForDisplay.length,
@@ -258,9 +266,6 @@ class _EnforcerOverviewState extends State<EnforcerOverview> {
             customBorder: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-            onTap: () {
-              showEnforcerDetailDialog(context);
-            },
             child: Card(
               child: Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16),
@@ -307,6 +312,7 @@ class _EnforcerOverviewState extends State<EnforcerOverview> {
     );
   }
 
+  /// Function sorts displayed list of enforcers
   _sortEnforcersForDisplay() {
     setState(() {
       if (_sortAscending) {
@@ -316,6 +322,4 @@ class _EnforcerOverviewState extends State<EnforcerOverview> {
       }
     });
   }
-
-  showEnforcerDetailDialog(BuildContext context) {}
 }

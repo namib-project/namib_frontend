@@ -10,18 +10,14 @@ import 'package:http/http.dart' as http;
 
 import 'enforcerOverview.dart';
 
-/// returns deviceOverview site
+/// Class that implements Future Builder for the enforcer list which means gets data
 class EnforcerBuilder extends StatefulWidget {
   _EnforcerBuilderState createState() => _EnforcerBuilderState();
 }
 
 class _EnforcerBuilderState extends State<EnforcerBuilder> {
-  var response;
-
   /// A List to safe all devices
   Future<List<Enforcer>> enforcers;
-
-  bool pressed = false;
 
   @override
   void initState() {
@@ -36,8 +32,7 @@ class _EnforcerBuilderState extends State<EnforcerBuilder> {
         drawer: MainDrawer(),
         body: Center(
             child: Column(children: [
-          // This future builder element put in the different devices after these will be loaded
-          // The future builder element a delayed sending of context
+          /// Future Builder for expecting enforcer list
           FutureBuilder<List<Enforcer>>(
             future: enforcers,
             builder: (context, snapshotDevice) {
@@ -45,7 +40,7 @@ class _EnforcerBuilderState extends State<EnforcerBuilder> {
                 return Expanded(
                     child: EnforcerOverview(enforcers: snapshotDevice.data));
               } else if (snapshotDevice.hasError) {
-                // If the process failed this message returns
+                /// If the process failed this message returns
                 print(snapshotDevice.error);
                 return Container(
                   width: 600,
@@ -62,7 +57,7 @@ class _EnforcerBuilderState extends State<EnforcerBuilder> {
                       ]),
                 );
               }
-              // By default, show a loading spinner.
+              /// By default, show a loading spinner.
               else {
                 return SizedBox(
                   width: 30,
@@ -75,7 +70,7 @@ class _EnforcerBuilderState extends State<EnforcerBuilder> {
         ])));
   }
 
-  // Function getting the list of devices in network from controller
+  /// Function getting the list of enforcers in network from controller
   Future<List<Enforcer>> getEnforcers() async {
     String devicesExtension = 'enforcers';
     var _response = await http.get(url + devicesExtension, headers: {
