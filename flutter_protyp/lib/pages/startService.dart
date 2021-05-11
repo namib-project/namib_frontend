@@ -9,7 +9,7 @@ import 'dart:convert';
 import 'dart:html';
 import 'handlers/ThemeChangeHandler.dart';
 
-// This class get the important information for building the application before the login appears
+/// This class get the important information for building the application before the login appears
 
 class StartService extends StatefulWidget {
   @override
@@ -24,7 +24,7 @@ class _StartServiceState extends State<StartService> {
   ThemeChangeHandler themeChangeHandler = new ThemeChangeHandler();
   List<Locale> systemLocale = WidgetsBinding.instance.window.locales;
 
-  // This method handles the language of the operating system
+  /// This method handles the language of the operating system
   void setLanguage() {
     Locale localeLanguage;
     setState(() {
@@ -46,8 +46,8 @@ class _StartServiceState extends State<StartService> {
     }
   }
 
-  // Future string type to build at runtime
-  // Get request for the controller version to display it for the user
+  /// Future string type to build at runtime
+  /// Get request for the controller version to display it for the user
   Future<String> fetchSetup() async {
     try {
       String statusExtension = "status";
@@ -72,36 +72,42 @@ class _StartServiceState extends State<StartService> {
   @override
   Widget build(BuildContext context) {
     setLanguage();
-    // FutureBuilder widget, that will be build but context will be shown after get request above
-    // Here will be presented the current controller version
-    return new Scaffold(
-        body: Center(
-      child: FutureBuilder<String>(
-        future: setupData,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            Map<String, dynamic> data = jsonDecode(snapshot.data);
 
-            if (Uri.base.scheme != "https" && data["secure_name"] != null) {
-              window.location.replace(Uri.base
-                  .replace(
-                      scheme: "https", host: data["secure_name"], port: 443)
-                  .toString());
-            }
-            bool required_setup = data["setup_required"];
-            if (required_setup) {
-              return RegistrationStart();
-            } else {
+    /// FutureBuilder widget, that will be build but context will be shown after get request above
+    /// Here will be presented the current controller version
+    return new Scaffold(
+      body: Center(
+        child: FutureBuilder<String>(
+          future: setupData,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              Map<String, dynamic> data = jsonDecode(snapshot.data);
+
+              if (Uri.base.scheme != "https" && data["secure_name"] != null) {
+                window.location.replace(Uri.base
+                    .replace(
+                        scheme: "https", host: data["secure_name"], port: 443)
+                    .toString());
+              }
+              bool required_setup = data["setup_required"];
+              if (required_setup) {
+                return RegistrationStart();
+              } else {
+                return Login();
+              }
+            } else if (snapshot.hasError) {
               return Login();
             }
-          } else if (snapshot.hasError) {
-            return Login();
-          }
-          // By default, show a loading spinner.
-          return SizedBox(
-              width: 200, height: 200, child: CircularProgressIndicator());
-        },
+
+            /// By default, show a loading spinner.
+            return SizedBox(
+              width: 200,
+              height: 200,
+              child: CircularProgressIndicator(),
+            );
+          },
+        ),
       ),
-    ));
+    );
   }
 }

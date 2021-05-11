@@ -10,6 +10,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:flex_color_picker/flex_color_picker.dart';
 
+/// Site to show and edit one Room
+
 class RoomDetailsOverview extends StatefulWidget {
   const RoomDetailsOverview({
     Key key,
@@ -23,12 +25,13 @@ class RoomDetailsOverview extends StatefulWidget {
 }
 
 class _RoomDetailsOverviewState extends State<RoomDetailsOverview> {
+  /// variables to edit room
   String _newRoomName;
   Color _newColor;
 
-  // Define some custom colors for the custom picker segment.
-  // The 'guide' color values are from
-  // https://material.io/design/color/the-color-system.html#color-theme-creation
+  /// Define some custom colors for the custom colorpickerAlertDialog segment.
+  /// The 'guide' color values are from
+  /// https://material.io/design/color/the-color-system.html#color-theme-creation
   static const Color guidePrimary = Color(0xFF6200EE);
   static const Color guidePrimaryVariant = Color(0xFF3700B3);
   static const Color guideSecondary = Color(0xFF03DAC6);
@@ -37,7 +40,7 @@ class _RoomDetailsOverviewState extends State<RoomDetailsOverview> {
   static const Color guideErrorDark = Color(0xFFCF6679);
   static const Color blueBlues = Color(0xFF174378);
 
-  // Make a custom ColorSwatch to name map from the above custom colors.
+  /// Make a custom ColorSwatch to name map from the above custom colors.
   final Map<ColorSwatch<Object>, String> colorsNameMap =
       <ColorSwatch<Object>, String>{
     ColorTools.createPrimarySwatch(guidePrimary): 'Guide Purple',
@@ -140,7 +143,13 @@ class _RoomDetailsOverviewState extends State<RoomDetailsOverview> {
                       style: TextStyle(fontSize: 20),
                     ),
                     style: ButtonStyle(
-                        minimumSize: MaterialStateProperty.all(Size(120, 50))),
+                      minimumSize: MaterialStateProperty.all(
+                        Size(
+                          120,
+                          50,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 _bottomButtons(),
@@ -152,6 +161,7 @@ class _RoomDetailsOverviewState extends State<RoomDetailsOverview> {
     );
   }
 
+  /// function to delete the room
   _deleteRoom() async {
     String roomExtension = "rooms/${widget.room.id}";
     var _response;
@@ -166,6 +176,7 @@ class _RoomDetailsOverviewState extends State<RoomDetailsOverview> {
     _forward();
   }
 
+  /// buttons to cancel or save the new settings
   _bottomButtons() {
     return Container(
       height: 70,
@@ -205,6 +216,7 @@ class _RoomDetailsOverviewState extends State<RoomDetailsOverview> {
     );
   }
 
+  /// to update the room
   bool _updateRoomButton() {
     if (widget.room.name != _newRoomName ||
         widget.room.color != _newColor.value.toString()) {
@@ -213,6 +225,7 @@ class _RoomDetailsOverviewState extends State<RoomDetailsOverview> {
     return false;
   }
 
+  /// updates room for controller
   _updateRoom() async {
     String updateRoomExtension = "rooms/";
     String roomId = widget.room.id.toString();
@@ -236,11 +249,12 @@ class _RoomDetailsOverviewState extends State<RoomDetailsOverview> {
     _forward();
   }
 
+  /// redirects to editRoom
   void _forward() {
     Navigator.pushReplacementNamed(context, "/editRoom");
   }
 
-  // Gives the colorPicker AlertDialog with the colors above
+  /// Gives the colorPicker AlertDialog with the colors above
   _showColorAlertDialog(BuildContext context) {
     showDialog(
       context: context,

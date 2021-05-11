@@ -9,7 +9,7 @@ import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 
-// This class builds the users-table to edit
+/// This class builds the userManagementSite to edit the user
 
 class UsersTable extends StatefulWidget {
   UsersTable({
@@ -23,7 +23,7 @@ class UsersTable extends StatefulWidget {
   UsersTableState createState() => UsersTableState();
 }
 
-// This class is for building and displaying the usersTable
+/// This class is for building and displaying the usersTable
 class UsersTableState extends State<UsersTable> {
   List<User> _usersForDisplay = List<User>();
   bool _sortAscending = true;
@@ -104,7 +104,9 @@ class UsersTableState extends State<UsersTable> {
                               child: Card(
                                 child: Padding(
                                   padding: const EdgeInsets.only(
-                                      left: 16, right: 16),
+                                    left: 16,
+                                    right: 16,
+                                  ),
                                   child: SelectableText(
                                     "noEntries".tr().toString(),
                                     style: TextStyle(
@@ -130,7 +132,7 @@ class UsersTableState extends State<UsersTable> {
     );
   }
 
-  // This function displays the header of the table with the used information
+  /// This function displays the header of the table with the used information
   _listHeader() {
     return Container(
       height: 80,
@@ -188,7 +190,7 @@ class UsersTableState extends State<UsersTable> {
     );
   }
 
-  // Here is a searchbar to search for users
+  /// Here is a searchBar to search for users
   _searchBar() {
     return Padding(
       padding: EdgeInsets.all(8),
@@ -215,7 +217,7 @@ class UsersTableState extends State<UsersTable> {
     );
   }
 
-  // Here is the display-method for the users-table
+  /// Here is the List of users for the users-table
   ListView _listForUsers(BuildContext context) {
     return ListView.builder(
       itemCount: _usersForDisplay.length,
@@ -269,7 +271,7 @@ class UsersTableState extends State<UsersTable> {
     );
   }
 
-  // This function sorts the users-table by username
+  /// This function sorts the users-table by username
   _sortUsersForDisplay() {
     setState(() {
       if (_sortAscending) {
@@ -280,72 +282,73 @@ class UsersTableState extends State<UsersTable> {
     });
   }
 
-  // This dialog will appear, if you need to delete a user
+  /// This dialog will appear, if you need to delete a user
   void _deleteUserDialog(BuildContext context, User user) {
     showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext context) {
-          return Theme(
-            data: ThemeData(
-              brightness: darkMode ? Brightness.dark : Brightness.light,
-              primaryColor: primaryColor,
-              accentColor: primaryColor,
-              hintColor: Colors.grey,
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return Theme(
+          data: ThemeData(
+            brightness: darkMode ? Brightness.dark : Brightness.light,
+            primaryColor: primaryColor,
+            accentColor: primaryColor,
+            hintColor: Colors.grey,
+          ),
+          child: AlertDialog(
+            scrollable: true,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18.0),
             ),
-            child: AlertDialog(
-              scrollable: true,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18.0),
-              ),
-              title: SelectableText("attention".tr().toString()),
-              content: Container(
-                height: 130,
-                width: 300,
-                child: Column(
-                  children: [
-                    SelectableText("deleteUserDisclaimer".tr().toString()),
-                    SizedBox(
-                      height: 40,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        // Buttons to accept or dismiss the changes like described above
-                        TextButton(
-                          child: Text(
-                            "Abbrechen",
-                            style: TextStyle(
-                              color: buttonColor,
-                            ),
+            title: SelectableText("attention".tr().toString()),
+            content: Container(
+              height: 130,
+              width: 300,
+              child: Column(
+                children: [
+                  SelectableText("deleteUserDisclaimer".tr().toString()),
+                  SizedBox(
+                    height: 40,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      /// Buttons to accept or dismiss the changes like described above
+                      TextButton(
+                        child: Text(
+                          "Abbrechen",
+                          style: TextStyle(
+                            color: buttonColor,
                           ),
-                          onPressed: () {
-                            Navigator.of(context).pop(); // dismiss dialog
-                          },
                         ),
-                        TextButton(
-                          child: Text(
-                            "confirmation".tr().toString(),
-                            style: TextStyle(
-                              color: buttonColor,
-                            ),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      TextButton(
+                        child: Text(
+                          "confirmation".tr().toString(),
+                          style: TextStyle(
+                            color: buttonColor,
                           ),
-                          onPressed: () {
-                            _deleteUser(user);
-                            Navigator.of(context).pop(); // dismiss dialog
-                          },
                         ),
-                      ],
-                    ),
-                  ],
-                ),
+                        onPressed: () {
+                          _deleteUser(user);
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 
-  // This dialog will appear, if you need to edit a user-role
+  /// This dialog will appear, if you need to edit a user-role
   void _editUserRoleDialog(BuildContext context, User user) {
     bool _admin = false;
     bool _user = false;
@@ -361,12 +364,11 @@ class UsersTableState extends State<UsersTable> {
     }
     ;
     showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext context) {
-          // Here are displayed all cliparts to put devices in different classes
-          // At the end there ist a pop-up dialog to save or dismiss the changes
-          return StatefulBuilder(builder: (context, setState) {
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
             return Center(
               child: Theme(
                 data: ThemeData(
@@ -400,8 +402,10 @@ class UsersTableState extends State<UsersTable> {
                         SizedBox(
                           height: 10,
                         ),
-                        SelectableText(user.username,
-                            style: TextStyle(fontSize: 25)),
+                        SelectableText(
+                          user.username,
+                          style: TextStyle(fontSize: 25),
+                        ),
                         SizedBox(
                           height: 20,
                         ),
@@ -427,13 +431,14 @@ class UsersTableState extends State<UsersTable> {
                               children: [
                                 SelectableText("user".tr().toString()),
                                 Checkbox(
-                                    activeColor: buttonColor,
-                                    value: _user,
-                                    onChanged: (bool value) {
-                                      setState(() {
-                                        _user = value;
-                                      });
-                                    })
+                                  activeColor: buttonColor,
+                                  value: _user,
+                                  onChanged: (bool value) {
+                                    setState(() {
+                                      _user = value;
+                                    });
+                                  },
+                                )
                               ],
                             ),
                           ],
@@ -444,7 +449,7 @@ class UsersTableState extends State<UsersTable> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            // Buttons to accept or dismiss the changes like described above
+                            /// Buttons to accept or dismiss the changes like described above
                             TextButton(
                               child: Text(
                                 "cancel".tr().toString(),
@@ -453,7 +458,7 @@ class UsersTableState extends State<UsersTable> {
                                 ),
                               ),
                               onPressed: () {
-                                Navigator.of(context).pop(); // dismiss dialog
+                                Navigator.of(context).pop();
                               },
                             ),
                             TextButton(
@@ -464,7 +469,7 @@ class UsersTableState extends State<UsersTable> {
                                 ),
                               ),
                               onPressed: () {
-                                Navigator.of(context).pop(); // dismiss dialog
+                                Navigator.of(context).pop();
                                 _saveChanges(user.id, _admin, _user, user);
                               },
                             ),
@@ -476,11 +481,13 @@ class UsersTableState extends State<UsersTable> {
                 ),
               ),
             );
-          });
-        });
+          },
+        );
+      },
+    );
   }
 
-  // This method is called after the changes of the userRoles are made
+  /// This method is called after the changes of the userRoles are made
   void _saveChanges(int _userID, bool _admin, bool _user, User user) async {
     int _roleID = 7;
 
@@ -587,7 +594,7 @@ class UsersTableState extends State<UsersTable> {
     }
   }
 
-  // This method is to delete the user
+  /// This method is to delete the user
   void _deleteUser(User user) async {
     int userIDForRequest = user.id;
 
@@ -602,7 +609,7 @@ class UsersTableState extends State<UsersTable> {
     Navigator.pushReplacementNamed(context, "/userManagement");
   }
 
-  // This function returns the registration-page to create a user
+  /// This function returns the registration-page to create a user
   void _createUserDialog(BuildContext context) {
     Navigator.pushReplacementNamed(context, "/registration");
   }

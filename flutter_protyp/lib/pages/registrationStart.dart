@@ -7,14 +7,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-// This class is for creating users on the login page
+/// This class is for creating users on the login page
 
 class RegistrationStart extends StatefulWidget {
   @override
   _RegistrationState createState() => _RegistrationState();
 }
 
-//Class for user registration, will only be used at the first usage
+/// Class for user registration, will only be used at the first usage
 class _RegistrationState extends State<RegistrationStart> {
   bool seePassword1 = false;
   bool seePassword2 = false;

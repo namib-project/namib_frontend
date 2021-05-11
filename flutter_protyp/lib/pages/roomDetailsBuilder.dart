@@ -8,6 +8,8 @@ import 'package:flutter_protyp/pages/roomDetails.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:http/http.dart' as http;
 
+/// FutureBuilder to load RoomDetails with data
+
 class RoomDetails extends StatefulWidget {
   const RoomDetails({
     Key key,
@@ -40,23 +42,26 @@ class _RoomDetailsState extends State<RoomDetails> {
               room: snapshot.data,
             );
           } else if (snapshot.hasError) {
-            // If the process failed this message returns
+            /// If the process failed this message returns
             print(snapshot.error);
             return Container(
               width: 600,
               child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    SelectableText("wentWrongError".tr().toString()),
-                    ElevatedButton(
-                        child: Text("reload".tr().toString()),
-                        onPressed: () {
-                          Navigator.pushReplacementNamed(context, "/roomEdit");
-                        })
-                  ]),
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  SelectableText("wentWrongError".tr().toString()),
+                  ElevatedButton(
+                    child: Text("reload".tr().toString()),
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(context, "/roomEdit");
+                    },
+                  )
+                ],
+              ),
             );
           }
-          // By default, show a loading spinner.
+
+          /// By default, show a loading spinner.
           else {
             return SizedBox(
               width: 30,
@@ -69,7 +74,7 @@ class _RoomDetailsState extends State<RoomDetails> {
     );
   }
 
-  // This function gets the device-details from the controller
+  /// This function gets the the room with roomId
   Future<Room> fetchRoom() async {
     String roomExtension = "rooms/";
 

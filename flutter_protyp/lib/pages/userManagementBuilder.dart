@@ -9,18 +9,19 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_protyp/pages/userManagement.dart';
 import 'package:http/http.dart' as http;
 
-// This class is for the administrator to delete or put a role to a user
+/// This class is for redirecting to UserManagementSite with data
 
 class UserManagement extends StatefulWidget {
   @override
   _UserManagementState createState() => _UserManagementState();
 }
 
+/// Future Builder for UserManagement
 class _UserManagementState extends State<UserManagement> {
   /// List with all registered users
   Future<List<User>> users;
 
-  /// This vars are to discribe the user
+  /// This vars are to describe the user
   String newPassword = "";
   String newUsername = "";
   List<dynamic> roleIds = [];
@@ -41,43 +42,44 @@ class _UserManagementState extends State<UserManagement> {
         child: Column(
           children: <Widget>[
             FutureBuilder<List<User>>(
-                future: users,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Expanded(
-                      child: UsersTable(users: snapshot.data),
-                    );
-                  } else if (snapshot.hasError) {
-                    print(snapshot.error);
-                    return Container(
-                      width: 600,
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: <Widget>[
-                            SelectableText("wentWrongError".tr().toString()),
-                            ElevatedButton(
-                                child: Text("reload".tr().toString()),
-                                onPressed: () {
-                                  Navigator.pushReplacementNamed(
-                                      context, "/userManagement");
-                                })
-                          ]),
-                    );
-                  } else {
-                    return SizedBox(
-                      width: 30,
-                      height: 30,
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                })
+              future: users,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Expanded(
+                    child: UsersTable(users: snapshot.data),
+                  );
+                } else if (snapshot.hasError) {
+                  print(snapshot.error);
+                  return Container(
+                    width: 600,
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          SelectableText("wentWrongError".tr().toString()),
+                          ElevatedButton(
+                              child: Text("reload".tr().toString()),
+                              onPressed: () {
+                                Navigator.pushReplacementNamed(
+                                    context, "/userManagement");
+                              })
+                        ]),
+                  );
+                } else {
+                  return SizedBox(
+                    width: 30,
+                    height: 30,
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
+            )
           ],
         ),
       ),
     );
   }
 
- // Function to get the users-list from controller and convert it to dart-list
+  /// Function to get the users-list from controller and convert it to dart-list
   Future<List<User>> getUsers() async {
     String usersExtension = 'management/users/';
     var _response = await http.get(url + usersExtension, headers: {
