@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -9,10 +8,10 @@ import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:graphview/GraphView.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_protyp/data/device_mud/room.dart';
-
 import 'deviceDetails.dart';
 
-// This class generates the graph for a specific room
+/// This class generates the graph for a specific room
+
 class DevicesGraph extends StatefulWidget {
   const DevicesGraph({
     Key key,
@@ -26,9 +25,9 @@ class DevicesGraph extends StatefulWidget {
 }
 
 class _DeviceGraphState extends State<DevicesGraph> {
+  /// Lists to store information about the devices and rooms
   List<Device> _devices = [];
   List<Device> _devicesInRoom = [];
-  List<Room> _rooms = [];
 
   @override
   Widget build(BuildContext context) {
@@ -81,8 +80,7 @@ class _DeviceGraphState extends State<DevicesGraph> {
     );
   }
 
-
-  // Function to generate a node for a room
+  /// Function to generate a node for a room
   Widget getRoomText(Room room) {
     return GestureDetector(
       child: Container(
@@ -90,8 +88,7 @@ class _DeviceGraphState extends State<DevicesGraph> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(4),
             boxShadow: [
-              BoxShadow(
-                  color: Color(int.parse(room.color)), spreadRadius: 1),
+              BoxShadow(color: Color(int.parse(room.color)), spreadRadius: 1),
             ],
           ),
           child: Text(room.color)),
@@ -99,8 +96,8 @@ class _DeviceGraphState extends State<DevicesGraph> {
     );
   }
 
-  // Function to generate a node for a device
-  Widget getDeviceText(Device device){
+  /// Function to generate a node for a device
+  Widget getDeviceText(Device device) {
     return GestureDetector(
       child: Container(
           padding: EdgeInsets.all(24),
@@ -111,18 +108,28 @@ class _DeviceGraphState extends State<DevicesGraph> {
             ],
           ),
           child: Column(
-            children: [SvgPicture.asset(
-              device.clipart, semanticsLabel: 'phone', height: 50, width: 50,
-              color: Color(
-                int.parse(device.room.color),
+            children: [
+              SvgPicture.asset(
+                device.clipart,
+                semanticsLabel: 'phone',
+                height: 50,
+                width: 50,
+                color: Color(
+                  int.parse(device.room.color),
+                ),
               ),
-            ), Text(device.hostname)],
-          ) ),
-      onTap: () => Navigator.push(context,
+              Text(device.hostname)
+            ],
+          )),
+      onTap: () => Navigator.push(
+        context,
         MaterialPageRoute(
-          builder: (context) => DeviceDetails(device: device, rooms: [],),
+          builder: (context) => DeviceDetails(
+            device: device,
+            rooms: [],
+          ),
         ),
-      ),//("Node $i")),
+      ), //("Node $i")),
     );
   }
 
@@ -132,17 +139,19 @@ class _DeviceGraphState extends State<DevicesGraph> {
   @override
   void initState() {
     super.initState();
-    //Node for the current room
+
+    /// Node for the current room
     final Node room = Node(getRoomText(widget.room));
 
-    //gets all devices in the current room
+    /// Gets all devices in the current room
     _devices = widget.devices;
     for (Device d in _devices) {
       if (d.name.toLowerCase() == widget.room.name.toLowerCase()) {
         _devicesInRoom.add(d);
       }
     }
-    //generates all nodes and edges for all devices in the current room
+
+    /// Generates all nodes and edges for all devices in the current room
     _devicesInRoom.forEach((d) {
       final ExtNode device = new ExtNode(getDeviceText(d));
       graph.addEdge(room, device, paint: Paint()..color = Colors.orange);

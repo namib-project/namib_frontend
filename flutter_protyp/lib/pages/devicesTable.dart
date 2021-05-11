@@ -9,7 +9,7 @@ import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-// This class implements the functions to generate the tableview for the devices
+/// This class implements the functions to generate the tableview for the devices
 
 class DevicesTable extends StatefulWidget {
   const DevicesTable({
@@ -27,16 +27,19 @@ class DevicesTable extends StatefulWidget {
 
 //Class for user registration, will only be used at the first usage
 class _DevicesTableState extends State<DevicesTable> {
+  /// Lists which stores devices
   List<Device> _devicesCopy = [];
   List<List<Device>> _devicesForDisplay = [];
 
+  /// Lists which stores rooms
   List<Room> _uniqueRooms = [];
   List<Room> _selectedRooms = [];
 
+  /// Word for searching
   String _searchWord = "";
 
+  /// For sorting the table
   bool _sortAscending = true;
-
   Icon _arrowUp = Icon(
     FontAwesomeIcons.arrowUp,
     size: 17,
@@ -127,6 +130,7 @@ class _DevicesTableState extends State<DevicesTable> {
     );
   }
 
+  /// Creates the table with all entries
   _listForDevicesRooms(BuildContext context) {
     return ListView.builder(
       itemCount: _devicesForDisplay.length,
@@ -170,6 +174,7 @@ class _DevicesTableState extends State<DevicesTable> {
     );
   }
 
+  /// Scans for specific room
   _roomFilter() {
     return ExpansionTile(
       title: Text(
@@ -206,6 +211,7 @@ class _DevicesTableState extends State<DevicesTable> {
     );
   }
 
+  /// List with room names in it
   _listForRoomNames() {
     return ListView.builder(
       itemCount: _uniqueRooms.length,
@@ -263,6 +269,7 @@ class _DevicesTableState extends State<DevicesTable> {
     );
   }
 
+  /// This function creates the list-header which is displayed above the table
   _listHeader() {
     return Container(
       height: 80,
@@ -315,6 +322,7 @@ class _DevicesTableState extends State<DevicesTable> {
     );
   }
 
+  /// This is a simple searchbar to scan for objects
   _searchBar() {
     return Padding(
       padding: EdgeInsets.all(8),
@@ -338,6 +346,7 @@ class _DevicesTableState extends State<DevicesTable> {
     );
   }
 
+  /// This functions is for display the table
   List<Widget> _listForDevices(BuildContext context, int index0) {
     List<Widget> _columnContent = [];
 
@@ -420,6 +429,7 @@ class _DevicesTableState extends State<DevicesTable> {
     return _columnContent;
   }
 
+  /// Scans list by room name
   _filterDevicesWithRoom() {
     if (_selectedRooms.isNotEmpty && _selectedRooms != null) {
       List<Device> _devicesList = [];
@@ -434,6 +444,7 @@ class _DevicesTableState extends State<DevicesTable> {
     }
   }
 
+  /// Scans list by any word
   _searchWithSearchWord() {
     _searchWord = _searchWord.toLowerCase();
     setState(() {
@@ -446,6 +457,7 @@ class _DevicesTableState extends State<DevicesTable> {
     });
   }
 
+  /// Sorts the list by hostname
   _sortDevicesForDisplay() {
     setState(() {
       if (_sortAscending) {
@@ -456,6 +468,7 @@ class _DevicesTableState extends State<DevicesTable> {
     });
   }
 
+  /// Sort by rooms
   _sortRooms() {
     setState(() {
       _uniqueRooms.sort((a, b) {
@@ -464,6 +477,7 @@ class _DevicesTableState extends State<DevicesTable> {
     });
   }
 
+  /// Function that builds table for create device
   _createDevicesForDisplay() {
     _devicesForDisplay = [];
 

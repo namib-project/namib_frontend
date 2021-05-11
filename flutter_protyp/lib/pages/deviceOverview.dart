@@ -32,6 +32,7 @@ class _DeviceOverviewState extends State<DeviceOverview> {
     });
   }
 
+  /// To detect if button pressed
   bool pressed = false;
 
   @override
@@ -43,7 +44,7 @@ class _DeviceOverviewState extends State<DeviceOverview> {
 
   @override
   Widget build(BuildContext context) {
-    // Query if device mobile, if not, the graph view will be shown
+    /// Query if device mobile, if not, the graph view will be shown
     if (!pressed) {
       if (!mobileDevice) {
         view = false; //TODO change to true, if graph works
@@ -58,7 +59,7 @@ class _DeviceOverviewState extends State<DeviceOverview> {
       body: Center(
         child: Column(
           children: [
-            // Button to change view between table and graph view
+            /// Button to change view between table and graph view
             TextButton.icon(
               icon: Icon(
                 Icons.visibility,
@@ -95,8 +96,8 @@ class _DeviceOverviewState extends State<DeviceOverview> {
               ),
             ),
 
-            // This future builder element put in the different devices after these will be loaded
-            // The future builder element a delayed sending of context
+            /// This future builder element put in the different devices after these will be loaded
+            /// The future builder element a delayed sending of context
             FutureBuilder<List<Room>>(
               future: rooms,
               builder: (context, snapshotRoom) {
@@ -122,7 +123,7 @@ class _DeviceOverviewState extends State<DeviceOverview> {
                           ));
                         }
                       } else if (snapshotDevice.hasError) {
-                        // If the process failed this message returns
+                        /// If the process failed this message returns
                         print(snapshotDevice.error);
                         return Container(
                           width: 600,
@@ -140,7 +141,8 @@ class _DeviceOverviewState extends State<DeviceOverview> {
                               ]),
                         );
                       }
-                      // By default, show a loading spinner.
+
+                      /// By default, show a loading spinner.
                       else {
                         return SizedBox(
                           width: 30,
@@ -151,7 +153,7 @@ class _DeviceOverviewState extends State<DeviceOverview> {
                     },
                   );
                 } else if (snapshotRoom.hasError) {
-                  // If the process failed this message returns
+                  /// If the process failed this message returns
                   print(snapshotRoom.error);
                   return Container(
                     width: 600,
@@ -168,7 +170,8 @@ class _DeviceOverviewState extends State<DeviceOverview> {
                         ]),
                   );
                 }
-                // By default, show a loading spinner.
+
+                /// By default, show a loading spinner.
                 else {
                   return SizedBox(
                     width: 30,
@@ -184,7 +187,7 @@ class _DeviceOverviewState extends State<DeviceOverview> {
     );
   }
 
-// Function getting the list of devices in network from controller
+  /// Function getting the list of devices in network from controller
   Future<List<Device>> getDevices() async {
     String devicesExtension = 'devices';
     var _response = await http.get(url + devicesExtension, headers: {
@@ -205,6 +208,7 @@ class _DeviceOverviewState extends State<DeviceOverview> {
     }
   }
 
+  /// Function getting the list of rooms in network from controller
   Future<List<Room>> getRooms() async {
     String roomsExtension = 'rooms';
     var _response = await http.get(url + roomsExtension, headers: {
@@ -225,5 +229,6 @@ class _DeviceOverviewState extends State<DeviceOverview> {
     }
   }
 
+  /// Timeout function
   dynamic _handleTimeOut() {}
 }
