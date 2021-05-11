@@ -13,6 +13,8 @@ doc:release:
     - flutter packages get
     - flutter clean
   script:
+    - flutter doctor --android-licenses
+    - flutter build web --release
     - dartdoc
   artifacts:
     paths:
