@@ -16,24 +16,25 @@ class EditRoomTable extends StatefulWidget {
     @required this.rooms,
   }) : super(key: key);
 
-  /// List which stores all given devices
+  /// List which stores all given rooms
   final List<Room> rooms;
 
   _EditRoomTableState createState() => _EditRoomTableState();
 }
 
-//Class for user registration, will only be used at the first usage
+/// Class for creating and choosing a room for editing
 class _EditRoomTableState extends State<EditRoomTable> {
-  List<Room> _uniqueRooms = [];
+  /// Displayed rooms list
   List<Room> _roomsForDisplay;
 
+  /// Variables for creating room and visibility of error message
   String _newRoomName;
-  bool roomnameMessage = false;
-
+  bool roomNameMessage = false;
 
   /// to get the value to create a room with color use: currentColor.value.toString()
   Color _newColor = Color(0xFFB00020);
 
+  /// Variables for handling table
   bool _sortAscending = true;
   Icon _arrowUp = Icon(
     FontAwesomeIcons.arrowUp,
@@ -44,9 +45,9 @@ class _EditRoomTableState extends State<EditRoomTable> {
     size: 17,
   );
 
-  // Define some custom colors for the custom picker segment.
-  // The 'guide' color values are from
-  // https://material.io/design/color/the-color-system.html#color-theme-creation
+  /// Define some custom colors for the custom picker segment.
+  /// The 'guide' color values are from
+  /// https://material.io/design/color/the-color-system.html#color-theme-creation
   static const Color guidePrimary = Color(0xFF6200EE);
   static const Color guidePrimaryVariant = Color(0xFF3700B3);
   static const Color guideSecondary = Color(0xFF03DAC6);
@@ -55,7 +56,7 @@ class _EditRoomTableState extends State<EditRoomTable> {
   static const Color guideErrorDark = Color(0xFFCF6679);
   static const Color blueBlues = Color(0xFF174378);
 
-  // Make a custom ColorSwatch to name map from the above custom colors.
+  /// Make a custom ColorSwatch to name map from the above custom colors.
   final Map<ColorSwatch<Object>, String> colorsNameMap =
       <ColorSwatch<Object>, String>{
     ColorTools.createPrimarySwatch(guidePrimary): 'Guide Purple',
@@ -70,14 +71,7 @@ class _EditRoomTableState extends State<EditRoomTable> {
   @override
   void initState() {
     super.initState();
-
-    _uniqueRooms = widget.rooms;
-
-    /// to remove all the duplicates to get all rooms only once
-    final _allRooms = _uniqueRooms.map((e) => e.name).toSet();
-    _uniqueRooms.retainWhere((x) => _allRooms.remove(x.name));
-
-    _roomsForDisplay = _uniqueRooms;
+    _roomsForDisplay = widget.rooms;
     _sortRoomsForDisplay();
   }
 
@@ -98,6 +92,24 @@ class _EditRoomTableState extends State<EditRoomTable> {
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
                     ),
+                  ),
+                ),
+                TextButton.icon(
+                  style: ButtonStyle(
+                    minimumSize: MaterialStateProperty.all(Size(160, 60)),
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50.0))),
+                  ),
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(context, "/deviceOverview");
+                  },
+                  label: Text(
+                    "reload".tr().toString(),
+                    style: TextStyle(color: buttonColor),
+                  ),
+                  icon: Icon(
+                    Icons.replay,
+                    color: buttonColor,
                   ),
                 ),
                 Visibility(
@@ -122,7 +134,7 @@ class _EditRoomTableState extends State<EditRoomTable> {
                     ),
                     Expanded(
                       flex: 16,
-                      child: (_uniqueRooms != null && _uniqueRooms.length != 0)
+                      child: (_roomsForDisplay != null && _roomsForDisplay.length != 0)
                           ? Column(
                               children: <Widget>[
                                 _searchBar(),
@@ -132,36 +144,37 @@ class _EditRoomTableState extends State<EditRoomTable> {
                                   child: _listForRooms(context),
                                 ),
                                 Visibility(
-                                  visible: adminAccess,
+                                    visible: adminAccess,
                                     child: Column(
-                                  children: [
-                                    Container(
-                                      height: 70,
-                                      alignment: Alignment.center,
-                                      child: SelectableText(
-                                        'orCreateNew'.tr().toString(),
-                                        style: TextStyle(
-                                          fontFamily: "OpenSans",
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                    ),
-                                    _newRoomDialog(),
-                                      Visibility(
-                                        visible: roomnameMessage,
-                                        child: Container(
-                                          height: 50,
+                                      children: [
+                                        Container(
+                                          height: 70,
                                           alignment: Alignment.center,
                                           child: SelectableText(
-                                            "wrongRoomName".tr().toString(),
-                                            style:
-                                            TextStyle(color: Colors.red[700], fontSize: 20),
+                                            'orCreateNew'.tr().toString(),
+                                            style: TextStyle(
+                                              fontFamily: "OpenSans",
+                                              fontSize: 16,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    _bottomButtons(),
-                                  ],
-                                ))
+                                        _newRoomDialog(),
+                                        Visibility(
+                                          visible: roomNameMessage,
+                                          child: Container(
+                                            height: 50,
+                                            alignment: Alignment.center,
+                                            child: SelectableText(
+                                              "wrongRoomName".tr().toString(),
+                                              style: TextStyle(
+                                                  color: Colors.red[700],
+                                                  fontSize: 20),
+                                            ),
+                                          ),
+                                        ),
+                                        _bottomButtons(),
+                                      ],
+                                    ))
                               ],
                             )
                           : Container(
@@ -195,25 +208,24 @@ class _EditRoomTableState extends State<EditRoomTable> {
                                         ),
                                       ),
                                       _newRoomDialog(),
-
-                                        Visibility(
-                                          visible: roomnameMessage,
-                                          child: Container(
-                                            height: 50,
-                                            alignment: Alignment.center,
-                                            child: SelectableText(
-                                              "wrongRoomName".tr().toString(),
-                                              style:
-                                              TextStyle(color: Colors.red[700], fontSize: 50),
-                                            ),
+                                      Visibility(
+                                        visible: roomNameMessage,
+                                        child: Container(
+                                          height: 50,
+                                          alignment: Alignment.center,
+                                          child: SelectableText(
+                                            "wrongRoomName".tr().toString(),
+                                            style: TextStyle(
+                                                color: Colors.red[700],
+                                                fontSize: 50),
                                           ),
                                         ),
+                                      ),
                                       _bottomButtons(),
                                     ])),
                                 SizedBox(
                                   height: 10,
                                 ),
-
                               ])),
                     ),
                     Expanded(
@@ -230,13 +242,13 @@ class _EditRoomTableState extends State<EditRoomTable> {
     );
   }
 
+  /// Input fields for room name and room color
   _newRoomDialog() {
     return Container(
       height: 70,
       alignment: Alignment.center,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        //crossAxisAlignment: CrossAxisAlignment.baseline,
         children: [
           Container(
             height: 50,
@@ -256,7 +268,6 @@ class _EditRoomTableState extends State<EditRoomTable> {
               },
             ),
           ),
-
           SizedBox(
             width: 20,
           ),
@@ -278,6 +289,7 @@ class _EditRoomTableState extends State<EditRoomTable> {
     );
   }
 
+  /// Header for room list
   _listHeader() {
     return Container(
       height: 80,
@@ -329,6 +341,8 @@ class _EditRoomTableState extends State<EditRoomTable> {
     );
   }
 
+
+  /// Searchbar for searching through room list
   _searchBar() {
     return Padding(
       padding: EdgeInsets.all(8),
@@ -344,7 +358,7 @@ class _EditRoomTableState extends State<EditRoomTable> {
         onChanged: (text) {
           text = text.toLowerCase();
           setState(() {
-            _roomsForDisplay = _uniqueRooms.where((room) {
+            _roomsForDisplay = _roomsForDisplay.where((room) {
               var roomName = room.name.toLowerCase();
               return roomName.contains(text);
             }).toList();
@@ -355,6 +369,7 @@ class _EditRoomTableState extends State<EditRoomTable> {
     );
   }
 
+  /// List entries for room list
   ListView _listForRooms(BuildContext context) {
     return ListView.builder(
       itemCount: _roomsForDisplay.length,
@@ -419,15 +434,14 @@ class _EditRoomTableState extends State<EditRoomTable> {
     );
   }
 
+  /// Button for creating a new room
   _bottomButtons() {
     return Container(
       height: 70,
       alignment: Alignment.center,
-
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-
           TextButton(
               child: Text(
                 'create'.tr().toString(),
@@ -446,6 +460,7 @@ class _EditRoomTableState extends State<EditRoomTable> {
     );
   }
 
+  /// Function that determines if create room button is clickable
   bool _postRoomButton() {
     if (_newRoomName != null && _newRoomName != "") {
       return true;
@@ -453,6 +468,7 @@ class _EditRoomTableState extends State<EditRoomTable> {
     return false;
   }
 
+  /// Function that post a new room to controller
   _postRoom() async {
     String _postRoomExtension = "rooms";
 
@@ -475,27 +491,22 @@ class _EditRoomTableState extends State<EditRoomTable> {
           )
           .timeout(Duration(seconds: 5));
     }
-    print(_response.statusCode);
     checkResponse(_response.statusCode);
-
-
   }
 
-  void checkResponse(int statusCode){
-
+  /// Function that gets the status code of the post request from _postRoom() and shows error message on error
+  void checkResponse(int statusCode) {
     if (statusCode == 409) {
-
       setState(() {
-        roomnameMessage = true;
+        roomNameMessage = true;
       });
-
     } else if (statusCode == 200) {
       Navigator.pushReplacementNamed(context, "/editRoom");
-      roomnameMessage = false;
+      roomNameMessage = false;
     }
   }
 
-  // Gives the colorPicker AlertDialog with the colors above
+  /// Gives the colorPicker AlertDialog with the colors above
   _showColorAlertDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -583,6 +594,7 @@ class _EditRoomTableState extends State<EditRoomTable> {
     );
   }
 
+  /// Sorts the rooms list
   _sortRoomsForDisplay() {
     setState(() {
       if (_sortAscending) {

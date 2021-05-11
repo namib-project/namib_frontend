@@ -16,10 +16,10 @@ class EditRoom extends StatefulWidget {
   _EditRoomState createState() => _EditRoomState();
 }
 
+/// Class for getting the rooms from controller
 class _EditRoomState extends State<EditRoom> {
+  /// List stores rooms
   Future<List<Room>> rooms;
-
-  var response;
 
   @override
   void initState() {
@@ -35,8 +35,7 @@ class _EditRoomState extends State<EditRoom> {
       body: Center(
         child: Column(
           children: [
-            // This future builder element put in the different devices after these will be loaded
-            // The future builder element a delayed sending of context
+            /// Future Builder for getting the rooms
             FutureBuilder<List<Room>>(
               future: rooms,
               builder: (context, snapshot) {
@@ -46,7 +45,7 @@ class _EditRoomState extends State<EditRoom> {
                     rooms: snapshot.data,
                   ));
                 } else if (snapshot.hasError) {
-                  // If the process failed this message returns
+                  /// If the process failed this message returns
                   print(snapshot.error);
                   return Container(
                     width: 600,
@@ -63,7 +62,7 @@ class _EditRoomState extends State<EditRoom> {
                         ]),
                   );
                 }
-                // By default, show a loading spinner.
+                /// By default, show a loading spinner.
                 else {
                   return SizedBox(
                     width: 30,
@@ -79,17 +78,18 @@ class _EditRoomState extends State<EditRoom> {
     );
   }
 
+  /// Function gets rooms from controller
   Future<List<Room>> getRooms() async {
     String roomsExtension = 'rooms';
-    response = await http.get(url + roomsExtension, headers: {
+    var   _response = await http.get(url + roomsExtension, headers: {
       "Content-Type": "application/json",
       "Authorization": "Bearer $jwtToken"
     }).timeout(const Duration(seconds: 5), onTimeout: () {
       return _handleTimeOut();
     });
 
-    if (response.statusCode == 200) {
-      String data = utf8.decode(response.bodyBytes);
+    if (_response.statusCode == 200) {
+      String data = utf8.decode(_response.bodyBytes);
       var jsonRooms = jsonDecode(data) as List;
       List<Room> roomsTest =
           jsonRooms.map((tagJson) => Room.fromJson(tagJson)).toList();
