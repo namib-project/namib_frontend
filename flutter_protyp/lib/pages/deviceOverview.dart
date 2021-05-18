@@ -48,7 +48,7 @@ class _DeviceOverviewState extends State<DeviceOverview> {
     /// Query if device mobile, if not, the graph view will be shown
     if (!pressed) {
       if (!mobileDevice) {
-        view = false; //TODO change to true, if graph works
+        view = true;
       } else {
         view = false;
       }
