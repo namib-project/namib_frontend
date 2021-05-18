@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_protyp/data/device_mud/device.dart';
 import 'package:flutter_protyp/data/device_mud/room.dart';
 import 'package:flutter_protyp/pages/devicesTable.dart';
+import 'package:flutter_protyp/pages/roomsGraph.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import "package:flutter_protyp/widgets/drawer.dart";
@@ -108,7 +109,7 @@ class _DeviceOverviewState extends State<DeviceOverview> {
                       if (snapshotDevice.hasData) {
                         if (view) {
                           return Expanded(
-                              child: DevicesGraph(
+                              child: RoomsGraph(
                             devices: snapshotDevice.data
                                 .where((e) => e.type == "managed")
                                 .toList(),

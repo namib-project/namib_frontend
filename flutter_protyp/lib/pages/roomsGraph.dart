@@ -146,6 +146,12 @@ class _RoomsGraphState extends State<RoomsGraph> {
     /// gets all rooms
     _devices = widget.devices;
     for (Device d in _devices) {
+      if (d.room == null) {
+        d.room = Room.roomConstructor(
+            -1, 'notAssigned'.tr().toString(), "0xFFB00020");
+      }
+    }
+    for (Device d in _devices) {
       Room room = new Room(d.room.id, d.room.name, d.room.color);
       _rooms.add(room);
     }

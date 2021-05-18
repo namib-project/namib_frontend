@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_protyp/data/device_mud/device.dart';
+import 'package:flutter_protyp/data/device_mud/room.dart';
 import 'package:flutter_protyp/pages/roomsGraph.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
@@ -91,7 +92,7 @@ class _DeviceGraphState extends State<DevicesGraph> {
               BoxShadow(color: Color(int.parse(room.color)), spreadRadius: 1),
             ],
           ),
-          child: Text(room.color)),
+          child: Text(room.name)),
       //("Node $i")),
     );
   }
