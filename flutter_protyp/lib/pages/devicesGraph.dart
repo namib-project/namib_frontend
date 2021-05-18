@@ -45,38 +45,41 @@ class _DeviceGraphState extends State<DevicesGraph> {
         ],
       ),
       body: Center(
-        child: Container(
-            child: Column(children: [
-          Container(
-            height: 70,
-            child: SelectableText(
-              widget.room.name,
-              style: TextStyle(
-                fontFamily: "OpenSans",
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Container(
+              child: Column(children: [
+            Container(
+              height: 70,
+              child: SelectableText(
+                widget.room.name,
+                style: TextStyle(
+                  fontFamily: "OpenSans",
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-          ),
-          Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                InteractiveViewer(
-                    constrained: true,
-                    boundaryMargin: EdgeInsets.all(8),
-                    minScale: 0.001,
-                    maxScale: 100,
-                    child: GraphView(
-                      graph: graph,
-                      algorithm: builder,
-                      paint: Paint()
-                        ..color = Colors.green
-                        ..strokeWidth = 1
-                        ..style = PaintingStyle.fill,
-                    )),
-              ]),
-        ])),
+            Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  InteractiveViewer(
+                      constrained: true,
+                      boundaryMargin: EdgeInsets.all(8),
+                      minScale: 0.001,
+                      maxScale: 100,
+                      child: GraphView(
+                        graph: graph,
+                        algorithm: builder,
+                        paint: Paint()
+                          ..color = Colors.green
+                          ..strokeWidth = 1
+                          ..style = PaintingStyle.fill,
+                      )),
+                ]),
+          ])),
+        ),
       ),
     );
   }
@@ -147,7 +150,7 @@ class _DeviceGraphState extends State<DevicesGraph> {
     /// Gets all devices in the current room
     _devices = widget.devices;
     for (Device d in _devices) {
-      if (d.name.toLowerCase() == widget.room.name.toLowerCase()) {
+      if (d.room.name.toLowerCase() == widget.room.name.toLowerCase()) {
         _devicesInRoom.add(d);
       }
     }
