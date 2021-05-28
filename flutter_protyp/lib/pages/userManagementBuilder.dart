@@ -1,12 +1,13 @@
 import 'dart:convert';
+
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_protyp/data/user.dart';
+import 'package:flutter_protyp/pages/userManagement.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:flutter_protyp/widgets/drawer.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_protyp/pages/userManagement.dart';
 import 'package:http/http.dart' as http;
 
 /// This class is for redirecting to UserManagementSite with data
@@ -82,7 +83,7 @@ class _UserManagementState extends State<UserManagement> {
   /// Function to get the users-list from controller and convert it to dart-list
   Future<List<User>> getUsers() async {
     String usersExtension = 'management/users/';
-    var _response = await http.get(url + usersExtension, headers: {
+    var _response = await http.get(Uri.parse(url + usersExtension), headers: {
       "Content-Type": "application/json",
       "Authorization": "Bearer $jwtToken"
     }).timeout(const Duration(seconds: 5), onTimeout: () {

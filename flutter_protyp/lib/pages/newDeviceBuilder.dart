@@ -1,4 +1,6 @@
 import 'dart:convert';
+
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_protyp/data/device_mud/device.dart';
@@ -6,7 +8,6 @@ import 'package:flutter_protyp/pages/newDevicesOverview.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import "package:flutter_protyp/widgets/drawer.dart";
-import 'package:easy_localization/easy_localization.dart';
 import 'package:http/http.dart' as http;
 
 /// FutureBuilder to load newDevicesOverview with data
@@ -90,7 +91,7 @@ class _NewDeviceOverviewState extends State<NewDeviceOverview> {
   /// Function getting the list of devices in network from controller
   Future<List<Device>> _getDevices() async {
     String devicesExtension = 'devices';
-    var _response = await http.get(url + devicesExtension, headers: {
+    var _response = await http.get(Uri.parse(url + devicesExtension), headers: {
       "Content-Type": "application/json",
       "Authorization": "Bearer $jwtToken"
     }).timeout(const Duration(seconds: 5), onTimeout: () {

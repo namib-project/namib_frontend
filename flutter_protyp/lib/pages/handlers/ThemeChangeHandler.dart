@@ -55,7 +55,7 @@ class ThemeChangeHandler {
   void setDarkModeUserConfig(bool value) async {
     String urlDarkModeExtension = "users/configs/darkMode";
     try {
-      http.post(url + urlDarkModeExtension,
+      http.post(Uri.parse(url + urlDarkModeExtension),
           headers: {
             "Content-Type": "application/json",
             "Authorization": "Bearer $jwtToken"
@@ -70,7 +70,7 @@ class ThemeChangeHandler {
   void setLanguageUserConfig(String isoCode) async {
     String urlLanguageExtension = "users/configs/language";
     try {
-      http.post(url + urlLanguageExtension,
+      http.post(Uri.parse(url + urlLanguageExtension),
           headers: {
             "Content-Type": "application/json",
             "Authorization": "Bearer $jwtToken"
@@ -85,7 +85,7 @@ class ThemeChangeHandler {
   void setViewUserConfig(bool value) async {
     String urlDarkModeExtension = "users/configs/view";
     try {
-      http.post(url + urlDarkModeExtension,
+      http.post(Uri.parse(url + urlDarkModeExtension),
           headers: {
             "Content-Type": "application/json",
             "Authorization": "Bearer $jwtToken"

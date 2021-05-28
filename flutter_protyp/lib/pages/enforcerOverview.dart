@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_protyp/data/enforcer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_protyp/data/enforcer.dart';
 import 'package:flutter_protyp/pages/formatter/timeFormatter.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -249,7 +249,7 @@ class _EnforcerOverviewState extends State<EnforcerOverview> {
     String _enforcersExtension =
         "enforcers/${enforcer.cert_id}?allowed=${enforcer.allowed}";
 
-    http.put(url + _enforcersExtension, headers: {
+    http.put(Uri.parse(url + _enforcersExtension), headers: {
       "Content-Type": "application/json",
       "Authorization": "Bearer $jwtToken"
     });

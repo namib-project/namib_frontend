@@ -1,4 +1,6 @@
 import 'dart:convert';
+
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_protyp/data/device_mud/device.dart';
@@ -9,7 +11,6 @@ import 'package:flutter_protyp/pages/roomsGraph.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import "package:flutter_protyp/widgets/drawer.dart";
-import 'package:easy_localization/easy_localization.dart';
 import 'package:http/http.dart' as http;
 
 /// This class returns deviceOverview site with the graphview
@@ -95,8 +96,9 @@ class _DeviceOverviewState extends State<DeviceOverview> {
                     builder: (context, snapshotDevice) {
                       if (snapshotDevice.hasData) {
                         snapshotDevice.data.forEach((element) {
-                          if(element.room == null){
-                            element.room = Room.roomConstructor(-1, 'notAssigned'.tr().toString(), "0xFFB00020");
+                          if (element.room == null) {
+                            element.room = Room.roomConstructor(-1,
+                                'notAssigned'.tr().toString(), "0xFFB00020");
                           }
                         });
 
@@ -184,7 +186,7 @@ class _DeviceOverviewState extends State<DeviceOverview> {
   /// Function getting the list of devices in network from controller
   Future<List<Device>> getDevices() async {
     String devicesExtension = 'devices';
-    var _response = await http.get(url + devicesExtension, headers: {
+    var _response = await http.get(Uri.parse(url + devicesExtension), headers: {
       "Content-Type": "application/json",
       "Authorization": "Bearer $jwtToken"
     }).timeout(const Duration(seconds: 5), onTimeout: () {
@@ -205,7 +207,7 @@ class _DeviceOverviewState extends State<DeviceOverview> {
   /// Function getting the list of rooms in network from controller
   Future<List<Room>> getRooms() async {
     String roomsExtension = 'rooms';
-    var _response = await http.get(url + roomsExtension, headers: {
+    var _response = await http.get(Uri.parse(url + roomsExtension), headers: {
       "Content-Type": "application/json",
       "Authorization": "Bearer $jwtToken"
     }).timeout(const Duration(seconds: 5), onTimeout: () {

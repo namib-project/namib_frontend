@@ -77,7 +77,7 @@ class _IgnoredDeviceOverviewState extends State<IgnoredDeviceOverview> {
   /// Function getting the list of devices in network from controller
   Future<List<Device>> getDevices() async {
     String devicesExtension = 'devices';
-    var _response = await http.get(url + devicesExtension, headers: {
+    var _response = await http.get(Uri.parse(url + devicesExtension), headers: {
       "Content-Type": "application/json",
       "Authorization": "Bearer $jwtToken"
     }).timeout(const Duration(seconds: 5), onTimeout: () {

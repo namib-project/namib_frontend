@@ -1,12 +1,14 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:html';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_protyp/pages/login.dart';
 import 'package:flutter_protyp/pages/registrationStart.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'dart:html';
+
 import 'handlers/ThemeChangeHandler.dart';
 
 /// This class get the important information for building the application before the login appears
@@ -51,7 +53,7 @@ class _StartServiceState extends State<StartService> {
   Future<String> fetchSetup() async {
     try {
       String statusExtension = "status";
-      var response = await http.get(url + statusExtension);
+      var response = await http.get(Uri.parse(url + statusExtension));
       if (response.statusCode == 200) {
         String data = utf8.decode(response.bodyBytes);
         return data;

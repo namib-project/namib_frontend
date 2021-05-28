@@ -1,14 +1,13 @@
-import 'package:flutter/material.dart';
-
-import 'package:flutter_protyp/widgets/appbar.dart';
-import "package:flutter_protyp/widgets/drawer.dart";
-import 'package:flutter_protyp/widgets/constant.dart';
-import 'package:flutter_protyp/data/device_mud/room.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:http/http.dart' as http;
-
 import 'dart:convert';
+
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_protyp/data/device_mud/room.dart';
+import 'package:flutter_protyp/widgets/appbar.dart';
+import 'package:flutter_protyp/widgets/constant.dart';
+import "package:flutter_protyp/widgets/drawer.dart";
+import 'package:http/http.dart' as http;
 
 import 'editRoom.dart';
 
@@ -62,6 +61,7 @@ class _EditRoomState extends State<EditRoom> {
                         ]),
                   );
                 }
+
                 /// By default, show a loading spinner.
                 else {
                   return SizedBox(
@@ -81,7 +81,7 @@ class _EditRoomState extends State<EditRoom> {
   /// Function gets rooms from controller
   Future<List<Room>> getRooms() async {
     String roomsExtension = 'rooms';
-    var   _response = await http.get(url + roomsExtension, headers: {
+    var _response = await http.get(Uri.parse(url + roomsExtension), headers: {
       "Content-Type": "application/json",
       "Authorization": "Bearer $jwtToken"
     }).timeout(const Duration(seconds: 5), onTimeout: () {

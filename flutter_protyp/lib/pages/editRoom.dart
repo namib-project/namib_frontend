@@ -1,13 +1,14 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'dart:convert';
+
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_protyp/data/device_mud/room.dart';
 import 'package:flutter_protyp/pages/roomDetailsBuilder.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:flutter_protyp/data/device_mud/room.dart';
-import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:http/http.dart' as http;
 
 class EditRoomTable extends StatefulWidget {
@@ -134,7 +135,8 @@ class _EditRoomTableState extends State<EditRoomTable> {
                     ),
                     Expanded(
                       flex: 16,
-                      child: (_roomsForDisplay != null && _roomsForDisplay.length != 0)
+                      child: (_roomsForDisplay != null &&
+                              _roomsForDisplay.length != 0)
                           ? Column(
                               children: <Widget>[
                                 _searchBar(),
@@ -341,7 +343,6 @@ class _EditRoomTableState extends State<EditRoomTable> {
     );
   }
 
-
   /// Searchbar for searching through room list
   _searchBar() {
     return Padding(
@@ -482,7 +483,7 @@ class _EditRoomTableState extends State<EditRoomTable> {
 
       _response = await http
           .post(
-            url + _postRoomExtension,
+            Uri.parse(url + _postRoomExtension),
             headers: {
               "Content-Type": "application/json",
               "Authorization": "Bearer $jwtToken"

@@ -1,8 +1,9 @@
 import 'dart:convert';
+
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_protyp/data/device_mud/room.dart';
 import 'package:flutter_protyp/pages/roomDetails.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
@@ -78,11 +79,12 @@ class _RoomDetailsState extends State<RoomDetails> {
   Future<Room> fetchRoom() async {
     String roomExtension = "rooms/";
 
-    var _response = await http
-        .get(url + roomExtension + widget.roomId.toString(), headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer $jwtToken"
-    }).timeout(Duration(seconds: 5));
+    var _response = await http.get(
+        Uri.parse(url + roomExtension + widget.roomId.toString()),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $jwtToken"
+        }).timeout(Duration(seconds: 5));
 
     if (_response.statusCode == 200) {
       String data = utf8.decode(_response.bodyBytes);

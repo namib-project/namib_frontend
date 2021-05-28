@@ -1,9 +1,11 @@
 import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_protyp/pages/deviceOverview.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:http/http.dart' as http;
+
 import 'dummy.dart';
 import 'handlers/ThemeChangeHandler.dart';
 
@@ -73,7 +75,7 @@ class _ThemingServiceState extends State<ThemingService> {
     String urlExtension = "users/configs/darkMode";
 
     try {
-      var response = await http.get(url + urlExtension, headers: {
+      var response = await http.get(Uri.parse(url + urlExtension), headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer $jwtToken"
       });
@@ -108,7 +110,7 @@ class _ThemingServiceState extends State<ThemingService> {
   Future<String> _getLanguageUsersConfig() async {
     String urlExtension = "users/configs/language";
     try {
-      var response = await http.get(url + urlExtension, headers: {
+      var response = await http.get(Uri.parse(url + urlExtension), headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer $jwtToken"
       });
@@ -137,7 +139,7 @@ class _ThemingServiceState extends State<ThemingService> {
     String urlExtension = "users/configs/view";
 
     try {
-      var response = await http.get(url + urlExtension, headers: {
+      var response = await http.get(Uri.parse(url + urlExtension), headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer $jwtToken"
       });
@@ -153,7 +155,7 @@ class _ThemingServiceState extends State<ThemingService> {
         view = false;
       }
     } on Exception {
-      if(mobileDevice){
+      if (mobileDevice) {
         view = false;
       } else {
         view = true;

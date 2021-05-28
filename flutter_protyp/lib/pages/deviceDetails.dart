@@ -1,19 +1,20 @@
 import 'dart:convert';
+
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_protyp/data/device_mud/room.dart';
-import 'package:flutter_protyp/pages/formatter/timeFormatter.dart';
-import 'package:url_encoder/url_encoder.dart';
 import 'package:flutter_protyp/data/device_mud/device.dart';
+import 'package:flutter_protyp/data/device_mud/room.dart';
 import 'package:flutter_protyp/pages/deviceDetailsBuilder.dart';
+import 'package:flutter_protyp/pages/formatter/timeFormatter.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_encoder/url_encoder.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /// Class that display the details of a specific device and implements functions for updating the device
 
@@ -883,7 +884,8 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     String _urlEncodedMudUrl =
         urlEncode(text: widget.device.mud_data.url).toString();
     await http.put(
-        url + _updateMUDExtension + _urlExtension + _urlEncodedMudUrl,
+        Uri.parse(
+            url + _updateMUDExtension + _urlExtension + _urlEncodedMudUrl),
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Bearer $jwtToken"
@@ -950,7 +952,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                       onPressed: () {
                         Map<String, dynamic> data = {"name": _newName};
                         String _urlExtension = "devices/${widget.device.id}";
-                        http.put(url + _urlExtension,
+                        http.put(Uri.parse(url + _urlExtension),
                             headers: {
                               "Content-Type": "application/json",
                               "Authorization": "Bearer $jwtToken"
@@ -1027,10 +1029,10 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                         String _urlEncoded =
                             urlEncode(text: widget.device.mud_url).toString();
                         await http.put(
-                            url +
+                            Uri.parse(url +
                                 _updateMUDExtension +
                                 _urlExtension +
-                                _urlEncoded,
+                                _urlEncoded),
                             headers: {
                               "Content-Type": "application/json",
                               "Authorization": "Bearer $jwtToken"
@@ -1479,7 +1481,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
       "room_id": _selectedRoom.id,
     };
     http.put(
-      url + _updateDeviceExtension,
+      Uri.parse(url + _updateDeviceExtension),
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer $jwtToken"
@@ -1629,7 +1631,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     Map<String, dynamic> data = {
       "clipart": _selectedClipart,
     };
-    http.put(url + _updateDeviceExtension,
+    http.put(Uri.parse(url + _updateDeviceExtension),
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Bearer $jwtToken"

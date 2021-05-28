@@ -1,9 +1,10 @@
 import 'dart:convert';
-import 'package:flutter_protyp/data/roles.dart';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_protyp/data/roles.dart';
 import 'package:flutter_protyp/data/user.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -501,7 +502,7 @@ class UsersTableState extends State<UsersTable> {
       int _unassignID = 0;
 
       await http
-          .post(url + assignRoleExtension,
+          .post(Uri.parse(url + assignRoleExtension),
               headers: {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer $jwtToken"
@@ -512,7 +513,7 @@ class UsersTableState extends State<UsersTable> {
       });
 
       await http
-          .post(url + unassignRoleExtension,
+          .post(Uri.parse(url + unassignRoleExtension),
               headers: {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer $jwtToken"
@@ -527,7 +528,7 @@ class UsersTableState extends State<UsersTable> {
       _roleID = 0;
 
       await http
-          .post(url + assignRoleExtension,
+          .post(Uri.parse(url + assignRoleExtension),
               headers: {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer $jwtToken"
@@ -543,7 +544,7 @@ class UsersTableState extends State<UsersTable> {
       int _unassignID = 1;
 
       await http
-          .post(url + assignRoleExtension,
+          .post(Uri.parse(url + assignRoleExtension),
               headers: {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer $jwtToken"
@@ -554,7 +555,7 @@ class UsersTableState extends State<UsersTable> {
       });
 
       await http
-          .post(url + unassignRoleExtension,
+          .post(Uri.parse(url + unassignRoleExtension),
               headers: {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer $jwtToken"
@@ -570,7 +571,7 @@ class UsersTableState extends State<UsersTable> {
       int _unassignID2 = 0;
 
       await http
-          .post(url + unassignRoleExtension,
+          .post(Uri.parse(url + unassignRoleExtension),
               headers: {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer $jwtToken"
@@ -581,7 +582,7 @@ class UsersTableState extends State<UsersTable> {
       });
 
       await http
-          .post(url + unassignRoleExtension,
+          .post(Uri.parse(url + unassignRoleExtension),
               headers: {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer $jwtToken"
@@ -600,7 +601,7 @@ class UsersTableState extends State<UsersTable> {
 
     String deleteUserExtension = 'management/users/$userIDForRequest';
     await http.delete(
-      url + deleteUserExtension,
+      Uri.parse(url + deleteUserExtension),
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer $jwtToken"

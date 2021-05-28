@@ -1,15 +1,16 @@
 import 'dart:async';
+import 'dart:convert';
+
+import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_protyp/pages/themingService.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
-import 'package:universal_io/io.dart' as osDetect;
-import 'package:http/http.dart' as http;
-import 'package:easy_localization/easy_localization.dart';
-import 'dart:convert';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:collection/collection.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/rendering.dart';
+import 'package:http/http.dart' as http;
+import 'package:universal_io/io.dart' as osDetect;
 
 class Login extends StatefulWidget {
   @override
@@ -297,7 +298,8 @@ class _LoginState extends State<Login> {
 
                                         //Sends Http Request
                                         response = await http
-                                            .post(url + loginExtension,
+                                            .post(
+                                                Uri.parse(url + loginExtension),
                                                 headers: {
                                                   "Content-Type":
                                                       "application/json",
@@ -422,7 +424,7 @@ class _LoginState extends State<Login> {
 
   ///This function refreshes the JWT token for authorization
   Future _refreshToken() async {
-    var test = await http.get(url + tokenExtension, headers: {
+    var test = await http.get(Uri.parse(url + tokenExtension), headers: {
       "Content-Type": "application/json",
       "Authorization": "Bearer $jwtToken"
     });

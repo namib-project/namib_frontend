@@ -1,13 +1,14 @@
-import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:flutter_protyp/widgets/constant.dart';
-import 'package:flutter_protyp/widgets/drawer.dart';
-import 'package:flutter_protyp/widgets/appbar.dart';
+
 import 'package:easy_localization/easy_localization.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_protyp/widgets/appbar.dart';
+import 'package:flutter_protyp/widgets/constant.dart';
+import 'package:flutter_protyp/widgets/drawer.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:http/http.dart' as http;
 
 /// This class is for the system-administrator to create a user
 
@@ -312,7 +313,9 @@ class _RegistrationState extends State<Registration> {
                                             _user == true)
                                           {_roleID.add(1)},
                                         response = await http
-                                            .post(url + signupExtension,
+                                            .post(
+                                                Uri.parse(
+                                                    url + signupExtension),
                                                 headers: {
                                                   "Content-Type":
                                                       "application/json",

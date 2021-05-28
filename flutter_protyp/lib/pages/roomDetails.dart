@@ -1,14 +1,15 @@
 import 'dart:convert';
+
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_protyp/data/device_mud/room.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:flex_color_picker/flex_color_picker.dart';
 
 /// Site to show and edit one Room
 
@@ -166,7 +167,7 @@ class _RoomDetailsOverviewState extends State<RoomDetailsOverview> {
     String roomExtension = "rooms/${widget.room.id}";
     var _response;
     _response = await http.delete(
-      url + roomExtension,
+      Uri.parse(url + roomExtension),
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer $jwtToken"
@@ -238,7 +239,7 @@ class _RoomDetailsOverviewState extends State<RoomDetailsOverview> {
 
     _response = await http
         .put(
-          url + updateRoomExtension + roomId,
+          Uri.parse(url + updateRoomExtension + roomId),
           headers: {
             "Content-Type": "application/json",
             "Authorization": "Bearer $jwtToken"

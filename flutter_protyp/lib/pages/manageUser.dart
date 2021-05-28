@@ -1,14 +1,14 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:flutter_protyp/widgets/constant.dart';
-import 'package:flutter_protyp/widgets/drawer.dart';
-import 'package:flutter_protyp/widgets/appbar.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_protyp/widgets/appbar.dart';
+import 'package:flutter_protyp/widgets/constant.dart';
+import 'package:flutter_protyp/widgets/drawer.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:http/http.dart' as http;
 
 /// This class contains the functions and UI to edit the own user profile
 
@@ -180,7 +180,7 @@ class _ManageUserState extends State<ManageUser> {
                                     Navigator.of(context).pop();
                                     try {
                                       var _response = await http.post(
-                                          url + nameExtension,
+                                          Uri.parse(url + nameExtension),
                                           headers: {
                                             "Content-Type": "application/json",
                                             "Authorization": "Bearer $jwtToken"
@@ -413,7 +413,8 @@ class _ManageUserState extends State<ManageUser> {
                                           Navigator.of(context).pop();
                                           try {
                                             var _response = await http.post(
-                                                url + passwordExtension,
+                                                Uri.parse(
+                                                    url + passwordExtension),
                                                 headers: {
                                                   "Content-Type":
                                                       "application/json",

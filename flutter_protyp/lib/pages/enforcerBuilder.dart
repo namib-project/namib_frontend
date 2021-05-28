@@ -1,11 +1,12 @@
 import 'dart:convert';
+
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_protyp/data/enforcer.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import "package:flutter_protyp/widgets/drawer.dart";
-import 'package:easy_localization/easy_localization.dart';
 import 'package:http/http.dart' as http;
 
 import 'enforcerOverview.dart';
@@ -57,6 +58,7 @@ class _EnforcerBuilderState extends State<EnforcerBuilder> {
                       ]),
                 );
               }
+
               /// By default, show a loading spinner.
               else {
                 return SizedBox(
@@ -73,7 +75,7 @@ class _EnforcerBuilderState extends State<EnforcerBuilder> {
   /// Function getting the list of enforcers in network from controller
   Future<List<Enforcer>> getEnforcers() async {
     String devicesExtension = 'enforcers';
-    var _response = await http.get(url + devicesExtension, headers: {
+    var _response = await http.get(Uri.parse(url + devicesExtension), headers: {
       "Content-Type": "application/json",
       "Authorization": "Bearer $jwtToken"
     }).timeout(const Duration(seconds: 5), onTimeout: () {

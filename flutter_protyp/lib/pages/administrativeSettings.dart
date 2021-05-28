@@ -1,11 +1,12 @@
-import 'package:flutter_protyp/widgets/constant.dart';
-import 'package:flutter_protyp/widgets/drawer.dart';
-import 'package:flutter_protyp/widgets/appbar.dart';
+import 'dart:convert';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_protyp/widgets/appbar.dart';
+import 'package:flutter_protyp/widgets/constant.dart';
+import 'package:flutter_protyp/widgets/drawer.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 /// This page is for administrative settings of the application
 
@@ -48,6 +49,7 @@ class _AdministrativeSettingsState extends State<AdministrativeSettings> {
               }
               return Container(
                 height: double.infinity,
+
                 /// Context will appear smaller on mobile devices
                 child: SingleChildScrollView(
                   physics: AlwaysScrollableScrollPhysics(),
@@ -203,18 +205,18 @@ class _AdministrativeSettingsState extends State<AdministrativeSettings> {
   Future<Map<String, dynamic>> fetchGlobaleConfigs() async {
     String collectDeviceExtension = "config?keys=CollectDeviceData";
 
-    var collectResponse = await http.get(url + collectDeviceExtension,
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer $jwtToken"
-        });
+    var collectResponse = await http
+        .get(Uri.parse(url + collectDeviceExtension), headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $jwtToken"
+    });
 
     String allowSignupExtension = "config?keys=AllowUserSignup";
-    var allowSignupResponse = await http.get(url + allowSignupExtension,
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer $jwtToken"
-        });
+    var allowSignupResponse = await http
+        .get(Uri.parse(url + allowSignupExtension), headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $jwtToken"
+    });
     if (collectResponse.statusCode == 200 &&
         allowSignupResponse.statusCode == 200) {
       Map<String, dynamic> data = {};
@@ -229,7 +231,7 @@ class _AdministrativeSettingsState extends State<AdministrativeSettings> {
   void updateAllowSignupValue(bool value) async {
     String allowSignupExtension = "config?keys=AllowUserSignup";
     Map<String, dynamic> _data = {"AllowUserSignup": value.toString()};
-    await http.patch(url + allowSignupExtension,
+    await http.patch(Uri.parse(url + allowSignupExtension),
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Bearer $jwtToken"
@@ -242,7 +244,7 @@ class _AdministrativeSettingsState extends State<AdministrativeSettings> {
   void updateCollectDeviceDataValue(bool value) async {
     String allowSignupExtension = "config?keys=CollectDeviceData";
     Map<String, dynamic> _data = {"CollectDeviceData": value.toString()};
-    await http.patch(url + allowSignupExtension,
+    await http.patch(Uri.parse(url + allowSignupExtension),
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Bearer $jwtToken"

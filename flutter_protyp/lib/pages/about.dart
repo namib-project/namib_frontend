@@ -1,10 +1,11 @@
 import 'dart:convert';
+
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:flutter_protyp/widgets/drawer.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:http/http.dart' as http;
 
 /// This class implements the service to check the controller version
@@ -23,7 +24,7 @@ class _AboutState extends State<About> {
   Future<String> fetchVersion() async {
     try {
       String statusExtension = "status";
-      var response = await http.get(url + statusExtension);
+      var response = await http.get(Uri.parse(url + statusExtension));
 
       if (response.statusCode == 200) {
         String data = utf8.decode(response.bodyBytes);
@@ -77,6 +78,7 @@ class _AboutState extends State<About> {
                     ),
                   ),
                   Container(
+
                       /// FutureBuilder element, that will be build but context will be shown after get request above
                       /// Here will be presented the current controller version
                       child: FutureBuilder<String>(
@@ -87,6 +89,7 @@ class _AboutState extends State<About> {
                       } else if (snapshot.hasError) {
                         return Text("${snapshot.error}");
                       }
+
                       /// By default, show a loading spinner.
                       return CircularProgressIndicator();
                     },

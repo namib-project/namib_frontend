@@ -1,14 +1,15 @@
+import 'dart:convert';
+
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_protyp/data/device_mud/mudData.dart';
 import 'package:flutter_protyp/pages/chooseMudDataDetails.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_encoder/url_encoder.dart';
-import 'dart:convert';
 
 /// This class builds the MUD-List
 
@@ -94,7 +95,7 @@ class _ChooseMudDataDetailsState extends State<ChooseMudDataDetails> {
     String _urlEncodedMudUrl = urlEncode(text: widget.mudGuessUrl).toString();
 
     _response = await http.get(
-        url + _mudDataExtension + _urlExtension + _urlEncodedMudUrl,
+        Uri.parse(url + _mudDataExtension + _urlExtension + _urlEncodedMudUrl),
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Bearer $jwtToken"

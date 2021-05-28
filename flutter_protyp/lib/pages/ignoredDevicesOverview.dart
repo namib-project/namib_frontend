@@ -1,5 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
+import 'dart:convert';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -7,7 +8,6 @@ import 'package:flutter_protyp/data/device_mud/device.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class IgnoredDevicesTable extends StatefulWidget {
   IgnoredDevicesTable({
@@ -320,10 +320,12 @@ class _IgnoredDevicesTableState extends State<IgnoredDevicesTable> {
 
     Map<String, dynamic> _data = {"collect_info": true};
 
-    await http.put(url + _devicesExtension, body: jsonEncode(_data), headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer $jwtToken"
-    });
+    await http.put(Uri.parse(url + _devicesExtension),
+        body: jsonEncode(_data),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $jwtToken"
+        });
 
     Navigator.pushReplacementNamed(context, "/newDeviceOverview");
   }

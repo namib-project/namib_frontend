@@ -1,11 +1,12 @@
-import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:flutter_protyp/widgets/constant.dart';
+
 import 'package:easy_localization/easy_localization.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_protyp/widgets/constant.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:http/http.dart' as http;
 
 /// This class is for creating users on the login page
 
@@ -413,7 +414,9 @@ class _RegistrationState extends State<RegistrationStart> {
                               onPressed: regisButton
                                   ? () async => {
                                         response = await http
-                                            .post(url + signupExtension,
+                                            .post(
+                                                Uri.parse(
+                                                    url + signupExtension),
                                                 headers: {
                                                   "Content-Type":
                                                       "application/json"

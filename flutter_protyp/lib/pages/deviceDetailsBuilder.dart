@@ -1,8 +1,9 @@
 import 'dart:convert';
+
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_protyp/data/device_mud/device.dart';
 import 'package:flutter_protyp/data/device_mud/room.dart';
 import 'package:flutter_protyp/pages/deviceDetails.dart';
@@ -115,11 +116,11 @@ class _DeviceDetailsBuilderState extends State<DeviceDetailsBuilder> {
   Future<Device> _fetchDevice() async {
     String deviceExtension = "devices/";
 
-    var _response = await http.get(url + deviceExtension + widget.id.toString(),
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer $jwtToken"
-        });
+    var _response = await http
+        .get(Uri.parse(url + deviceExtension + widget.id.toString()), headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $jwtToken"
+    });
     if (_response.statusCode == 200) {
       String data = utf8.decode(_response.bodyBytes);
       Device deviceFormController = Device.fromJson(jsonDecode(data));
@@ -141,7 +142,7 @@ class _DeviceDetailsBuilderState extends State<DeviceDetailsBuilder> {
   /// This function gets the rooms from the controller
   Future<List<Room>> _getRooms() async {
     String roomsExtension = 'rooms';
-    var _response = await http.get(url + roomsExtension, headers: {
+    var _response = await http.get(Uri.parse(url + roomsExtension), headers: {
       "Content-Type": "application/json",
       "Authorization": "Bearer $jwtToken"
     }).timeout(const Duration(seconds: 5), onTimeout: () {

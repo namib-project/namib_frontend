@@ -1,16 +1,18 @@
+import 'dart:convert';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_protyp/data/device_mud/device.dart';
+import 'package:flutter_protyp/data/device_mud/mudGuess.dart';
 import 'package:flutter_protyp/pages/chooseMudDataDetailsBuilder.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:flutter_protyp/data/device_mud/mudGuess.dart';
+import 'package:http/http.dart' as http;
+
 import 'chooseClipArt.dart';
 import 'chooseRoomBuilder.dart';
 
@@ -35,10 +37,13 @@ class ChooseMudDataTable extends StatefulWidget {
 class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
   /// List which displays MUD-Entries
   List<MudGuess> _mudGuessListForDisplay;
- /// A new device
+
+  /// A new device
   Device _newDevice;
- /// MUD-Guess-Entry
+
+  /// MUD-Guess-Entry
   MudGuess _chosenMudGuess;
+
   /// For sorting the table
   bool _sortAscending = true;
   Icon _arrowUp = Icon(
@@ -643,10 +648,12 @@ class _ChooseMudDataTableState extends State<ChooseMudDataTable> {
       "name": _newDevice.name != null ? _newDevice.name : ""
     };
 
-    await http.put(url + _deviceExtension, body: jsonEncode(_data), headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer $jwtToken"
-    });
+    await http.put(Uri.parse(url + _deviceExtension),
+        body: jsonEncode(_data),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $jwtToken"
+        });
 
     Navigator.pushReplacementNamed(context, "/deviceOverview");
   }
