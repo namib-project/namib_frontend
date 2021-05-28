@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_protyp/data/device_mud/device.dart';
 import 'package:flutter_protyp/data/device_mud/room.dart';
+import 'package:flutter_protyp/pages/deviceDetailsBuilder.dart';
 import 'package:flutter_protyp/pages/roomsGraph.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
@@ -128,9 +129,8 @@ class _DeviceGraphState extends State<DevicesGraph> {
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => DeviceDetails(
-            device: device,
-            rooms: [],
+          builder: (context) => DeviceDetailsBuilder(
+            id: device.id,
           ),
         ),
       ), //("Node $i")),

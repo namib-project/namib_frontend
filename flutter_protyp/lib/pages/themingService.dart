@@ -26,11 +26,13 @@ class _ThemingServiceState extends State<ThemingService> {
   /// Variables that are expected from controller
   Future<String> configLanguage;
   Future<bool> configDarkMode;
+  Future<bool> configView;
 
   /// Init function that calls functions for requesting data from controller
   @override
   void initState() {
     super.initState();
+    configView = _getViewUserConfig();
     configDarkMode = _getDarkModeUserConfig();
     configLanguage = _getLanguageUsersConfig();
   }
@@ -128,5 +130,35 @@ class _ThemingServiceState extends State<ThemingService> {
     } on Exception {
       return language;
     }
+  }
+
+  /// Function try to fetch data for setting the view of device overview
+  Future<bool> _getViewUserConfig() async {
+    String urlExtension = "users/configs/view";
+
+    try {
+      var response = await http.get(url + urlExtension, headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $jwtToken"
+      });
+
+      /// If request is successful depending on result graph or table
+      /// of devices will be displayed at device overview
+      if (response.statusCode == 200) {
+        if (jsonDecode(response.body)["value"] == "true") {
+          view = true;
+          themeChangeHandler.changeDarkMode(context);
+        }
+      } else {
+        view = false;
+      }
+    } on Exception {
+      if(mobileDevice){
+        view = false;
+      } else {
+        view = true;
+      }
+    }
+    return view;
   }
 }

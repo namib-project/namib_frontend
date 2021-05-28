@@ -80,4 +80,19 @@ class ThemeChangeHandler {
           }));
     } on Exception {}
   }
+
+  /// Function that posts the value of the view variable to the key value store at controller
+  void setViewUserConfig(bool value) async {
+    String urlDarkModeExtension = "users/configs/view";
+    try {
+      http.post(url + urlDarkModeExtension,
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $jwtToken"
+          },
+          body: jsonEncode({
+            "value": "$value",
+          }));
+    } on Exception {}
+  }
 }

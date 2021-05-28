@@ -28,6 +28,9 @@ List<dynamic> permissions = [];
 int userID;
 int roleID;
 
+/// Bool for graph or table view of device overview
+bool view = false;
+
 ///Variables for permissions
 bool adminAccess = false;
 bool userAccess = false;

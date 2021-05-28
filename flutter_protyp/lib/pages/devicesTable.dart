@@ -25,7 +25,6 @@ class DevicesTable extends StatefulWidget {
   _DevicesTableState createState() => _DevicesTableState();
 }
 
-//Class for user registration, will only be used at the first usage
 class _DevicesTableState extends State<DevicesTable> {
   /// Lists which stores devices
   List<Device> _devicesCopy = [];
@@ -54,6 +53,8 @@ class _DevicesTableState extends State<DevicesTable> {
     super.initState();
     _devicesCopy = widget.devices;
     _uniqueRooms = widget.rooms;
+    _uniqueRooms.add(
+        Room.roomConstructor(-1, 'notAssigned'.tr().toString(), "0xFFB00020"));
     _sortRooms();
     _sortDevicesForDisplay();
     _createDevicesForDisplay();
@@ -481,39 +482,22 @@ class _DevicesTableState extends State<DevicesTable> {
   _createDevicesForDisplay() {
     _devicesForDisplay = [];
 
-    for (Device d in _devicesCopy) {
-      if (d.room == null) {
-        _uniqueRooms.add(Room.roomConstructor(
-            -1, 'notAssigned'.tr().toString(), "0xFFB00020"));
-        break;
-      }
-    }
-
+    /// If there are devices without an assigned clipart or name a default one gets assigned
     for (Device d in _devicesCopy) {
       if (d.clipart == null) {
         d.clipart = allClipArts[0];
       }
-    }
-
-    for (Device d in _devicesCopy) {
       if (d.name == null) {
         d.name = "";
       }
     }
 
+    /// Loops that assure that devices an rooms are correctly assigned
     for (Room r in _uniqueRooms) {
       List<Device> _devicesWithRoom = [];
       for (Device d in _devicesCopy) {
-        if (d.room != null) {
-          if (d.room.name == r.name) {
-            _devicesWithRoom.add(d);
-          }
-        } else {
-          d.room = Room.roomConstructor(
-              -1, 'notAssigned'.tr().toString(), "0xFFB00020");
-          if ('notAssigned'.tr().toString() == r.name) {
-            _devicesWithRoom.add(d);
-          }
+        if (d.room.name == r.name) {
+          _devicesWithRoom.add(d);
         }
       }
       _devicesForDisplay.add(_devicesWithRoom);

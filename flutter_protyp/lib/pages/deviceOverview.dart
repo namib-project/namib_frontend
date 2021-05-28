@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_protyp/data/device_mud/device.dart';
 import 'package:flutter_protyp/data/device_mud/room.dart';
 import 'package:flutter_protyp/pages/devicesTable.dart';
+import 'package:flutter_protyp/pages/handlers/ThemeChangeHandler.dart';
 import 'package:flutter_protyp/pages/roomsGraph.dart';
 import 'package:flutter_protyp/widgets/appbar.dart';
 import 'package:flutter_protyp/widgets/constant.dart';
 import "package:flutter_protyp/widgets/drawer.dart";
 import 'package:easy_localization/easy_localization.dart';
 import 'package:http/http.dart' as http;
-import 'devicesGraph.dart';
 
 /// This class returns deviceOverview site with the graphview
 
@@ -19,9 +19,6 @@ class DeviceOverview extends StatefulWidget {
 }
 
 class _DeviceOverviewState extends State<DeviceOverview> {
-  /// Bool for visibility object
-  bool view = true;
-
   /// A List to safe all devices
   Future<List<Device>> devices;
   Future<List<Room>> rooms;
@@ -29,12 +26,11 @@ class _DeviceOverviewState extends State<DeviceOverview> {
   void changeView() {
     setState(() {
       view = !view;
-      pressed = true;
     });
-  }
 
-  /// To detect if button pressed
-  bool pressed = false;
+    ThemeChangeHandler handler = ThemeChangeHandler();
+    handler.setViewUserConfig(view);
+  }
 
   @override
   void initState() {
@@ -45,15 +41,6 @@ class _DeviceOverviewState extends State<DeviceOverview> {
 
   @override
   Widget build(BuildContext context) {
-    /// Query if device mobile, if not, the graph view will be shown
-    if (!pressed) {
-      if (!mobileDevice) {
-        view = true;
-      } else {
-        view = false;
-      }
-      pressed = false;
-    }
     return Scaffold(
       appBar: MainAppbar(),
       drawer: MainDrawer(),
@@ -107,6 +94,12 @@ class _DeviceOverviewState extends State<DeviceOverview> {
                     future: devices,
                     builder: (context, snapshotDevice) {
                       if (snapshotDevice.hasData) {
+                        snapshotDevice.data.forEach((element) {
+                          if(element.room == null){
+                            element.room = Room.roomConstructor(-1, 'notAssigned'.tr().toString(), "0xFFB00020");
+                          }
+                        });
+
                         if (view) {
                           return Expanded(
                               child: RoomsGraph(
@@ -124,7 +117,7 @@ class _DeviceOverviewState extends State<DeviceOverview> {
                           ));
                         }
                       } else if (snapshotDevice.hasError) {
-                        /// If the process failed this message returns
+                        /// If the process failed error message returns
                         print(snapshotDevice.error);
                         return Container(
                           width: 600,
