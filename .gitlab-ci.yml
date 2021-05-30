@@ -5,7 +5,6 @@ web:release:
   stage: archive
   image: cirrusci/flutter
   before_script:
-    - cd \flutter_protyp
     - flutter packages get
     - flutter clean
   script:
@@ -13,7 +12,7 @@ web:release:
     - flutter build web --release
   artifacts:
     paths:
-      - "**/build/web"
+      - "build/web"
     expire_in: 7 days
 
 
