@@ -24,9 +24,9 @@ git clone https://github.com/flutter/flutter.git -b stable
 ```
 
 #### Unter Windows
-Es sollen nun die Umgebungsvariablen für Flutter eingerichtet werden, um flutter in der Konsole auszuführen, 
+Es soll nun die Umgebungsvariable für Flutter eingerichtet werden, um Flutter in der Konsole ausführen zu können, 
 dazu muss in der PATH-Variable 
-der Pfad mit ```C:\Users\"name"\flutter\bin ergänzt werden```. 
+der Pfad mit ```C:\**\flutter\bin``` ergänzt werden. 
 
 ### 3. Run flutter doctor
 
