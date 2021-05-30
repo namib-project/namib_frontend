@@ -9,8 +9,7 @@ steuern und auslesen.
 
 
 ## Anleitung zur Installation der Anwendung 
-Es folgt eine Schritt-für-Schritt-Anleitung zum Einrichten der Entwicklungsumgebung und 
-eines Emulators. Am Anfang wird hier Windows angeführt. Eine lauffähige Version von Git wird 
+Es folgt eine Schritt-für-Schritt-Anleitung zum Einrichten. Eine lauffähige Version von Git wird 
 vorausgesetzt. 
 
 ### 1. Repository clonen 
