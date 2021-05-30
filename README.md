@@ -8,62 +8,57 @@ steuern und auslesen.
 
 
 
-## Anleitung zur Umsetzung der Anwendung 
-Es folgt eine Schritt für Schrittanleitung zum Einrichten der Entwicklungsumgebung und 
+## Anleitung zur Installation der Anwendung 
+Es folgt eine Schritt-für-Schritt-Anleitung zum Einrichten der Entwicklungsumgebung und 
 eines Emulators. Am Anfang wird hier Windows angeführt. Eine lauffähige Version von Git wird 
-vorrausgesetzt. 
+vorausgesetzt. 
 
-### 1. Repo clonen 
+### 1. Repository clonen 
 ```bash
 git clone git@gitlab.informatik.uni-bremen.de:namib/namib-frontend.git
 ```
-Hier ist der Ordner [flutter_protyp](https://gitlab.informatik.uni-bremen.de/namib/namib-frontend/-/tree/master/flutter_protyp) von Bedeutung.
-
-### 2. Clonen des Repos in dem das Flutter-SDk liegt
-Man navigiert hierführ mit der PowerShell in den Benutzerordner. 
+### 2. Clonen des Repository in dem das Flutter-SDk liegt
+In den Zielordner navigieren und folenden Befehl in einer Git-fähigen Shell ausführen.
 
 ```bash
 git clone https://github.com/flutter/flutter.git -b stable
 ```
 
+#### Unter Windows
 Es sollen nun die Umgebungsvariablen für Flutter eingerichtet werden, um flutter in der Konsole auszuführen, 
 dazu muss in der PATH-Variable 
-der Pfad mit C:\Users\"name"\flutter\bin ergänzt werden. 
+der Pfad mit ```C:\Users\"name"\flutter\bin ergänzt werden```. 
 
 ### 3. Run flutter doctor
 
-Hierfür führt man in der PowerShell "flutter doctor" aus, der Ort, wo man es ausführt ist egal, da man in der PATH-Variable Flutter hinterlegt hat. Nun werden die fehlenden Komponenten für die Ausführung 
-aufgezeigt, die man nun installieren muss. Von uns wird Android Studio als IDE empfohlen.  
-
-
-### 4. Dart-SDK einrichten 
-
-Das Dart-SDK wird ab der Flutterversion 1.21 mitgeliefert. Geht man nun in die IDE, 
-so gibt man für das Flutter-SDK den Pfad "C:\Users\"name"\flutter", nun wird entweder der Pfad 
-für das Dart-SDK automatisch angepasst, sonst muss man den Pfad mit "C:\Users\"name"\flutter\bin\cache\dart-sdk" ergänzen.
+Hierfür führt man in der Shell
+```bash
+flutter doctor
+```
+aus, der Ort, wo man es ausführt ist egal, da man in der PATH-Variable Flutter hinterlegt hat. Nun werden die fehlenden Komponenten für die Ausführung 
+aufgezeigt, die man nun installieren muss.
 
 ### 5. Fertigstellung der Einrichtung
 
-Die Plugins in Android Studio von Flutter und Dart sollten automatisch hinzugefügt werden, 
-wenn nicht, dann fügt man diese manuell in den Einstellungen hinzu. 
+Wenn der Flutter Doctor keine Fehler findet, sollte das Projekt lauffähig sein. Beim ersten Mal ausführen,
+muss man den Befehl
+```bash
+flutter pub get
+```
+ausführen, um alle Abhängigkeiten und Pakete zu holen.
 
-Nun sollte das Projekt lauffähig sein. Zum Testen kann man in das Terminal der IDE 
-einfach den Befehl "flutter run" eingeben. Sollten noch Fehler auftreten, so ist es 
-sinnvoll "flutter pub get" und "flutter pub upgrade" in der Konsole auszuführen.
+### 6. Ändern der URL
 
-### 6. Android Emulator aufsetzten 
-
-Ein Beispiel für einen fähigen Emulator wird hier angeführt. Man muss den AVD Manager 
-öffnen, hier ein neues virtuelles Gerät erzeugen, hier kann man das Pixel 3 auswählen. 
-Man wählt das API Level 30 aus und schließt die Installation ab.
-
-### 6. APK bauen für das Handy
-
-Läuft nun das Projekt durch, so kann man im Terminal den Befehl "flutter build apk", 
-nachdem der Prozess fertig ist, ist die APK für ein Android Smartphone bereit. Es befindet sich in dem Pfad: 
-"C:\...\flutter_protyp\build\app\outputs\flutter-apk". Diese muss man sich dann auf den Speicher 
-vom Smartphone ziehen und mit einem Klick zu installieren und auszuführen.
+Wenn Sie das Projekt selbst aufsetzten möchten, muss die URL geändert werden. In der Datei ```**\lib\widgets\constant.dart``` existiert eine Varibale ```url```, hier die URL des Controllers eingeben.
 
 
+### 6. Bauen einer lauffähigen Version
+
+Das Projekt ist so gebaut, dass es nur für Web gebaut werden kann. 
+```bash
+flutter build web --release
+```
+Baut eine Version des Projekts, diese kann direkt auf einen Webserver installiert werden.
+Man findet die Datein unter ```**\build\web\```
 
 
