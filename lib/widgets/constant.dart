@@ -23,7 +23,9 @@ bool darkMode = false;
 bool mobileDevice = false;
 String language = "en";
 String jwtToken = "";
-var url = "http://172.23.144.1:8000/";
+
+/// Enter your URL if you want to build your own client
+var url = "/";
 List<dynamic> permissions = [];
 int userID;
 int roleID;
