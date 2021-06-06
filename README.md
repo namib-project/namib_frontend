@@ -77,26 +77,26 @@ The following is a step-by-step guide to setting it up. An executable version of
 assumed.
 
 ### 1. clone repository
-``bash
+```bash
 git clone git@gitlab.informatik.uni-bremen.de:namib/namib-frontend.git
 ```
 ### 2. clone the repository where the Flutter SDk is located.
 Navigate to the destination folder and run the following command in a Git-enabled shell.
 
 
-``bash
+```bash
 git clone https://github.com/flutter/flutter.git -b stable
 ```
 
 #### With Windows
 Now the environment variable for Flutter should be set up to be able to run Flutter in the console,
 to do this, the path in the PATH variable
-the path must be completed with ``C:\**\flutter\bin``.
+the path must be completed with ```**\flutter\bin```.
 
 ### 3. run flutter doctor
 
 To do this, execute in the shell
-``bash
+```bash
 flutter doctor
 ```
 in the shell. The place where you execute it doesn't matter, because you have stored flutter in the PATH variable.  Now the missing components for the execution will be shown
@@ -106,23 +106,23 @@ which you have to install now.
 
 If the Flutter Doctor does not find any errors, the project should be ready to run. The first time you run
 you need to run the command
-``bash
+```bash
 flutter pub get
 ```
 to get all dependencies and packages.
 
 ### 6. changing the URL
 
-If you want to set up the project yourself, the URL must be changed. In the file ```\lib\widgets\constant.dart`` there is a varibale ``url``, enter the URL of the controller here.
+If you want to set up the project yourself, the URL must be changed. In the file ```**\lib\widgets\constant.dart``` there is a varibale ``url``, enter the URL of the controller here.
 
 
 ### 6. building a runnable version
 
 The project is built in such a way that it can be built for web only.
-``bash
+```bash
 flutter build web --release
 ```
 Builds a version of the project, this can be installed directly on a web server.
-You can find the files in ```\build\web\```
+You can find the files in ```**\build\web\```
 
 Translated with www.DeepL.com/Translator (free version)
